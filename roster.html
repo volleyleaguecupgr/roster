@@ -238,14 +238,13 @@
             100% { bottom: 1080px; opacity: 0; }
         }
 
-        /* Team Logo - Top center */
+        /* Team Logo - Top left */
         .team-logo {
             position: absolute;
-            top: 50px;
-            left: 960px;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 120px;
+            top: 30px;
+            left: 100px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             background: rgba(var(--primary-rgb), 0.15);
             backdrop-filter: blur(15px);
@@ -266,15 +265,15 @@
         }
 
         .team-logo img {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
             border-radius: 50%;
         }
 
         .team-logo-placeholder {
             color: rgba(var(--primary-rgb), 1);
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
             font-family: 'Inter', sans-serif;
         }
@@ -282,7 +281,7 @@
         /* Roster Table */
         .roster-container {
             position: absolute;
-            bottom: 50px;
+            bottom: 60px;
             left: 960px;
             transform: translateX(-50%);
             width: 1750px;
@@ -321,7 +320,7 @@
             text-align: center;
             font-family: 'Inter', sans-serif;
             font-weight: 700;
-            font-size: 20px;
+            font-size: 13px;
             color: white;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -350,7 +349,7 @@
             text-align: center;
             color: rgba(255, 255, 255, 0.9);
             font-weight: 400;
-            font-size: 20px;
+            font-size: 12px;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             font-family: 'Inter', sans-serif;
@@ -364,7 +363,7 @@
             font-family: 'Inter', sans-serif;
             font-weight: 700;
             color: rgba(var(--primary-rgb), 1);
-            font-size: 14px;
+            font-size: 20px;
         }
 
         /* Staff Section */
@@ -434,15 +433,17 @@
             font-family: 'Inter', sans-serif;
         }
 
-        /* Statistics */
+        /* Statistics - Top right */
         .stats-container {
+            position: absolute;
+            top: 30px;
+            right: 100px;
             display: flex;
-            justify-content: center;
             gap: 40px;
-            margin-top: 20px;
             opacity: 0;
             transform: scale(0.8);
             transition: all 0.6s ease-out;
+            z-index: 15;
         }
 
         .stats-container.stats-animate {
@@ -545,7 +546,7 @@
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-spinner"></div>
-        <div class="loading-text"></div>
+        <div class="loading-text">Loading team data...</div>
     </div>
 
     <!-- Error Screen -->
@@ -809,8 +810,13 @@
                 const rosterContainer = document.querySelector('.roster-container');
                 const tableHeader = document.querySelector('.roster-table thead');
                 const rows = document.querySelectorAll('.roster-table tbody tr');
-                const statsContainer = document.querySelector('.stats-container');
+                const statsContainer = document.getElementById('statsContainer');
                 const staffSection = document.querySelector('.staff-section');
+                
+                // Animate logo and stats first (top elements)
+                setTimeout(() => {
+                    statsContainer.classList.add('stats-animate');
+                }, 300);
                 
                 // Start container animation
                 setTimeout(() => {
@@ -828,11 +834,6 @@
                         row.classList.add('row-animate');
                     }, 1700 + (index * 150));
                 });
-                
-                // Animate statistics
-                setTimeout(() => {
-                    statsContainer.classList.add('stats-animate');
-                }, 1700 + (rows.length * 150) + 300);
                 
                 // Animate staff section
                 setTimeout(() => {
@@ -858,7 +859,7 @@
                     const rosterContainer = document.querySelector('.roster-container');
                     const tableHeader = document.querySelector('.roster-table thead');
                     const rows = document.querySelectorAll('.roster-table tbody tr');
-                    const statsContainer = document.querySelector('.stats-container');
+                    const statsContainer = document.getElementById('statsContainer');
                     const staffSection = document.querySelector('.staff-section');
 
                     rosterContainer.classList.remove('animate-in', 'animate-stay', 'animate-out');
