@@ -1,0 +1,38 @@
+{
+  "name": "Πανιώνιος Γ.Σ.Σ.",
+  "colors": {
+    "primary": "#FF0000",
+    "secondary": "#000080"
+  },
+  "logo": null,
+  "avgAge": "29.3",
+  "avgHeight": "1.93",
+  "coach": {
+    "name": "Αργύρης Ψάρρας",
+    "role": "ΠΡΟΠΟΝΗΤΗΣ"
+  },
+  "players": [
+    {"number":1,"name":"Boris Busa","nationality":"SRB","position":"Διαγώνιος","birthdate":"25/04/1997","height":"2,00","team":"Α.Ο. Φοίνικας Σύρου"},
+    {"number":3,"name":"Stefan Thiel","nationality":"GER","position":"Πασαδόρος","birthdate":"15/10/1997","height":"1,85","team":"Lvi Praha (CZE)"},
+    {"number":5,"name":"Γεώργιος Δρογκάρης","nationality":"GRE","position":"Πασαδόρος","birthdate":"16/05/1991","height":"1,90","team":"Πανιώνιος Γ.Σ.Σ."},
+    {"number":6,"name":"Julian Bissette","nationality":"LCA","position":"Κεντρικός","birthdate":"06/02/1991","height":"1,99","team":"Ν.Γ.Σ.Θ. Ηρακλής"},
+    {"number":8,"name":"Νικόλαος Παλέντζας","nationality":"GRE","position":"Διαγώνιος","birthdate":"06/04/1991","height":"1,98","team":"Πανιώνιος Γ.Σ.Σ."},
+    {"number":9,"name":"Παναγιώτης Κωνσταντινίδης","nationality":"GRE","position":"Κεντρικός","birthdate":"29/04/1993","height":"1,87","team":"Πανιώνιος Γ.Σ.Σ."},
+    {"number":10,"name":"Κόνραντ Γκούζντα","nationality":"GRE","position":"Λίμπερο","birthdate":"29/09/1990","height":"1,85","team":"Πανιώνιος Γ.Σ.Σ."},
+    {"number":11,"name":"Αναστάσιος Γκρίλλας","nationality":"GRE","position":"Λίμπερο","birthdate":"31/03/2007","height":"1,80","team":"Πανιώνιος Γ.Σ.Σ."},
+    {"number":12,"name":"Milan Katic","nationality":"SRB","position":"Ακραίος","birthdate":"22/10/1993","height":"2,01","team":"Π.Α.Ο.Κ."},
+    {"number":14,"name":"Δημήτριος Χατζηνικολάου","nationality":"GRE","position":"Ακραίος","birthdate":"16/07/1999","height":"1,90","team":"Πανιώνιος Γ.Σ.Σ."},
+    {"number":16,"name":"Gabriel Andrade","nationality":"BRA","position":"Ακραίος","birthdate":"27/04/1995","height":"1,98","team":"Πανιώνιος Γ.Σ.Σ."},
+    {"number":18,"name":"Σπυρίδων Μπαρμπούνης","nationality":"GRE","position":"Ακραίος","birthdate":"01/08/2000","height":"1,90","team":"Πανιώνιος Γ.Σ.Σ."},
+    {"number":19,"name":"Αλέξανδρος Δανιήλ","nationality":"GRE","position":"Κεντρικός","birthdate":"09/06/1999","height":"1,97","team":"Πανιώνιος Γ.Σ.Σ."},
+    {"number":20,"name":"Αχιλλέας Μπάσης","nationality":"GRE","position":"Κεντρικός","birthdate":"13/03/1994","height":"1,98","team":"Πανιώνιος Γ.Σ.Σ."}
+  ],
+  "staff": [
+    {"role":"Βοηθός Προπονητή","name":"Στυλιανός Κουτσουρής"},
+    {"role":"Στατιστικολόγος","name":"Βαρβάρα Μπεζεργιανού"},
+    {"role":"Team Manager","name":"Ανδρέας Καραγιάννης"},
+    {"role":"Γυμναστής","name":"Μιχαήλ Νικολόπουλος"},
+    {"role":"Φυσιοθεραπευτής","name":"Δημήτριος Σασσάτης, Κωνσταντίνος Παριανός"},
+    {"role":"Φροντιστής","name":"Γεώργιος Λιγνός"}
+  ]
+}

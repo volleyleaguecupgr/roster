@@ -1,0 +1,146 @@
+{
+  "name": "Φοίνικας Σύρου",
+  "colors": {
+    "primary": "#0C2340",
+    "secondary": "#DA291C"
+  },
+  "logo": "foinikas.png",
+  "avgAge": "26.4",
+  "avgHeight": "1.95",
+  "coach": {
+    "name": "Παναγιώτης Καλαφατάκης",
+    "role": "ΠΡΟΠΟΝΗΤΗΣ"
+  },
+  "players": [
+    {
+      "number": 1,
+      "name": "Ζίγκα Στερν",
+      "nationality": "SLO",
+      "position": "Ακραίος",
+      "birthdate": "02/01/1994",
+      "height": "1,93",
+      "team": "Hebar Pazardzhik (BUL)"
+    },
+    {
+      "number": 2,
+      "name": "Παναγιώτης Παπαδόπουλος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "11/04/2001",
+      "height": "2,01",
+      "team": "Μίλωνας"
+    },
+    {
+      "number": 4,
+      "name": "Δημήτρης Μπονέτης",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "10/10/2003",
+      "height": "1,80",
+      "team": "Φοίνικας Σύρου"
+    },
+    {
+      "number": 5,
+      "name": "Τζούλιαν Ζιρίχ",
+      "nationality": "USA",
+      "position": "Διαγώνιος",
+      "birthdate": "15/03/1997",
+      "height": "2,05",
+      "team": "Friedrichshafen (GER)"
+    },
+    {
+      "number": 6,
+      "name": "Γιώργος Στεφάνου",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "15/07/1986",
+      "height": "1,84",
+      "team": "Φοίνικας Σύρου"
+    },
+    {
+      "number": 7,
+      "name": "Ανδρέας Φράγκος",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "21/12/1989",
+      "height": "1,97",
+      "team": "Φοίνικας Σύρου"
+    },
+    {
+      "number": 9,
+      "name": "Άλφρεντ Μεντράνο",
+      "nationality": "CUB",
+      "position": "Κεντρικός",
+      "birthdate": "27/08/1999",
+      "height": "2,06",
+      "team": "Φοίνικας Σύρου"
+    },
+    {
+      "number": 10,
+      "name": "Ραφαέλ Αράγια",
+      "nationality": "CHI",
+      "position": "Πασαδόρος",
+      "birthdate": "09/01/2000",
+      "height": "1,90",
+      "team": "Club Manquehue (CHI)"
+    },
+    {
+      "number": 12,
+      "name": "Γιάννης Μπουράκης",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "19/03/1997",
+      "height": "1,96",
+      "team": "Φοίνικας Σύρου"
+    },
+    {
+      "number": 14,
+      "name": "Σπύρος Μπαρδούκας",
+      "nationality": "GRE",
+      "position": "Πασαδόρος",
+      "birthdate": "01/09/2001",
+      "height": "1,88",
+      "team": "Φοίνικας Σύρου"
+    },
+    {
+      "number": 16,
+      "name": "Κέβιν Ροντρίγκεζ",
+      "nationality": "PUR",
+      "position": "Διαγώνιος",
+      "birthdate": "12/06/1995",
+      "height": "2,02",
+      "team": "Guaynabo Mets (PUR)"
+    },
+    {
+      "number": 17,
+      "name": "Αντρέι Ποπόφ",
+      "nationality": "BUL",
+      "position": "Κεντρικός",
+      "birthdate": "18/11/1998",
+      "height": "2,03",
+      "team": "Φοίνικας Σύρου"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Βοηθός Προπονητή",
+      "name": "Αλέξανδρος Ράπτης"
+    },
+    {
+      "role": "Στατιστικολόγος",
+      "name": "Σταυρούλα Μπεκιάρη"
+    },
+    {
+      "role": "Team Manager",
+      "name": "Νίκος Παπαδόπουλος"
+    },
+    {
+      "role": "Φυσιοθεραπευτής",
+      "name": "Αντώνης Κατσαράς"
+    },
+    {
+      "role": "Γυμναστής",
+      "name": "Δημήτρης Κουρνέτας"
+    }
+  ]
+}
