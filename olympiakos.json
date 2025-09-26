@@ -1,10 +1,10 @@
 {
-  "team": "olympiakos",
   "fullName": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ",
   "colors": {
     "primary": "#DC143C",
     "secondary": "#FFFFFF"
   },
+  "logo": "olympiakos.png",
   "avgAge": "29.9",
   "avgHeight": "1.97",
   "coach": {
