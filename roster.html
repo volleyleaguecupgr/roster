@@ -70,7 +70,6 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
-            opacity: 0;
         }
 
         .loading-text {
@@ -322,7 +321,7 @@
             text-align: center;
             font-family: 'Inter', sans-serif;
             font-weight: 700;
-            font-size: 20px;
+            font-size: 13px;
             color: white;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -351,7 +350,7 @@
             text-align: center;
             color: rgba(255, 255, 255, 0.9);
             font-weight: 400;
-            font-size: 24px;
+            font-size: 12px;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             font-family: 'Inter', sans-serif;
@@ -421,7 +420,7 @@
         .staff-role {
             font-family: 'Inter', sans-serif;
             color: rgba(var(--secondary-rgb), 1);
-            font-size: 20px;
+            font-size: 12px;
             margin-bottom: 5px;
             text-transform: uppercase;
             font-weight: 600;
@@ -430,7 +429,7 @@
 
         .staff-name {
             color: white;
-            font-size: 20px;
+            font-size: 14px;
             font-weight: 500;
             font-family: 'Inter', sans-serif;
         }
@@ -470,7 +469,7 @@
 
         .stat-label {
             color: rgba(255, 255, 255, 0.8);
-            font-size: 20px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 5px;
@@ -546,7 +545,7 @@
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-spinner"></div>
-        <div class="loading-text"></div>
+        <div class="loading-text">Loading team data...</div>
     </div>
 
     <!-- Error Screen -->
@@ -590,7 +589,7 @@
                     <!-- Players will be populated dynamically -->
                 </tbody>
             </table>
-
+            
             <div class="stats-container">
                 <div class="stat-item">
                     <div class="stat-value" id="avgAgeValue">0</div>
@@ -601,7 +600,7 @@
                     <div class="stat-label">Μ.Ο. Ύψος</div>
                 </div>
             </div>
-        
+            
             <div class="staff-section">
                 <h3>Τεχνικό Επιτελείο</h3>
                 <div class="staff-grid" id="staffGrid">
@@ -705,7 +704,7 @@
                 const headersRow = document.getElementById('tableHeaders');
                 const headers = [
                     'Φ.', 'Επώνυμο', 'Όνομα', 'Εθνικότητα', 
-                    'Θέση', 'Ημ. Γέννησης', 'Ύψος', 'Προηγούμενη Ομάδα'
+                    'Θέση', 'Ημ. Γέννησης', 'Ύψος'
                 ];
 
                 headersRow.innerHTML = headers.map(header => `<th>${header}</th>`).join('');
@@ -738,7 +737,6 @@
                         <td>${this.getPositionAbbreviation(player.position)}</td>
                         <td>${player.birthdate}</td>
                         <td>${player.height}</td>
-                        <td>${player.team}</td>
                     `;
                     
                     tbody.appendChild(row);
@@ -754,8 +752,7 @@
                     'Διαγώνιος': 'Δ',
                     'Πασαδόρος': 'Π'
                 };
-                //return positionMap[position] || position;
-                return position;
+                return positionMap[position] || position;
             }
 
             // Populate staff section
