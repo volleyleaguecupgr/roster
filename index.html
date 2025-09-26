@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Team Roster 2024-2025</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Nunito Sans', sans-serif;
+            background: transparent;
+            min-height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main Graphics Container */
+        .graphics-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            max-width: 100vw;
+            max-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transform-origin: top left;
+            transform: scale(calc(min(100vw / 1920px, 100vh / 1080px)));
+            background: transparent;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid rgba(var(--primary-rgb), 1);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Error Screen */
+        .error-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .error-screen.show {
+            display: flex;
+        }
+
+        .error-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ff4444;
+        }
+
+        .error-message {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .error-details {
+            font-size: 14px;
+            color: #aaa;
+            max-width: 800px;
+        }
+
+        /* Animated Background Lines */
+        .moving-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(var(--primary-rgb), 0.6) 20%, 
+                rgba(var(--secondary-rgb), 0.8) 50%, 
+                rgba(var(--primary-rgb), 0.6) 80%, 
+                transparent 100%
+            );
+            border-radius: 1px;
+            box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.4);
+        }
+
+        .line-1 {
+            width: 300px;
+            top: 20%;
+            animation: moveLine1 8s linear infinite;
+        }
+
+        .line-2 {
+            width: 250px;
+            top: 40%;
+            animation: moveLine2 6s linear infinite;
+        }
+
+        .line-3 {
+            width: 400px;
+            top: 60%;
+            animation: moveLine3 10s linear infinite;
+        }
+
+        .line-4 {
+            width: 200px;
+            top: 80%;
+            animation: moveLine4 7s linear infinite;
+        }
+
+        .line-vertical {
+            width: 2px;
+            height: 200px;
+            background: linear-gradient(0deg, 
+                transparent 0%, 
+                rgba(var(--secondary-rgb), 0.6) 20%, 
+                rgba(var(--primary-rgb), 0.8) 50%, 
+                rgba(var(--secondary-rgb), 0.6) 80%, 
+                transparent 100%
+            );
+        }
+
+        .line-v1 {
+            left: 10%;
+            animation: moveLineV1 9s linear infinite;
+        }
+
+        .line-v2 {
+            right: 15%;
+            animation: moveLineV2 11s linear infinite;
+        }
+
+        @keyframes moveLine1 {
+            0% { left: -300px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: 1920px; opacity: 0; }
+        }
+
+        @keyframes moveLine2 {
+            0% { right: -250px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { right: 1920px; opacity: 0; }
+        }
+
+        @keyframes moveLine3 {
+            0% { left: -400px; opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { left: 1920px; opacity: 0; }
+        }
+
+        @keyframes moveLine4 {
+            0% { right: -200px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { right: 1920px; opacity: 0; }
+        }
+
+        @keyframes moveLineV1 {
+            0% { top: -200px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 1080px; opacity: 0; }
+        }
+
+        @keyframes moveLineV2 {
+            0% { bottom: -200px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { bottom: 1080px; opacity: 0; }
+        }
+
+        /* Team Logo - Top center */
+        .team-logo {
+            position: absolute;
+            top: 50px;
+            left: 960px;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(var(--primary-rgb), 0.15);
+            backdrop-filter: blur(15px);
+            border: 4px solid rgba(var(--primary-rgb), 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 0 50px rgba(var(--primary-rgb), 0.6),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+            z-index: 15;
+            animation: logoGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% { box-shadow: 0 0 50px rgba(var(--primary-rgb), 0.6), inset 0 0 30px rgba(255, 255, 255, 0.2); }
+            100% { box-shadow: 0 0 80px rgba(var(--primary-rgb), 0.8), inset 0 0 40px rgba(255, 255, 255, 0.3); }
+        }
+
+        .team-logo img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .team-logo-placeholder {
+            color: rgba(var(--primary-rgb), 1);
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Roster Table */
+        .roster-container {
+            position: absolute;
+            bottom: 50px;
+            left: 960px;
+            transform: translateX(-50%);
+            width: 1750px;
+            z-index: 10;
+        }
+
+        .roster-table {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(var(--primary-rgb), 0.3);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(var(--primary-rgb), 0.2);
+        }
+
+        .roster-table thead {
+            background: linear-gradient(135deg, 
+                rgba(var(--primary-rgb), 0.9) 0%, 
+                rgba(var(--secondary-rgb), 0.9) 100%
+            );
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .roster-table thead.header-animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .roster-table th {
+            padding: 10px 6px;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .roster-table th:last-child {
+            border-right: none;
+        }
+
+        .roster-table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .roster-table tbody tr.row-animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .roster-table td {
+            padding: 8px 5px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            font-size: 12px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .roster-table td:last-child {
+            border-right: none;
+        }
+
+        .roster-table td:first-child {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: rgba(var(--primary-rgb), 1);
+            font-size: 14px;
+        }
+
+        /* Staff Section */
+        .staff-section {
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(var(--secondary-rgb), 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .staff-section.staff-animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .staff-section h3 {
+            font-family: 'Inter', sans-serif;
+            color: rgba(var(--secondary-rgb), 1);
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .staff-item {
+            background: rgba(var(--secondary-rgb), 0.1);
+            border: 1px solid rgba(var(--secondary-rgb), 0.3);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .staff-item:hover {
+            background: rgba(var(--secondary-rgb), 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(var(--secondary-rgb), 0.3);
+        }
+
+        .staff-role {
+            font-family: 'Inter', sans-serif;
+            color: rgba(var(--secondary-rgb), 1);
+            font-size: 12px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .staff-name {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Statistics */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s ease-out;
+        }
+
+        .stats-container.stats-animate {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(var(--primary-rgb), 0.1);
+            border: 2px solid rgba(var(--primary-rgb), 0.3);
+            border-radius: 15px;
+            padding: 12px 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: rgba(var(--primary-rgb), 1);
+            text-shadow: 0 0 10px rgba(var(--primary-rgb), 0.5);
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        /* Animation states for video export */
+        .roster-container.animate-in {
+            animation: slideInFromBottom 2s ease-out forwards;
+        }
+
+        .roster-container.animate-out {
+            animation: slideOutToBottom 2s ease-in forwards;
+        }
+
+        .roster-container.animate-stay {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @keyframes slideInFromBottom {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @keyframes slideOutToBottom {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(100px);
+            }
+        }
+
+        :root {
+            --primary-rgb: 0, 0, 0;
+            --secondary-rgb: 255, 255, 255;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .roster-container { width: 95%; }
+        }
+
+        @media (max-width: 1024px) {
+            .staff-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        }
+
+        @media (max-width: 768px) {
+            .roster-container { width: 98%; }
+            .staff-grid { grid-template-columns: 1fr; }
+            .stats-container { flex-direction: column; align-items: center; gap: 15px; }
+        }
+
+        @media (max-width: 480px) {
+            .roster-table th, .roster-table td { 
+                padding: 8px 4px; 
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading team data...</div>
+    </div>
+
+    <!-- Error Screen -->
+    <div class="error-screen" id="errorScreen">
+        <div class="error-title">⚠️ Team Not Found</div>
+        <div class="error-message" id="errorMessage">
+            The team data could not be loaded. Please check the URL and try again.
+        </div>
+        <div class="error-details" id="errorDetails">
+            Expected URL format: /teamname (e.g., /ofi, /paok, /olympiacos)
+        </div>
+    </div>
+
+    <!-- Main Graphics Container -->
+    <div class="graphics-container" id="graphicsContainer" style="display: none;">
+        <!-- Moving Lines Animation -->
+        <div class="moving-lines">
+            <div class="line line-1"></div>
+            <div class="line line-2"></div>
+            <div class="line line-3"></div>
+            <div class="line line-4"></div>
+            <div class="line-vertical line-v1"></div>
+            <div class="line-vertical line-v2"></div>
+        </div>
+        
+        <!-- Team Logo -->
+        <div class="team-logo" id="teamLogo">
+            <img id="logoImage" src="" alt="Team Logo" style="display: none;">
+            <div class="team-logo-placeholder" id="logoPlaceholder">TEAM</div>
+        </div>
+        
+        <!-- Roster Container -->
+        <div class="roster-container">
+            <table class="roster-table">
+                <thead>
+                    <tr id="tableHeaders">
+                        <!-- Headers will be populated dynamically -->
+                    </tr>
+                </thead>
+                <tbody id="playersTableBody">
+                    <!-- Players will be populated dynamically -->
+                </tbody>
+            </table>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-value" id="avgAgeValue">0</div>
+                    <div class="stat-label">Μ.Ο. Ηλικία</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="avgHeightValue">0</div>
+                    <div class="stat-label">Μ.Ο. Ύψος</div>
+                </div>
+            </div>
+            
+            <div class="staff-section">
+                <h3>Τεχνικό Επιτελείο</h3>
+                <div class="staff-grid" id="staffGrid">
+                    <!-- Staff will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class TeamRosterManager {
+            constructor() {
+                this.teamData = null;
+                this.teamName = null;
+                this.animationInterval = null;
+            }
+
+            // Extract team name from URL
+            getTeamNameFromUrl() {
+                const path = window.location.pathname;
+                // Remove leading slash and get first segment
+                const segments = path.replace(/^\/+/, '').split('/');
+                return segments[0] || null;
+            }
+
+            // Load team data from JSON file
+            async loadTeamData(teamName) {
+                try {
+                    const response = await fetch(`${teamName}.json`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('Error loading team data:', error);
+                    throw error;
+                }
+            }
+
+            // Apply team colors to CSS custom properties
+            applyTeamColors(colors) {
+                const root = document.documentElement;
+                
+                // Convert hex to RGB
+                const hexToRgb = (hex) => {
+                    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                    return result ? {
+                        r: parseInt(result[1], 16),
+                        g: parseInt(result[2], 16),
+                        b: parseInt(result[3], 16)
+                    } : null;
+                };
+
+                const primaryRgb = hexToRgb(colors.primary);
+                const secondaryRgb = hexToRgb(colors.secondary);
+
+                if (primaryRgb) {
+                    root.style.setProperty('--primary-rgb', `${primaryRgb.r}, ${primaryRgb.g}, ${primaryRgb.b}`);
+                }
+                if (secondaryRgb) {
+                    root.style.setProperty('--secondary-rgb', `${secondaryRgb.r}, ${secondaryRgb.g}, ${secondaryRgb.b}`);
+                }
+            }
+
+            // Set up team logo
+            setupLogo(logoPath, teamName) {
+                const logoImage = document.getElementById('logoImage');
+                const logoPlaceholder = document.getElementById('logoPlaceholder');
+
+                if (logoPath) {
+                    logoImage.src = logoPath;
+                    logoImage.onload = () => {
+                        logoImage.style.display = 'block';
+                        logoPlaceholder.style.display = 'none';
+                    };
+                    logoImage.onerror = () => {
+                        logoImage.style.display = 'none';
+                        logoPlaceholder.style.display = 'block';
+                        logoPlaceholder.textContent = teamName.toUpperCase();
+                    };
+                } else {
+                    logoImage.style.display = 'none';
+                    logoPlaceholder.style.display = 'block';
+                    logoPlaceholder.textContent = teamName.toUpperCase();
+                }
+            }
+
+            // Create table headers
+            createTableHeaders() {
+                const headersRow = document.getElementById('tableHeaders');
+                const headers = [
+                    'Φ.', 'Επώνυμο', 'Όνομα', 'Εθνικότητα', 
+                    'Θέση', 'Ημ. Γέννησης', 'Ύψος', 'Προηγούμενη Ομάδα'
+                ];
+
+                headersRow.innerHTML = headers.map(header => `<th>${header}</th>`).join('');
+            }
+
+            // Populate players table
+            populatePlayersTable(players) {
+                const tbody = document.getElementById('playersTableBody');
+                tbody.innerHTML = '';
+
+                players.forEach(player => {
+                    const row = document.createElement('tr');
+                    
+                    // Split name into first and last name
+                    const nameParts = player.name.trim().split(' ');
+                    let firstName = '', lastName = '';
+                    
+                    if (nameParts.length === 1) {
+                        firstName = nameParts[0];
+                    } else {
+                        firstName = nameParts.slice(0, -1).join(' ');
+                        lastName = nameParts[nameParts.length - 1];
+                    }
+
+                    row.innerHTML = `
+                        <td>${player.number}</td>
+                        <td>${lastName}</td>
+                        <td>${firstName}</td>
+                        <td>${player.nationality}</td>
+                        <td>${this.getPositionAbbreviation(player.position)}</td>
+                        <td>${player.birthdate}</td>
+                        <td>${player.height}</td>
+                        <td>${player.team}</td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                });
+            }
+
+            // Get position abbreviation (Greek)
+            getPositionAbbreviation(position) {
+                const positionMap = {
+                    'Ακραίος': 'Α',
+                    'Λίμπερο': 'Λ',
+                    'Κεντρικός': 'Κ',
+                    'Διαγώνιος': 'Δ',
+                    'Πασαδόρος': 'Π'
+                };
+                return positionMap[position] || position;
+            }
+
+            // Populate staff section
+            populateStaff(staff, coach) {
+                const staffGrid = document.getElementById('staffGrid');
+                staffGrid.innerHTML = '';
+
+                // Add coach first if exists
+                if (coach) {
+                    const coachItem = document.createElement('div');
+                    coachItem.className = 'staff-item';
+                    coachItem.innerHTML = `
+                        <div class="staff-role">${coach.role || 'Προπονητής'}</div>
+                        <div class="staff-name">${coach.name}</div>
+                    `;
+                    staffGrid.appendChild(coachItem);
+                }
+
+                // Add other staff
+                staff.forEach(member => {
+                    const staffItem = document.createElement('div');
+                    staffItem.className = 'staff-item';
+                    staffItem.innerHTML = `
+                        <div class="staff-role">${member.role}</div>
+                        <div class="staff-name">${member.name}</div>
+                    `;
+                    staffGrid.appendChild(staffItem);
+                });
+            }
+
+            // Update statistics
+            updateStats(avgAge, avgHeight) {
+                document.getElementById('avgAgeValue').textContent = avgAge || '0';
+                document.getElementById('avgHeightValue').textContent = avgHeight || '0';
+            }
+
+            // Show error screen
+            showError(message, details) {
+                const errorScreen = document.getElementById('errorScreen');
+                const errorMessage = document.getElementById('errorMessage');
+                const errorDetails = document.getElementById('errorDetails');
+
+                errorMessage.textContent = message;
+                if (details) {
+                    errorDetails.textContent = details;
+                }
+
+                document.getElementById('loadingScreen').classList.add('hidden');
+                errorScreen.classList.add('show');
+            }
+
+            // Animation sequence
+            startAnimation() {
+                const rosterContainer = document.querySelector('.roster-container');
+                const tableHeader = document.querySelector('.roster-table thead');
+                const rows = document.querySelectorAll('.roster-table tbody tr');
+                const statsContainer = document.querySelector('.stats-container');
+                const staffSection = document.querySelector('.staff-section');
+                
+                // Start container animation
+                setTimeout(() => {
+                    rosterContainer.classList.add('animate-in');
+                }, 500);
+                
+                // Animate header first
+                setTimeout(() => {
+                    tableHeader.classList.add('header-animate');
+                }, 1300);
+                
+                // Animate rows one by one
+                rows.forEach((row, index) => {
+                    setTimeout(() => {
+                        row.classList.add('row-animate');
+                    }, 1700 + (index * 150));
+                });
+                
+                // Animate statistics
+                setTimeout(() => {
+                    statsContainer.classList.add('stats-animate');
+                }, 1700 + (rows.length * 150) + 300);
+                
+                // Animate staff section
+                setTimeout(() => {
+                    staffSection.classList.add('staff-animate');
+                }, 1700 + (rows.length * 150) + 600);
+                
+                // Stay for 10 seconds, then loop
+                const stayDelay = 1700 + (rows.length * 150) + 1000;
+                setTimeout(() => {
+                    rosterContainer.classList.remove('animate-in');
+                    rosterContainer.classList.add('animate-stay');
+                }, stayDelay);
+            }
+
+            // Setup animation loop
+            setupAnimationLoop() {
+                if (this.animationInterval) {
+                    clearInterval(this.animationInterval);
+                }
+
+                this.animationInterval = setInterval(() => {
+                    // Reset all animations
+                    const rosterContainer = document.querySelector('.roster-container');
+                    const tableHeader = document.querySelector('.roster-table thead');
+                    const rows = document.querySelectorAll('.roster-table tbody tr');
+                    const statsContainer = document.querySelector('.stats-container');
+                    const staffSection = document.querySelector('.staff-section');
+
+                    rosterContainer.classList.remove('animate-in', 'animate-stay', 'animate-out');
+                    tableHeader.classList.remove('header-animate');
+                    rows.forEach(row => row.classList.remove('row-animate'));
+                    statsContainer.classList.remove('stats-animate');
+                    staffSection.classList.remove('staff-animate');
+                    
+                    // Restart animation
+                    this.startAnimation();
+                }, 15000);
+            }
+
+            // Initialize the roster
+            async initialize() {
+                try {
+                    // Get team name from URL
+                    this.teamName = this.getTeamNameFromUrl();
+                    
+                    if (!this.teamName) {
+                        throw new Error('No team name found in URL');
+                    }
+
+                    // Load team data
+                    this.teamData = await this.loadTeamData(this.teamName);
+                    
+                    // Update page title
+                    document.getElementById('pageTitle').textContent = `${this.teamData.name} - Roster 2024-2025`;
+                    
+                    // Apply team colors
+                    this.applyTeamColors(this.teamData.colors);
+                    
+                    // Setup logo
+                    this.setupLogo(this.teamData.logo, this.teamData.name);
+                    
+                    // Create table structure
+                    this.createTableHeaders();
+                    
+                    // Populate data
+                    this.populatePlayersTable(this.teamData.players);
+                    this.populateStaff(this.teamData.staff, this.teamData.coach);
+                    this.updateStats(this.teamData.avgAge, this.teamData.avgHeight);
+                    
+                    // Hide loading screen and show content
+                    document.getElementById('loadingScreen').classList.add('hidden');
+                    document.getElementById('graphicsContainer').style.display = 'flex';
+                    
+                    // Start animations
+                    setTimeout(() => {
+                        this.startAnimation();
+                        this.setupAnimationLoop();
+                    }, 100);
+                    
+                } catch (error) {
+                    console.error('Failed to initialize roster:', error);
+                    
+                    let errorMessage = 'The team data could not be loaded. Please check the URL and try again.';
+                    let errorDetails = 'Expected URL format: /teamname (e.g., /ofi, /paok, /olympiacos)';
+                    
+                    if (!this.teamName) {
+                        errorMessage = 'No team specified in URL.';
+                        errorDetails = 'Please navigate to a valid team URL like: /ofi, /paok, /olympiacos';
+                    } else {
+                        errorMessage = `Team "${this.teamName}" not found.`;
+                        errorDetails = `Could not load ${this.teamName}.json. Please ensure the team data file exists.`;
+                    }
+                    
+                    this.showError(errorMessage, errorDetails);
+                }
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const rosterManager = new TeamRosterManager();
+            rosterManager.initialize();
+            
+            // Debug info
+            console.log('Dynamic Team Roster System loaded');
+            console.log('Current URL:', window.location.pathname);
+        });
+
+        // Handle URL changes (for single-page apps)
+        window.addEventListener('popstate', function() {
+            location.reload();
+        });
+    </script>
+</body>
+</html>
