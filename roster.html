@@ -590,18 +590,7 @@
                     <!-- Players will be populated dynamically -->
                 </tbody>
             </table>
-            
-            <div class="stats-container">
-                <div class="stat-item">
-                    <div class="stat-value" id="avgAgeValue">0</div>
-                    <div class="stat-label">Μ.Ο. Ηλικία</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="avgHeightValue">0</div>
-                    <div class="stat-label">Μ.Ο. Ύψος</div>
-                </div>
-            </div>
-            
+        
             <div class="staff-section">
                 <h3>Τεχνικό Επιτελείο</h3>
                 <div class="staff-grid" id="staffGrid">
@@ -754,7 +743,8 @@
                     'Διαγώνιος': 'Δ',
                     'Πασαδόρος': 'Π'
                 };
-                return positionMap[position] || position;
+                //return positionMap[position] || position;
+                return position;
             }
 
             // Populate staff section
