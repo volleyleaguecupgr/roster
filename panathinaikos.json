@@ -1,10 +1,10 @@
 {
-  "team": "panathinaikos",
   "fullName": "Παναθηναϊκός Α.Ο.",
   "colors": {
     "primary": "#00A651",
     "secondary": "#FFFFFF"
   },
+  "logo": "panathinaikos.png",
   "avgAge": "26.5",
   "avgHeight": "1.96",
   "coach": {
