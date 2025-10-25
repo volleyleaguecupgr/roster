@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Team Roster 2024-2025</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Nunito Sans', sans-serif;
+            background: transparent;
+            min-height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main Graphics Container */
+        .graphics-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            max-width: 100vw;
+            max-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transform-origin: top left;
+            transform: scale(calc(min(100vw / 1920px, 100vh / 1080px)));
+            background: transparent;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease;
+        }
+
+        .graphics-container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid rgba(var(--primary-rgb), 1);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+            opacity: 0;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Error Screen */
+        .error-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .error-screen.show {
+            display: flex;
+        }
+
+        .error-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ff4444;
+        }
+
+        .error-message {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .error-details {
+            font-size: 14px;
+            color: #aaa;
+            max-width: 800px;
+        }
+
+        /* Animated Background Lines */
+        .moving-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(var(--primary-rgb), 0.6) 20%, 
+                rgba(var(--secondary-rgb), 0.8) 50%, 
+                rgba(var(--primary-rgb), 0.6) 80%, 
+                transparent 100%
+            );
+            border-radius: 1px;
+            box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.4);
+        }
+
+        .line-1 { width: 300px; top: 20%; animation: moveLine1 8s linear infinite; }
+        .line-2 { width: 250px; top: 40%; animation: moveLine2 6s linear infinite; }
+        .line-3 { width: 400px; top: 60%; animation: moveLine3 10s linear infinite; }
+        .line-4 { width: 200px; top: 80%; animation: moveLine4 7s linear infinite; }
+
+        .line-vertical {
+            width: 2px;
+            height: 200px;
+            background: linear-gradient(0deg, 
+                transparent 0%, 
+                rgba(var(--secondary-rgb), 0.6) 20%, 
+                rgba(var(--primary-rgb), 0.8) 50%, 
+                rgba(var(--secondary-rgb), 0.6) 80%, 
+                transparent 100%
+            );
+        }
+
+        .line-v1 { left: 10%; animation: moveLineV1 9s linear infinite; }
+        .line-v2 { right: 15%; animation: moveLineV2 11s linear infinite; }
+
+        @keyframes moveLine1 { 0% { left: -300px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 1920px; opacity: 0; } }
+        @keyframes moveLine2 { 0% { right: -250px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { right: 1920px; opacity: 0; } }
+        @keyframes moveLine3 { 0% { left: -400px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: 1920px; opacity: 0; } }
+        @keyframes moveLine4 { 0% { right: -200px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { right: 1920px; opacity: 0; } }
+        @keyframes moveLineV1 { 0% { top: -200px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 1080px; opacity: 0; } }
+        @keyframes moveLineV2 { 0% { bottom: -200px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { bottom: 1080px; opacity: 0; } }
+
+        /* Team Logo */
+        .team-logo {
+            position: absolute;
+            top: 30px;
+            left: 100px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(var(--primary-rgb), 0.15);
+            backdrop-filter: blur(15px);
+            border: 4px solid rgba(var(--primary-rgb), 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 0 50px rgba(var(--primary-rgb), 0.6),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+            z-index: 15;
+            animation: logoGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% { box-shadow: 0 0 50px rgba(var(--primary-rgb), 0.6), inset 0 0 30px rgba(255, 255, 255, 0.2); }
+            100% { box-shadow: 0 0 80px rgba(var(--primary-rgb), 0.8), inset 0 0 40px rgba(255, 255, 255, 0.3); }
+        }
+
+        .team-logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .team-logo-placeholder {
+            color: rgba(var(--primary-rgb), 1);
+            font-size: 18px;
+            font-weight: bold;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Roster Table */
+        .roster-container {
+            position: absolute;
+            bottom: 60px;
+            left: 960px;
+            transform: translateX(-50%);
+            width: 1750px;
+            z-index: 10;
+        }
+
+        .roster-table {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(var(--primary-rgb), 0.3);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(var(--primary-rgb), 0.2);
+        }
+
+        .roster-table thead {
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.9), rgba(var(--secondary-rgb), 0.9));
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .roster-table thead.header-animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .roster-table th, .roster-table td {
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            padding: 8px 5px;
+        }
+
+        .roster-table tbody tr {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.3s ease;
+        }
+
+        .roster-table tbody tr.row-animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Staff Section */
+        .staff-section {
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(var(--secondary-rgb), 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .staff-section.staff-animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .staff-section h3 {
+            text-align: center;
+            color: rgba(var(--secondary-rgb), 1);
+            margin-bottom: 12px;
+        }
+
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .staff-item {
+            background: rgba(var(--secondary-rgb), 0.1);
+            border: 1px solid rgba(var(--secondary-rgb), 0.3);
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .stats-container {
+            position: absolute;
+            top: -100px;
+            right: 140px;
+            display: flex;
+            gap: 40px;
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.6s ease-out;
+            z-index: 15;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(var(--primary-rgb), 0.1);
+            border: 2px solid rgba(var(--primary-rgb), 0.3);
+            border-radius: 15px;
+            padding: 12px 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        :root {
+            --primary-rgb: 0, 0, 0;
+            --secondary-rgb: 255, 255, 255;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading roster...</div>
+    </div>
+
+    <!-- Error Screen -->
+    <div class="error-screen" id="errorScreen">
+        <div class="error-title">⚠️ Team Not Found</div>
+        <div class="error-message" id="errorMessage"></div>
+        <div class="error-details" id="errorDetails"></div>
+    </div>
+
+    <!-- Main Graphics -->
+    <div class="graphics-container" id="graphicsContainer">
+        <div class="moving-lines">
+            <div class="line line-1"></div><div class="line line-2"></div><div class="line line-3"></div><div class="line line-4"></div>
+            <div class="line-vertical line-v1"></div><div class="line-vertical line-v2"></div>
+        </div>
+
+        <div class="team-logo" id="teamLogo">
+            <img id="logoImage" src="" alt="Team Logo" style="display:none;">
+            <div class="team-logo-placeholder" id="logoPlaceholder">TEAM</div>
+        </div>
+
+        <div class="roster-container">
+            <table class="roster-table">
+                <thead><tr id="tableHeaders"></tr></thead>
+                <tbody id="playersTableBody"></tbody>
+            </table>
+
+            <div class="stats-container" id="statsContainer">
+                <div class="stat-item"><div class="stat-value" id="avgAgeValue">0</div><div class="stat-label">Μ.Ο. Ηλικία</div></div>
+                <div class="stat-item"><div class="stat-value" id="avgHeightValue">0</div><div class="stat-label">Μ.Ο. Ύψος</div></div>
+            </div>
+
+            <div class="staff-section"><h3>Τεχνικό Επιτελείο</h3><div class="staff-grid" id="staffGrid"></div></div>
+        </div>
+    </div>
+
+    <script>
+    class TeamRosterManager {
+        constructor() { this.teamData=null; this.teamName=null; }
+
+        getTeamNameFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const teamParam = urlParams.get('team');
+            if (teamParam) return teamParam;
+            const path = window.location.pathname;
+            const segments = path.replace(/^\/+/, '').split('/');
+            const lastSegment = segments[segments.length - 1];
+            return lastSegment.replace(/\.html$/, '') || null;
+        }
+
+        async loadTeamData(teamName) {
+            const response = await fetch(`./${teamName}.json`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        }
+
+        applyTeamColors(colors) {
+            const root=document.documentElement;
+            const hexToRgb=h=>{const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);return r?{r:parseInt(r[1],16),g:parseInt(r[2],16),b:parseInt(r[3],16)}:null;}
+            const pr=hexToRgb(colors.primary); const sr=hexToRgb(colors.secondary);
+            if(pr) root.style.setProperty('--primary-rgb',`${pr.r},${pr.g},${pr.b}`);
+            if(sr) root.style.setProperty('--secondary-rgb',`${sr.r},${sr.g},${sr.b}`);
+        }
+
+        setupLogo(logoPath, teamName) {
+            const img=document.getElementById('logoImage'),ph=document.getElementById('logoPlaceholder');
+            if(logoPath){img.src=logoPath;img.onload=()=>{img.style.display='block';ph.style.display='none';};
+                img.onerror=()=>{img.style.display='none';ph.style.display='block';ph.textContent=teamName.toUpperCase();};
+            }else{img.style.display='none';ph.style.display='block';ph.textContent=teamName.toUpperCase();}
+        }
+
+        createTableHeaders(){
+            const h=['Φ.','Επώνυμο','Όνομα','Εθνικότητα','Θέση','Ημ. Γέννησης','Ύψος'];
+            document.getElementById('tableHeaders').innerHTML=h.map(x=>`<th>${x}</th>`).join('');
+        }
+
+        populatePlayersTable(players){
+            const tb=document.getElementById('playersTableBody');
+            tb.innerHTML='';
+            players.forEach(p=>{
+                const parts=p.name.trim().split(' ');
+                const first=parts.slice(0,-1).join(' '),last=parts[parts.length-1];
+                const tr=document.createElement('tr');
+                tr.innerHTML=`<td>${p.number}</td><td>${last}</td><td>${first}</td><td>${p.nationality}</td><td>${this.getPositionAbbreviation(p.position)}</td><td>${p.birthdate}</td><td>${p.height}</td>`;
+                tb.appendChild(tr);
+            });
+        }
+
+        getPositionAbbreviation(pos){
+            const map={'Setter':'S','Outside Hitter':'OH','Opposite':'OPP','Middle Blocker':'MB','Libero':'L','Πασαδόρος':'Π','Ακραίος':'Α','Κεντρικός':'Κ','Διαγώνιος':'Δ','Λίμπερο':'Λ'};
+            return map[pos]||pos;
+        }
+
+        populateStaff(staff){
+            const g=document.getElementById('staffGrid');g.innerHTML='';
+            staff.forEach(s=>{const d=document.createElement('div');d.className='staff-item';d.innerHTML=`<strong>${s.role}</strong><br>${s.name}`;g.appendChild(d);});
+        }
+
+        calculateStats(players){
+            const now=new Date();
+            const ages=players.map(p=>Math.floor((now-new Date(p.birthdate))/(1000*60*60*24*365.25)));
+            const avgAge=(ages.reduce((a,b)=>a+b,0)/ages.length).toFixed(1);
+            const heights=players.map(p=>parseInt(p.height)||0);
+            const avgHeight=(heights.reduce((a,b)=>a+b,0)/heights.length).toFixed(1);
+            document.getElementById('avgAgeValue').textContent=avgAge;
+            document.getElementById('avgHeightValue').textContent=`${avgHeight} cm`;
+        }
+
+        async initialize(){
+            const loading=document.getElementById('loadingScreen');
+            const spinner=document.querySelector('.loading-spinner');
+            spinner.style.opacity=1;
+            this.teamName=this.getTeamNameFromUrl();
+
+            if(!this.teamName){loading.classList.add('hidden');this.showError('Δεν προσδιορίστηκε ομάδα');return;}
+
+            try{
+                const data=await this.loadTeamData(this.teamName);
+                this.teamData=data;
+                this.applyTeamColors(data.colors);
+                this.setupLogo(data.logo,this.teamName);
+                this.createTableHeaders();
+                this.populatePlayersTable(data.players);
+                this.populateStaff(data.staff);
+                this.calculateStats(data.players);
+
+                // Fade-in transition (no flicker)
+                loading.classList.add('hidden');
+                const gc=document.getElementById('graphicsContainer');
+                gc.classList.add('show');
+
+                setTimeout(()=>this.startAnimation(),100);
+            }catch(err){
+                loading.classList.add('hidden');
+                this.showError('Αποτυχία φόρτωσης δεδομένων',err.message);
+            }
+        }
+
+        startAnimation(){
+            document.querySelector('.roster-table thead').classList.add('header-animate');
+            const rows=document.querySelectorAll('.roster-table tbody tr');
+            rows.forEach((row,i)=>setTimeout(()=>row.classList.add('row-animate'),100*i));
+            setTimeout(()=>document.querySelector('.staff-section').classList.add('staff-animate'),rows.length*100+500);
+        }
+
+        showError(msg,details=''){
+            const e=document.getElementById('errorScreen');
+            document.getElementById('errorMessage').textContent=msg;
+            document.getElementById('errorDetails').textContent=details;
+            e.classList.add('show');
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded',()=>{
+        const trm=new TeamRosterManager();
+        trm.initialize();
+    });
+    </script>
+</body>
+</html>
