@@ -317,8 +317,8 @@
             const basePath = path.replace(/\/[^\/]+$/, ''); // Remove team name
             window.location.href = `${basePath}?team=${teamSlug}`;
         } */
-        const urlParams = new URLSearchParams(window.location.search);
-        getTeamNameFromUrl() {
+        //const urlParams = new URLSearchParams(window.location.search);
+        /*getTeamNameFromUrl() {
                 // Try URL parameter first (?team=ofi)
                 const urlParams = new URLSearchParams(window.location.search);
                 const teamParam = urlParams.get('team');
@@ -333,13 +333,13 @@
                 
                 // Remove .html extension if present
                 return lastSegment.replace(/\.html$/, '') || null;
-        }
+        }*/
 
         const githubOwner = "volleyleaguecupgr";
         const githubRepo = "referees";
         const branch = "main";
-        // const teamParam = urlParams.get('team')?.toLowerCase();
-        const teamParam =  getTeamNameFromUrl();
+        const teamParam = urlParams.get('team')?.toLowerCase();
+        //const teamParam =  getTeamNameFromUrl();
 
         async function fetchGameday() {
             const url = `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${branch}/gameday.json`;
