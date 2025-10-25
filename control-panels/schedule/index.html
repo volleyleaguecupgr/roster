@@ -193,7 +193,7 @@ async function updateGithubFile() {
 
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(json, null, 2))));
   const path = "gameday/schedule.json";
-  const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+  const url = `https://api.github.com/repos/${user}/${repo}/contents/schedule/${path}`;
 
   let sha = null;
   const getRes = await fetch(url, {
