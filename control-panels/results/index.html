@@ -192,7 +192,7 @@ document.getElementById('uploadJson').addEventListener('click', async ()=>{
     let sha=null;
 
     // Check if file exists to get SHA
-    const getResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`, {
+    const getResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/results/${path}?ref=${branch}`, {
       headers:{ Authorization:`token ${token}`, Accept:'application/vnd.github.v3+json' }
     });
     if(getResp.ok){
@@ -201,7 +201,7 @@ document.getElementById('uploadJson').addEventListener('click', async ()=>{
     }
 
     // Upload
-    const uploadResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+    const uploadResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/results/${path}`, {
       method:'PUT',
       headers:{ Authorization:`token ${token}`, Accept:'application/vnd.github.v3+json' },
       body: JSON.stringify({
