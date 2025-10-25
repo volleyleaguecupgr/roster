@@ -1,11 +1,16 @@
 [
   {
-    "team": "ΑΟΝΣ ΜΙΛΩΝ",
-    "points": 0,
-    "matches": 0
+    "team": "ΠΑΟΚ",
+    "points": 3,
+    "matches": 1
   },
   {
-    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+    "team": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+    "points": 0,
+    "matches": 1
+  },
+  {
+    "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
     "points": 0,
     "matches": 0
   },
@@ -15,12 +20,12 @@
     "matches": 0
   },
   {
-    "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+    "team": "ΑΟΝΣ ΜΙΛΩΝ",
     "points": 0,
     "matches": 0
   },
   {
-    "team": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
     "points": 0,
     "matches": 0
   },
@@ -41,11 +46,6 @@
   },
   {
     "team": "ΠΑΝΙΩΝΙΟΣ",
-    "points": 0,
-    "matches": 0
-  },
-  {
-    "team": "ΠΑΟΚ",
     "points": 0,
     "matches": 0
   }
