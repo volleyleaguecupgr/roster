@@ -5,36 +5,21 @@
       {
         "homeTeam": "Π.Α.Ο.Κ.",
         "awayTeam": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-        "sets": [],
-        "homeScore": 0,
-        "awayScore": 0
-      },
-      {
-        "homeTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-        "awayTeam": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-        "sets": [],
-        "homeScore": 0,
-        "awayScore": 0
-      },
-      {
-        "homeTeam": "ΑΟΝΣ ΜΙΛΩΝ",
-        "awayTeam": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
-        "sets": [],
-        "homeScore": 0,
-        "awayScore": 0
-      },
-      {
-        "homeTeam": "ΠΑΝΙΩΝΙΟΣ",
-        "awayTeam": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ",
-        "sets": [],
-        "homeScore": 0,
-        "awayScore": 0
-      },
-      {
-        "homeTeam": "Ο.Φ.Η.",
-        "awayTeam": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "sets": [],
-        "homeScore": 0,
+        "sets": [
+          {
+            "homePoints": 25,
+            "awayPoints": 19
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 14
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 18
+          }
+        ],
+        "homeScore": 3,
         "awayScore": 0
       }
     ]
