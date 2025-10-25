@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏐 Gameday Referee Panel</title>
+<style>
+body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f8fafc; padding: 30px; }
+.container { max-width: 1000px; margin: 0 auto; }
+h1 { color: #3b82f6; margin-bottom: 20px; }
+.panel { background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155; margin-bottom: 20px; }
+label { display: block; margin-top: 10px; font-weight: 600; color: #94a3b8; }
+select, input { width: 100%; padding: 8px; border-radius: 8px; border: none; background: #334155; color: #fff; margin-top: 5px; }
+button { margin-top: 15px; padding: 10px 20px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; }
+button.primary { background: #3b82f6; color: white; }
+button.success { background: #10b981; color: white; }
+.status { margin-top: 15px; padding: 10px; border-radius: 8px; display: none; }
+.status.success { background: #dcfce7; color: #166534; }
+.status.error { background: #fee2e2; color: #991b1b; }
+.status.info { background: #dbeafe; color: #1e40af; }
+.game-row { background: #334155; padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #475569; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🏐 Gameday Referee Panel</h1>
+
+<!-- GitHub Settings -->
+<div class="panel">
+    <h2>🔐 GitHub Settings</h2>
+    <label>Username</label><input type="text" id="githubOwner" value="volleyleaguecupgr">
+    <label>Repository</label><input type="text" id="githubRepo" value="referees">
+    <label>Personal Access Token</label><input type="password" id="githubToken">
+    <label>Branch</label><input type="text" id="githubBranch" value="main">
+    <button class="primary" onclick="saveGithubConfig()">💾 Save Settings</button>
+</div>
+
+<!-- Games -->
+<div class="panel">
+    <h2>🎮 Games</h2>
+    <div id="gamesContainer"></div>
+    <button class="primary" onclick="addGame()">➕ Add Game</button>
+</div>
+
+<button class="success" onclick="uploadToGitHub()">🚀 Upload JSON to GitHub</button>
+<div id="statusMessage" class="status"></div>
+</div>
+
+<script>
+const teams = [
+    { name: 'ΠΑΝΑΘΗΝΑΪΚΟΣ', slug: 'panathinaikos', logo: 'panathinaikos.png' },
+    { name: 'ΟΛΥΜΠΙΑΚΟΣ', slug: 'olympiakos', logo: 'olympiakos.png' },
+    { name: 'ΜΙΛΩΝ', slug: 'milon', logo: 'milon.png' },
+    { name: 'ΠΑΟΚ', slug: 'paok', logo: 'paok.png' },
+    { name: 'ΚΗΦΙΣΙΑ', slug: 'kifisia', logo: 'kifisia.png' },
+    { name: 'ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ', slug: 'foinikas', logo: 'foinikas.png' },
+    { name: 'ΠΑΝΙΩΝΙΟΣ', slug: 'panionios', logo: 'panionios.png' },
+    { name: 'ΦΛΟΙΣΒΟΣ', slug: 'floisvos', logo: 'floisvos.png' },
+    { name: 'ΟΦΗ', slug: 'ofi', logo: 'ofi.png' },
+    { name: 'ΚΑΛΑΜΑΤΑ', slug: 'kalamata', logo: 'kalamata.png' }
+];
+
+let games = [];
+
+// Load stored GitHub config
+window.addEventListener('DOMContentLoaded', ()=>{
+    ['Owner','Repo','Token','Branch'].forEach(f=>{
+        const val = localStorage.getItem('github'+f);
+        if(val) document.getElementById('github'+f).value = val;
+    });
+    loadLocalGames();
+    renderGames();
+});
+
+function saveGithubConfig() {
+    ['Owner','Repo','Token','Branch'].forEach(f=>{
+        localStorage.setItem('github'+f, document.getElementById('github'+f).value);
+    });
+    showStatus('success','✅ GitHub settings saved!');
+}
+
+function showStatus(type,text){
+    const div=document.getElementById('statusMessage');
+    div.className='status '+type;
+    div.textContent=text;
+    div.style.display='block';
+    setTimeout(()=>div.style.display='none',4000);
+}
+
+// Local storage for persistence
+function saveLocalGames(){ localStorage.setItem('gameday_games', JSON.stringify(games)); }
+function loadLocalGames(){ 
+    const saved = localStorage.getItem('gameday_games');
+    if(saved) games = JSON.parse(saved);
+}
+
+function addGame(){
+    if(games.length>=5) return showStatus('error','Μπορείτε να προσθέσετε μόνο 5 παιχνίδια.');
+    games.push({
+        homeTeam:'', homeSlug: '', awayTeam:'', awaySlug: '',
+        refs:{referees:[], observer:'', challengeRef:'', linesmen:[], secretariat:''}
+    });
+    saveLocalGames();
+    renderGames();
+}
+
+function removeGame(idx){ games.splice(idx,1); saveLocalGames(); renderGames(); }
+
+function updateGame(idx, field, value, subfield=null){
+    if(field === 'homeTeam') {
+        const team = teams.find(t => t.name === value);
+        games[idx].homeTeam = value;
+        games[idx].homeSlug = team ? team.slug : '';
+    } else if(field === 'awayTeam') {
+        const team = teams.find(t => t.name === value);
+        games[idx].awayTeam = value;
+        games[idx].awaySlug = team ? team.slug : '';
+    } else if(subfield !== null){
+        if(Array.isArray(games[idx].refs[subfield])) {
+            games[idx].refs[subfield] = value;
+        } else {
+            games[idx].refs[subfield] = value;
+        }
+    } else {
+        games[idx][field] = value;
+    }
+    saveLocalGames();
+}
+
+function renderGames(){
+    const container=document.getElementById('gamesContainer');
+    container.innerHTML='';
+    games.forEach((g,i)=>{
+        const div=document.createElement('div');
+        div.className='game-row';
+        const homeOptions=teams.map(t=>`<option value="${t.name}" ${g.homeTeam===t.name?'selected':''}>${t.name}</option>`).join('');
+        const awayOptions=teams.map(t=>`<option value="${t.name}" ${g.awayTeam===t.name?'selected':''}>${t.name}</option>`).join('');
+        
+        div.innerHTML=`
+            <strong>Game ${i+1}</strong> ${g.homeSlug ? `(Home: ${g.homeSlug}, Away: ${g.awaySlug})` : ''}
+            
+            <label>Home Team</label>
+            <select onchange="updateGame(${i},'homeTeam',this.value)"><option value="">Select Team</option>${homeOptions}</select>
+
+            <label>Away Team</label>
+            <select onchange="updateGame(${i},'awayTeam',this.value)"><option value="">Select Team</option>${awayOptions}</select>
+
+            <label>Referees (comma separated)</label>
+            <input type="text" value="${(g.refs.referees || []).join(', ')}"
+                   onchange="updateGame(${i}, null, this.value.split(',').map(s=>s.trim()).filter(s=>s), 'referees')">
+
+            <label>Observer</label>
+            <input type="text" value="${g.refs.observer || ''}" onchange="updateGame(${i}, null, this.value, 'observer')">
+
+            <label>Challenge Referee</label>
+            <input type="text" value="${g.refs.challengeRef || ''}" onchange="updateGame(${i}, null, this.value, 'challengeRef')">
+
+            <label>Linesmen (comma separated)</label>
+            <input type="text" value="${(g.refs.linesmen || []).join(', ')}"
+                   onchange="updateGame(${i}, null, this.value.split(',').map(s=>s.trim()).filter(s=>s), 'linesmen')">
+
+            <label>Secretariat</label>
+            <input type="text" value="${g.refs.secretariat || ''}" onchange="updateGame(${i}, null, this.value, 'secretariat')">
+
+            <button onclick="removeGame(${i})" style="background:#ef4444;color:white;">🗑️ Remove</button>
+        `;
+        container.appendChild(div);
+    });
+}
+
+async function uploadToGitHub(){
+    const token=document.getElementById('githubToken').value.trim();
+    const owner=document.getElementById('githubOwner').value.trim();
+    const repo=document.getElementById('githubRepo').value.trim();
+    const branch=document.getElementById('githubBranch').value.trim();
+    
+    if(!token||!owner||!repo) return showStatus('error','⚠️ Fill GitHub info first');
+
+    // Validate games
+    const validGames = games.filter(g => g.homeTeam && g.awayTeam && g.homeSlug && g.awaySlug);
+    if(validGames.length === 0) return showStatus('error','⚠️ Add at least one valid game');
+
+    showStatus('info', '⏳ Uploading to GitHub...');
+
+    const url=`https://api.github.com/repos/${owner}/${repo}/contents/gameday.json`;
+    let sha=null;
+    
+    try{
+        const r=await fetch(url,{headers:{Authorization:`token ${token}`, Accept:'application/vnd.github.v3+json'}});
+        if(r.ok){ const d=await r.json(); sha=d.sha; }
+    }catch(e){ console.log('File not found, will create new'); }
+
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify({games: validGames},null,2))));
+    
+    try{
+        const r2=await fetch(url,{
+            method:'PUT',
+            headers:{Authorization:`token ${token}`, Accept:'application/vnd.github.v3+json', 'Content-Type': 'application/json'},
+            body: JSON.stringify({message:'Update gameday referees', content, branch, ...(sha?{sha}:{})})
+        });
+        
+        if(r2.ok) {
+            showStatus('success','✅ gameday.json updated on GitHub!');
+            console.log('Uploaded games:', validGames);
+        } else {
+            const err=await r2.json();
+            showStatus('error',`❌ Upload failed: ${err.message}`);
+        }
+    }catch(e){ 
+        showStatus('error',`❌ Upload failed: ${e.message}`); 
+    }
+}
+</script>
+</body>
+</html>
