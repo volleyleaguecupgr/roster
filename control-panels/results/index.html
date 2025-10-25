@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volleyball Gameday Control Panel</title>
+<style>
+body { font-family:'Inter',sans-serif; background:#0f172a; color:#f8fafc; padding:30px; }
+h1 { color:#3b82f6; margin-bottom:20px; text-align:center; }
+.panel { max-width:900px; margin:auto; background:#1e293b; padding:20px; border-radius:12px; }
+.match { border:1px solid #334155; padding:15px; border-radius:10px; margin-bottom:15px; }
+label { display:block; margin-top:10px; font-weight:600; }
+select,input { width:100%; padding:8px; margin-top:5px; border-radius:6px; border:none; background:#334155; color:#fff; }
+button { margin-top:10px; padding:8px 16px; border:none; border-radius:8px; background:#3b82f6; color:white; font-weight:600; cursor:pointer; }
+button:hover { background:#2563eb; }
+.sets { margin-top:10px; }
+.set-row { display:flex; gap:10px; margin-bottom:5px; }
+.set-row input { width:50%; }
+.score-display { font-size:1.2em; margin-top:10px; font-weight:bold; color:#fbbf24; }
+.status { margin-top:15px; padding:10px; border-radius:6px; }
+.status.info { background:#1e40af; color:#93c5fd; }
+.status.success { background:#166534; color:#86efac; }
+.status.error { background:#991b1b; color:#fca5a5; }
+</style>
+</head>
+<body>
+
+<h1>Volleyball Gameday Panel</h1>
+
+<div class="panel">
+
+  <label>GitHub Token (personal access token with repo rights)</label>
+  <input type="password" id="token" placeholder="ghp_xxxxx">
+
+  <label>Owner</label>
+  <input type="text" id="owner" placeholder="your-username">
+
+  <label>Repo</label>
+  <input type="text" id="repo" placeholder="my-volleyball-site">
+
+  <label>Branch</label>
+  <input type="text" id="branch" value="main">
+
+  <label>Gameday Title</label>
+  <input type="text" id="gamedayTitle" placeholder="π.χ. ΑΠΟΤΕΛΕΣΜΑΤΑ ΠΡΟΗΓΟΥΜΕΝΗΣ ΑΓΩΝΙΣΤΙΚΗΣ">
+
+  <div id="matchesContainer"></div>
+
+  <button id="addMatch">+ Προσθήκη Αγώνα</button>
+  <button id="uploadJson">Αποθήκευση στο GitHub</button>
+
+  <div id="status" class="status info">Πληκτρολογήστε τα στοιχεία και προσθέστε αγώνες.</div>
+
+  <h3>Preview JSON:</h3>
+  <pre id="jsonPreview"></pre>
+</div>
+
+<script>
+// Teams
+const teams = [
+  { name: 'ΑΟΝΣ ΜΙΛΩΝ', subtitle: '' },
+  { name: 'ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA', subtitle: '' },
+  { name: 'Ο.Φ.Η.', subtitle: '' },
+  { name: 'ΑΟΠ ΚΗΦΙΣΙΑΣ', subtitle: '' },
+  { name: 'Π.Α.Ο.Κ.', subtitle: '' },
+  { name: 'ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ', subtitle: '' },
+  { name: 'ΠΑΝΙΩΝΙΟΣ', subtitle: '' },
+  { name: 'ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ', subtitle: '' },
+  { name: 'ΠΑΝΑΘΗΝΑΪΚΟΣ AO', subtitle: '' },
+  { name: 'ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON', subtitle: '' }
+];
+
+let matches = [];
+
+function createMatch(index){
+  const matchDiv = document.createElement('div');
+  matchDiv.className = 'match';
+  matchDiv.dataset.index = index;
+  
+  matchDiv.innerHTML = `
+    <h3>Αγώνας ${index+1}</h3>
+    <label>Γηπεδούχος</label>
+    <select class="homeTeam">${teams.map(t=>`<option value="${t.name}">${t.name}</option>`).join('')}</select>
+
+    <label>Φιλοξενούμενος</label>
+    <select class="awayTeam">${teams.map(t=>`<option value="${t.name}">${t.name}</option>`).join('')}</select>
+
+    <div class="sets">
+      <strong>Σετ:</strong>
+      <div class="setsContainer"></div>
+      <button class="addSetBtn">+ Προσθήκη Σετ</button>
+    </div>
+
+    <div class="score-display">Τελικό Σκορ: <span class="finalScore">0 - 0</span></div>
+  `;
+
+  // Append matchDiv
+  document.getElementById('matchesContainer').appendChild(matchDiv);
+
+  matches.push({ homeTeam:'', awayTeam:'', sets:[], homeScore:0, awayScore:0 });
+
+  // Events
+  matchDiv.querySelector('.homeTeam').addEventListener('change', (e)=>{
+    const i = matchDiv.dataset.index;
+    matches[i].homeTeam = e.target.value;
+    updateJSONPreview();
+  });
+  matchDiv.querySelector('.awayTeam').addEventListener('change', (e)=>{
+    const i = matchDiv.dataset.index;
+    matches[i].awayTeam = e.target.value;
+    updateJSONPreview();
+  });
+  matchDiv.querySelector('.addSetBtn').addEventListener('click', (e)=>{
+    e.preventDefault();
+    addSetRow(matchDiv);
+  });
+}
+
+function addSetRow(matchDiv){
+  const i = matchDiv.dataset.index;
+  const setsContainer = matchDiv.querySelector('.setsContainer');
+  const setIndex = matches[i].sets.length;
+  const setDiv = document.createElement('div');
+  setDiv.className = 'set-row';
+  setDiv.innerHTML = `
+    <input type="number" class="homePoints" placeholder="Γηπ." min="0">
+    <input type="number" class="awayPoints" placeholder="Φιλ." min="0">
+    <button class="removeSetBtn">X</button>
+  `;
+  setsContainer.appendChild(setDiv);
+  matches[i].sets.push({homePoints:0,awayPoints:0});
+  updateJSONPreview();
+
+  setDiv.querySelector('.homePoints').addEventListener('input', (e)=>{
+    const val = parseInt(e.target.value)||0;
+    matches[i].sets[setIndex].homePoints = val;
+    updateFinalScore(i, matchDiv);
+  });
+  setDiv.querySelector('.awayPoints').addEventListener('input', (e)=>{
+    const val = parseInt(e.target.value)||0;
+    matches[i].sets[setIndex].awayPoints = val;
+    updateFinalScore(i, matchDiv);
+  });
+  setDiv.querySelector('.removeSetBtn').addEventListener('click', ()=>{
+    matches[i].sets.splice(setIndex,1);
+    setsContainer.removeChild(setDiv);
+    updateFinalScore(i, matchDiv);
+    updateJSONPreview();
+  });
+}
+
+function updateFinalScore(i, matchDiv){
+  let homeScore=0, awayScore=0;
+  matches[i].sets.forEach(s=>{
+    if(s.homePoints>s.awayPoints) homeScore++;
+    else if(s.awayPoints>s.homePoints) awayScore++;
+  });
+  matches[i].homeScore=homeScore;
+  matches[i].awayScore=awayScore;
+  matchDiv.querySelector('.finalScore').textContent = `${homeScore} - ${awayScore}`;
+  updateJSONPreview();
+}
+
+function updateJSONPreview(){
+  const gamedayTitle = document.getElementById('gamedayTitle').value;
+  const gameday = { title:gamedayTitle, games:matches };
+  document.getElementById('jsonPreview').textContent = JSON.stringify(gameday,null,2);
+  return gameday;
+}
+
+// Add match button
+document.getElementById('addMatch').addEventListener('click', ()=>{
+  if(matches.length>=5){ alert('Μπορείτε να προσθέσετε μέχρι 5 αγώνες ανά αγωνιστική.'); return; }
+  createMatch(matches.length);
+});
+
+// Upload JSON to GitHub
+document.getElementById('uploadJson').addEventListener('click', async ()=>{
+  const token = document.getElementById('token').value.trim();
+  const owner = document.getElementById('owner').value.trim();
+  const repo = document.getElementById('repo').value.trim();
+  const branch = document.getElementById('branch').value.trim() || 'main';
+  const gameday = updateJSONPreview();
+
+  const statusDiv = document.getElementById('status');
+  if(!token || !owner || !repo){ statusDiv.textContent='Συμπληρώστε όλα τα στοιχεία GitHub!'; statusDiv.className='status error'; return; }
+
+  statusDiv.textContent='Ανέβασμα στο GitHub...'; statusDiv.className='status info';
+
+  try{
+    const path = 'volleyball-results.json';
+    let sha=null;
+
+    // Check if file exists to get SHA
+    const getResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`, {
+      headers:{ Authorization:`token ${token}`, Accept:'application/vnd.github.v3+json' }
+    });
+    if(getResp.ok){
+      const data = await getResp.json();
+      sha = data.sha;
+    }
+
+    // Upload
+    const uploadResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+      method:'PUT',
+      headers:{ Authorization:`token ${token}`, Accept:'application/vnd.github.v3+json' },
+      body: JSON.stringify({
+        message: `Update volleyball results - ${gameday.title}`,
+        content:btoa(unescape(encodeURIComponent(JSON.stringify([gameday],null,2)))),
+        branch:branch,
+        ...(sha?{sha}:{}),
+      })
+    });
+    if(uploadResp.ok){
+      statusDiv.textContent='✅ Επιτυχής ανέβασμα στο GitHub!';
+      statusDiv.className='status success';
+    } else {
+      const err = await uploadResp.json();
+      statusDiv.textContent=`❌ Σφάλμα: ${err.message}`;
+      statusDiv.className='status error';
+    }
+  } catch(e){
+    statusDiv.textContent=`❌ Σφάλμα: ${e.message}`;
+    statusDiv.className='status error';
+  }
+});
+
+// Initialize one match by default
+createMatch(0);
+</script>
+</body>
+</html>

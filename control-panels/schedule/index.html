@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🏐 Volleyball Gameday Schedule Control Panel</title>
+<style>
+body {
+  font-family:'Inter',sans-serif;
+  background:#0f172a;
+  color:#f8fafc;
+  padding:40px;
+}
+h1 {
+  color:#3b82f6;
+  margin-bottom:20px;
+}
+.panel {
+  background:#1e293b;
+  padding:20px;
+  border-radius:12px;
+  max-width:900px;
+}
+.match {
+  border:1px solid #334155;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+}
+label {
+  display:block;
+  margin-top:10px;
+  font-weight:600;
+}
+select,input {
+  width:100%;
+  padding:8px;
+  margin-top:5px;
+  border-radius:6px;
+  border:none;
+  background:#334155;
+  color:#fff;
+}
+button {
+  margin-top:15px;
+  padding:10px 20px;
+  border:none;
+  border-radius:8px;
+  background:#3b82f6;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+button:hover {
+  background:#2563eb;
+}
+pre {
+  background:#0f172a;
+  color:#94a3b8;
+  padding:10px;
+  border-radius:6px;
+  overflow:auto;
+  max-height:300px;
+}
+.credentials {
+  background:#1e293b;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:20px;
+  border:1px solid #334155;
+}
+.credentials h3 {
+  margin-bottom:10px;
+  color:#60a5fa;
+}
+</style>
+</head>
+<body>
+<h1>🏐 Volleyball Gameday Schedule Editor</h1>
+
+<div class="credentials">
+  <h3>🔐 GitHub Connection</h3>
+  <label>GitHub Username</label>
+  <input type="text" id="username" placeholder="e.g. nickkapsis">
+  <label>Repository Name</label>
+  <input type="text" id="repo" placeholder="e.g. volleyball-data">
+  <label>Personal Access Token</label>
+  <input type="password" id="token" placeholder="GitHub PAT (repo scope)">
+</div>
+
+<div class="panel" id="schedulePanel"></div>
+<button id="updateBtn">Update JSON on GitHub</button>
+
+<h2>Generated JSON Preview</h2>
+<pre id="jsonPreview">{}</pre>
+
+<script>
+// === TEAM LIST WITH COLORS ===
+const teams = [
+  { name: "ΠΑΟΚ", key: "paok", color: "#1a1a1a" },
+  { name: "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ", key: "foinikas", color: "#FF4500" },
+  { name: "ΠΑΝΑΘΗΝΑΪΚΟΣ AO", key: "panathinaikos", color: "#16a34a" },
+  { name: "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON", key: "floisvos", color: "#1E90FF" },
+  { name: "ΑΟΝΣ ΜΙΛΩΝ", key: "milon", color: "#228B22" },
+  { name: "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA", key: "kalamata", color: "#32CD32" },
+  { name: "ΠΑΝΙΩΝΙΟΣ", key: "panionios", color: "#DC143C" },
+  { name: "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ", key: "olympiakos", color: "#dc1414" },
+  { name: "ΟΦΗ", key: "ofi", color: "#2c2c2c" },
+  { name: "ΑΟΠ ΚΗΦΙΣΙΑΣ", key: "kifisia", color: "#4169E1" }
+];
+
+// === BUILD 5 MATCH BOXES ===
+const panel = document.getElementById('schedulePanel');
+for (let i = 0; i < 5; i++) {
+  const div = document.createElement('div');
+  div.className = 'match';
+  div.innerHTML = `
+    <h3>Match ${i+1}</h3>
+    <label>Home Team</label>
+    <select class="home">
+      <option value="">Select Home Team</option>
+      ${teams.map(t => `<option value="${t.key}">${t.name}</option>`).join('')}
+    </select>
+    <label>Away Team</label>
+    <select class="away">
+      <option value="">Select Away Team</option>
+      ${teams.map(t => `<option value="${t.key}">${t.name}</option>`).join('')}
+    </select>
+    <label>Date (dd/mm)</label>
+    <input type="text" class="date" placeholder="e.g. 05/11">
+    <label>Time (hh:mm)</label>
+    <input type="text" class="time" placeholder="e.g. 19:30">
+    <label>Court</label>
+    <input type="text" class="court" placeholder="e.g. Στάδιο Ειρήνης και Φιλίας">
+  `;
+  panel.appendChild(div);
+}
+
+// === BUILD JSON ===
+function buildJSON() {
+  const matches = [];
+  document.querySelectorAll('.match').forEach(div => {
+    const homeKey = div.querySelector('.home').value;
+    const awayKey = div.querySelector('.away').value;
+    const date = div.querySelector('.date').value.trim();
+    const time = div.querySelector('.time').value.trim();
+    const court = div.querySelector('.court').value.trim();
+
+    const homeTeam = teams.find(t => t.key === homeKey);
+    const awayTeam = teams.find(t => t.key === awayKey);
+
+    if (homeTeam && awayTeam && date && time && court) {
+      matches.push({
+        home: { 
+          name: homeTeam.name, 
+          logo: `logos/${homeTeam.key}.png`,
+          color: homeTeam.color 
+        },
+        away: { 
+          name: awayTeam.name, 
+          logo: `logos/${awayTeam.key}.png`,
+          color: awayTeam.color
+        },
+        date, time, court
+      });
+    }
+  });
+  return { matches };
+}
+
+// === PREVIEW JSON ===
+function updatePreview() {
+  const json = buildJSON();
+  document.getElementById('jsonPreview').textContent = JSON.stringify(json, null, 2);
+}
+document.querySelectorAll('select,input').forEach(el => el.addEventListener('input', updatePreview));
+
+// === GITHUB UPLOAD ===
+async function updateGithubFile() {
+  const user = document.getElementById('username').value.trim();
+  const repo = document.getElementById('repo').value.trim();
+  const token = document.getElementById('token').value.trim();
+
+  if (!user || !repo || !token) {
+    alert("⚠️ Please fill in your GitHub username, repo name, and token first.");
+    return;
+  }
+
+  const json = buildJSON();
+  if (!json.matches.length) {
+    alert("⚠️ Please fill in at least one complete match before uploading.");
+    return;
+  }
+
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(json, null, 2))));
+  const path = "gameday/schedule.json";
+  const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+
+  let sha = null;
+  const getRes = await fetch(url, {
+    headers: { Authorization: `token ${token}` }
+  });
+  if (getRes.status === 200) {
+    const data = await getRes.json();
+    sha = data.sha;
+  }
+
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Authorization": `token ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: "Update gameday/schedule.json",
+      content,
+      sha
+    })
+  });
+
+  const data = await res.json();
+  if (res.ok) {
+    alert("✅ gameday/schedule.json successfully updated on GitHub!");
+  } else {
+    console.error(data);
+    alert("❌ Failed to update file. Check console for details.");
+  }
+}
+
+document.getElementById('updateBtn').addEventListener('click', updateGithubFile);
+</script>
+</body>
+</html>
