@@ -471,7 +471,7 @@
             showStatus('info', 'Loading from GitHub...');
 
             try {
-                const url = `https://api.github.com/repos/${owner}/${repo}/contents/volleyball-standings.json`;
+                const url = `https://api.github.com/repos/${owner}/${repo}/contents/standings/volleyball-standings.json`;
                 const response = await fetch(url, {
                     headers: {
                         'Authorization': `token ${token}`,
@@ -515,7 +515,7 @@
             showStatus('info', 'Uploading to GitHub...');
 
             try {
-                const url = `https://api.github.com/repos/${owner}/${repo}/contents/volleyball-standings.json`;
+                const url = `https://api.github.com/repos/${owner}/${repo}/contents/standings/volleyball-standings.json`;
                 
                 let sha = null;
                 try {
