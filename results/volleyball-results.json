@@ -21,6 +21,26 @@
         ],
         "homeScore": 3,
         "awayScore": 0
+      },
+      {
+        "homeTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "awayTeam": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+        "sets": [
+          {
+            "homePoints": 25,
+            "awayPoints": 22
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 17
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 13
+          }
+        ],
+        "homeScore": 3,
+        "awayScore": 0
       }
     ]
   }
