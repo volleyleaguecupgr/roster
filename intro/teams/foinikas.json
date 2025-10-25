@@ -1,0 +1,20 @@
+{
+  "homeTeam": {
+    "name": "Π.Α.Ο.Κ.",
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png",
+    "subtitle": " ",
+    "latestMatch": "1760969528859"
+  },
+  "awayTeam": {
+    "name": "Φοίνικας Σύρου",
+    "slug": "foinikas",
+    "color": "#2e3192",
+    "logo": "foinikas.png",
+    "subtitle": "A.O.",
+    "latestMatch": "1760969528859"
+  },
+  "date": "24 Οκτωβρίου 2025",
+  "league": "1η ΑΓΩΝΙΣΤΙΚΗ"
+}

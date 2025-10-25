@@ -1,0 +1,20 @@
+{
+  "homeTeam": {
+    "name": "Μίλων",
+    "slug": "milon",
+    "color": "#00772b",
+    "logo": "milon.png",
+    "subtitle": "Α.Ο.ΝΣ.",
+    "latestMatch": "1760970484489"
+  },
+  "awayTeam": {
+    "name": "Καλαμάτα",
+    "slug": "kalamata",
+    "color": "#008428",
+    "logo": "kalamata.png",
+    "subtitle": "'80 AFFIDEA",
+    "latestMatch": "1760970484489"
+  },
+  "date": "26 Οκτωβρίου 2025",
+  "league": "1η ΑΓΩΝΙΣΤΙΚΗ"
+}
