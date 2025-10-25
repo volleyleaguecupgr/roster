@@ -182,7 +182,7 @@ async function uploadToGitHub(){
 
     showStatus('info', '⏳ Uploading to GitHub...');
 
-    const url=`https://api.github.com/repos/${owner}/${repo}/contents/gameday.json`;
+    const url=`https://api.github.com/repos/${owner}/${repo}/contents/referees/gameday.json`;
     let sha=null;
     
     try{
