@@ -15,7 +15,6 @@
     {"number":2,"name":"Δημήτριος Κομητούδης","nationality":"GRE","position":"Πασαδόρος","birthdate":"04/10/1995","height":"1,94","team":"Α.Ο.Π. Κηφισιάς"},
     {"number":4,"name":"Yannick Goralik","nationality":"GER","position":"Κεντρικός","birthdate":"23/10/1997","height":"2,06","team":"VK Trox Priblam (CZE)"},
     {"number":5,"name":"Νικόλαος Καούνης","nationality":"GRE","position":"Λίμπερο","birthdate":"18/02/2003","height":"1,80","team":"Α.Σ. Πανερυθραϊκός"},
-    {"number":7,"name":"Mauricio Vieyto","nationality":"URU","position":"Ακραίος","birthdate":"05/12/1996","height":"1,91","team":"Α.Ο. Καλαμάτα 80"},
     {"number":8,"name":"Κωνσταντίνος Δαλακούρας","nationality":"GRE","position":"Ακραίος","birthdate":"08/01/1990","height":"1,97","team":"Α.Ο. Καλαμάτα 80"},
     {"number":10,"name":"Liam Espedido","nationality":"CAN","position":"Διαγώνιος","birthdate":"31/01/2002","height":"2,05","team":"Alberta Univ. (CAN)"},
     {"number":11,"name":"Άγγελος Μάρκου","nationality":"GRE","position":"Διαγώνιος","birthdate":"01/07/2003","height":"1,96","team":"Α.Ο. Καλαμάτα 80"},
@@ -23,6 +22,7 @@
     {"number":13,"name":"Απόστολος Πετσιάς","nationality":"GRE","position":"Πασαδόρος","birthdate":"29/07/2003","height":"1,93","team":"Σ.Φ.Φ.Α. Άμιλλα Τρικάλων"},
     {"number":14,"name":"Blake Leeson","nationality":"USA","position":"Κεντρικός","birthdate":"07/06/1995","height":"2,03","team":"SVG Luneburg (GER)"},
     {"number":17,"name":"Ευάγγελος Ντάκουρης","nationality":"GRE","position":"Λίμπερο","birthdate":"24/08/1992","height":"1,84","team":"Α.Ο. Καλαμάτα 80"},
+    {"number":19,"name":"Kovacevic Filip","nationality":"SRB","position":"Ακραίος","birthdate":"19/03/1996","height":"2,01","team":"CSM Corona Brașov"},
     {"number":22,"name":"Kristof Horvath","nationality":"HUN","position":"Ακραίος","birthdate":"02/09/1999","height":"1,96","team":"Lokomotiv Avia (BUL)"},
     {"number":44,"name":"Βασίλειος Μανωλάκης","nationality":"GRE","position":"Κεντρικός","birthdate":"08/12/1994","height":"1,99","team":"Α.Ο. Καλαμάτα 80"},
     {"number":77,"name":"Κωνσταντίνος Παύλου","nationality":"GRE","position":"Ακραίος","birthdate":"07/10/1996","height":"1,90","team":"Α.Σ. Πανερυθραϊκός"}
