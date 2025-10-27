@@ -10,6 +10,26 @@
     "matches": 1
   },
   {
+    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
+    "points": 3,
+    "matches": 1
+  },
+  {
+    "team": "ΑΟΝΣ ΜΙΛΩΝ",
+    "points": 2,
+    "matches": 1
+  },
+  {
+    "team": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
+    "points": 1,
+    "matches": 1
+  },
+  {
+    "team": "ΠΑΝΙΩΝΙΟΣ",
+    "points": 0,
+    "matches": 1
+  },
+  {
     "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
     "points": 0,
     "matches": 1
@@ -20,32 +40,12 @@
     "matches": 1
   },
   {
-    "team": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
-    "points": 0,
-    "matches": 0
-  },
-  {
-    "team": "ΑΟΝΣ ΜΙΛΩΝ",
-    "points": 0,
-    "matches": 0
-  },
-  {
     "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
     "points": 0,
     "matches": 0
   },
   {
     "team": "ΟΦΗ",
-    "points": 0,
-    "matches": 0
-  },
-  {
-    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-    "points": 0,
-    "matches": 0
-  },
-  {
-    "team": "ΠΑΝΙΩΝΙΟΣ",
     "points": 0,
     "matches": 0
   }
