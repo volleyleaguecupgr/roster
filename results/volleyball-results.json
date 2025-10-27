@@ -41,6 +41,54 @@
         ],
         "homeScore": 3,
         "awayScore": 0
+      },
+      {
+        "homeTeam": "",
+        "awayTeam": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
+        "sets": [
+          {
+            "homePoints": 25,
+            "awayPoints": 27
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 16
+          },
+          {
+            "homePoints": 28,
+            "awayPoints": 30
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 16
+          },
+          {
+            "homePoints": 16,
+            "awayPoints": 14
+          }
+        ],
+        "homeScore": 3,
+        "awayScore": 2
+      },
+      {
+        "homeTeam": "ΠΑΝΙΩΝΙΟΣ",
+        "awayTeam": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ",
+        "sets": [
+          {
+            "homePoints": 24,
+            "awayPoints": 26
+          },
+          {
+            "homePoints": 17,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 22,
+            "awayPoints": 25
+          }
+        ],
+        "homeScore": 0,
+        "awayScore": 3
       }
     ]
   }
