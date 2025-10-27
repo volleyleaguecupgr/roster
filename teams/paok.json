@@ -1,0 +1,18 @@
+{
+  "homeTeam": {
+    "name": "Κηφισιά",
+    "slug": "kifisia",
+    "color": "#283980",
+    "logo": "kifisia.png",
+    "subtitle": "A.Ο.Π.Σ."
+  },
+  "awayTeam": {
+    "name": "Π.Α.Ο.Κ.",
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png",
+    "subtitle": "Α.Σ."
+  },
+  "date": "31 Οκτωβρίου 2025",
+  "league": "2η ΑΓΩΝΙΣΤΙΚΗ"
+}
