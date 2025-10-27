@@ -1,20 +1,18 @@
 {
   "homeTeam": {
+    "name": "Κηφισιά",
+    "slug": "kifisia",
+    "color": "#283980",
+    "logo": "kifisia.png",
+    "subtitle": "A.Ο.Π.Σ."
+  },
+  "awayTeam": {
     "name": "Π.Α.Ο.Κ.",
     "slug": "paok",
     "color": "#000000",
     "logo": "paok.png",
-    "subtitle": " ",
-    "latestMatch": "1760969528859"
+    "subtitle": "Α.Σ."
   },
-  "awayTeam": {
-    "name": "Φοίνικας Σύρου",
-    "slug": "foinikas",
-    "color": "#2e3192",
-    "logo": "foinikas.png",
-    "subtitle": "A.O.",
-    "latestMatch": "1760969528859"
-  },
-  "date": "24 Οκτωβρίου 2025",
-  "league": "1η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "31 Οκτωβρίου 2025",
+  "league": "2η ΑΓΩΝΙΣΤΙΚΗ"
 }
