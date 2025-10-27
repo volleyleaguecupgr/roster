@@ -162,8 +162,8 @@
         { name: "Παναθηναϊκός", slug: "panathinaikos", color: "#16a34a", logo: "panathinaikos.png", subtitle: "Α.Ο." },
         { name: "Ολυμπιακός", slug: "olympiakos", color: "#dc1414", logo: "olympiakos.png", subtitle: "Σ.Φ.Π ΟΝΕΧ" },
         { name: "Π.Α.Ο.Κ.", slug: "paok", color: "#000000", logo: "paok.png", subtitle: "Α.Σ." },
-        { name: "Καλαμάτα", slug: "kalamata", color: "#008428", logo: "kalamata.png", subtitle: "A.O. '80" },
-        { name: "Φλοίσβος", slug: "floisvos", color: "#3a55a8", logo: "floisvos.png", subtitle: "A. O." },
+        { name: "Καλαμάτα", slug: "kalamata", color: "#008428", logo: "kalamata.png", subtitle: "A.O. '80 AFFIDEA" },
+        { name: "Φλοίσβος", slug: "floisvos", color: "#3a55a8", logo: "floisvos.png", subtitle: "A. O. MEMBERS PARON" },
         { name: "Φοίνικας Σύρου", slug: "foinikas", color: "#2e3192", logo: "foinikas.png", subtitle: "A.O." },
         { name: "Κηφισιά", slug: "kifisia", color: "#283980", logo: "kifisia.png", subtitle: "A.Ο.Π.Σ." },
         { name: "Μίλων", slug: "milon", color: "#00772b", logo: "milon.png", subtitle: "Α.Ο.Ν.Σ" },
@@ -310,8 +310,8 @@
         const { username, repo, token } = githubConfig;
         const branch = "main";
         const jsonData = { homeTeam: matchData.homeTeam, awayTeam: matchData.awayTeam, date: formatGreekDate(new Date(matchData.date)), league: matchData.league };
-        const homePath = `teams/${homeSlug}.json`;
-        const awayPath = `teams/${awaySlug}.json`;
+        const homePath = `intro/teams/${homeSlug}.json`;
+        const awayPath = `intro/teams/${awaySlug}.json`;
 
         // Step 1: get branch ref
         const branchInfo = await ghGet(`repos/${username}/${repo}/git/ref/heads/${branch}`, token);
