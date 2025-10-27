@@ -1,20 +1,20 @@
 {
   "homeTeam": {
+    "name": "Ολυμπιακός",
+    "slug": "olympiakos",
+    "color": "#dc1414",
+    "logo": "olympiakos.png",
+    "subtitle": "Σ.Φ.Π ΟΝΕΧ",
+    "latestMatch": "1761573007922"
+  },
+  "awayTeam": {
     "name": "Παναθηναϊκός",
     "slug": "panathinaikos",
     "color": "#16a34a",
     "logo": "panathinaikos.png",
-    "subtitle": "A.O.",
-    "latestMatch": "1760974048153"
+    "subtitle": "Α.Ο.",
+    "latestMatch": "1761573007922"
   },
-  "awayTeam": {
-    "name": "Φλοίσβος",
-    "slug": "floisvos",
-    "color": "#3a55a8",
-    "logo": "floisvos.png",
-    "subtitle": "MEMBERS PARON",
-    "latestMatch": "1760974048153"
-  },
-  "date": "25 Οκτωβρίου 2025",
-  "league": "1η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "2 Νοεμβρίου 2025",
+  "league": "2η ΑΓΩΝΙΣΤΙΚΗ"
 }
