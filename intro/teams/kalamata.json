@@ -1,20 +1,18 @@
 {
   "homeTeam": {
-    "name": "Μίλων",
-    "slug": "milon",
-    "color": "#00772b",
-    "logo": "milon.png",
-    "subtitle": "Α.Ο.ΝΣ.",
-    "latestMatch": "1760970484489"
-  },
-  "awayTeam": {
     "name": "Καλαμάτα",
     "slug": "kalamata",
     "color": "#008428",
     "logo": "kalamata.png",
-    "subtitle": "'80 AFFIDEA",
-    "latestMatch": "1760970484489"
+    "subtitle": "A.O. '80 AFFIDEA"
   },
-  "date": "26 Οκτωβρίου 2025",
-  "league": "1η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Φλοίσβος",
+    "slug": "floisvos",
+    "color": "#3a55a8",
+    "logo": "floisvos.png",
+    "subtitle": "A. O. MEMBERS PARON"
+  },
+  "date": "1 Νοεμβρίου 2025",
+  "league": "2η ΑΓΩΝΙΣΤΙΚΗ"
 }

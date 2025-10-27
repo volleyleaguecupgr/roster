@@ -1,20 +1,18 @@
 {
   "homeTeam": {
-    "name": "Παναθηναϊκός",
-    "slug": "panathinaikos",
-    "color": "#16a34a",
-    "logo": "panathinaikos.png",
-    "subtitle": "A.O.",
-    "latestMatch": "1760974048153"
+    "name": "Καλαμάτα",
+    "slug": "kalamata",
+    "color": "#008428",
+    "logo": "kalamata.png",
+    "subtitle": "A.O. '80 AFFIDEA"
   },
   "awayTeam": {
     "name": "Φλοίσβος",
     "slug": "floisvos",
     "color": "#3a55a8",
     "logo": "floisvos.png",
-    "subtitle": "MEMBERS PARON",
-    "latestMatch": "1760974048153"
+    "subtitle": "A. O. MEMBERS PARON"
   },
-  "date": "25 Οκτωβρίου 2025",
-  "league": "1η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "1 Νοεμβρίου 2025",
+  "league": "2η ΑΓΩΝΙΣΤΙΚΗ"
 }
