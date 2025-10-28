@@ -5,142 +5,159 @@
     "secondary": "#DA291C"
   },
   "logo": "foinikas.png",
-  "avgAge": "26.4",
+  "avgAge": "27.3",
   "avgHeight": "1.95",
   "coach": {
-    "name": "Παναγιώτης Καλαφατάκης",
+    "name": "Αθανάσιος Τερζής",
     "role": "ΠΡΟΠΟΝΗΤΗΣ"
   },
   "players": [
     {
       "number": 1,
-      "name": "Ζίγκα Στερν",
-      "nationality": "SLO",
+      "name": "Χρήστος Σαλταφερίδης",
+      "nationality": "GRE",
       "position": "Ακραίος",
-      "birthdate": "02/01/1994",
-      "height": "1,93",
-      "team": "Hebar Pazardzhik (BUL)"
+      "birthdate": "19/01/2002",
+      "height": "1,95",
+      "team": "Π.Α.Ο.Κ."
     },
     {
-      "number": 2,
-      "name": "Παναγιώτης Παπαδόπουλος",
-      "nationality": "GRE",
-      "position": "Κεντρικός",
-      "birthdate": "11/04/2001",
-      "height": "2,01",
-      "team": "Μίλωνας"
+      "number": 3,
+      "name": "Thomas Nevot",
+      "nationality": "FRA",
+      "position": "Πασαδόρος",
+      "birthdate": "30/04/1995",
+      "height": "1,92",
+      "team": "Emma Villas Siena"
     },
     {
       "number": 4,
-      "name": "Δημήτρης Μπονέτης",
+      "name": "Αντώνιος Μπουράκης",
       "nationality": "GRE",
       "position": "Λίμπερο",
-      "birthdate": "10/10/2003",
+      "birthdate": "28/05/1998",
       "height": "1,80",
-      "team": "Φοίνικας Σύρου"
+      "team": "Α.Ο. Φοίνικας Σύρου"
     },
     {
       "number": 5,
-      "name": "Τζούλιαν Ζιρίχ",
-      "nationality": "USA",
-      "position": "Διαγώνιος",
-      "birthdate": "15/03/1997",
-      "height": "2,05",
-      "team": "Friedrichshafen (GER)"
+      "name": "Renan Moralez Michelucci",
+      "nationality": "BRA",
+      "position": "Κεντρικός",
+      "birthdate": "09/01/1994",
+      "height": "2,00",
+      "team": "Alterna Stade Poitevin (FRA)"
     },
     {
       "number": 6,
-      "name": "Γιώργος Στεφάνου",
+      "name": "Θεοφάνης Ρουσόπουλος",
       "nationality": "GRE",
-      "position": "Λίμπερο",
-      "birthdate": "15/07/1986",
-      "height": "1,84",
-      "team": "Φοίνικας Σύρου"
+      "position": "Πασαδόρος",
+      "birthdate": "21/07/2000",
+      "height": "1,90",
+      "team": "Α.Ο. Φοίνικας Σύρου"
     },
     {
-      "number": 7,
-      "name": "Ανδρέας Φράγκος",
+      "number": 8,
+      "name": "Πέτρος Αναγνώστου",
       "nationality": "GRE",
-      "position": "Ακραίος",
-      "birthdate": "21/12/1989",
-      "height": "1,97",
-      "team": "Φοίνικας Σύρου"
+      "position": "Κεντρικός",
+      "birthdate": "15/05/2000",
+      "height": "2,02",
+      "team": "Ο.Φ.Η."
     },
     {
       "number": 9,
-      "name": "Άλφρεντ Μεντράνο",
-      "nationality": "CUB",
-      "position": "Κεντρικός",
-      "birthdate": "27/08/1999",
-      "height": "2,06",
-      "team": "Φοίνικας Σύρου"
+      "name": "Axel Truhtchev",
+      "nationality": "FRA",
+      "position": "Ακραίος",
+      "birthdate": "29/04/1995",
+      "height": "1,96",
+      "team": "Batroun (LBN)"
     },
     {
-      "number": 10,
-      "name": "Ραφαέλ Αράγια",
-      "nationality": "CHI",
-      "position": "Πασαδόρος",
-      "birthdate": "09/01/2000",
-      "height": "1,90",
-      "team": "Club Manquehue (CHI)"
-    },
-    {
-      "number": 12,
-      "name": "Γιάννης Μπουράκης",
+      "number": 15,
+      "name": "Ευάγγελος Ρούσος",
       "nationality": "GRE",
       "position": "Ακραίος",
-      "birthdate": "19/03/1997",
-      "height": "1,96",
-      "team": "Φοίνικας Σύρου"
-    },
-    {
-      "number": 14,
-      "name": "Σπύρος Μπαρδούκας",
-      "nationality": "GRE",
-      "position": "Πασαδόρος",
-      "birthdate": "01/09/2001",
-      "height": "1,88",
-      "team": "Φοίνικας Σύρου"
-    },
-    {
-      "number": 16,
-      "name": "Κέβιν Ροντρίγκεζ",
-      "nationality": "PUR",
-      "position": "Διαγώνιος",
-      "birthdate": "12/06/1995",
-      "height": "2,02",
-      "team": "Guaynabo Mets (PUR)"
+      "birthdate": "27/08/2005",
+      "height": "1,93",
+      "team": "Ν.Γ.Σ.Θ. Ηρακλής"
     },
     {
       "number": 17,
-      "name": "Αντρέι Ποπόφ",
-      "nationality": "BUL",
+      "name": "Βασίλειος Κωστόπουλος",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "16/02/1995",
+      "height": "1,98",
+      "team": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
+    },
+    {
+      "number": 18,
+      "name": "Νικόλαος Μήλης",
+      "nationality": "GRE",
+      "position": "Διαγώνιος",
+      "birthdate": "04/11/1996",
+      "height": "1,93",
+      "team": "Α.Ο. Φοίνικας Σύρου"
+    },
+    {
+      "number": 19,
+      "name": "Bram Van De Dries",
+      "nationality": "BEL",
+      "position": "Διαγώνιος",
+      "birthdate": "14/08/1989",
+      "height": "2,08",
+      "team": "Burgan Sport Club"
+    },
+    {
+      "number": 20,
+      "name": "Μαρτίν Αλιάι",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "20/07/2000",
+      "height": "1,80",
+      "team": "Α.Σ. Άρης"
+    },
+    {
+      "number": 25,
+      "name": "Μιχαήλ Καγιαλής",
+      "nationality": "GRE",
       "position": "Κεντρικός",
-      "birthdate": "18/11/1998",
-      "height": "2,03",
-      "team": "Φοίνικας Σύρου"
+      "birthdate": "24/06/2000",
+      "height": "2,00",
+      "team": "Α.Ο.Π. Κηφισιάς"
     }
   ],
   "staff": [
     {
       "role": "Βοηθός Προπονητή",
-      "name": "Αλέξανδρος Ράπτης"
+      "name": "Alejandro Schneider (ARG)"
     },
     {
       "role": "Στατιστικολόγος",
-      "name": "Σταυρούλα Μπεκιάρη"
+      "name": "Άννα Μουστάκα"
     },
     {
       "role": "Team Manager",
-      "name": "Νίκος Παπαδόπουλος"
+      "name": "Εμμανουήλ Βαμβακούσης"
     },
     {
       "role": "Φυσιοθεραπευτής",
-      "name": "Αντώνης Κατσαράς"
+      "name": "Ιωάννα Ζακαλκά"
     },
     {
       "role": "Γυμναστής",
-      "name": "Δημήτρης Κουρνέτας"
+      "name": "Βασίλειος Κοντζαπαναγιώτης"
+    },
+    {
+      "role": "Φροντιστής",
+      "name": "Ιωάννης Ρούσσος"
+    },
+    {
+      "role": "Φροντιστής",
+      "name": "Νικόλαος Ρούσσος"
     }
   ]
 }
