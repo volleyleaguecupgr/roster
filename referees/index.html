@@ -320,14 +320,14 @@
         } */
 
         const githubOwner = "volleyleaguecupgr";
-        const githubRepo = "referees";
+        const githubRepo = "roster";
         const branch = "main";
 
         const urlParams = new URLSearchParams(window.location.search);
         const teamParam = urlParams.get('team')?.toLowerCase();
 
         async function fetchGameday() {
-            const url = `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${branch}/gameday.json`;
+            const url = `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${branch}/referees/gameday.json`;
             const res = await fetch(url);
             if (!res.ok) throw new Error("Could not fetch gameday.json");
             return await res.json();
