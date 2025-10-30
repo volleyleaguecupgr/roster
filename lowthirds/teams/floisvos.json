@@ -1,144 +1,17 @@
 {
-  "name": "Α.Ο. Φλοίσβος Π. Φαλήρου",
+  "name": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου",
+  "season": "2025-26",
   "colors": {
     "primary": "#1E90FF",
     "secondary": "#FFFFFF"
   },
-  "logo": null,
-  "avgAge": "32.1",
+  "logo": "floisvos.png",
+  "avgAge": "31.9",
   "avgHeight": "1.96",
   "coach": {
     "name": "Κωνσταντίνος Αρσενιάδης",
     "role": "ΠΡΟΠΟΝΗΤΗΣ"
   },
-  "players": [
-    {
-      "number": 1,
-      "name": "Χρήστος Σαλταφερίδης",
-      "nationality": "GRE",
-      "position": "Ακραίος",
-      "birthdate": "19/01/2002",
-      "height": "1,95",
-      "team": "Π.Α.Ο.Κ."
-    },
-    {
-      "number": 3,
-      "name": "Thomas Nevot",
-      "nationality": "FRA",
-      "position": "Πασαδόρος",
-      "birthdate": "30/04/1995",
-      "height": "1,92",
-      "team": "Emma Villas Siena"
-    },
-    {
-      "number": 4,
-      "name": "Αντώνιος Μπουράκης",
-      "nationality": "GRE",
-      "position": "Λίμπερο",
-      "birthdate": "28/05/1998",
-      "height": "1,80",
-      "team": "Α.Ο. Φοίνικας Σύρου"
-    },
-    {
-      "number": 5,
-      "name": "Renan Moralez Michelucci",
-      "nationality": "BRA",
-      "position": "Κεντρικός",
-      "birthdate": "09/01/1994",
-      "height": "2,00",
-      "team": "Alterna Stade Poitevin (FRA)"
-    },
-    {
-      "number": 6,
-      "name": "Θεοφάνης Ρουσόπουλος",
-      "nationality": "GRE",
-      "position": "Πασαδόρος",
-      "birthdate": "21/07/2000",
-      "height": "1,90",
-      "team": "Α.Ο. Φοίνικας Σύρου"
-    },
-    {
-      "number": 8,
-      "name": "Πέτρος Αναγνώστου",
-      "nationality": "GRE",
-      "position": "Κεντρικός",
-      "birthdate": "15/05/2000",
-      "height": "2,02",
-      "team": "Ο.Φ.Η."
-    },
-    {
-      "number": 9,
-      "name": "Axel Truhtchev",
-      "nationality": "FRA",
-      "position": "Ακραίος",
-      "birthdate": "29/04/1995",
-      "height": "1,96",
-      "team": "Batroun (LBN)"
-    },
-    {
-      "number": 15,
-      "name": "Ευάγγελος Ρούσος",
-      "nationality": "GRE",
-      "position": "Ακραίος",
-      "birthdate": "27/08/2005",
-      "height": "1,93",
-      "team": "Ν.Γ.Σ.Θ. Ηρακλής"
-    },
-    {
-      "number": 17,
-      "name": "Βασίλειος Κωστόπουλος",
-      "nationality": "GRE",
-      "position": "Ακραίος",
-      "birthdate": "16/02/1995",
-      "height": "1,98",
-      "team": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
-    },
-    {
-      "number": 18,
-      "name": "Νικόλαος Μήλης",
-      "nationality": "GRE",
-      "position": "Διαγώνιος",
-      "birthdate": "04/11/1996",
-      "height": "1,93",
-      "team": "Α.Ο. Φοίνικας Σύρου"
-    },
-    {
-      "number": 19,
-      "name": "Bram Van De Dries",
-      "nationality": "BEL",
-      "position": "Διαγώνιος",
-      "birthdate": "14/08/1989",
-      "height": "2,08",
-      "team": "Burgan Sport Club"
-    },
-    {
-      "number": 20,
-      "name": "Μαρτίν Αλιάι",
-      "nationality": "GRE",
-      "position": "Λίμπερο",
-      "birthdate": "20/07/2000",
-      "height": "1,80",
-      "team": "Α.Σ. Άρης"
-    },
-    {
-      "number": 25,
-      "name": "Μιχαήλ Καγιαλής",
-      "nationality": "GRE",
-      "position": "Κεντρικός",
-      "birthdate": "24/06/2000",
-      "height": "2,00",
-      "team": "Α.Ο.Π. Κηφισιάς"
-    },
-    {
-      "number": 26,
-      "name": "Σωτήριος Σιαπάνης",
-      "nationality": "CYP",
-      "position": "Ακραίος",
-      "birthdate": "25/01/2001",
-      "height": "1,92",
-      "team": "Long Beach State (USA)"
-    }
-  ],
   "staff": [
     {
       "role": "Βοηθός Προπονητή",
@@ -151,6 +24,143 @@
     {
       "role": "Team Manager",
       "name": "Αλέξανδρος Αναγνωστόπουλος"
+    }
+  ],
+  "players": [
+    {
+      "number": 1,
+      "name": "Τσαρκάτογλου Μίλτος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "11/01/1997",
+      "height": "1,97",
+      "team": "Παναχαϊκή Πετοσφαίριση 2013"
+    },
+    {
+      "number": 2,
+      "name": "Kovar Jiri",
+      "nationality": "ITA",
+      "position": "Ακραίος",
+      "birthdate": "10/04/1989",
+      "height": "2,02",
+      "team": "Galatasaray (Τουρκία)"
+    },
+    {
+      "number": 3,
+      "name": "Χαραλαμπίδης Δημήτριος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "03/06/1991",
+      "height": "1,96",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 4,
+      "name": "Μελλές Νικόλαος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "20/01/1995",
+      "height": "1,95",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 5,
+      "name": "Κανελλόπουλος Γεώργιος",
+      "nationality": "GRE",
+      "position": "Πασαδόρος",
+      "birthdate": "30/11/1997",
+      "height": "1,90",
+      "team": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 6,
+      "name": "Van Garderen Maarten",
+      "nationality": "NED",
+      "position": "Ακραίος",
+      "birthdate": "24/01/1990",
+      "height": "2,00",
+      "team": "Παναθηναϊκός Α.Ο."
+    },
+    {
+      "number": 8,
+      "name": "Fraser Garrett",
+      "nationality": "AUS",
+      "position": "Ακραίος",
+      "birthdate": "07/08/2002",
+      "height": "1,92",
+      "team": "NSW Phoenix (Αυστραλία)"
+    },
+    {
+      "number": 9,
+      "name": "Παπαδόπουλος Ηρακλής",
+      "nationality": "GRE",
+      "position": "Διαγώνιος",
+      "birthdate": "02/09/1991",
+      "height": "1,98",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 14,
+      "name": "Αρμενάκης Απόστολος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "19/07/1980",
+      "height": "2,05",
+      "team": "Ολυμπιακός Σ.Φ.Π. ONEX"
+    },
+    {
+      "number": 15,
+      "name": "Vilimanovic Andrija",
+      "nationality": "SRB",
+      "position": "Πασαδόρος",
+      "birthdate": "14/11/1995",
+      "height": "1,95",
+      "team": "OK Nis (Σερβία)"
+    },
+    {
+      "number": 16,
+      "name": "Egleskalns Hermans",
+      "nationality": "LTV",
+      "position": "Διαγώνιος",
+      "birthdate": "08/12/1990",
+      "height": "2,03",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 17,
+      "name": "Παπαδόπουλος Παναγιώτης",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "30/04/1992",
+      "height": "1,98",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 18,
+      "name": "Εφραιμίδης Νικήτας",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "11/02/1989",
+      "height": "1,92",
+      "team": "Πήγασος Πολίχνης"
+    },
+    {
+      "number": 21,
+      "name": "Σωνάκης Αναστάσιος",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "09/11/2001",
+      "height": "1,84",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 22,
+      "name": "Νανόπουλος Δημήτριος",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "20/02/2000",
+      "height": "1,94",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
     }
   ]
 }
