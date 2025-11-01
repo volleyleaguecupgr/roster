@@ -1,10 +1,5 @@
 [
   {
-    "team": "ΠΑΟΚ",
-    "points": 3,
-    "matches": 1
-  },
-  {
     "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
     "points": 3,
     "matches": 1
@@ -13,6 +8,16 @@
     "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
     "points": 3,
     "matches": 1
+  },
+  {
+    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+    "points": 3,
+    "matches": 1
+  },
+  {
+    "team": "ΠΑΟΚ",
+    "points": 3,
+    "matches": 2
   },
   {
     "team": "ΑΟΝΣ ΜΙΛΩΝ",
@@ -38,11 +43,6 @@
     "team": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
     "points": 0,
     "matches": 1
-  },
-  {
-    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-    "points": 0,
-    "matches": 0
   },
   {
     "team": "ΟΦΗ",
