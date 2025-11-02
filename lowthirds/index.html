@@ -40,7 +40,8 @@
         .lower-third {
             position: absolute;
             bottom: 80px;
-            left: 60px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
             width: 600px;
             height: 160px;
             background: rgba(0, 0, 0, 0.85);
@@ -55,7 +56,6 @@
             padding: 20px;
             gap: 20px;
             opacity: 0;
-            transform: translateX(-100px) scale(0.9);
             animation: slideInGlow 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             animation-delay: 0.5s;
             overflow: hidden;
@@ -64,7 +64,7 @@
         @keyframes slideInGlow {
             0% { 
                 opacity: 0; 
-                transform: translateX(-100px) scale(0.9); 
+                transform: translate(-50%, 100px) scale(0.9); 
                 box-shadow: 0 0 0 rgba(59, 130, 246, 0.5);
             }
             70% { 
@@ -72,7 +72,7 @@
             }
             100% { 
                 opacity: 1; 
-                transform: translateX(0) scale(1); 
+                transform: translate(-50%, 0) scale(1); 
                 box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
             }
         }
@@ -229,11 +229,11 @@
         @keyframes slideOutGlow {
             0% { 
                 opacity: 1; 
-                transform: translateX(0) scale(1); 
+                transform: translate(-50%, 0) scale(1); 
             }
             100% { 
                 opacity: 0; 
-                transform: translateX(-100px) scale(0.9); 
+                transform: translate(-50%, 100px) scale(0.9); 
             }
         }
     </style>
@@ -452,7 +452,7 @@
         document.addEventListener('DOMContentLoaded', initialize);
 
         // Auto-restart every 12 seconds for OBS looping
-        setInterval(restartAnimation, 12000);
+        setInterval(restartAnimation, 18000);
 
         // Global function for manual restart
         window.restartPlayerCard = restartAnimation;
