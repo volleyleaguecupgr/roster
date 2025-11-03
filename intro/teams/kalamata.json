@@ -1,18 +1,14 @@
 {
   "homeTeam": {
-    "name": "Καλαμάτα",
-    "slug": "kalamata",
-    "color": "#008428",
-    "logo": "kalamata.png",
-    "subtitle": "A.O. '80 AFFIDEA"
+    "name": "Ο.Φ.Η.",
+    "subtitle": ".",
+    "slug": "ofi"
   },
   "awayTeam": {
-    "name": "Φλοίσβος",
-    "slug": "floisvos",
-    "color": "#3a55a8",
-    "logo": "floisvos.png",
-    "subtitle": "A. O. MEMBERS PARON"
+    "name": "Καλαμάτα",
+    "subtitle": "A.O. '80 AFFIDEA",
+    "slug": "kalamata"
   },
-  "date": "1 Νοεμβρίου 2025",
-  "league": "2η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "8 Νοεμβρίου 2025",
+  "league": "3η ΑΓΩΝΙΣΤΙΚΗ"
 }

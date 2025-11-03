@@ -1,18 +1,14 @@
 {
   "homeTeam": {
-    "name": "Φοίνικας Σύρου",
-    "slug": "foinikas",
-    "color": "#2e3192",
-    "logo": "foinikas.png",
-    "subtitle": "A.O."
+    "name": "Πανιώνιος",
+    "subtitle": "Γ.Σ.Σ.",
+    "slug": "panionios"
   },
   "awayTeam": {
-    "name": "Πανιώνιος",
-    "slug": "panionios",
-    "color": "#db1921",
-    "logo": "panionios.png",
-    "subtitle": "Γ.Σ.Σ."
+    "name": "Κηφισιά",
+    "subtitle": "A.Ο.Π.Σ.",
+    "slug": "kifisia"
   },
-  "date": "2 Νοεμβρίου 2025",
-  "league": "2η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "7 Νοεμβρίου 2025",
+  "league": "3η ΑΓΩΝΙΣΤΙΚΗ"
 }

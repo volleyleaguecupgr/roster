@@ -1,18 +1,14 @@
 {
   "homeTeam": {
-    "name": "Κηφισιά",
-    "slug": "kifisia",
-    "color": "#283980",
-    "logo": "kifisia.png",
-    "subtitle": "A.Ο.Π.Σ."
+    "name": "Π.Α.Ο.Κ.",
+    "subtitle": "Α.Σ.",
+    "slug": "paok"
   },
   "awayTeam": {
-    "name": "Π.Α.Ο.Κ.",
-    "slug": "paok",
-    "color": "#000000",
-    "logo": "paok.png",
-    "subtitle": "Α.Σ."
+    "name": "Μίλων",
+    "subtitle": "Α.Ο.Ν.Σ",
+    "slug": "milon"
   },
-  "date": "31 Οκτωβρίου 2025",
-  "league": "2η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "8 Νοεμβρίου 2025",
+  "league": "3η ΑΓΩΝΙΣΤΙΚΗ"
 }

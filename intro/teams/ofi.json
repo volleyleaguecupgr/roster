@@ -1,18 +1,14 @@
 {
   "homeTeam": {
-    "name": "Μίλων",
-    "slug": "milon",
-    "color": "#00772b",
-    "logo": "milon.png",
-    "subtitle": "Α.Ο.Ν.Σ"
+    "name": "Ο.Φ.Η.",
+    "subtitle": ".",
+    "slug": "ofi"
   },
   "awayTeam": {
-    "name": "Ο.Φ.Η.",
-    "slug": "ofi",
-    "color": "#000000",
-    "logo": "ofi.png",
-    "subtitle": "."
+    "name": "Καλαμάτα",
+    "subtitle": "A.O. '80 AFFIDEA",
+    "slug": "kalamata"
   },
-  "date": "1 Νοεμβρίου 2025",
-  "league": "2η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "8 Νοεμβρίου 2025",
+  "league": "3η ΑΓΩΝΙΣΤΙΚΗ"
 }
