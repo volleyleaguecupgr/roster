@@ -2,12 +2,16 @@
   "homeTeam": {
     "name": "Φλοίσβος",
     "subtitle": "A. O. MEMBERS PARON",
-    "slug": "floisvos"
+    "slug": "floisvos",
+    "color": "#3a55a8",
+    "logo": "floisvos.png"
   },
   "awayTeam": {
     "name": "Ολυμπιακός",
     "subtitle": "Σ.Φ.Π ΟΝΕΧ",
-    "slug": "olympiakos"
+    "slug": "olympiakos",
+    "color": "#E41E26",
+    "logo": "olympiakos.png"
   },
   "date": "9 Νοεμβρίου 2025",
   "league": "3η ΑΓΩΝΙΣΤΙΚΗ"

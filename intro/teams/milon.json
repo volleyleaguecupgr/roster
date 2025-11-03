@@ -2,12 +2,16 @@
   "homeTeam": {
     "name": "Π.Α.Ο.Κ.",
     "subtitle": "Α.Σ.",
-    "slug": "paok"
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png"
   },
   "awayTeam": {
     "name": "Μίλων",
     "subtitle": "Α.Ο.Ν.Σ",
-    "slug": "milon"
+    "slug": "milon",
+    "color": "#006400",
+    "logo": "milon.png"
   },
   "date": "8 Νοεμβρίου 2025",
   "league": "3η ΑΓΩΝΙΣΤΙΚΗ"

@@ -2,12 +2,16 @@
   "homeTeam": {
     "name": "Παναθηναϊκός",
     "subtitle": "Α.Ο.",
-    "slug": "panathinaikos"
+    "slug": "panathinaikos",
+    "color": "#007A33",
+    "logo": "panathinaikos.png"
   },
   "awayTeam": {
     "name": "Φοίνικας Σύρου",
     "subtitle": "A.O.",
-    "slug": "foinikas"
+    "slug": "foinikas",
+    "color": "#003399",
+    "logo": "foinikas.png"
   },
   "date": "8 Νοεμβρίου 2025",
   "league": "3η ΑΓΩΝΙΣΤΙΚΗ"
