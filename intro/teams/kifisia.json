@@ -1,10 +1,10 @@
 {
   "homeTeam": {
-    "name": "Πανιώνιος",
-    "subtitle": "Γ.Σ.Σ.",
-    "slug": "panionios",
-    "color": "#004b8d",
-    "logo": "panionios.png"
+    "name": "Ο.Φ.Η.",
+    "subtitle": ".",
+    "slug": "ofi",
+    "color": "#000000",
+    "logo": "ofi.png"
   },
   "awayTeam": {
     "name": "Κηφισιά",
@@ -13,6 +13,6 @@
     "color": "#1e3a8a",
     "logo": "kifisia.png"
   },
-  "date": "7 Νοεμβρίου 2025",
-  "league": "3η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "12 Νοεμβρίου 2025",
+  "league": "1η ΑΓΩΝΙΣΤΙΚΗ (ΕΞ' ΑΝΑΒΟΛΗΣ)"
 }

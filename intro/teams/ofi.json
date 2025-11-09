@@ -7,12 +7,12 @@
     "logo": "ofi.png"
   },
   "awayTeam": {
-    "name": "Καλαμάτα",
-    "subtitle": "A.O. '80 AFFIDEA",
-    "slug": "kalamata",
-    "color": "#008428",
-    "logo": "kalamata.png"
+    "name": "Κηφισιά",
+    "subtitle": "A.Ο.Π.Σ.",
+    "slug": "kifisia",
+    "color": "#1e3a8a",
+    "logo": "kifisia.png"
   },
-  "date": "8 Νοεμβρίου 2025",
-  "league": "3η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "12 Νοεμβρίου 2025",
+  "league": "1η ΑΓΩΝΙΣΤΙΚΗ (ΕΞ' ΑΝΑΒΟΛΗΣ)"
 }
