@@ -19,13 +19,96 @@
       position: relative;
       width: 1920px;
       height: 1080px;
-      /* Use the background image */
-      background-image: url('background.jpg'); 
-      background-size: 100% 100%; 
-      background-position: center;
+      background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Volleyball Court Background */
+    .display-container::before {
+      content: '';
+      position: absolute;
+      width: 70%;
+      height: 75%;
+      background: linear-gradient(135deg, #d4704f 0%, #c85a3a 100%);
+      border: 8px solid #fff;
+      box-shadow: 
+        0 0 0 12px rgba(255,255,255,0.3),
+        inset 0 0 100px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    /* Center Line */
+    .display-container::after {
+      content: '';
+      position: absolute;
+      width: 70%;
+      height: 4px;
+      background: #fff;
+      z-index: 2;
+      box-shadow: 0 0 10px rgba(255,255,255,0.5);
+    }
+
+    /* Net representation */
+    .court-net {
+      position: absolute;
+      width: 70%;
+      height: 80px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .court-net::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      top: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        #fff 0px,
+        #fff 20px,
+        transparent 20px,
+        transparent 40px
+      );
+    }
+
+    .court-net::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 8px,
+        rgba(255,255,255,0.1) 8px,
+        rgba(255,255,255,0.1) 10px
+      );
+    }
+
+    /* Attack lines */
+    .attack-line {
+      position: absolute;
+      width: 70%;
+      height: 3px;
+      background: rgba(255,255,255,0.6);
+      z-index: 2;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .attack-line.top {
+      top: 22%;
+    }
+
+    .attack-line.bottom {
+      bottom: 22%;
     }
 
     .content-wrapper {
@@ -178,6 +261,9 @@
   </div>
 
   <div class="display-container" id="displayContainer">
+    <div class="attack-line top"></div>
+    <div class="attack-line bottom"></div>
+    <div class="court-net"></div>
     <div class="content-wrapper" id="contentWrapper">
       <div class="no-data" id="noData">Φόρτωση δεδομένων από GitHub...</div>
     </div>
