@@ -10,10 +10,10 @@
     overflow:hidden;display:flex;justify-content:center;align-items:center;
     font-family:'Arial',sans-serif;
   }
-  .court-container{position:relative;width:1920px;height:1080px;perspective:1600px;}
+  .court-container{position:relative;width:1920px;height:1080px;perspective:1700px;}
   .court{
     position:absolute;top:180px;left:50%;
-    width:1100px;height:1150px;
+    width:1100px;height:1050px;
     background:linear-gradient(180deg,#0040a8 0%,#001b5c 100%);
     border:6px solid #fff;
     transform:translateX(-50%) rotateX(60deg);
@@ -58,6 +58,7 @@
     60%{opacity:1;transform:translateY(-10px) scale(1.02);}
     100%{opacity:1;transform:translateY(0) scale(1);}
   }
+  .court.animate{animation:fadeUp 0.8s ease-out forwards;}
   .player-card.animate{animation:fadeUp 0.8s ease-out forwards;}
   .controls{position:absolute;top:20px;right:20px;display:flex;gap:10px;z-index:100;}
   .btn{background:rgba(37,99,235,0.9);color:#fff;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px;}
@@ -68,10 +69,6 @@
 <div class="court-container" id="courtContainer">
   <div class="court"></div>
   <div class="net"></div>
-  <div class="controls">
-    <button class="btn" onclick="reloadDisplay()">🔄 Ανανέωση</button>
-    <button class="btn" onclick="window.close()">❌ Κλείσιμο</button>
-  </div>
 </div>
 
 <script>
@@ -96,15 +93,15 @@ function renderPlayers(players){
   const court=document.getElementById('courtContainer');
   // Moved top row higher, spaced more between rows
   const layout=[
-    {position:'ΑΚΡΑΙΟΣ',index:0,x:540,y:10},
-    {position:'ΚΕΝΤΡΙΚΟΣ',index:0,x:820,y:10},
-    {position:'ΛΙΜΠΕΡΟ',index:0,x:1100,y:10},
+    {position:'ΑΚΡΑΙΟΣ',index:0,x:540,y:15},
+    {position:'ΚΕΝΤΡΙΚΟΣ',index:0,x:820,y:15},
+    {position:'ΛΙΜΠΕΡΟ',index:0,x:1100,y:15},
 
-    {position:'ΔΙΑΓΩΝΙΟΣ',index:0,x:540,y:400},
-    {position:'ΑΚΡΑΙΟΣ',index:1,x:820,y:400},
-    {position:'ΠΑΣΑΔΟΡΟΣ',index:0,x:1100,y:400},
+    {position:'ΔΙΑΓΩΝΙΟΣ',index:0,x:540,y:350},
+    {position:'ΑΚΡΑΙΟΣ',index:1,x:820,y:350},
+    {position:'ΠΑΣΑΔΟΡΟΣ',index:0,x:1100,y:350},
 
-    {position:'ΚΕΝΤΡΙΚΟΣ',index:1,x:820,y:800}
+    {position:'ΚΕΝΤΡΙΚΟΣ',index:1,x:820,y:750}
   ];
   layout.forEach(pos=>{
     const player=players.filter(p=>p.position===pos.position)[pos.index];
