@@ -1,266 +1,302 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Volleyball Dream Team (CSS Court)</title>
-  <style>
-    * {margin: 0; padding: 0; box-sizing: border-box;}
-    body {
-      font-family: 'Arial', sans-serif;
-      background: #000;
-      overflow: hidden;
-      width: 1920px;
-      height: 1080px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volleyball Dream Team (CSS Court)</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #000;
+      /* Use viewport units for better scaling */
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: auto; /* Allow scrolling if content is too large */
+    }
 
-    /* === COURT CONTAINER === */
-    .court-container {
-      position: relative;
-      width: 1920px;
-      height: 1080px;
-      perspective: 1500px;
-      overflow: hidden;
-    }
+    /* === COURT CONTAINER === */
+    .court-container {
+      position: relative;
+      /* Set a relative size, e.g., 90% of the viewport height */
+      width: 95vw;
+      height: 95vh;
+      max-width: 1920px; /* Optional: cap maximum size */
+      max-height: 1080px;
+      perspective: 1500px;
+      overflow: hidden;
+    }
 
-    /* === COURT SURFACE === */
-    .court {
-      position: absolute;
-      top: 300px;
-      left: 50%;
-      width: 1000px;
-      height: 600px;
-      background: linear-gradient(180deg, #0040a8 0%, #002870 100%);
-      border: 6px solid #ffffff;
-      transform: translateX(-50%) rotateX(60deg);
-      transform-origin: top center;
-      box-shadow: 0 20px 80px rgba(0,0,0,0.6);
-    }
+    /* === COURT SURFACE === */
+    .court {
+      position: absolute;
+      top: 15%; /* Adjusted for a higher position */
+      left: 50%;
+      /* **FIX: Increase court size** */
+      width: 1300px;
+      height: 750px;
+      background: linear-gradient(180deg, #0040a8 0%, #002870 100%);
+      border: 6px solid #ffffff;
+      transform: translateX(-50%) rotateX(60deg);
+      transform-origin: top center;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+    }
 
-    /* === COURT LINES === */
-    .court::before, .court::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: white;
-    }
-    .court::before {
-      top: 200px; /* Attack line front */
-    }
-    .court::after {
-      bottom: 200px; /* Attack line back */
-    }
+    /* === COURT LINES === */
+    .court::before,
+    .court::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: white;
+    }
+    .court::before {
+      /* Recalculate attack line position for new court size */
+      top: calc(750px / 3);
+    }
+    .court::after {
+      /* Recalculate attack line position for new court size */
+      bottom: calc(750px / 3);
+    }
 
-    /* === NET === */
-    .net {
-      position: absolute;
-      top: 370px;
-      left: 50%;
-      width: 1000px;
-      height: 10px;
-      background: linear-gradient(90deg, #ccc 10%, #fff 50%, #ccc 90%);
-      transform: translateX(-50%) rotateX(60deg);
-      transform-origin: center;
-      z-index: 2;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    }
+    /* === NET === */
+    .net {
+      position: absolute;
+      top: 370px; /* Kept to align with a perceived 'middle' of the court */
+      left: 50%;
+      /* Match court width */
+      width: 1300px;
+      height: 10px;
+      background: linear-gradient(90deg, #ccc 10%, #fff 50%, #ccc 90%);
+      transform: translateX(-50%) rotateX(60deg);
+      transform-origin: center;
+      z-index: 2;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
 
-    /* === PLAYER CARDS === */
-    .player-card {
-      position: absolute;
-      width: 260px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(60px) scale(0.9);
-      z-index: 10;
-    }
+    /* === PLAYER CARDS === */
+    .player-card {
+      position: absolute;
+      /* **FIX: Reduce card width to prevent overlap** */
+      width: 200px; /* Reduced from 260px */
+      text-align: center;
+      opacity: 0;
+      transform: translateY(60px) scale(0.9);
+      z-index: 10;
+      /* **FIX: Center the card on its X position** */
+      transform: translateX(-50%);
+    }
+    /* Overwrite transform for animation */
+    .player-card.animate {
+      animation: fadeUp 0.8s ease-out forwards;
+    }
+    @keyframes fadeUp {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(60px) scale(0.9);
+      }
+      60% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-10px) scale(1.02);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+    }
 
-    .player-photo-wrapper {
-      position: relative;
-      display: inline-block;
-    }
+    .player-photo-wrapper {
+      position: relative;
+      display: inline-block;
+    }
 
-    .player-photo {
-      width: 220px;
-      height: 220px;
-      border-radius: 20px;
-      border: 6px solid white;
-      object-fit: cover;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-    }
+    .player-photo {
+      /* Match the card width reduction */
+      width: 180px; /* Reduced from 220px */
+      height: 180px; /* Reduced from 220px */
+      border-radius: 20px;
+      border: 6px solid white;
+      object-fit: cover;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    }
 
-    .team-badge {
-      position: absolute;
-      top: -20px;
-      right: -20px;
-      width: 80px;
-      height: 80px;
-    }
+    .team-badge {
+      position: absolute;
+      top: -15px; /* Adjusted position */
+      right: -15px; /* Adjusted position */
+      width: 60px; /* Reduced size */
+      height: 60px; /* Reduced size */
+    }
 
-    .team-badge-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: white;
-      border-radius: 50%;
-      padding: 5px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    }
+    .team-badge-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: white;
+      border-radius: 50%;
+      padding: 5px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
 
-    .player-position {
-      background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-      color: white;
-      padding: 12px 25px;
-      font-weight: bold;
-      font-size: 16px;
-      border-radius: 8px 8px 0 0;
-    }
+    .player-position {
+      background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+      color: white;
+      padding: 10px 20px; /* Adjusted padding */
+      font-weight: bold;
+      font-size: 14px; /* Adjusted font size */
+      border-radius: 8px 8px 0 0;
+    }
 
-    .player-name {
-      background: white;
-      color: #1e3a8a;
-      padding: 12px 25px;
-      font-weight: bold;
-      font-size: 16px;
-      border-radius: 0 0 8px 8px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
+    .player-name {
+      background: white;
+      color: #1e3a8a;
+      padding: 10px 20px; /* Adjusted padding */
+      font-weight: bold;
+      font-size: 14px; /* Adjusted font size */
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
 
-    @keyframes fadeUp {
-      0% {opacity: 0; transform: translateY(60px) scale(0.9);}
-      60% {opacity: 1; transform: translateY(-10px) scale(1.02);}
-      100% {opacity: 1; transform: translateY(0) scale(1);}
-    }
+    /* === CONTROLS === */
+    .controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+    }
 
-    .player-card.animate {
-      animation: fadeUp 0.8s ease-out forwards;
-    }
+    .btn {
+      background: rgba(37, 99, 235, 0.9);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
 
-    /* === CONTROLS === */
-    .controls {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      gap: 10px;
-      z-index: 100;
-    }
-
-    .btn {
-      background: rgba(37,99,235,0.9);
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 14px;
-      transition: all 0.3s;
-    }
-
-    .btn:hover {
-      background: rgba(37,99,235,1);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(37,99,235,0.4);
-    }
-  </style>
+    .btn:hover {
+      background: rgba(37, 99, 235, 1);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+    }
+  </style>
 </head>
 <body>
-  <div class="court-container" id="courtContainer">
-    <div class="court"></div>
-    <div class="net"></div>
+  <div class="court-container" id="courtContainer">
+    <div class="court"></div>
+    <div class="net"></div>
 
-    <div class="controls">
-      <button class="btn" onclick="reloadDisplay()">🔄 Ανανέωση</button>
-      <button class="btn" onclick="window.close()">❌ Κλείσιμο</button>
-    </div>
-  </div>
+    <div class="controls">
+      <button class="btn" onclick="reloadDisplay()">🔄 Ανανέωση</button>
+      <button class="btn" onclick="window.close()">❌ Κλείσιμο</button>
+    </div>
+  </div>
 
-  <script>
-    const GITHUB_OWNER = 'volleyleaguecupgr';
-    const GITHUB_REPO = 'roster';
-    const GITHUB_FILE_PATH = 'bestteam/best_team.json';
+  <script>
+    const GITHUB_OWNER = 'volleyleaguecupgr';
+    const GITHUB_REPO = 'roster';
+    const GITHUB_FILE_PATH = 'bestteam/best_team.json';
 
-    const teams = [
-      { name: "ΠΑΟΚ", key: "paok" },
-      { name: "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ", key: "foinikas" },
-      { name: "ΠΑΝΑΘΗΝΑΪΚΟΣ AO", key: "panathinaikos" },
-      { name: "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON", key: "floisvos" },
-      { name: "ΑΟΝΣ ΜΙΛΩΝ", key: "milon" },
-      { name: "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA", key: "kalamata" },
-      { name: "ΠΑΝΙΩΝΙΟΣ", key: "panionios" },
-      { name: "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ", key: "olympiakos" },
-      { name: "ΟΦΗ", key: "ofi" },
-      { name: "ΑΟΠ ΚΗΦΙΣΙΑΣ", key: "kifisia" }
-    ];
+    const teams = [
+      { name: "ΠΑΟΚ", key: "paok" },
+      { name: "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ", key: "foinikas" },
+      { name: "ΠΑΝΑΘΗΝΑΪΚΟΣ AO", key: "panathinaikos" },
+      { name: "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON", key: "floisvos" },
+      { name: "ΑΟΝΣ ΜΙΛΩΝ", key: "milon" },
+      { name: "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA", key: "kalamata" },
+      { name: "ΠΑΝΙΩΝΙΟΣ", key: "panionios" },
+      { name: "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ", key: "olympiakos" },
+      { name: "ΟΦΗ", key: "ofi" },
+      { name: "ΑΟΠ ΚΗΦΙΣΙΑΣ", key: "kifisia" }
+    ];
 
-    function getTeamKey(teamName) {
-      const t = teams.find(tt => tt.name.toLowerCase() === teamName.toLowerCase());
-      return t ? t.key : teamName.toLowerCase().replace(/\s+/g, '-');
-    }
+    function getTeamKey(teamName) {
+      const t = teams.find(tt => tt.name.toLowerCase() === teamName.toLowerCase());
+      return t ? t.key : teamName.toLowerCase().replace(/\s+/g, '-');
+    }
 
-    async function loadPlayers() {
-      const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${GITHUB_FILE_PATH}`;
-      const res = await fetch(url);
-      const players = await res.json();
-      renderPlayers(players);
-    }
+    async function loadPlayers() {
+      const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${GITHUB_FILE_PATH}`;
+      const res = await fetch(url);
+      const players = await res.json();
+      renderPlayers(players);
+    }
 
-    function renderPlayers(players) {
-      const court = document.getElementById('courtContainer');
+    function renderPlayers(players) {
+      const court = document.getElementById('courtContainer');
 
-      // positions: coordinates tuned for 1920x1080 and perspective layout
-      const layout = [
-        { position: 'ΑΚΡΑΙΟΣ', index: 0, x: 540, y: 240 },
-        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 0, x: 820, y: 240 },
-        { position: 'ΛΙΜΠΕΡΟ', index: 0, x: 1100, y: 240 },
-        { position: 'ΔΙΑΓΩΝΙΟΣ', index: 0, x: 540, y: 520 },
-        { position: 'ΑΚΡΑΙΟΣ', index: 1, x: 820, y: 520 },
-        { position: 'ΠΑΣΑΔΟΡΟΣ', index: 0, x: 1100, y: 520 },
-        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 1, x: 820, y: 820 }
-      ];
+      /*       **FIX: Changed coordinates to percentages** (relative to the 1920px container)
+      This provides better spacing and centers the layout on the container.
+      X positions: 
+      - Left column: ~30%
+      - Center column: ~50%
+      - Right column: ~70%
+      Y positions: Adjusted to fit a larger court and prevent card overlap.
+      */
+      const layout = [
+        // Back Row (Attack Line)
+        { position: 'ΑΚΡΑΙΟΣ', index: 0, x: 30, y: 15 },
+        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 0, x: 50, y: 15 },
+        { position: 'ΛΙΜΠΕΡΟ', index: 0, x: 70, y: 15 },
+        // Middle Row (Defense Zone / Behind Attack Line)
+        { position: 'ΔΙΑΓΩΝΙΟΣ', index: 0, x: 30, y: 40 },
+        { position: 'ΑΚΡΑΙΟΣ', index: 1, x: 50, y: 40 },
+        { position: 'ΠΑΣΑΔΟΡΟΣ', index: 0, x: 70, y: 40 },
+        // Back-Court Zone (Serving Zone / Back-Center)
+        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 1, x: 50, y: 70 }
+      ];
 
-      layout.forEach((pos, i) => {
-        const player = players.filter(p => p.position === pos.position)[pos.index];
-        if (!player) return;
+      layout.forEach((pos, i) => {
+        const player = players.filter(p => p.position === pos.position)[pos.index];
+        if (!player) return;
 
-        const teamKey = getTeamKey(player.team);
-        const logo = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/logos/${teamKey}.png`;
+        const teamKey = getTeamKey(player.team);
+        const logo = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/bestteam/logos/${teamKey}.png`;
 
-        const card = document.createElement('div');
-        card.className = 'player-card';
-        card.style.left = `${pos.x}px`;
-        card.style.top = `${pos.y}px`;
+        const card = document.createElement('div');
+        card.className = 'player-card';
+        /* **FIX: Use percentage for relative positioning** */
+        card.style.left = `${pos.x}%`;
+        card.style.top = `${pos.y}%`;
 
-        card.innerHTML = `
-          <div class="player-photo-wrapper">
-            <img src="${player.photo}" class="player-photo" alt="${player.name}">
-            <div class="team-badge"><img src="${logo}" class="team-badge-img"></div>
-          </div>
-          <div class="player-position">${player.position}</div>
-          <div class="player-name">${player.name}</div>
-        `;
-        court.appendChild(card);
-      });
+        card.innerHTML = `
+          <div class="player-photo-wrapper">
+            <img src="${player.photo}" class="player-photo" alt="${player.name}">
+            <div class="team-badge"><img src="${logo}" class="team-badge-img"></div>
+          </div>
+          <div class="player-position">${player.position}</div>
+          <div class="player-name">${player.name}</div>
+        `;
+        court.appendChild(card);
+      });
 
-      animatePlayers();
-    }
+      animatePlayers();
+    }
 
-    function animatePlayers() {
-      const cards = document.querySelectorAll('.player-card');
-      cards.forEach((c, i) => setTimeout(() => c.classList.add('animate'), i * 500));
-    }
+    function animatePlayers() {
+      const cards = document.querySelectorAll('.player-card');
+      cards.forEach((c, i) => setTimeout(() => c.classList.add('animate'), i * 500));
+    }
 
-    function reloadDisplay() {
-      location.reload();
-    }
+    function reloadDisplay() {
+      location.reload();
+    }
 
-    loadPlayers();
-  </script>
+    loadPlayers();
+  </script>
 </body>
 </html>
