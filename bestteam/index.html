@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volleyball Team Control Panel (GitHub)</title>
+    <style>
+        /* ... (CSS remains the same) ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .photo-preview {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .photo-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-preview.empty {
+            color: #999;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-display {
+            background: #8b5cf6;
+            color: white;
+            font-size: 18px;
+            padding: 15px 40px;
+        }
+
+        .btn-display:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-github {
+            background: #333;
+            color: white;
+            font-size: 18px;
+            padding: 15px 40px;
+            margin-top: 20px;
+        }
+
+        .btn-github:hover {
+            background: #555;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .players-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .player-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .player-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .player-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #667eea;
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-name {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .player-details {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .player-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .display-section {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .display-section h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .json-display {
+            background: #1e293b;
+            color: #10b981;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+            margin: 20px 0;
+        }
+        
+        .github-config input {
+            background: #fff;
+        }
+        
+        .config-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏐 Volleyball Team Management</h1>
+        
+        <div class="form-section github-config">
+            <h2>⚙️ GitHub Repository Details</h2>
+            <p style="color: #ef4444; margin-bottom: 15px; font-weight: bold;">
+                ⚠️ SECURITY WARNING: Storing your GHP token in client-side code is a risk. Use a token with minimal 'repo' permissions.
+            </p>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="githubToken">GitHub Personal Access Token (GHP Key) *</label>
+                    <input type="password" id="githubToken" placeholder="ghp_..." required>
+                </div>
+                <div class="form-group">
+                    <label for="githubOwner">Repo Owner/Username *</label>
+                    <input type="text" id="githubOwner" placeholder="e.g., your-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="githubRepo">Repository Name *</label>
+                    <input type="text" id="githubRepo" placeholder="e.g., volleyball-project" required>
+                </div>
+            </div>
+            <div class="config-grid-3">
+                <div class="form-group">
+                    <label for="githubFilePath">JSON File Path *</label>
+                    <input type="text" id="githubFilePath" value="best_team.json" required>
+                </div>
+                <div class="form-group">
+                    <label for="githubPhotoFolder">Photo Folder Path (e.g., photos/) *</label>
+                    <input type="text" id="githubPhotoFolder" value="photos/" required>
+                </div>
+            </div>
+             <div class="form-group">
+                <button class="btn btn-github" onclick="loadPlayersFromGitHub()">
+                    📥 Φόρτωση από GitHub
+                </button>
+                <button class="btn btn-github" onclick="savePlayersToGitHub()">
+                    ⬆️ Αποθήκευση Ομάδας στο GitHub (JSON Commit)
+                </button>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2 id="formTitle">Προσθήκη Παίκτη</h2>
+            <form id="playerForm" onsubmit="event.preventDefault(); addOrUpdatePlayer()">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="playerName">Όνομα Παίκτη *</label>
+                        <input type="text" id="playerName" placeholder="π.χ. ΦΙΛΙΠ ΚΟΒΑΣΕΒΙΤΣ" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="playerPosition">Θέση *</label>
+                        <select id="playerPosition" required>
+                            <option value="ΑΚΡΑΙΟΣ">ΑΚΡΑΙΟΣ</option>
+                            <option value="ΚΕΝΤΡΙΚΟΣ">ΚΕΝΤΡΙΚΟΣ</option>
+                            <option value="ΛΙΜΠΕΡΟ">ΛΙΜΠΕΡΟ</option>
+                            <option value="ΔΙΑΓΩΝΙΟΣ">ΔΙΑΓΩΝΙΟΣ</option>
+                            <option value="ΠΑΣΑΔΟΡΟΣ">ΠΑΣΑΔΟΡΟΣ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="playerTeam">Ομάδα *</label>
+                        <input type="text" id="playerTeam" placeholder="π.χ. Παναθηναϊκός" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="playerPhotoFile">Φωτογραφία (PNG/JPG - Uncompressed) *</label>
+                        <input type="file" id="playerPhotoFile" accept="image/png, image/jpeg" data-current-url="">
+                    </div>
+                </div>
+                <div class="photo-preview empty" id="photoPreview">
+                    Προεπισκόπηση Φωτογραφίας
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="addBtn" type="submit">
+                        ➕ Προσθήκη & Ανέβασμα Φωτο
+                    </button>
+                    <button class="btn btn-success" id="updateBtn" type="submit" style="display: none;">
+                        ✏️ Ενημέρωση & Ανέβασμα Φωτο
+                    </button>
+                    <button class="btn btn-secondary" id="cancelBtn" onclick="cancelEdit()" type="button" style="display: none;">
+                        ❌ Ακύρωση
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <h2>Λίστα Παικτών (<span id="playerCount">0</span>)</h2>
+            <div class="players-list" id="playersList"></div>
+        </div>
+
+        <div class="display-section">
+            <h2>JSON Data Preview (Local Changes)</h2>
+            <div class="json-display" id="jsonDisplay"></div>
+            <button class="btn btn-display" onclick="openDisplay()">
+                🚀 Άνοιγμα Display
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let players = [];
+        let editingIndex = -1;
+        let currentJsonSha = null;
+        const GITHUB_API_URL = 'https://api.github.com/repos/';
+
+        function getGitHubDetails() {
+            return {
+                token: document.getElementById('githubToken').value.trim(),
+                owner: document.getElementById('githubOwner').value.trim(),
+                repo: document.getElementById('githubRepo').value.trim(),
+                path: document.getElementById('githubFilePath').value.trim(),
+                photoFolder: document.getElementById('githubPhotoFolder').value.trim().replace(/^\/|\/$/g, '') + '/'
+            };
+        }
+        
+        function getRequiredConfig() {
+            const details = getGitHubDetails();
+            return details.token && details.owner && details.repo;
+        }
+
+        // --- GitHub API Functions (File Upload) ---
+
+        async function uploadPhotoToGitHub(file, playerName, photoUrl) {
+            if (!getRequiredConfig()) {
+                alert('Παρακαλώ συμπληρώστε τα στοιχεία του GitHub (Token, Owner, Repository) πριν ανεβάσετε φωτογραφία.');
+                return null;
+            }
+            const details = getGitHubDetails();
+            const cleanName = playerName.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            const fileName = `${cleanName}_${Date.now()}.${fileExtension}`;
+            const photoPath = details.photoFolder + fileName;
+            
+            const base64Content = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    const base64data = reader.result.split(',')[1];
+                    resolve(base64data);
+                };
+                reader.onerror = error => reject(error);
+            });
+            
+            let existingSha = null;
+            
+            const apiUrl = `${GITHUB_API_URL}${details.owner}/${details.repo}/contents/${photoPath}`;
+            
+            const payload = {
+                message: `Upload photo for ${playerName}`,
+                content: base64Content,
+                sha: existingSha 
+            };
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${details.token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Raw URL for image display
+                    return result.content.download_url;
+                } else {
+                    throw new Error(result.message || 'GitHub photo upload failed.');
+                }
+            } catch (error) {
+                console.error('Photo Upload Error:', error);
+                alert(`Αποτυχία ανεβάσματος φωτογραφίας: ${error.message}.`);
+                throw error;
+            }
+        }
+
+        // --- GitHub API Functions (JSON Management) ---
+
+        async function loadPlayersFromGitHub() {
+            if (!getRequiredConfig()) {
+                alert('Παρακαλώ συμπληρώστε τα στοιχεία του GitHub (Token, Owner, Repository).');
+                return;
+            }
+            const details = getGitHubDetails();
+
+            const apiUrl = `${GITHUB_API_URL}${details.owner}/${details.repo}/contents/${details.path}`;
+            const rawUrl = `https://raw.githubusercontent.com/${details.owner}/${details.repo}/main/${details.path}`;
+
+            try {
+                const infoResponse = await fetch(apiUrl, {
+                    headers: { 'Authorization': `token ${details.token}`, 'Accept': 'application/vnd.github.v3+json' }
+                });
+                
+                if (infoResponse.ok) {
+                    const info = await infoResponse.json();
+                    currentJsonSha = info.sha;
+                    
+                    const rawContentResponse = await fetch(rawUrl);
+                    if (rawContentResponse.ok) {
+                        players = await rawContentResponse.json();
+                        alert('Τα δεδομένα φορτώθηκαν από το GitHub!');
+                    } else {
+                        players = [];
+                        alert('Το αρχείο βρέθηκε, αλλά δεν φορτώθηκε ως JSON. Ξεκινάμε με κενή λίστα.');
+                    }
+                } else if (infoResponse.status === 404) {
+                    currentJsonSha = null; 
+                    players = [];
+                    alert('Το αρχείο best_team.json δεν βρέθηκε. Θα δημιουργηθεί με την πρώτη αποθήκευση.');
+                } else {
+                    throw new Error(`GitHub Info API returned status ${infoResponse.status}`);
+                }
+            } catch (error) {
+                console.error('Error loading data from GitHub:', error);
+                alert('Σφάλμα φόρτωσης δεδομένων από το GitHub. Ελέγξτε τα στοιχεία και το GHP key (console for details).');
+                players = [];
+                currentJsonSha = null;
+            }
+
+            renderPlayers();
+            updateJsonDisplay();
+        }
+
+        // MODIFIED: This function is now ONLY called by the main save button.
+        async function savePlayersToGitHub() {
+            if (!getRequiredConfig()) return alert('Παρακαλώ συμπληρώστε όλα τα στοιχεία του GitHub.');
+            
+            const details = getGitHubDetails();
+            const content = JSON.stringify(players, null, 2);
+            const base64Content = btoa(unescape(encodeURIComponent(content)));
+
+            const payload = {
+                message: `Final commit: Team updated with ${players.length} players.`,
+                content: base64Content,
+                sha: currentJsonSha
+            };
+
+            if (!currentJsonSha) delete payload.sha;
+            
+            const apiUrl = `${GITHUB_API_URL}${details.owner}/${details.repo}/contents/${details.path}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${details.token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    currentJsonSha = result.content.sha;
+                    alert(`✅ Οριστική αποθήκευση JSON στο GitHub ολοκληρώθηκε!`);
+                    localStorage.setItem('bestTeamUpdate', Date.now()); 
+                } else {
+                    console.error('GitHub JSON API Error:', result);
+                    alert(`❌ Αποτυχία αποθήκευσης JSON. Σφάλμα: ${result.message || 'Άγνωστο'}. (Ελέγξτε την console)`);
+                }
+            } catch (error) {
+                console.error('Network or other error during GitHub save:', error);
+                alert('Προέκυψε σφάλμα κατά την επικοινωνία με το GitHub.');
+            }
+        }
+
+        // --- Core Player Management Functions ---
+        
+        // MODIFIED: This function no longer calls savePlayersToGitHub() at the end.
+        async function addOrUpdatePlayer() {
+            const fileInput = document.getElementById('playerPhotoFile');
+            const photoFile = fileInput.files[0];
+            const name = document.getElementById('playerName').value.trim();
+            const position = document.getElementById('playerPosition').value;
+            const team = document.getElementById('playerTeam').value.trim();
+            const currentPhotoUrl = fileInput.dataset.currentUrl;
+
+            if (!name || !team) {
+                alert('Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία!');
+                return;
+            }
+
+            let newPhotoUrl = currentPhotoUrl;
+
+            // 1. Photo Upload Logic
+            if (editingIndex === -1) {
+                // ADDING: File is mandatory
+                if (!photoFile) return alert('Παρακαλώ επιλέξτε φωτογραφία για τον νέο παίκτη!');
+                newPhotoUrl = await uploadPhotoToGitHub(photoFile, name, null);
+                
+            } else if (photoFile) {
+                // UPDATING: File is optional, if selected, upload it
+                if (!confirm(`Θέλετε να αντικαταστήσετε την παλιά φωτογραφία με το αρχείο "${photoFile.name}";`)) {
+                    fileInput.value = '';
+                    newPhotoUrl = currentPhotoUrl;
+                } else {
+                    newPhotoUrl = await uploadPhotoToGitHub(photoFile, name, currentPhotoUrl);
+                }
+            } 
+            
+            if (!newPhotoUrl) {
+                return alert('Η ενέργεια απέτυχε: Δεν υπάρχει έγκυρη διεύθυνση URL φωτογραφίας.');
+            }
+
+
+            // 2. Data Update Logic
+            if (editingIndex === -1) {
+                // Add Player
+                const player = {
+                    id: Date.now(),
+                    name: name,
+                    position: position,
+                    team: team,
+                    photo: newPhotoUrl
+                };
+                players.push(player);
+                alert('✅ Ο παίκτης προστέθηκε στην τοπική λίστα και η φωτογραφία ανέβηκε στο GitHub.');
+            } else {
+                // Update Player
+                const player = players[editingIndex];
+                player.name = name;
+                player.position = position;
+                player.team = team;
+                player.photo = newPhotoUrl;
+                alert('✅ Ο παίκτης ενημερώθηκε στην τοπική λίστα.');
+            }
+
+            // 3. Update local state ONLY
+            renderPlayers();
+            updateJsonDisplay();
+            clearForm();
+            cancelEdit();
+        }
+
+        function renderPlayers() {
+            const list = document.getElementById('playersList');
+            const count = document.getElementById('playerCount');
+            count.textContent = players.length;
+
+            if (players.length === 0) {
+                list.innerHTML = '<p style="color: #999; text-align: center; padding: 40px;">Δεν υπάρχουν παίκτες. Προσθέστε τον πρώτο παίκτη!</p>';
+                return;
+            }
+
+            list.innerHTML = players.map((player, index) => `
+                <div class="player-card">
+                    <img src="${player.photo}" alt="${player.name}" class="player-photo" onerror="this.src='https://via.placeholder.com/80?text=NO+IMG'">
+                    <div class="player-info">
+                        <div class="player-name">${player.name}</div>
+                        <div class="player-details">${player.position} • ${player.team}</div>
+                    </div>
+                    <div class="player-actions">
+                        <button class="btn btn-primary btn-small" onclick="editPlayer(${index})">✏️ Edit</button>
+                        <button class="btn btn-danger btn-small" onclick="deletePlayer(${index})">🗑️ Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function updateJsonDisplay() {
+            const display = document.getElementById('jsonDisplay');
+            display.textContent = JSON.stringify(players, null, 2);
+        }
+        
+        // Photo preview
+        document.getElementById('playerPhotoFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('photoPreview');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    preview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+                    preview.classList.remove('empty');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                const currentUrl = e.target.dataset.currentUrl;
+                if (currentUrl) {
+                     preview.innerHTML = `<img src="${currentUrl}" alt="Current Photo">`;
+                     preview.classList.remove('empty');
+                } else {
+                    preview.innerHTML = 'Προεπισκόπηση Φωτογραφίας';
+                    preview.classList.add('empty');
+                }
+            }
+        });
+
+        function editPlayer(index) {
+            editingIndex = index;
+            const player = players[index];
+            const photoPreview = document.getElementById('photoPreview');
+            const fileInput = document.getElementById('playerPhotoFile');
+
+            document.getElementById('playerName').value = player.name;
+            document.getElementById('playerPosition').value = player.position;
+            document.getElementById('playerTeam').value = player.team;
+            
+            fileInput.dataset.currentUrl = player.photo;
+            fileInput.value = '';
+
+            photoPreview.innerHTML = `<img src="${player.photo}" alt="Preview" onerror="this.src='https://via.placeholder.com/200?text=NO+IMG'">`;
+            photoPreview.classList.remove('empty');
+
+            document.getElementById('formTitle').textContent = 'Επεξεργασία Παίκτη';
+            document.getElementById('addBtn').style.display = 'none';
+            document.getElementById('updateBtn').style.display = 'inline-flex';
+            document.getElementById('cancelBtn').style.display = 'inline-flex';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // MODIFIED: This function no longer calls savePlayersToGitHub() at the end.
+        async function deletePlayer(index) {
+            if (confirm('Είστε σίγουροι ότι θέλετε να διαγράψετε αυτόν τον παίκτη από την τοπική λίστα;')) {
+                players.splice(index, 1);
+                renderPlayers();
+                updateJsonDisplay();
+                alert('✅ Ο παίκτης διαγράφηκε από την τοπική λίστα! Πατήστε "Αποθήκευση Ομάδας στο GitHub" για οριστική αλλαγή.');
+            }
+        }
+
+        function cancelEdit() {
+            editingIndex = -1;
+            document.getElementById('formTitle').textContent = 'Προσθήκη Παίκτη';
+            document.getElementById('addBtn').style.display = 'inline-flex';
+            document.getElementById('updateBtn').style.display = 'none';
+            document.getElementById('cancelBtn').style.display = 'none';
+            clearForm();
+        }
+
+        function clearForm() {
+            document.getElementById('playerName').value = '';
+            document.getElementById('playerPosition').value = 'ΑΚΡΑΙΟΣ';
+            document.getElementById('playerTeam').value = '';
+            
+            const fileInput = document.getElementById('playerPhotoFile');
+            fileInput.value = '';
+            delete fileInput.dataset.currentUrl;
+            
+            const preview = document.getElementById('photoPreview');
+            preview.innerHTML = 'Προεπισκόπηση Φωτογραφίας';
+            preview.classList.add('empty');
+        }
+
+        function openDisplay() {
+            window.open('display_github.html', '_blank'); 
+        }
+
+        // Initialize (Load configuration from local storage if available)
+        document.addEventListener('DOMContentLoaded', () => {
+            const config = localStorage.getItem('githubConfig');
+            if (config) {
+                const details = JSON.parse(config);
+                document.getElementById('githubOwner').value = details.owner || '';
+                document.getElementById('githubRepo').value = details.repo || '';
+                document.getElementById('githubFilePath').value = details.path || 'best_team.json';
+                document.getElementById('githubPhotoFolder').value = details.photoFolder || 'photos/';
+            }
+            ['githubOwner', 'githubRepo', 'githubFilePath', 'githubPhotoFolder'].forEach(id => {
+                document.getElementById(id).addEventListener('change', saveConfig);
+            });
+        });
+        
+        function saveConfig() {
+            const details = getGitHubDetails();
+            localStorage.setItem('githubConfig', JSON.stringify({
+                owner: details.owner,
+                repo: details.repo,
+                path: details.path,
+                photoFolder: details.photoFolder
+            }));
+        }
+
+        renderPlayers();
+        updateJsonDisplay();
+    </script>
+</body>
+</html>
