@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Volleyball Dream Team (CSS Court)</title>
+  <title>Volleyball Dream Team (CSS Court v2)</title>
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box;}
     body {
@@ -22,22 +22,22 @@
       position: relative;
       width: 1920px;
       height: 1080px;
-      perspective: 1500px;
+      perspective: 1600px;
       overflow: hidden;
     }
 
     /* === COURT SURFACE === */
     .court {
       position: absolute;
-      top: 300px;
+      top: 250px;
       left: 50%;
       width: 1000px;
-      height: 600px;
-      background: linear-gradient(180deg, #0040a8 0%, #002870 100%);
+      height: 850px; /* longer court */
+      background: linear-gradient(180deg, #0040a8 0%, #001b5c 100%);
       border: 6px solid #ffffff;
-      transform: translateX(-50%) rotateX(60deg);
+      transform: translateX(-50%) rotateX(55deg);
       transform-origin: top center;
-      box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+      box-shadow: 0 20px 100px rgba(0,0,0,0.7);
     }
 
     /* === COURT LINES === */
@@ -50,24 +50,24 @@
       background: white;
     }
     .court::before {
-      top: 200px; /* Attack line front */
+      top: 260px; /* front attack line */
     }
     .court::after {
-      bottom: 200px; /* Attack line back */
+      bottom: 260px; /* back attack line */
     }
 
     /* === NET === */
     .net {
       position: absolute;
-      top: 370px;
+      top: 380px;
       left: 50%;
       width: 1000px;
-      height: 10px;
+      height: 12px;
       background: linear-gradient(90deg, #ccc 10%, #fff 50%, #ccc 90%);
-      transform: translateX(-50%) rotateX(60deg);
+      transform: translateX(-50%) rotateX(55deg);
       transform-origin: center;
       z-index: 2;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
     /* === PLAYER CARDS === */
@@ -86,8 +86,8 @@
     }
 
     .player-photo {
-      width: 220px;
-      height: 220px;
+      width: 230px;
+      height: 230px;
       border-radius: 20px;
       border: 6px solid white;
       object-fit: cover;
@@ -214,15 +214,15 @@
     function renderPlayers(players) {
       const court = document.getElementById('courtContainer');
 
-      // positions: coordinates tuned for 1920x1080 and perspective layout
+      // adjusted coordinates for taller cards & longer court
       const layout = [
-        { position: 'ΑΚΡΑΙΟΣ', index: 0, x: 540, y: 240 },
-        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 0, x: 820, y: 240 },
-        { position: 'ΛΙΜΠΕΡΟ', index: 0, x: 1100, y: 240 },
-        { position: 'ΔΙΑΓΩΝΙΟΣ', index: 0, x: 540, y: 520 },
-        { position: 'ΑΚΡΑΙΟΣ', index: 1, x: 820, y: 520 },
-        { position: 'ΠΑΣΑΔΟΡΟΣ', index: 0, x: 1100, y: 520 },
-        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 1, x: 820, y: 820 }
+        { position: 'ΑΚΡΑΙΟΣ', index: 0, x: 540, y: 200 },
+        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 0, x: 820, y: 200 },
+        { position: 'ΛΙΜΠΕΡΟ', index: 0, x: 1100, y: 200 },
+        { position: 'ΔΙΑΓΩΝΙΟΣ', index: 0, x: 540, y: 480 },
+        { position: 'ΑΚΡΑΙΟΣ', index: 1, x: 820, y: 480 },
+        { position: 'ΠΑΣΑΔΟΡΟΣ', index: 0, x: 1100, y: 480 },
+        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 1, x: 820, y: 780 }
       ];
 
       layout.forEach((pos, i) => {
@@ -230,7 +230,7 @@
         if (!player) return;
 
         const teamKey = getTeamKey(player.team);
-        const logo = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/logos/${teamKey}.png`;
+        const logo = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/bestteam/logos/${teamKey}.png`;
 
         const card = document.createElement('div');
         card.className = 'player-card';
