@@ -25,6 +25,14 @@
   }
   .court::before{top:250px;}
   .court::after{bottom:250px;}
+  .title { position:absolute; top:60px; left:50%; transform:translateX(-50%);
+    font-size:48px; font-weight:900;
+    background:linear-gradient(135deg, #f8fafc 0%, #3b82f6 100%);
+    background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    text-shadow:0 0 30px rgba(59,130,246,0.8);
+    z-index:15; opacity:0; transform:translateX(-50%) translateY(-30px);
+    animation:titleSlideIn 2s ease-out 0.5s forwards; }
+  @keyframes titleSlideIn { to { opacity:1; transform:translateX(-50%) translateY(0); } }
   .net{
     position:absolute;top:310px;left:50%;
     width:1100px;height:12px;
@@ -66,6 +74,7 @@
 </style>
 </head>
 <body>
+<div class="title" id="mainTitle">ΚΑΛΥΤΕΡΗ 7ΑΔΑ</div>
 <div class="court-container" id="courtContainer">
   <div class="court"></div>
   <div class="net"></div>
