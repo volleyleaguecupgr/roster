@@ -7,12 +7,12 @@
     "logo": "ofi.png"
   },
   "awayTeam": {
-    "name": "Κηφισιά",
-    "subtitle": "A.Ο.Π.Σ.",
-    "slug": "kifisia",
-    "color": "#1e3a8a",
-    "logo": "kifisia.png"
+    "name": "Π.Α.Ο.Κ.",
+    "subtitle": "Α.Σ.",
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png"
   },
-  "date": "12 Νοεμβρίου 2025",
-  "league": "1η ΑΓΩΝΙΣΤΙΚΗ (ΕΞ' ΑΝΑΒΟΛΗΣ)"
+  "date": "17 Νοεμβρίου 2025",
+  "league": "4η ΑΓΩΝΙΣΤΙΚΗ"
 }

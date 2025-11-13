@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Ο.Φ.Η.",
-    "subtitle": ".",
-    "slug": "ofi",
-    "color": "#000000",
-    "logo": "ofi.png"
-  },
-  "awayTeam": {
     "name": "Κηφισιά",
     "subtitle": "A.Ο.Π.Σ.",
     "slug": "kifisia",
     "color": "#1e3a8a",
     "logo": "kifisia.png"
   },
-  "date": "12 Νοεμβρίου 2025",
-  "league": "1η ΑΓΩΝΙΣΤΙΚΗ (ΕΞ' ΑΝΑΒΟΛΗΣ)"
+  "awayTeam": {
+    "name": "Παναθηναϊκός",
+    "subtitle": "Α.Ο.",
+    "slug": "panathinaikos",
+    "color": "#007A33",
+    "logo": "panathinaikos.png"
+  },
+  "date": "16 Νοεμβρίου 2025",
+  "league": "4η ΑΓΩΝΙΣΤΙΚΗ"
 }

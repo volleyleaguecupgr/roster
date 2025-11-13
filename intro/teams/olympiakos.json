@@ -1,10 +1,10 @@
 {
   "homeTeam": {
-    "name": "Φλοίσβος",
-    "subtitle": "A. O. MEMBERS PARON",
-    "slug": "floisvos",
-    "color": "#3a55a8",
-    "logo": "floisvos.png"
+    "name": "Καλαμάτα",
+    "subtitle": "A.O. '80 AFFIDEA",
+    "slug": "kalamata",
+    "color": "#008428",
+    "logo": "kalamata.png"
   },
   "awayTeam": {
     "name": "Ολυμπιακός",
@@ -13,6 +13,6 @@
     "color": "#E41E26",
     "logo": "olympiakos.png"
   },
-  "date": "9 Νοεμβρίου 2025",
-  "league": "3η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "16 Νοεμβρίου 2025",
+  "league": "4η ΑΓΩΝΙΣΤΙΚΗ"
 }

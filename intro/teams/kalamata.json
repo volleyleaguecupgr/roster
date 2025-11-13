@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Ο.Φ.Η.",
-    "subtitle": ".",
-    "slug": "ofi",
-    "color": "#000000",
-    "logo": "ofi.png"
-  },
-  "awayTeam": {
     "name": "Καλαμάτα",
     "subtitle": "A.O. '80 AFFIDEA",
     "slug": "kalamata",
     "color": "#008428",
     "logo": "kalamata.png"
   },
-  "date": "8 Νοεμβρίου 2025",
-  "league": "3η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Ολυμπιακός",
+    "subtitle": "Σ.Φ.Π ΟΝΕΧ",
+    "slug": "olympiakos",
+    "color": "#E41E26",
+    "logo": "olympiakos.png"
+  },
+  "date": "16 Νοεμβρίου 2025",
+  "league": "4η ΑΓΩΝΙΣΤΙΚΗ"
 }
