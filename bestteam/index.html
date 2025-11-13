@@ -3,42 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Volleyball Dream Team Display (1920x1080)</title>
-
+  <title>Volleyball Dream Team (CSS Court)</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {margin: 0; padding: 0; box-sizing: border-box;}
     body {
       font-family: 'Arial', sans-serif;
       background: #000;
       overflow: hidden;
-      height: 1080px;
       width: 1920px;
+      height: 1080px;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
 
+    /* === COURT CONTAINER === */
     .court-container {
       position: relative;
       width: 1920px;
       height: 1080px;
+      perspective: 1500px;
       overflow: hidden;
     }
 
-    /* 3D Sketchfab Court Embed */
-    .court-embed {
+    /* === COURT SURFACE === */
+    .court {
       position: absolute;
-      top: 50%;
+      top: 300px;
       left: 50%;
-      width: 1920px;
-      height: 1080px;
-      transform: translate(-50%, -50%);
-      z-index: 0;
-      border: none;
-      pointer-events: none;
+      width: 1000px;
+      height: 600px;
+      background: linear-gradient(180deg, #0040a8 0%, #002870 100%);
+      border: 6px solid #ffffff;
+      transform: translateX(-50%) rotateX(60deg);
+      transform-origin: top center;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.6);
     }
 
-    /* Player Cards */
+    /* === COURT LINES === */
+    .court::before, .court::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: white;
+    }
+    .court::before {
+      top: 200px; /* Attack line front */
+    }
+    .court::after {
+      bottom: 200px; /* Attack line back */
+    }
+
+    /* === NET === */
+    .net {
+      position: absolute;
+      top: 370px;
+      left: 50%;
+      width: 1000px;
+      height: 10px;
+      background: linear-gradient(90deg, #ccc 10%, #fff 50%, #ccc 90%);
+      transform: translateX(-50%) rotateX(60deg);
+      transform-origin: center;
+      z-index: 2;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    /* === PLAYER CARDS === */
     .player-card {
       position: absolute;
       width: 260px;
@@ -100,16 +132,16 @@
     }
 
     @keyframes fadeUp {
-      0% { opacity: 0; transform: translateY(60px) scale(0.9); }
-      60% { opacity: 1; transform: translateY(-10px) scale(1.02); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
+      0% {opacity: 0; transform: translateY(60px) scale(0.9);}
+      60% {opacity: 1; transform: translateY(-10px) scale(1.02);}
+      100% {opacity: 1; transform: translateY(0) scale(1);}
     }
 
     .player-card.animate {
       animation: fadeUp 0.8s ease-out forwards;
     }
 
-    /* Controls */
+    /* === CONTROLS === */
     .controls {
       position: absolute;
       top: 20px;
@@ -118,6 +150,7 @@
       gap: 10px;
       z-index: 100;
     }
+
     .btn {
       background: rgba(37,99,235,0.9);
       color: white;
@@ -129,6 +162,7 @@
       font-size: 14px;
       transition: all 0.3s;
     }
+
     .btn:hover {
       background: rgba(37,99,235,1);
       transform: translateY(-2px);
@@ -138,15 +172,8 @@
 </head>
 <body>
   <div class="court-container" id="courtContainer">
-    <iframe 
-      class="court-embed"
-      src="https://sketchfab.com/models/6a0d3fe5335b4d7a9ba86ba1ed933f64/embed"
-      frameborder="0"
-      allow="autoplay; fullscreen; xr-spatial-tracking"
-      allowfullscreen
-      mozallowfullscreen="true"
-      webkitallowfullscreen="true">
-    </iframe>
+    <div class="court"></div>
+    <div class="net"></div>
 
     <div class="controls">
       <button class="btn" onclick="reloadDisplay()">🔄 Ανανέωση</button>
@@ -187,18 +214,18 @@
     function renderPlayers(players) {
       const court = document.getElementById('courtContainer');
 
-      // Position mapping (1920x1080 layout)
-      const positions = [
-        { position: 'ΑΚΡΑΙΟΣ', index: 0, x: 560, y: 180 },
-        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 0, x: 830, y: 180 },
-        { position: 'ΛΙΜΠΕΡΟ', index: 0, x: 1100, y: 180 },
-        { position: 'ΔΙΑΓΩΝΙΟΣ', index: 0, x: 560, y: 520 },
-        { position: 'ΑΚΡΑΙΟΣ', index: 1, x: 830, y: 520 },
+      // positions: coordinates tuned for 1920x1080 and perspective layout
+      const layout = [
+        { position: 'ΑΚΡΑΙΟΣ', index: 0, x: 540, y: 240 },
+        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 0, x: 820, y: 240 },
+        { position: 'ΛΙΜΠΕΡΟ', index: 0, x: 1100, y: 240 },
+        { position: 'ΔΙΑΓΩΝΙΟΣ', index: 0, x: 540, y: 520 },
+        { position: 'ΑΚΡΑΙΟΣ', index: 1, x: 820, y: 520 },
         { position: 'ΠΑΣΑΔΟΡΟΣ', index: 0, x: 1100, y: 520 },
-        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 1, x: 830, y: 840 }
+        { position: 'ΚΕΝΤΡΙΚΟΣ', index: 1, x: 820, y: 820 }
       ];
 
-      positions.forEach((pos, i) => {
+      layout.forEach((pos, i) => {
         const player = players.filter(p => p.position === pos.position)[pos.index];
         if (!player) return;
 
