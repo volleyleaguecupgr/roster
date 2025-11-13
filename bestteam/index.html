@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
 <meta charset="UTF-8" />
-<title>Volleyball Dream Team (Clean Layout)</title>
+<title>Volleyball Dream Team (Refined Layout)</title>
 <style>
   body{
     margin:0;background:#000;
@@ -12,8 +12,8 @@
   }
   .court-container{position:relative;width:1920px;height:1080px;perspective:1600px;}
   .court{
-    position:absolute;top:180px;left:50%;
-    width:1000px;height:900px;
+    position:absolute;top:250px;left:50%;
+    width:1000px;height:800px;
     background:linear-gradient(180deg,#0040a8 0%,#001b5c 100%);
     border:6px solid #fff;
     transform:translateX(-50%) rotateX(55deg);
@@ -23,10 +23,10 @@
   .court::before,.court::after{
     content:'';position:absolute;left:0;width:100%;height:4px;background:#fff;
   }
-  .court::before{top:280px;}
-  .court::after{bottom:280px;}
+  .court::before{top:250px;}
+  .court::after{bottom:250px;}
   .net{
-    position:absolute;top:320px;left:50%;
+    position:absolute;top:290px;left:50%;
     width:1000px;height:12px;
     background:linear-gradient(90deg,#ccc 10%,#fff 50%,#ccc 90%);
     transform:translateX(-50%) rotateX(55deg);
@@ -94,15 +94,17 @@ async function loadPlayers(){
 
 function renderPlayers(players){
   const court=document.getElementById('courtContainer');
-  // lifted positions, better spacing
+  // positions much higher, spaced apart more
   const layout=[
-    {position:'ΑΚΡΑΙΟΣ',index:0,x:540,y:120},
-    {position:'ΚΕΝΤΡΙΚΟΣ',index:0,x:820,y:120},
-    {position:'ΛΙΜΠΕΡΟ',index:0,x:1100,y:120},
-    {position:'ΔΙΑΓΩΝΙΟΣ',index:0,x:540,y:380},
-    {position:'ΑΚΡΑΙΟΣ',index:1,x:820,y:380},
-    {position:'ΠΑΣΑΔΟΡΟΣ',index:0,x:1100,y:380},
-    {position:'ΚΕΝΤΡΙΚΟΣ',index:1,x:820,y:700}
+    {position:'ΑΚΡΑΙΟΣ',index:0,x:540,y:60},
+    {position:'ΚΕΝΤΡΙΚΟΣ',index:0,x:820,y:60},
+    {position:'ΛΙΜΠΕΡΟ',index:0,x:1100,y:60},
+
+    {position:'ΔΙΑΓΩΝΙΟΣ',index:0,x:540,y:370},
+    {position:'ΑΚΡΑΙΟΣ',index:1,x:820,y:370},
+    {position:'ΠΑΣΑΔΟΡΟΣ',index:0,x:1100,y:370},
+
+    {position:'ΚΕΝΤΡΙΚΟΣ',index:1,x:820,y:710}
   ];
   layout.forEach(pos=>{
     const player=players.filter(p=>p.position===pos.position)[pos.index];
