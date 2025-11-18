@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Ο.Φ.Η.",
-    "subtitle": ".",
-    "slug": "ofi",
-    "color": "#000000",
-    "logo": "ofi.png"
-  },
-  "awayTeam": {
     "name": "Π.Α.Ο.Κ.",
     "subtitle": "Α.Σ.",
     "slug": "paok",
     "color": "#000000",
     "logo": "paok.png"
   },
-  "date": "17 Νοεμβρίου 2025",
-  "league": "4η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Καλαμάτα",
+    "subtitle": "A.O. '80 AFFIDEA",
+    "slug": "kalamata",
+    "color": "#008428",
+    "logo": "kalamata.png"
+  },
+  "date": "22 Νοεμβρίου 2025",
+  "league": "5η ΑΓΩΝΙΣΤΙΚΗ"
 }

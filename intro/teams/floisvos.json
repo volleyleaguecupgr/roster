@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Φοίνικας Σύρου",
-    "subtitle": "A.O.",
-    "slug": "foinikas",
-    "color": "#003399",
-    "logo": "foinikas.png"
-  },
-  "awayTeam": {
     "name": "Φλοίσβος",
     "subtitle": "A. O. MEMBERS PARON",
     "slug": "floisvos",
     "color": "#3a55a8",
     "logo": "floisvos.png"
   },
-  "date": "15 Νοεμβρίου 2025",
-  "league": "4η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Κηφισιά",
+    "subtitle": "A.Ο.Π.Σ.",
+    "slug": "kifisia",
+    "color": "#1e3a8a",
+    "logo": "kifisia.png"
+  },
+  "date": "23 Νοεμβρίου 2025",
+  "league": "5η ΑΓΩΝΙΣΤΙΚΗ"
 }

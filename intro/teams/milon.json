@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Παναθηναϊκός",
+    "subtitle": "Α.Ο.",
+    "slug": "panathinaikos",
+    "color": "#007A33",
+    "logo": "panathinaikos.png"
+  },
+  "awayTeam": {
     "name": "Μίλων",
     "subtitle": "Α.Ο.Ν.Σ",
     "slug": "milon",
     "color": "#006400",
     "logo": "milon.png"
   },
-  "awayTeam": {
-    "name": "Πανιώνιος",
-    "subtitle": "Γ.Σ.Σ.",
-    "slug": "panionios",
-    "color": "#004b8d",
-    "logo": "panionios.png"
-  },
-  "date": "14 Νοεμβρίου 2025",
-  "league": "4η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "22 Νοεμβρίου 2025",
+  "league": "5η ΑΓΩΝΙΣΤΙΚΗ"
 }
