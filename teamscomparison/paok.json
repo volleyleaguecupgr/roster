@@ -1,0 +1,92 @@
+{
+  "match_info": {
+    "home_team": "PAOK",
+    "away_team": "AO KALAMATA '80",
+    "datetime": "22 November 2025 - 17:00"
+  },
+  "teams_comparison": {
+    "titles": [
+      {
+        "raw": "Efficiency*",
+        "spans": [
+          "Efficiency*"
+        ]
+      },
+      {
+        "raw": "Perfect*",
+        "spans": [
+          "Perfect*"
+        ]
+      },
+      {
+        "raw": "Spikes per Set   (Played Set)",
+        "spans": [
+          "Spikes per Set",
+          "(Played Set)"
+        ]
+      },
+      {
+        "raw": "Blocks per Set   (Played Set)",
+        "spans": [
+          "Blocks per Set",
+          "(Played Set)"
+        ]
+      },
+      {
+        "raw": "Aces Scored",
+        "spans": [
+          "Aces Scored"
+        ]
+      },
+      {
+        "raw": "Aces per Set   (Played Set)",
+        "spans": [
+          "Aces per Set",
+          "(Played Set)"
+        ]
+      },
+      {
+        "raw": "Perfect*",
+        "spans": [
+          "Perfect*"
+        ]
+      }
+    ],
+    "spikes": {
+      "efficiency": {
+        "home": "33%",
+        "average": "34%",
+        "away": "34%"
+      },
+      "spikes_per_set_home": "12.07",
+      "spikes_per_set_avg": "11.82",
+      "spikes_per_set_away": "11.14",
+      "spikes_per_set_home_played": "(15)",
+      "spikes_per_set_away_played": "(21)"
+    },
+    "blocks": {
+      "blocks_per_set_home": "1.80",
+      "blocks_per_set_avg": "1.88",
+      "blocks_per_set_away": "2.10",
+      "blocks_home_played": "(15)",
+      "blocks_away_played": "(21)"
+    },
+    "serve": {
+      "aces_home": "21",
+      "aces_away": "32",
+      "aces_per_set_home": "1.40",
+      "aces_per_set_avg": "1.72",
+      "aces_per_set_away": "1.52",
+      "aces_home_played": "(15)",
+      "aces_away_played": "(21)"
+    },
+    "reception": {
+      "reception_eff_home": "40%",
+      "reception_eff_avg": "32%",
+      "reception_eff_away": "27%",
+      "reception_perfect_home": "23%",
+      "reception_perfect_avg": "26%",
+      "reception_perfect_away": "22%"
+    }
+  }
+}

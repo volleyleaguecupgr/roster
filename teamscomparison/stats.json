@@ -1,0 +1,92 @@
+{
+  "match_info": {
+    "home_team": "AO FLOISVOS",
+    "away_team": "OLYMPIACOS S.F.P.",
+    "datetime": "17 December 2025 - 00:00"
+  },
+  "teams_comparison": {
+    "titles": [
+      {
+        "raw": "Efficiency*",
+        "spans": [
+          "Efficiency*"
+        ]
+      },
+      {
+        "raw": "Perfect*",
+        "spans": [
+          "Perfect*"
+        ]
+      },
+      {
+        "raw": "Spikes per Set   (Played Set)",
+        "spans": [
+          "Spikes per Set",
+          "(Played Set)"
+        ]
+      },
+      {
+        "raw": "Blocks per Set   (Played Set)",
+        "spans": [
+          "Blocks per Set",
+          "(Played Set)"
+        ]
+      },
+      {
+        "raw": "Aces Scored",
+        "spans": [
+          "Aces Scored"
+        ]
+      },
+      {
+        "raw": "Aces per Set   (Played Set)",
+        "spans": [
+          "Aces per Set",
+          "(Played Set)"
+        ]
+      },
+      {
+        "raw": "Perfect*",
+        "spans": [
+          "Perfect*"
+        ]
+      }
+    ],
+    "spikes": {
+      "efficiency": {
+        "home": "20%",
+        "average": "34%",
+        "away": "35%"
+      },
+      "spikes_per_set_home": "9.89",
+      "spikes_per_set_avg": "11.81",
+      "spikes_per_set_away": "12.09",
+      "spikes_per_set_home_played": "(9)",
+      "spikes_per_set_away_played": "(11)"
+    },
+    "blocks": {
+      "blocks_per_set_home": "1.22",
+      "blocks_per_set_avg": "1.90",
+      "blocks_per_set_away": "2.36",
+      "blocks_home_played": "(9)",
+      "blocks_away_played": "(11)"
+    },
+    "serve": {
+      "aces_home": "8",
+      "aces_away": "16",
+      "aces_per_set_home": "0.89",
+      "aces_per_set_avg": "1.79",
+      "aces_per_set_away": "1.45",
+      "aces_home_played": "(9)",
+      "aces_away_played": "(11)"
+    },
+    "reception": {
+      "reception_eff_home": "31%",
+      "reception_eff_avg": "33%",
+      "reception_eff_away": "22%",
+      "reception_perfect_home": "29%",
+      "reception_perfect_avg": "26%",
+      "reception_perfect_away": "20%"
+    }
+  }
+}
