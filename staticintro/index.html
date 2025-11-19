@@ -142,6 +142,13 @@
             backdrop-filter: blur(10px);
         }
 
+        .loading {
+            text-align: center;
+            color: #fff;
+            font-size: 2em;
+            padding: 60px;
+        }
+
         @media (max-width: 1400px) {
             .match-card {
                 flex-direction: column;
@@ -167,10 +174,17 @@
 </head>
 <body>
     <div class="container">
-        <div id="match-display"></div>
+        <div id="match-display">
+            <div class="loading">Φόρτωση...</div>
+        </div>
     </div>
 
     <script>
+        // Configuration - update these with your GitHub details
+        const GITHUB_USERNAME = 'volleyleaguecupgr';
+        const REPO_NAME = 'roster';
+        const JSON_PATH = 'schedule/gameday/schedule.json';
+
         const teamMapping = {
             "paok": "ΠΑΟΚ",
             "foinikas": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
@@ -184,85 +198,22 @@
             "kifisia": "ΑΟΠ ΚΗΦΙΣΙΑΣ"
         };
 
-        const scheduleData = {
-            "matches": [
-                {
-                    "home": {
-                        "name": "ΠΑΝΙΩΝΙΟΣ",
-                        "logo": "logos/panionios.png",
-                        "color": "#DC143C"
-                    },
-                    "away": {
-                        "name": "ΟΦΗ",
-                        "logo": "logos/ofi.png",
-                        "color": "#2c2c2c"
-                    },
-                    "date": "21/11",
-                    "time": "16:30",
-                    "court": "Α. ΒΑΡΙΚΑΣ"
-                },
-                {
-                    "home": {
-                        "name": "ΠΑΟΚ",
-                        "logo": "logos/paok.png",
-                        "color": "#1a1a1a"
-                    },
-                    "away": {
-                        "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
-                        "logo": "logos/kalamata.png",
-                        "color": "#32CD32"
-                    },
-                    "date": "22/11",
-                    "time": "17:00",
-                    "court": "PAOK SPORTS ARENA"
-                },
-                {
-                    "home": {
-                        "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-                        "logo": "logos/olympiakos.png",
-                        "color": "#dc1414"
-                    },
-                    "away": {
-                        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-                        "logo": "logos/foinikas.png",
-                        "color": "#FF4500"
-                    },
-                    "date": "22/11",
-                    "time": "18:00",
-                    "court": "Μ. ΜΕΡΚΟΥΡΗ"
-                },
-                {
-                    "home": {
-                        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-                        "logo": "logos/panathinaikos.png",
-                        "color": "#16a34a"
-                    },
-                    "away": {
-                        "name": "ΑΟΝΣ ΜΙΛΩΝ",
-                        "logo": "logos/milon.png",
-                        "color": "#228B22"
-                    },
-                    "date": "22/11",
-                    "time": "20:30",
-                    "court": "ΜΕΤΣ"
-                },
-                {
-                    "home": {
-                        "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-                        "logo": "logos/floisvos.png",
-                        "color": "#1E90FF"
-                    },
-                    "away": {
-                        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-                        "logo": "logos/kifisia.png",
-                        "color": "#4169E1"
-                    },
-                    "date": "23/11",
-                    "time": "19:00",
-                    "court": "Σ. ΜΠΕΦΟΝ"
+        async function loadScheduleData() {
+            try {
+                const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${JSON_PATH}`;
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-            ]
-        };
+                
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error loading schedule data:', error);
+                return null;
+            }
+        }
 
         function getTeamFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -270,8 +221,8 @@
             return team ? team.toLowerCase() : null;
         }
 
-        function findTeamMatch(teamKey) {
-            if (!teamKey) return null;
+        function findTeamMatch(scheduleData, teamKey) {
+            if (!scheduleData || !teamKey) return null;
             
             const teamName = teamMapping[teamKey];
             if (!teamName) return null;
@@ -281,10 +232,8 @@
             );
         }
 
-        function displayMatch() {
+        function displayMatch(match) {
             const container = document.getElementById('match-display');
-            const teamKey = getTeamFromURL();
-            const match = findTeamMatch(teamKey);
 
             if (!match) {
                 container.innerHTML = '<div class="no-match">Δεν βρέθηκε αγώνας για αυτήν την ομάδα</div>';
@@ -295,7 +244,7 @@
                 <div class="match-card">
                     <div class="team-container">
                         <div class="team-logo">
-                            <img src="${match.home.logo}" alt="${match.home.name}">
+                            <img src="${match.home.logo}" alt="${match.home.name}" onerror="this.src='logos/default.png'">
                         </div>
                         <div class="team-name">${match.home.name.split(' ')[0]}</div>
                         ${match.home.name.split(' ').slice(1).join(' ') ? 
@@ -313,7 +262,7 @@
                     
                     <div class="team-container">
                         <div class="team-logo">
-                            <img src="${match.away.logo}" alt="${match.away.name}">
+                            <img src="${match.away.logo}" alt="${match.away.name}" onerror="this.src='logos/default.png'">
                         </div>
                         <div class="team-name">${match.away.name.split(' ')[0]}</div>
                         ${match.away.name.split(' ').slice(1).join(' ') ? 
@@ -323,7 +272,30 @@
             `;
         }
 
-        displayMatch();
+        async function init() {
+            const container = document.getElementById('match-display');
+            const teamKey = getTeamFromURL();
+            
+            if (!teamKey) {
+                container.innerHTML = '<div class="no-match">Παρακαλώ προσθέστε ?team=team_name στο URL</div>';
+                return;
+            }
+
+            // Load schedule data from GitHub
+            const scheduleData = await loadScheduleData();
+            
+            if (!scheduleData) {
+                container.innerHTML = '<div class="no-match">Σφάλμα φόρτωσης δεδομένων. Ελέγξτε τη σύνδεση.</div>';
+                return;
+            }
+
+            // Find and display the match
+            const match = findTeamMatch(scheduleData, teamKey);
+            displayMatch(match);
+        }
+
+        // Initialize when page loads
+        init();
     </script>
 </body>
 </html>
