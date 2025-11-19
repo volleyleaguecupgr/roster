@@ -265,13 +265,9 @@
         };
 
         function getTeamFromURL() {
-            const path = window.location.pathname;
-            const parts = path.split('/');
-            const teamIndex = parts.indexOf('staticintro');
-            if (teamIndex !== -1 && parts[teamIndex + 1]) {
-                return parts[teamIndex + 1].toLowerCase();
-            }
-            return null;
+            const urlParams = new URLSearchParams(window.location.search);
+            const team = urlParams.get('team');
+            return team ? team.toLowerCase() : null;
         }
 
         function findTeamMatch(teamKey) {
