@@ -90,8 +90,8 @@
         }
 
         .team-sponsor {
-            font-size: 1.1em;
-            font-weight: 700;
+            font-size: 1.6em;
+            font-weight: 800;
             text-align: center;
             background: linear-gradient(135deg, #ffffff 0%, #5eb3e4 100%);
             -webkit-background-clip: text;
@@ -107,8 +107,8 @@
         }
 
         .date {
-            font-size: 2.5em;
-            font-weight: 800;
+            font-size: 5em;
+            font-weight: 900;
             margin-bottom: 5px;
             background: linear-gradient(135deg, #5eb3e4 0%, #a0d3f0 100%);
             -webkit-background-clip: text;
@@ -117,7 +117,7 @@
         }
 
         .vs {
-            font-size: 5em;
+            font-size: 10em;
             font-weight: 900;
             background: linear-gradient(135deg, #ffffff 0%, #5eb3e4 100%);
             -webkit-background-clip: text;
@@ -127,8 +127,8 @@
         }
 
         .time {
-            font-size: 2.2em;
-            font-weight: 800;
+            font-size: 5em;
+            font-weight: 900;
             margin-bottom: 8px;
             background: linear-gradient(135deg, #ffffff 0%, #a0d3f0 100%);
             -webkit-background-clip: text;
@@ -203,7 +203,6 @@
 <body>
     <div class="container">
         <div id="match-display">
-            <div class="loading">Φόρτωση...</div>
         </div>
     </div>
 
@@ -291,7 +290,7 @@
                         <div class="date">${match.date}</div>
                         <div class="vs">VS</div>
                         <div class="time">${match.time}</div>
-                        <div class="court">Σ. ${match.court}</div>
+                        <div class="court">${match.court}</div>
                     </div>
                     
                     <div class="team-container">
