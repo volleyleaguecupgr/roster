@@ -82,51 +82,83 @@
         /* MVP Badge */
         .mvp-badge {
             position: absolute;
-            width: 600px;
-            height: 600px;
+            width: 800px;
+            height: 800px;
             opacity: 0;
             transform: scale(0);
             z-index: 4;
             filter: drop-shadow(0 0 40px rgba(0, 120, 255, 0));
-            overflow: hidden;
             transform-style: preserve-3d;
-            perspective: 1000px;
+        }
+
+        .mvp-badge-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
         }
 
         .mvp-badge img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            backface-visibility: visible;
+            backface-visibility: hidden;
+        }
+
+        .mvp-badge-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+        }
+
+        .mvp-badge-back img {
+            transform: scaleX(-1);
         }
 
         .mvp-badge.show {
             animation: badgeEntry 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
+        .mvp-badge.show .mvp-badge-inner {
+            animation: badge3DFlip 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
         @keyframes badgeEntry {
             0% {
                 opacity: 0;
-                transform: scale(0) rotateY(0deg);
+                transform: scale(0);
                 filter: drop-shadow(0 0 40px rgba(0, 120, 255, 0));
             }
             40% {
                 opacity: 1;
-                transform: scale(1.4) rotateY(180deg);
+                transform: scale(1.4);
                 filter: drop-shadow(0 0 60px rgba(0, 120, 255, 1));
             }
             100% {
                 opacity: 1;
-                transform: scale(1) rotateY(360deg);
+                transform: scale(1);
                 filter: drop-shadow(0 0 50px rgba(0, 120, 255, 0.8));
+            }
+        }
+
+        @keyframes badge3DFlip {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(360deg);
             }
         }
 
         /* Light Ray Shine Effect */
         .light-ray {
             position: absolute;
-            width: 120px;
-            height: 600px;
+            width: 150px;
+            height: 800px;
             background: linear-gradient(90deg, 
                 transparent 0%,
                 rgba(255, 255, 255, 0.2) 30%,
@@ -135,12 +167,12 @@
                 transparent 100%);
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) translateX(-350px) rotate(-15deg);
+            transform: translate(-50%, -50%) translateX(-450px) rotate(-15deg);
             opacity: 0;
             pointer-events: none;
             z-index: 5;
             filter: blur(1px);
-            clip-path: circle(300px at center);
+            clip-path: circle(400px at center);
         }
 
         .light-ray.show {
@@ -150,7 +182,7 @@
         @keyframes lightSweep {
             0% {
                 opacity: 0;
-                transform: translate(-50%, -50%) translateX(-350px) rotate(-15deg);
+                transform: translate(-50%, -50%) translateX(-450px) rotate(-15deg);
             }
             30% {
                 opacity: 1;
@@ -160,7 +192,7 @@
             }
             100% {
                 opacity: 0;
-                transform: translate(-50%, -50%) translateX(350px) rotate(-15deg);
+                transform: translate(-50%, -50%) translateX(450px) rotate(-15deg);
             }
         }
 
@@ -264,7 +296,7 @@
             }
             100% {
                 opacity: 1;
-                transform: scale(1) translateY(-120px);
+                transform: scale(1) translateY(-50px);
             }
         }
 
@@ -299,27 +331,24 @@
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.8)) 
                     drop-shadow(0 0 60px rgba(147, 197, 253, 0.5));
-            overflow: hidden;
-            display: inline-block;
             white-space: nowrap;
-        }
-
-        .player-name.typing {
-            border-right: 4px solid #3b82f6;
-            animation: blink 0.7s step-end infinite;
-        }
-
-        .player-name.typing-complete {
-            border-right: none;
-        }
-
-        .player-name span {
-            display: inline-block;
             opacity: 0;
+            transform: scale(0.5);
         }
 
-        .player-name.typing span {
-            animation: typingReveal 0.1s forwards;
+        .player-name.show {
+            animation: zoomInText 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes zoomInText {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         @keyframes typingReveal {
@@ -341,6 +370,12 @@
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.7)) 
                     drop-shadow(0 0 50px rgba(147, 197, 253, 0.4));
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        .gameday.show {
+            animation: zoomInText 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
         }
 
         .hidden {
@@ -364,7 +399,14 @@
     <div class="container">
         <!-- MVP Badge -->
         <div class="mvp-badge" id="mvpBadge">
-            <img src="mvp_badge.png" alt="MVP Badge" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'700\' height=\'700\'%3E%3Crect fill=\'%23f0f0f0\' width=\'700\' height=\'700\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'40\' fill=\'%23666\'%3EMVP BADGE%3C/text%3E%3C/svg%3E'">
+            <div class="mvp-badge-inner">
+                <div class="mvp-badge-front">
+                    <img src="mvp_badge.png" alt="MVP Badge" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'700\' height=\'700\'%3E%3Crect fill=\'%23f0f0f0\' width=\'700\' height=\'700\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'40\' fill=\'%23666\'%3EMVP BADGE%3C/text%3E%3C/svg%3E'">
+                </div>
+                <div class="mvp-badge-back">
+                    <img src="mvp_badge.png" alt="MVP Badge" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'700\' height=\'700\'%3E%3Crect fill=\'%23f0f0f0\' width=\'700\' height=\'700\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'40\' fill=\'%23666\'%3EMVP BADGE%3C/text%3E%3C/svg%3E'">
+                </div>
+            </div>
         </div>
 
         <!-- Light Ray Shine Effect -->
@@ -408,10 +450,8 @@
 
         <!-- Text Container -->
         <div class="text-container" id="textContainer">
-            <div class="player-name" id="playerName">
-                <span id="nameText"></span>
-            </div>
-            <div class="gameday">4Η ΑΓΩΝΙΣΤΙΚΗ</div>
+            <div class="player-name" id="playerName">{PLAYER_NAME}</div>
+            <div class="gameday" id="gameday">{GAME_DAY}η ΑΓΩΝΙΣΤΙΚΗ</div>
         </div>
     </div>
 
@@ -427,10 +467,10 @@
         const THUNDER_START = 3500;
         const PLAYER_START = 3500;
         const TEXT_START = 5000;
-        const TYPING_START = 5500;
-        const TYPING_DURATION = 2000;
+        const NAME_ZOOM_START = 5500;
+        const GAMEDAY_ZOOM_START = 5800;
         const HOLD_DURATION = 10000;
-        const TOTAL_CYCLE = TYPING_START + TYPING_DURATION + HOLD_DURATION;
+        const TOTAL_CYCLE = GAMEDAY_ZOOM_START + 1000 + HOLD_DURATION;
 
         // DOM elements
         const mvpBadge = document.getElementById('mvpBadge');
@@ -439,31 +479,11 @@
         const playerImage = document.getElementById('playerImage');
         const textContainer = document.getElementById('textContainer');
         const playerNameEl = document.getElementById('playerName');
-        const nameText = document.getElementById('nameText');
+        const gamedayEl = document.getElementById('gameday');
 
-        // Set gameday text
-        document.querySelector('.gameday').textContent = `GAMEDAY ${GAME_DAY}`;
-
-        // Typing effect function
-        function typeText(text, duration) {
-            nameText.innerHTML = '';
-            playerNameEl.classList.add('typing');
-            
-            const chars = text.split('');
-            const charDelay = duration / chars.length;
-            
-            chars.forEach((char, index) => {
-                const span = document.createElement('span');
-                span.textContent = char;
-                span.style.animationDelay = `${charDelay * index}ms`;
-                nameText.appendChild(span);
-            });
-
-            setTimeout(() => {
-                playerNameEl.classList.remove('typing');
-                playerNameEl.classList.add('typing-complete');
-            }, duration);
-        }
+        // Set text content
+        playerNameEl.textContent = PLAYER_NAME;
+        gamedayEl.textContent = `GAMEDAY ${GAME_DAY}`;
 
         // Main animation sequence
         function startAnimation() {
@@ -472,15 +492,16 @@
             thunder.classList.remove('show');
             playerImage.classList.remove('show');
             textContainer.classList.remove('show');
-            playerNameEl.classList.remove('typing', 'typing-complete');
-            nameText.innerHTML = '';
+            playerNameEl.classList.remove('show');
+            gamedayEl.classList.remove('show');
 
             setTimeout(() => mvpBadge.classList.add('show'), BADGE_START);
             setTimeout(() => lightRay.classList.add('show'), LIGHT_RAY_START);
             setTimeout(() => thunder.classList.add('show'), THUNDER_START);
             setTimeout(() => playerImage.classList.add('show'), PLAYER_START);
             setTimeout(() => textContainer.classList.add('show'), TEXT_START);
-            setTimeout(() => typeText(PLAYER_NAME, TYPING_DURATION), TYPING_START);
+            setTimeout(() => playerNameEl.classList.add('show'), NAME_ZOOM_START);
+            setTimeout(() => gamedayEl.classList.add('show'), GAMEDAY_ZOOM_START);
             setTimeout(() => startAnimation(), TOTAL_CYCLE);
         }
 
