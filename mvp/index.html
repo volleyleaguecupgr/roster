@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>MVP Graphics - OBS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            background: transparent;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* MVP Badge */
+        .mvp-badge {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            opacity: 0;
+            transform: scale(0) rotateY(0deg) perspective(1000px);
+            z-index: 1;
+            filter: drop-shadow(0 0 40px rgba(0, 120, 255, 0));
+        }
+
+        .mvp-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .mvp-badge.show {
+            animation: badgeEntry 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes badgeEntry {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotateY(0deg);
+                filter: drop-shadow(0 0 40px rgba(0, 120, 255, 0));
+            }
+            40% {
+                opacity: 1;
+                transform: scale(1.4) rotateY(180deg);
+                filter: drop-shadow(0 0 60px rgba(0, 120, 255, 1));
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(360deg);
+                filter: drop-shadow(0 0 50px rgba(0, 120, 255, 0.8));
+            }
+        }
+
+        /* Light Ray Shine Effect */
+        .light-ray {
+            position: absolute;
+            width: 150px;
+            height: 800px;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 25%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0.1) 75%,
+                transparent 100%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
+            filter: blur(2px);
+        }
+
+        .light-ray.show {
+            animation: lightSweep 1.5s ease-in-out 2.2s;
+        }
+
+        @keyframes lightSweep {
+            0% {
+                opacity: 0;
+                transform: translate(-150%, -50%) rotate(-20deg) scaleY(0.5);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-80%, -50%) rotate(-20deg) scaleY(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) rotate(-20deg) scaleY(1);
+            }
+            80% {
+                opacity: 1;
+                transform: translate(30%, -50%) rotate(-20deg) scaleY(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(150%, -50%) rotate(-20deg) scaleY(0.5);
+            }
+        }
+
+        /* Player Image Container */
+        .player-container {
+            position: absolute;
+            width: 600px;
+            height: 750px;
+            opacity: 0;
+            transform: scale(1.5);
+            z-index: 2;
+            top: 50%;
+            left: 50%;
+            margin-left: -300px;
+            margin-top: -375px;
+            pointer-events: none;
+        }
+
+        .player-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.6));
+        }
+
+        .player-container.show {
+            animation: playerEntry 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3.5s forwards;
+        }
+
+        @keyframes playerEntry {
+            0% {
+                opacity: 0;
+                transform: scale(1.5) translateY(0);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(-150px);
+            }
+        }
+
+        /* Thunder Effect */
+        .thunder-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0;
+        }
+
+        .thunder-flash {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, 
+                rgba(255, 255, 200, 0.9) 0%, 
+                rgba(100, 150, 255, 0.6) 20%, 
+                transparent 50%);
+            opacity: 0;
+        }
+
+        .thunder-bolt {
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.9) 30%, 
+                rgba(100, 200, 255, 0.8) 50%, 
+                transparent 70%);
+            left: 50%;
+            top: 0;
+            transform: translateX(-2px) scaleY(0);
+            transform-origin: top;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                        0 0 40px rgba(100, 200, 255, 0.6);
+        }
+
+        .thunder-bolt:nth-child(2) {
+            left: 48%;
+            width: 3px;
+        }
+
+        .thunder-bolt:nth-child(3) {
+            left: 52%;
+            width: 3px;
+        }
+
+        .thunder-container.show .thunder-flash {
+            animation: flashEffect 1.2s ease-out 3.5s;
+        }
+
+        .thunder-container.show .thunder-bolt:nth-child(1) {
+            animation: boltStrike 0.6s ease-out 3.5s;
+        }
+
+        .thunder-container.show .thunder-bolt:nth-child(2) {
+            animation: boltStrike 0.6s ease-out 3.55s;
+        }
+
+        .thunder-container.show .thunder-bolt:nth-child(3) {
+            animation: boltStrike 0.6s ease-out 3.6s;
+        }
+
+        @keyframes flashEffect {
+            0%, 100% {
+                opacity: 0;
+            }
+            5%, 15%, 25% {
+                opacity: 1;
+            }
+            10%, 20% {
+                opacity: 0.3;
+            }
+            30% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes boltStrike {
+            0% {
+                opacity: 0;
+                transform: translateX(-2px) scaleY(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateX(-2px) scaleY(1);
+            }
+            20% {
+                opacity: 0;
+            }
+            30% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Text Container */
+        .text-container {
+            position: absolute;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 4;
+            opacity: 0;
+        }
+
+        .text-container.show {
+            animation: fadeIn 0.5s ease-out 5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .gameday {
+            font-size: 42px;
+            font-weight: 900;
+            color: #0096FF;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            text-shadow: 
+                3px 3px 0 rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(0, 150, 255, 0.6);
+        }
+
+        .player-name {
+            font-size: 86px;
+            font-weight: 900;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 
+                4px 4px 0 rgba(0, 0, 0, 0.9),
+                0 0 30px rgba(0, 150, 255, 0.8),
+                0 0 60px rgba(0, 150, 255, 0.4);
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 4px solid #0096FF;
+        }
+
+        .player-name.typing {
+            animation: typing 2s steps(20) 5.5s forwards, 
+                       blink 0.7s step-end infinite 5.5s;
+        }
+
+        .player-name.typing-complete {
+            border-right: none;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        /* Hide elements initially */
+        .hidden {
+            opacity: 0 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- MVP Badge -->
+        <div class="mvp-badge" id="mvpBadge">
+            <img src="mvp_badge.png" alt="MVP Badge" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'700\' height=\'700\'%3E%3Crect fill=\'%23f0f0f0\' width=\'700\' height=\'700\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'40\' fill=\'%23666\'%3EMVP BADGE%3C/text%3E%3C/svg%3E'">
+        </div>
+
+        <!-- Light Ray Shine Effect -->
+        <div class="light-ray" id="lightRay"></div>
+
+        <!-- Thunder Effect -->
+        <div class="thunder-container" id="thunder">
+            <div class="thunder-flash"></div>
+            <div class="thunder-bolt"></div>
+            <div class="thunder-bolt"></div>
+            <div class="thunder-bolt"></div>
+        </div>
+
+        <!-- Player Image -->
+        <div class="player-container" id="playerImage">
+            <img src="mvp.png" alt="MVP Player" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'750\'%3E%3Crect fill=\'%23e0e0e0\' width=\'600\' height=\'750\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'40\' fill=\'%23666\'%3EPLAYER IMAGE%3C/text%3E%3C/svg%3E'">
+        </div>
+
+        <!-- Text Container -->
+        <div class="text-container" id="textContainer">
+            <div class="gameday">GAMEDAY 15</div>
+            <div class="player-name" id="playerName">
+                <span id="nameText"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - EDIT THESE VALUES
+        const PLAYER_NAME = "KOVACEVIC FILIP";
+        const GAME_DAY = "19";
+        
+        // Animation timing constants (in milliseconds)
+        const BADGE_START = 100;
+        const THUNDER_START = 3500;
+        const PLAYER_START = 3500;
+        const TEXT_START = 5000;
+        const TYPING_START = 5500;
+        const TYPING_DURATION = 2000;
+        const HOLD_DURATION = 10000;
+        const TOTAL_CYCLE = TYPING_START + TYPING_DURATION + HOLD_DURATION;
+
+        // DOM elements
+        const mvpBadge = document.getElementById('mvpBadge');
+        const lightRay = document.getElementById('lightRay');
+        const thunder = document.getElementById('thunder');
+        const playerImage = document.getElementById('playerImage');
+        const textContainer = document.getElementById('textContainer');
+        const playerNameEl = document.getElementById('playerName');
+        const nameText = document.getElementById('nameText');
+
+        // Set gameday text
+        document.querySelector('.gameday').textContent = `GAMEDAY ${GAME_DAY}`;
+
+        // Typing effect function
+        function typeText(text, duration) {
+            nameText.textContent = '';
+            playerNameEl.style.width = '0';
+            playerNameEl.classList.add('typing');
+            
+            const chars = text.split('');
+            const charDelay = duration / chars.length;
+            
+            chars.forEach((char, index) => {
+                setTimeout(() => {
+                    nameText.textContent += char;
+                }, charDelay * index);
+            });
+
+            setTimeout(() => {
+                playerNameEl.classList.remove('typing');
+                playerNameEl.classList.add('typing-complete');
+                playerNameEl.style.width = 'auto';
+            }, duration);
+        }
+
+        // Main animation sequence
+        function startAnimation() {
+            // Reset all elements
+            mvpBadge.classList.remove('show');
+            lightRay.classList.remove('show');
+            thunder.classList.remove('show');
+            playerImage.classList.remove('show');
+            textContainer.classList.remove('show');
+            playerNameEl.classList.remove('typing', 'typing-complete');
+            nameText.textContent = '';
+
+            // Start badge animation
+            setTimeout(() => {
+                mvpBadge.classList.add('show');
+            }, BADGE_START);
+
+            // Start light ray shine effect
+            setTimeout(() => {
+                lightRay.classList.add('show');
+            }, BADGE_START + 2200);
+
+            // Start thunder effect
+            setTimeout(() => {
+                thunder.classList.add('show');
+            }, THUNDER_START);
+
+            // Start player image animation
+            setTimeout(() => {
+                playerImage.classList.add('show');
+            }, PLAYER_START);
+
+            // Show text container
+            setTimeout(() => {
+                textContainer.classList.add('show');
+            }, TEXT_START);
+
+            // Start typing effect
+            setTimeout(() => {
+                typeText(PLAYER_NAME, TYPING_DURATION);
+            }, TYPING_START);
+
+            // Loop the animation
+            setTimeout(() => {
+                startAnimation();
+            }, TOTAL_CYCLE);
+        }
+
+        // Start the animation when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                startAnimation();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
