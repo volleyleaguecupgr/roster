@@ -4,13 +4,18 @@
 <meta charset="UTF-8" />
 <title>Volleyball Dream Team (Final Layout)</title>
 <style>
+
   body{
     margin:0;background:#000;
     width:1920px;height:1080px;
     overflow:hidden;display:flex;justify-content:center;align-items:center;
     font-family:'Arial',sans-serif;
   }
-  .court-container{position:relative;width:1920px;height:1080px;perspective:1600px;}
+
+  .court-container{
+    position:relative;width:1920px;height:1080px;perspective:1600px;
+  }
+
   .court{
     position:absolute;top:180px;left:50%;
     width:1100px;height:1150px;
@@ -20,19 +25,27 @@
     transform-origin:top center;
     box-shadow:0 20px 100px rgba(0,0,0,0.7);
   }
+
   .court::before,.court::after{
     content:'';position:absolute;left:0;width:100%;height:4px;background:#fff;
   }
   .court::before{top:250px;}
   .court::after{bottom:250px;}
-  .title { position:absolute; top:60px; left:50%; transform:translateX(-50%);
+
+  .title {
+    position:absolute; top:60px; left:50%; transform:translateX(-50%);
     font-size:48px; font-weight:900;
     background:linear-gradient(135deg, #f8fafc 0%, #3b82f6 100%);
     background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     text-shadow:0 0 30px rgba(59,130,246,0.8);
     z-index:15; opacity:0; transform:translateX(-50%) translateY(-30px);
-    animation:titleSlideIn 2s ease-out 0.5s forwards; }
-  @keyframes titleSlideIn { to { opacity:1; transform:translateX(-50%) translateY(0); } }
+    animation:titleSlideIn 2s ease-out 0.5s forwards;
+  }
+
+  @keyframes titleSlideIn {
+    to { opacity:1; transform:translateX(-50%) translateY(0); }
+  }
+
   .net{
     position:absolute;top:310px;left:50%;
     width:1100px;height:12px;
@@ -41,122 +54,171 @@
     z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.5);
   }
 
-  /* player cards */
+  /* PLAYER CARD LAYOUT */
+
   .player-card{
-    position:absolute;width:260px;text-align:center;opacity:0;
-    transform:translateY(60px) scale(0.9);z-index:10;
+    position:absolute;
+    opacity:0;
+    transform:translateY(60px) scale(0.9);
+    z-index:10;
   }
-  .player-photo-wrapper{position:relative;display:inline-block;}
+
+  .player-photo-wrapper{
+    position:relative;
+    display:inline-block;
+    margin-bottom:-20px;
+  }
+
   .player-photo{
     width:230px;height:230px;border-radius:20px;
-    object-fit:cover;box-shadow:0 15px 40px rgba(0,0,0,0.6);
+    object-fit:cover;
+    box-shadow:0 15px 40px rgba(0,0,0,0.6);
   }
+
+  /* TEXT BOX */
+
   .player-info-box{
-    position:relative;
+    background:#fff;
+    padding:12px 18px 12px 60px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.25);
     display:flex;
     align-items:center;
-    justify-content:flex-start;
-    gap:10px;
+    position:relative;
+    min-width:260px;
   }
-  
+
+  .info-badge{
+    width:42px;
+    height:42px;
+    object-fit:contain;
+    background:#fff;
+    border-radius:50%;
+    padding:5px;
+    position:absolute;
+    left:12px;
+  }
+
   .player-info-text{
     display:flex;
     flex-direction:column;
     text-align:left;
   }
-  .team-badge{
-    position:absolute;
-    left:10px; 
-    top:50%;
-    transform:translateY(-50%);
-    width:40px;
-    height:40px;
-    z-index:3;
-  }
-  .team-badge-img{width:100%;height:100%;object-fit:contain;background:#fff;border-radius:50%;padding:5px;box-shadow:0 8px 20px rgba(0,0,0,0.4);}
+
   .player-position{
-    background:linear-gradient(135deg,#2563eb,#3b82f6);
-    color:#fff;padding:10px 20px;font-weight:bold;font-size:16px;border-radius:8px 8px 0 0;
+    font-weight:bold;
+    font-size:16px;
+    color:#1e3a8a;
   }
+
   .player-name{
-    background:#fff;color:#1e3a8a;padding:10px 20px;font-weight:bold;font-size:16px;
-    border-radius:0 0 8px 8px;box-shadow:0 5px 15px rgba(0,0,0,0.3);
+    margin-top:3px;
+    font-weight:bold;
+    font-size:16px;
+    color:#1e3a8a;
   }
+
+  /* ANIMATIONS */
+
   @keyframes fadeUp{
     0%{opacity:0;transform:translateY(60px) scale(0.9);}
-    60%{opacity:1;transform:translateY(-10px) scale(1.02);}
+    60%{opacity:1;transform:translateY(-5px) scale(1.02);}
     100%{opacity:1;transform:translateY(0) scale(1);}
   }
-  .court.animate{animation:fadeUp 0.8s ease-out forwards;}
-  .player-card.animate{animation:fadeUp 0.8s ease-out forwards;}
-  .controls{position:absolute;top:20px;right:20px;display:flex;gap:10px;z-index:100;}
-  .btn{background:rgba(37,99,235,0.9);color:#fff;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px;}
-  .btn:hover{background:rgba(37,99,235,1);}
+
+  .player-card.animate{
+    animation:fadeUp 0.8s ease-out forwards;
+  }
+
 </style>
 </head>
+
 <body>
 <div class="title" id="mainTitle">BEST TEAM</div>
+
 <div class="court-container" id="courtContainer">
   <div class="court"></div>
   <div class="net"></div>
 </div>
 
 <script>
-const GITHUB_OWNER='volleyleaguecupgr';
-const GITHUB_REPO='roster';
-const GITHUB_FILE_PATH='best_team.json';
-const teams=[
-  {name:"ΠΑΟΚ",key:"paok"},{name:"ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",key:"foinikas"},
-  {name:"ΠΑΝΑΘΗΝΑΪΚΟΣ AO",key:"panathinaikos"},{name:"ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",key:"floisvos"},
-  {name:"ΑΟΝΣ ΜΙΛΩΝ",key:"milon"},{name:"ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",key:"kalamata"},
-  {name:"ΠΑΝΙΩΝΙΟΣ",key:"panionios"},{name:"ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",key:"olympiakos"},
-  {name:"ΟΦΗ",key:"ofi"},{name:"ΑΟΠ ΚΗΦΙΣΙΑΣ",key:"kifisia"}
+
+const GITHUB_OWNER = 'volleyleaguecupgr';
+const GITHUB_REPO = 'roster';
+const GITHUB_FILE_PATH = 'best_team.json';
+
+const teams = [
+  {name:"ΠΑΟΚ",key:"paok"},
+  {name:"ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",key:"foinikas"},
+  {name:"ΠΑΝΑΘΗΝΑΪΚΟΣ AO",key:"panathinaikos"},
+  {name:"ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",key:"floisvos"},
+  {name:"ΑΟΝΣ ΜΙΛΩΝ",key:"milon"},
+  {name:"ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",key:"kalamata"},
+  {name:"ΠΑΝΙΩΝΙΟΣ",key:"panionios"},
+  {name:"ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",key:"olympiakos"},
+  {name:"ΟΦΗ",key:"ofi"},
+  {name:"ΑΟΠ ΚΗΦΙΣΙΑΣ",key:"kifisia"}
 ];
-function getTeamKey(name){const t=teams.find(tt=>tt.name.toLowerCase()===name.toLowerCase());return t?t.key:name.toLowerCase().replace(/\s+/g,'-');}
+
+function getTeamKey(name){
+  const t = teams.find(tt => tt.name.toLowerCase() === name.toLowerCase());
+  return t ? t.key : name.toLowerCase().replace(/\s+/g,'-');
+}
 
 async function loadPlayers(){
   const url=`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${GITHUB_FILE_PATH}`;
-  const res=await fetch(url);const players=await res.json();renderPlayers(players);
+  const res=await fetch(url);
+  const players=await res.json();
+  renderPlayers(players);
 }
 
 function renderPlayers(players){
+
   const court=document.getElementById('courtContainer');
-  // Moved top row higher, spaced more between rows
+
+  /* NEW LAYOUT SPACINGS */
+
   const layout=[
-    {position:'ΠΑΣΑΔΟΡΟΣ',index:0,x:540,y:65},
-    {position:'ΚΕΝΤΡΙΚΟΣ',index:0,x:820,y:65},
-    {position:'ΑΚΡΑΙΟΣ',index:0,x:1100,y:65},
+    {position:'ΠΑΣΑΔΟΡΟΣ',index:0,x:540,y:100},
+    {position:'ΚΕΝΤΡΙΚΟΣ',index:0,x:820,y:100},
+    {position:'ΑΚΡΑΙΟΣ',index:0,x:1100,y:100},
 
-    {position:'ΑΚΡΑΙΟΣ.',index:0,x:540,y:405},
-    {position:'ΚΕΝΤΡΙΚΟΣ.',index:0,x:820,y:405},
-    {position:'ΔΙΑΓΩΝΙΟΣ',index:0,x:1100,y:405},
+    {position:'ΑΚΡΑΙΟΣ.',index:0,x:540,y:380},
+    {position:'ΚΕΝΤΡΙΚΟΣ.',index:0,x:820,y:380},
+    {position:'ΔΙΑΓΩΝΙΟΣ',index:0,x:1100,y:380},
 
-    {position:'ΛΙΜΠΕΡΟ',index:0,x:820,y:750}
+    {position:'ΛΙΜΠΕΡΟ',index:0,x:820,y:700}
   ];
+
   layout.forEach(pos=>{
-    const player=players.filter(p=>p.position===pos.position)[pos.index];
+    const player = players.filter(p => p.position === pos.position)[pos.index];
     if(!player)return;
+
     const teamKey=getTeamKey(player.team);
     const logo=`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/bestteam/logos/${teamKey}.png`;
+
     const card=document.createElement('div');
     card.className='player-card';
     card.style.left=`${pos.x}px`;
     card.style.top=`${pos.y}px`;
+
     card.innerHTML=`
       <div class="player-photo-wrapper">
         <img src="${player.photo}" class="player-photo" alt="${player.name}">
-        <div class="team-badge"><img src="${logo}" class="team-badge-img"></div>
       </div>
+
       <div class="player-info-box">
-          <div class="team-badge"><img src="${logo}" class="team-badge-img"></div>
-          <div class="player-info-text">
-              <div class="player-position">${player.position}</div>
-              <div class="player-name">${player.name}</div>
-          </div>
+        <img src="${logo}" class="info-badge">
+        <div class="player-info-text">
+          <div class="player-position">${player.position}</div>
+          <div class="player-name">${player.name}</div>
+        </div>
       </div>
     `;
+
     court.appendChild(card);
   });
+
   animatePlayers();
 }
 
@@ -164,8 +226,9 @@ function animatePlayers(){
   const cards=document.querySelectorAll('.player-card');
   cards.forEach((c,i)=>setTimeout(()=>c.classList.add('animate'),i*500));
 }
-function reloadDisplay(){location.reload();}
+
 loadPlayers();
+
 </script>
 </body>
 </html>
