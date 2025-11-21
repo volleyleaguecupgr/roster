@@ -13,7 +13,7 @@
   }
 
   .court-container{
-    position:relative;width:1920px;height:1080px;perspective:1600px;
+    position:relative;width:1920px;height:1080px;perspective:800px;
   }
 
   .court{
@@ -40,6 +40,7 @@
     text-shadow:0 0 30px rgba(59,130,246,0.8);
     z-index:15; opacity:0; transform:translateX(-50%) translateY(-30px);
     animation:titleSlideIn 2s ease-out 0.5s forwards;
+    -webkit-text-stroke: 2px white;
   }
 
   @keyframes titleSlideIn {
@@ -182,9 +183,9 @@ function renderPlayers(players){
     {position:'ΚΕΝΤΡΙΚΟΣ',index:0,x:820,y:100},
     {position:'ΑΚΡΑΙΟΣ',index:0,x:1100,y:100},
 
-    {position:'ΑΚΡΑΙΟΣ.',index:0,x:540,y:280},
-    {position:'ΚΕΝΤΡΙΚΟΣ.',index:0,x:820,y:280},
-    {position:'ΔΙΑΓΩΝΙΟΣ',index:0,x:1100,y:280},
+    {position:'ΑΚΡΑΙΟΣ.',index:0,x:540,y:380},
+    {position:'ΚΕΝΤΡΙΚΟΣ.',index:0,x:820,y:380},
+    {position:'ΔΙΑΓΩΝΙΟΣ',index:0,x:1100,y:380},
 
     {position:'ΛΙΜΠΕΡΟ',index:0,x:820,y:600}
   ];
