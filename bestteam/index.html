@@ -102,15 +102,15 @@ function renderPlayers(players){
   const court=document.getElementById('courtContainer');
   // Moved top row higher, spaced more between rows
   const layout=[
-    {position:'ΑΚΡΑΙΟΣ1',index:0,x:540,y:65},
-    {position:'ΚΕΝΤΡΙΚΟΣ1',index:0,x:820,y:65},
-    {position:'ΛΙΜΠΕΡΟ',index:0,x:1100,y:65},
+    {position:'ΠΑΣΑΔΟΡΟΣ',index:0,x:540,y:65},
+    {position:'ΚΕΝΤΡΙΚΟΣ',index:0,x:820,y:65},
+    {position:'ΑΚΡΑΙΟΣ',index:0,x:1100,y:65},
 
-    {position:'ΔΙΑΓΩΝΙΟΣ',index:0,x:540,y:405},
-    {position:'ΑΚΡΑΙΟΣ2',index:0,x:820,y:405},
-    {position:'ΠΑΣΑΔΟΡΟΣ',index:0,x:1100,y:405},
+    {position:'ΑΚΡΑΙΟΣ.',index:0,x:540,y:405},
+    {position:'ΚΕΝΤΡΙΚΟΣ.',index:0,x:820,y:405},
+    {position:'ΔΙΑΓΩΝΙΟΣ',index:0,x:1100,y:405},
 
-    {position:'ΚΕΝΤΡΙΚΟΣ2',index:0,x:820,y:750}
+    {position:'ΛΙΜΠΕΡΟ.',index:0,x:820,y:750}
   ];
   layout.forEach(pos=>{
     const player=players.filter(p=>p.position===pos.position)[pos.index];
