@@ -14,12 +14,12 @@
   "players": [
     {
       "number": 1,
-      "name": "Jose Masso Alvarez",
-      "nationality": "CUB",
+      "name": "Jendryk Jeffrey",
+      "nationality": "USA",
       "position": "Κεντρικός",
-      "birthdate": "02/12/1997",
-      "height": "2,04",
-      "team": "Friedrichshafen (GER)"
+      "birthdate": "19/05/1995",
+      "height": "2,08",
+      "team": "Fenerbahce (Τουρκία)"
     },
     {
       "number": 4,
@@ -128,6 +128,15 @@
       "birthdate": "05/01/2008",
       "height": "2,05",
       "team": "Π.Α.Ο.Κ."
+    },
+    {
+      "number": 91,
+      "name": "Kartev Nikolay",
+      "nationality": "BUL",
+      "position": "Κεντρικός",
+      "birthdate": "20/09/1995",
+      "height": "2,04",
+      "team": "Lvi Praha (Τσεχία)"
     },
     {
       "number": 99,
