@@ -7,12 +7,12 @@
     "logo": "paok.png"
   },
   "awayTeam": {
-    "name": "Καλαμάτα",
-    "subtitle": "A.O. '80 AFFIDEA",
-    "slug": "kalamata",
-    "color": "#008428",
-    "logo": "kalamata.png"
+    "name": "Πανιώνιος",
+    "subtitle": "Γ.Σ.Σ.",
+    "slug": "panionios",
+    "color": "#004b8d",
+    "logo": "panionios.png"
   },
-  "date": "22 Νοεμβρίου 2025",
-  "league": "5η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "29 Νοεμβρίου 2025",
+  "league": "6η ΑΓΩΝΙΣΤΙΚΗ"
 }

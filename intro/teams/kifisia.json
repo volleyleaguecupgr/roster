@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Φλοίσβος",
-    "subtitle": "A. O. MEMBERS PARON",
-    "slug": "floisvos",
-    "color": "#3a55a8",
-    "logo": "floisvos.png"
-  },
-  "awayTeam": {
     "name": "Κηφισιά",
     "subtitle": "A.Ο.Π.Σ.",
     "slug": "kifisia",
     "color": "#1e3a8a",
     "logo": "kifisia.png"
   },
-  "date": "23 Νοεμβρίου 2025",
-  "league": "5η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Ολυμπιακός",
+    "subtitle": "Σ.Φ.Π ΟΝΕΧ",
+    "slug": "olympiakos",
+    "color": "#E41E26",
+    "logo": "olympiakos.png"
+  },
+  "date": "28 Νοεμβρίου 2025",
+  "league": "6η ΑΓΩΝΙΣΤΙΚΗ"
 }

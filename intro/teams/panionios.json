@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Π.Α.Ο.Κ.",
+    "subtitle": "Α.Σ.",
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png"
+  },
+  "awayTeam": {
     "name": "Πανιώνιος",
     "subtitle": "Γ.Σ.Σ.",
     "slug": "panionios",
     "color": "#004b8d",
     "logo": "panionios.png"
   },
-  "awayTeam": {
-    "name": "Ο.Φ.Η.",
-    "subtitle": ".",
-    "slug": "ofi",
-    "color": "#000000",
-    "logo": "ofi.png"
-  },
-  "date": "21 Νοεμβρίου 2025",
-  "league": "5η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "29 Νοεμβρίου 2025",
+  "league": "6η ΑΓΩΝΙΣΤΙΚΗ"
 }
