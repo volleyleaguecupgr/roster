@@ -1,8 +1,8 @@
 {
   "match_info": {
-    "home_team": "PAOK",
-    "away_team": "PANIONIOS G.S.S.",
-    "datetime": "29 November 2025 - 16:30"
+    "home_team": "AO KALAMATA '80",
+    "away_team": "A.O. FOINIKAS SIROU",
+    "datetime": "29 November 2025 - 17:00"
   },
   "teams_comparison": {
     "titles": [
@@ -54,39 +54,39 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "33%",
+        "home": "31%",
         "average": "34%",
-        "away": "32%"
+        "away": "28%"
       },
-      "spikes_per_set_home": "12.11",
+      "spikes_per_set_home": "11.13",
       "spikes_per_set_avg": "11.76",
-      "spikes_per_set_away": "12.17",
-      "spikes_per_set_home_played": "(18)",
-      "spikes_per_set_away_played": "(23)"
+      "spikes_per_set_away": "10.94",
+      "spikes_per_set_home_played": "(24)",
+      "spikes_per_set_away_played": "(16)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.39",
+      "blocks_per_set_home": "2.13",
       "blocks_per_set_avg": "1.93",
-      "blocks_per_set_away": "1.35",
-      "blocks_home_played": "(18)",
-      "blocks_away_played": "(23)"
+      "blocks_per_set_away": "2.56",
+      "blocks_home_played": "(24)",
+      "blocks_away_played": "(16)"
     },
     "serve": {
-      "aces_home": "27",
-      "aces_away": "41",
-      "aces_per_set_home": "1.50",
+      "aces_home": "37",
+      "aces_away": "14",
+      "aces_per_set_home": "1.54",
       "aces_per_set_avg": "1.68",
-      "aces_per_set_away": "1.78",
-      "aces_home_played": "(18)",
-      "aces_away_played": "(23)"
+      "aces_per_set_away": "0.88",
+      "aces_home_played": "(24)",
+      "aces_away_played": "(16)"
     },
     "reception": {
-      "reception_eff_home": "42%",
+      "reception_eff_home": "29%",
       "reception_eff_avg": "33%",
-      "reception_eff_away": "42%",
-      "reception_perfect_home": "27%",
+      "reception_eff_away": "24%",
+      "reception_perfect_home": "22%",
       "reception_perfect_avg": "26%",
-      "reception_perfect_away": "30%"
+      "reception_perfect_away": "20%"
     }
   }
 }
