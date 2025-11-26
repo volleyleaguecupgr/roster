@@ -1,8 +1,8 @@
 {
   "match_info": {
-    "home_team": "AO KALAMATA '80",
-    "away_team": "A.O. FOINIKAS SIROU",
-    "datetime": "29 November 2025 - 17:00"
+    "home_team": "AONS MILON",
+    "away_team": "AO FLOISVOS",
+    "datetime": "29 November 2025 - 19:00"
   },
   "teams_comparison": {
     "titles": [
@@ -54,39 +54,39 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "31%",
+        "home": "42%",
         "average": "34%",
-        "away": "28%"
+        "away": "25%"
       },
-      "spikes_per_set_home": "11.13",
+      "spikes_per_set_home": "14.05",
       "spikes_per_set_avg": "11.76",
-      "spikes_per_set_away": "10.94",
-      "spikes_per_set_home_played": "(24)",
-      "spikes_per_set_away_played": "(16)"
+      "spikes_per_set_away": "11.13",
+      "spikes_per_set_home_played": "(19)",
+      "spikes_per_set_away_played": "(15)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.13",
+      "blocks_per_set_home": "1.68",
       "blocks_per_set_avg": "1.93",
-      "blocks_per_set_away": "2.56",
-      "blocks_home_played": "(24)",
-      "blocks_away_played": "(16)"
+      "blocks_per_set_away": "1.33",
+      "blocks_home_played": "(19)",
+      "blocks_away_played": "(15)"
     },
     "serve": {
-      "aces_home": "37",
+      "aces_home": "52",
       "aces_away": "14",
-      "aces_per_set_home": "1.54",
+      "aces_per_set_home": "2.74",
       "aces_per_set_avg": "1.68",
-      "aces_per_set_away": "0.88",
-      "aces_home_played": "(24)",
-      "aces_away_played": "(16)"
+      "aces_per_set_away": "0.93",
+      "aces_home_played": "(19)",
+      "aces_away_played": "(15)"
     },
     "reception": {
-      "reception_eff_home": "29%",
+      "reception_eff_home": "35%",
       "reception_eff_avg": "33%",
-      "reception_eff_away": "24%",
-      "reception_perfect_home": "22%",
+      "reception_eff_away": "36%",
+      "reception_perfect_home": "27%",
       "reception_perfect_avg": "26%",
-      "reception_perfect_away": "20%"
+      "reception_perfect_away": "31%"
     }
   }
 }
