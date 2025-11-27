@@ -11,6 +11,10 @@
     "name": "Θεόδωρος Χατζηαντωνίου",
     "role": "ΠΡΟΠΟΝΗΤΗΣ"
   },
+  "assistant": {
+    "name": "Ιωάννης Μαντέκας",
+    "role": "ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ"
+  },
   "players": [
     {"number":2,"name":"Δημήτριος Κομητούδης","nationality":"GRE","position":"Πασαδόρος","birthdate":"04/10/1995","height":"1,94","team":"Α.Ο.Π. Κηφισιάς"},
     {"number":4,"name":"Yannick Goralik","nationality":"GER","position":"Κεντρικός","birthdate":"23/10/1997","height":"2,06","team":"VK Trox Priblam (CZE)"},
