@@ -11,6 +11,10 @@
     "name": "Andrea Gardini",
     "role": "ΠΡΟΠΟΝΗΤΗΣ"
   },
+  "assistant": {
+    "name": "Αντώνιος Βουρδέρης",
+    "role": "ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ"
+  },
   "players": [
     {
       "number": 1,
