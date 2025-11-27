@@ -381,7 +381,13 @@
                 playerRole.textContent = 'ΠΡΟΠΟΝΗΤΗΣ';
                 playerNumber.textContent = 'C';
                 playerNumber.className = 'player-number coach';
-            } else {
+            }
+            else if (isAssistant){
+                playerRole.textContent = 'ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ';
+                playerNumber.textContent = 'C';
+                playerNumber.className = 'player-number assistant';
+            }
+            else {
                 playerRole.textContent = player.position || player.role || 'ΠΑΙΚΤΗΣ';
                 playerNumber.textContent = player.number;
                 playerNumber.className = 'player-number';
