@@ -177,6 +177,11 @@
             font-size: 50px;
         }
 
+        .player-number.assistant {
+            background: rgba(255, 165, 0, 0.9);
+            font-size: 50px;
+        }
+
         /* Team-specific gradients */
         :root {
             --olympiakos: #dc1414;
@@ -385,7 +390,7 @@
             else if (isAssistant){
                 playerRole.textContent = 'ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ';
                 playerNumber.textContent = 'C';
-                playerNumber.className = 'player-number coach';
+                playerNumber.className = 'player-number assistant';
             }
             else {
                 playerRole.textContent = player.position || player.role || 'ΠΑΙΚΤΗΣ';
