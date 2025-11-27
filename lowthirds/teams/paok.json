@@ -11,6 +11,10 @@
     "name": "Joško Milenkoski (MKD)",
     "role": "ΠΡΟΠΟΝΗΤΗΣ"
   },
+  "assistant": {
+    "name": "Βαλάντης Μαμάης",
+    "role": "ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ"
+  },
   "players": [
     {
       "number": 1,
