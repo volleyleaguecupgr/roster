@@ -11,6 +11,10 @@
     "name": "Αθανάσιος Τερζής",
     "role": "ΠΡΟΠΟΝΗΤΗΣ"
   },
+  "assistant": {
+    "name": "Alejandro Schneider (ARG)",
+    "role": "ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ"
+  },
   "players": [
     {
       "number": 1,
