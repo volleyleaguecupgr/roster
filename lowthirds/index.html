@@ -351,6 +351,9 @@
             if (number === 100) {
                 return roster.coach || null;
             }
+            else if (number === 101){
+                return roster.assistant || null;
+            }
             return roster.players?.find(player => player.number === number) || null;
         }
 
