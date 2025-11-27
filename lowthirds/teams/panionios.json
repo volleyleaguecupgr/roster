@@ -11,6 +11,10 @@
     "name": "Αργύρης Ψάρρας",
     "role": "ΠΡΟΠΟΝΗΤΗΣ"
   },
+  "assistant": {
+    "name": "Στυλιανός Κουτσουρής",
+    "role": "ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ"
+  },
   "players": [
     {"number":1,"name":"Boris Busa","nationality":"SRB","position":"Διαγώνιος","birthdate":"25/04/1997","height":"2,00","team":"Α.Ο. Φοίνικας Σύρου"},
     {"number":3,"name":"Stefan Thiel","nationality":"GER","position":"Πασαδόρος","birthdate":"15/10/1997","height":"1,85","team":"Lvi Praha (CZE)"},
