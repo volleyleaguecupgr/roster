@@ -444,7 +444,7 @@
                     throw new Error(`Παίκτης με αριθμό ${params.number} δεν βρέθηκε`);
                 }
 
-                displayPlayer(teamConfig, player, params.number === 100);
+                displayPlayer(teamConfig, player, params.number === 100, params.number === 101);
 
             } catch (error) {
                 console.error('Initialization error:', error);
