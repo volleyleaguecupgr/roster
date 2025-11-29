@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volley League 2025-26</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('background.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1920px;
+            height: 100vh;
+            max-height: 1080px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .match-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 80px;
+        }
+
+        .team-container {
+            width: 650px;
+            height: 480px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+        }
+
+        .team-logo {
+            width: 240px;
+            height: 240px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 35px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-logo img {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        .team-name {
+            font-size: 1.6em;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #a0d3f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .team-sponsor {
+            font-size: 1.6em;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #5eb3e4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .match-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .date {
+            font-size: 5em;
+            font-weight: 900;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #5eb3e4 0%, #a0d3f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .vs {
+            font-size: 10em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #5eb3e4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 10px 0;
+        }
+
+        .time {
+            font-size: 5em;
+            font-weight: 900;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff 0%, #a0d3f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .court {
+            font-size: 1.3em;
+            font-weight: 600;
+            text-align: center;
+            background: linear-gradient(135deg, #a0d3f0 0%, #5eb3e4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .no-match {
+            text-align: center;
+            color: #fff;
+            font-size: 2em;
+            font-weight: 600;
+            padding: 60px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .loading {
+            text-align: center;
+            color: #fff;
+            font-size: 2em;
+            font-weight: 600;
+            padding: 60px;
+        }
+
+        @media (max-width: 1400px) {
+            .match-card {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .team-container {
+                width: 550px;
+                height: 400px;
+            }
+
+            .team-logo {
+                width: 180px;
+                height: 180px;
+            }
+
+            .team-logo img {
+                max-width: 150px;
+                max-height: 150px;
+            }
+
+            .vs {
+                font-size: 4em;
+            }
+
+            .date {
+                font-size: 2em;
+            }
+
+            .time {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="match-display">
+        </div>
+    </div>
+
+    <script>
+        // Configuration - update these with your GitHub details
+        const GITHUB_USERNAME = 'volleyleaguecupgr';
+        const REPO_NAME = 'roster';
+        const JSON_PATH = 'schedule/gameday/schedule.json';
+
+        const teamMapping = {
+            "paok": "ΠΑΟΚ",
+            "foinikas": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+            "panathinaikos": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+            "floisvos": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+            "milon": "ΑΟΝΣ ΜΙΛΩΝ",
+            "kalamata": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
+            "panionios": "ΠΑΝΙΩΝΙΟΣ",
+            "olympiakos": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
+            "ofi": "ΟΦΗ",
+            "kifisia": "ΑΟΠ ΚΗΦΙΣΙΑΣ"
+        };
+
+        async function loadScheduleData() {
+            try {
+                const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${JSON_PATH}`;
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error loading schedule data:', error);
+                return null;
+            }
+        }
+
+        function getTeamFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const team = urlParams.get('team');
+            return team ? team.toLowerCase() : null;
+        }
+
+        function findTeamMatch(scheduleData, teamKey) {
+            if (!scheduleData || !teamKey) return null;
+            
+            const teamName = teamMapping[teamKey];
+            if (!teamName) return null;
+
+            return scheduleData.matches.find(match => 
+                match.home.name === teamName || match.away.name === teamName
+            );
+        }
+
+        function displayMatch(match) {
+            const container = document.getElementById('match-display');
+
+            if (!match) {
+                container.innerHTML = '<div class="no-match">Δεν βρέθηκε αγώνας για αυτήν την ομάδα</div>';
+                return;
+            }
+
+            // Split team name into main name and sponsor
+            const homeNameParts = match.home.name.split(' ');
+            const homeMainName = homeNameParts[0];
+            const homeSponsor = homeNameParts.slice(1).join(' ');
+
+            const awayNameParts = match.away.name.split(' ');
+            const awayMainName = awayNameParts[0];
+            const awaySponsor = awayNameParts.slice(1).join(' ');
+
+            container.innerHTML = `
+                <div class="match-card">
+                    <div class="team-container">
+                        <div class="team-logo">
+                            <img src="${match.home.logo}" alt="${match.home.name}" onerror="this.src='logos/default.png'">
+                        </div>
+                        <div class="team-name">${homeMainName}</div>
+                        ${homeSponsor ? `<div class="team-sponsor">${homeSponsor}</div>` : ''}
+                    </div>
+                    
+                    <div class="match-info">
+                        <div class="date">${match.date}</div>
+                        <div class="vs">VS</div>
+                        <div class="time">${match.time}</div>
+                        <div class="court">${match.court}</div>
+                    </div>
+                    
+                    <div class="team-container">
+                        <div class="team-logo">
+                            <img src="${match.away.logo}" alt="${match.away.name}" onerror="this.src='logos/default.png'">
+                        </div>
+                        <div class="team-name">${awayMainName}</div>
+                        ${awaySponsor ? `<div class="team-sponsor">${awaySponsor}</div>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function init() {
+            const container = document.getElementById('match-display');
+            const teamKey = getTeamFromURL();
+            
+            if (!teamKey) {
+                container.innerHTML = '<div class="no-match">Παρακαλώ προσθέστε ?team=team_name στο URL</div>';
+                return;
+            }
+
+            // Load schedule data from GitHub
+            const scheduleData = await loadScheduleData();
+            
+            if (!scheduleData) {
+                container.innerHTML = '<div class="no-match">Σφάλμα φόρτωσης δεδομένων. Ελέγξτε τη σύνδεση.</div>';
+                return;
+            }
+
+            // Find and display the match
+            const match = findTeamMatch(scheduleData, teamKey);
+            displayMatch(match);
+        }
+
+        // Initialize when page loads
+        init();
+    </script>
+</body>
+</html>

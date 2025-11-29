@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Βαθμολογία Volleyball League - OBS Graphics</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: 'Inter', sans-serif; background: transparent; min-height: 100vh; overflow: hidden; }
+
+        .graphics-container {
+            position: fixed; top: 0; left: 0; width: 1920px; height: 1080px;
+            max-width: 100vw; max-height: 100vh; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transform-origin: top left;
+            transform: scale(calc(min(100vw / 1920px, 100vh / 1080px)));
+            background: transparent;
+        }
+
+        .moving-lines {
+            position: absolute; top: 0; left: 0; width: 1920px; height: 1080px;
+            overflow: hidden; z-index: 1; pointer-events: none;
+        }
+
+        .line {
+            position: absolute; height: 3px;
+            background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.4) 20%, 
+                rgba(147, 197, 253, 0.6) 50%, rgba(59, 130, 246, 0.4) 80%, transparent 100%);
+            border-radius: 2px; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .line-1 { width: 400px; top: 15%; animation: moveLine1 12s linear infinite; }
+        .line-2 { width: 350px; top: 35%; animation: moveLine2 10s linear infinite; }
+        .line-3 { width: 500px; top: 55%; animation: moveLine3 14s linear infinite; }
+        .line-4 { width: 300px; top: 75%; animation: moveLine4 11s linear infinite; }
+        .line-5 { width: 450px; top: 25%; animation: moveLine5 9s linear infinite; }
+
+        @keyframes moveLine1 { 0% { left: -400px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: 1920px; opacity: 0; } }
+        @keyframes moveLine2 { 0% { right: -350px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { right: 1920px; opacity: 0; } }
+        @keyframes moveLine3 { 0% { left: -500px; opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { left: 1920px; opacity: 0; } }
+        @keyframes moveLine4 { 0% { right: -300px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { right: 1920px; opacity: 0; } }
+        @keyframes moveLine5 { 0% { right: -450px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { right: 1920px; opacity: 0; } }
+
+        .volleyball-3d-scene { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; z-index: 3; pointer-events: none; }
+
+        .title {
+            position: absolute; top: 5px; left: 50%; transform: translateX(-50%);
+            color: #f8fafc; font-size: 52px; font-weight: 900;
+            text-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
+            background: linear-gradient(135deg, #f8fafc 0%, #3b82f6 100%);
+            background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            z-index: 15; opacity: 0; transform: translateX(-50%) translateY(-30px);
+            animation: titleSlideIn 2s ease-out 0.5s forwards;
+            white-space: nowrap;
+        }
+
+        @keyframes titleSlideIn { to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+
+        .standings-container {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 1200px; z-index: 10; opacity: 0;
+            transform: translate(-50%, -50%) translateY(50px);
+            animation: containerSlideIn 2s ease-out 1.5s forwards;
+        }
+
+        @keyframes containerSlideIn { to { opacity: 1; transform: translate(-50%, -50%) translateY(0); } }
+
+        .standings-table {
+            width: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px);
+            border-radius: 25px; overflow: hidden;
+            border: 3px solid rgba(59, 130, 246, 0.4);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
+        }
+
+        .team-logo {
+          width: 60px;
+          height: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          margin-left: 15px; /* Moves logos slightly right */
+        }
+        
+        .team-logo img {
+          width: 55px;
+          height: 55px;
+          object-fit: contain;
+          border-radius: 8px;
+          padding: 3px;
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+
+        .table-header {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.95) 0%, rgba(59, 130, 246, 0.95) 100%);
+            color: #f8fafc; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 2px; position: relative; overflow: hidden;
+        }
+
+        .table-header::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+            animation: headerShimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes headerShimmer { 0%, 100% { transform: translateX(-100%); } 50% { transform: translateX(100%); } }
+
+        .table-header th {
+            padding: 12px 10px; text-align: center; font-family: 'Inter', sans-serif;
+            font-size: 14px; border-right: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative; z-index: 1; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            vertical-align: middle;
+        }
+
+        .table-header th:last-child { border-right: none; }
+        .table-header th:first-child { width: 80px; }
+
+        .team-row {
+            opacity: 0; transform: translateX(-150px) scale(0.95);
+            animation: slideInScale 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            position: relative; overflow: hidden; transition: all 0.6s ease;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .team-row:nth-child(2) { animation-delay: 2.5s; }
+        .team-row:nth-child(3) { animation-delay: 2.8s; }
+        .team-row:nth-child(4) { animation-delay: 3.1s; }
+        .team-row:nth-child(5) { animation-delay: 3.4s; }
+        .team-row:nth-child(6) { animation-delay: 3.7s; }
+        .team-row:nth-child(7) { animation-delay: 4.0s; }
+        .team-row:nth-child(8) { animation-delay: 4.3s; }
+        .team-row:nth-child(9) { animation-delay: 4.6s; }
+        .team-row:nth-child(10) { animation-delay: 4.9s; }
+        .team-row:nth-child(11) { animation-delay: 5.2s; }
+
+        @keyframes slideInScale {
+            0% { opacity:0; transform:translateX(-150px) scale(0.95); box-shadow:0 0 0 rgba(59,130,246,0.5); }
+            70% { box-shadow:0 0 30px rgba(59,130,246,0.8), 0 0 60px rgba(59,130,246,0.4); }
+            100% { opacity:1; transform:translateX(0) scale(1); box-shadow:0 0 15px rgba(59,130,246,0.3); }
+        }
+
+        .team-row td {
+            padding: 12px 8px; border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative; z-index: 2; color: white; font-family: 'Inter', sans-serif;
+            font-weight: 600; text-align: center; vertical-align: middle;
+        }
+
+        .team-row td:last-child { border-right: none; }
+
+        :root {
+            --olympiakos: #dc1414; --paok: #1a1a1a; --milon: #228B22;
+            --panathinaikos: #16a34a; --kifisia: #4169E1; --foinikas: #FF4500;
+            --floisvos: #1E90FF; --ofh: #2c2c2c; --panionios: #DC143C;
+            --kalamata: #32CD32;
+        }
+
+        .olympiakos { background: linear-gradient(135deg, var(--olympiakos) 0%, #991b1b 50%, #7f1d1d 100%); }
+        .panathinaikos { background: linear-gradient(135deg, var(--panathinaikos) 0%, #15803d 50%, #166534 100%); }
+        .paok { background: linear-gradient(135deg, var(--paok) 0%, #111827 50%, #030712 100%); }
+        .milon { background: linear-gradient(135deg, var(--milon) 0%, #15803d 50%, #166534 100%); }
+        .kifisia { background: linear-gradient(135deg, var(--kifisia) 0%, #1d4ed8 50%, #1e40af 100%); }
+        .foinikas { background: linear-gradient(135deg, var(--foinikas) 0%, #ea580c 50%, #c2410c 100%); }
+        .floisvos { background: linear-gradient(135deg, var(--floisvos) 0%, #1d4ed8 50%, #1e40af 100%); }
+        .ofh { background: linear-gradient(135deg, var(--ofh) 0%, #111827 50%, #030712 100%); }
+        .panionios { background: linear-gradient(135deg, var(--panionios) 0%, #991b1b 50%, #7f1d1d 100%); }
+        .kalamata { background: linear-gradient(135deg, var(--kalamata) 0%, #16a34a 50%, #15803d 100%); }
+
+        .position {
+            font-weight: 900; font-size: 20px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7); width: 80px;
+        }
+
+        .team-info { display: flex; align-items: center; gap: 25px; }
+
+        .team-name {
+            font-family: 'Inter', sans-serif; font-weight: 700; font-size: 24px;
+            color: #f8fafc; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .points {
+            font-family: 'Inter', sans-serif; font-weight: 900; font-size: 24px;
+            color: #f8fafc; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .matches {
+            font-family: 'Inter', sans-serif; color: #e2e8f0;
+            font-weight: 600; font-size: 24px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .league-logo {
+            position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 100px; z-index: 20;
+            opacity: 0; transform: translateX(-50%) scale(0.3);
+            animation: logoZoomGlow 2s ease-out 4s forwards;
+        }
+
+        @keyframes logoZoomGlow {
+            0% { opacity:0; transform:translateX(-50%) scale(0.3); }
+            50% { opacity:1; transform:translateX(-50%) scale(1.1); filter:drop-shadow(0 0 30px #3b82f6); }
+            100% { opacity:1; transform:translateX(-50%) scale(1); filter:drop-shadow(0 0 20px #3b82f6); }
+        }
+
+        .league-logo img {
+            width: 150%; height: 150%; object-fit: contain;
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { 
+                filter:drop-shadow(0 0 20px rgba(59,130,246,0.6)) drop-shadow(0 0 40px rgba(59,130,246,0.3)) brightness(1);
+            }
+            50% { 
+                filter:drop-shadow(0 0 30px rgba(59,130,246,0.8)) drop-shadow(0 0 60px rgba(59,130,246,0.5)) brightness(1.1);
+            }
+        }
+
+        .loading {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: #fff; font-size: 24px; z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="graphics-container" id="graphicsContainer">
+        <div class="volleyball-3d-scene" id="volleyball-3d-scene"></div>
+        
+        <div class="moving-lines">
+            <div class="line line-1"></div>
+            <div class="line line-2"></div>
+            <div class="line line-3"></div>
+            <div class="line line-4"></div>
+            <div class="line line-5"></div>
+        </div>
+        
+        <div class="title">ΒΑΘΜΟΛΟΓΙΑ VOLLEYLEAGUE</div>
+        
+        <!-- <div class="loading" id="loading">Φόρτωση βαθμολογίας...</div> -->
+        
+        <div class="standings-container">
+            <table class="standings-table">
+                <thead class="table-header">
+                    <tr>
+                        <th>ΘΕΣΗ</th>
+                        <th>ΟΜΑΔΑ</th>
+                        <th>ΒΑΘΜΟΙ</th>
+                        <th>ΑΓΩΝΕΣ</th>
+                    </tr>
+                </thead>
+                <tbody id="standingsBody"></tbody>
+            </table>
+        </div>
+
+        <div class="league-logo">
+            <img src="VL_logo.png" alt="Greek Volleyball League">
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const teams = {
+            'ΠΑΝΑΘΗΝΑΪΚΟΣ AO': { logo: 'panathinaikos.png', className: 'panathinaikos' },
+            'ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ': { logo: 'olympiakos.png', className: 'olympiakos' },
+            'ΑΟΝΣ ΜΙΛΩΝ': { logo: 'milon.png', className: 'milon' },
+            'ΠΑΟΚ': { logo: 'paok.png', className: 'paok' },
+            'ΑΟΠ ΚΗΦΙΣΙΑΣ': { logo: 'kifisia.png', className: 'kifisia' },
+            'ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ': { logo: 'foinikas.png', className: 'foinikas' },
+            'ΠΑΝΙΩΝΙΟΣ': { logo: 'panionios.png', className: 'panionios' },
+            'ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON': { logo: 'floisvos.png', className: 'floisvos' },
+            'ΟΦΗ': { logo: 'ofi.png', className: 'ofh' },
+            'ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA': { logo: 'kalamata.png', className: 'kalamata' }
+        };
+
+        async function loadStandings() {
+            try {
+                const response = await fetch('volleyball-standings.json');
+                const standings = await response.json();
+                
+                renderStandings(standings);
+                document.getElementById('loading').style.display = 'none';
+            } catch (error) {
+                console.error('Error loading standings:', error);
+                document.getElementById('loading').textContent = 'Σφάλμα φόρτωσης βαθμολογίας';
+            }
+        }
+
+        function renderStandings(standings) {
+            const tbody = document.getElementById('standingsBody');
+            tbody.innerHTML = '';
+
+            standings.forEach((standing, index) => {
+                const team = teams[standing.team];
+                if (!team) return;
+
+                const row = document.createElement('tr');
+                row.className = `team-row ${team.className}`;
+                
+                row.innerHTML = `
+                    <td class="position">${index + 1}</td>
+                    <td>
+                        <div class="team-info">
+                            <div class="team-logo"><img src="${team.logo}"></div>
+                            <div class="team-name">${standing.team}</div>
+                        </div>
+                    </td>
+                    <td class="points">${standing.points}</td>
+                    <td class="matches">${standing.matches}</td>
+                `;
+
+                tbody.appendChild(row);
+            });
+        }
+
+        // 3D Volleyball Scene
+        let scene, camera, renderer, volleyballs = [];
+        let animationId;
+
+        function init3D() {
+            const container = document.getElementById('volleyball-3d-scene');
+            
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, 1920 / 1080, 0.1, 1000);
+            camera.position.set(0, 0, 15);
+            
+            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(1920, 1080);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+            
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 10, 5);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+
+            createFlyingVolleyballs();
+            animate3D();
+        }
+
+        function createVolleyball() {
+            const volleyballGeometry = new THREE.SphereGeometry(2, 64, 64);
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = 1024;
+            canvas.height = 1024;
+            const ctx = canvas.getContext('2d');
+            
+            const centerX = 512;
+            const centerY = 512;
+            
+            ctx.fillStyle = '#1e3a8a';
+            ctx.fillRect(0, 0, 1024, 1024);
+            
+            ctx.fillStyle = '#fbbf24';
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 400, -Math.PI/2, 0);
+            ctx.lineTo(centerX, centerY);
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 400, Math.PI/2, Math.PI);
+            ctx.lineTo(centerX, centerY);
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 400, Math.PI, 3*Math.PI/2);
+            ctx.lineTo(centerX, centerY);
+            ctx.fill();
+            
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 8;
+            ctx.lineCap = 'round';
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 350, 0.3, Math.PI - 0.3);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 350, Math.PI + 0.3, 2 * Math.PI - 0.3);
+            ctx.stroke();
+            
+            const volleyballTexture = new THREE.CanvasTexture(canvas);
+            
+            const volleyballMaterial = new THREE.MeshPhongMaterial({
+                map: volleyballTexture,
+                shininess: 25,
+                specular: new THREE.Color(0x333333)
+            });
+            
+            const volleyball = new THREE.Mesh(volleyballGeometry, volleyballMaterial);
+            volleyball.castShadow = true;
+            volleyball.receiveShadow = true;
+            
+            return volleyball;
+        }
+
+        function createFlyingVolleyballs() {
+            for (let i = 0; i < 3; i++) {
+                const volleyball = createVolleyball();
+                
+                volleyball.userData = {
+                    speed: 0.8 + i * 0.3,
+                    yOffset: (i - 1) * 8,
+                    phase: i * Math.PI * 0.66,
+                    direction: i % 2 === 0 ? 1 : -1
+                };
+                
+                volleyball.position.set(
+                    volleyball.userData.direction === 1 ? -25 : 25, 
+                    volleyball.userData.yOffset, 
+                    -5 + i * 2
+                );
+                
+                volleyball.scale.set(0.8 + i * 0.1, 0.8 + i * 0.1, 0.8 + i * 0.1);
+                
+                volleyballs.push(volleyball);
+                scene.add(volleyball);
+            }
+        }
+
+        function animate3D() {
+            animationId = requestAnimationFrame(animate3D);
+            
+            const time = Date.now() * 0.001;
+            
+            volleyballs.forEach((volleyball, index) => {
+                const userData = volleyball.userData;
+                const progress = (time * userData.speed + userData.phase) % (Math.PI * 2);
+                
+                const normalizedProgress = (Math.sin(progress) + 1) / 2;
+                
+                if (userData.direction === 1) {
+                    const x = -25 + normalizedProgress * 50;
+                    const y = userData.yOffset + Math.sin(normalizedProgress * Math.PI) * 6;
+                    volleyball.position.set(x, y, volleyball.position.z);
+                } else {
+                    const x = 25 - normalizedProgress * 50;
+                    const y = userData.yOffset + Math.sin(normalizedProgress * Math.PI) * 6;
+                    volleyball.position.set(x, y, volleyball.position.z);
+                }
+                
+                volleyball.rotation.x += 0.02 * userData.speed;
+                volleyball.rotation.y += 0.015 * userData.speed;
+                
+                const scale = 0.8 + index * 0.1 + Math.sin(time * 2 + index) * 0.1;
+                volleyball.scale.set(scale, scale, scale);
+            });
+            
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+            document.querySelector('.graphics-container').style.transform = `scale(${scale})`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Volleyball Standings loaded');
+            loadStandings();
+            init3D();
+            window.addEventListener('resize', onWindowResize);
+        });
+
+        window.addEventListener('beforeunload', function() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            if (renderer) {
+                renderer.dispose();
+            }
+        });
+    </script>
+</body>
+</html>

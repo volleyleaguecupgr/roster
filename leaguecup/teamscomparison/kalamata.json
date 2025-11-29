@@ -1,0 +1,92 @@
+{
+  "match_info": {
+    "home_team": "AO KALAMATA '80",
+    "away_team": "A.O. FOINIKAS SIROU",
+    "datetime": "29 November 2025 - 17:00"
+  },
+  "teams_comparison": {
+    "titles": [
+      {
+        "raw": "Efficiency*",
+        "spans": [
+          "Efficiency*"
+        ]
+      },
+      {
+        "raw": "Perfect*",
+        "spans": [
+          "Perfect*"
+        ]
+      },
+      {
+        "raw": "Spikes per Set   (Played Set)",
+        "spans": [
+          "Spikes per Set",
+          "(Played Set)"
+        ]
+      },
+      {
+        "raw": "Blocks per Set   (Played Set)",
+        "spans": [
+          "Blocks per Set",
+          "(Played Set)"
+        ]
+      },
+      {
+        "raw": "Aces Scored",
+        "spans": [
+          "Aces Scored"
+        ]
+      },
+      {
+        "raw": "Aces per Set   (Played Set)",
+        "spans": [
+          "Aces per Set",
+          "(Played Set)"
+        ]
+      },
+      {
+        "raw": "Perfect*",
+        "spans": [
+          "Perfect*"
+        ]
+      }
+    ],
+    "spikes": {
+      "efficiency": {
+        "home": "31%",
+        "average": "34%",
+        "away": "28%"
+      },
+      "spikes_per_set_home": "11.13",
+      "spikes_per_set_avg": "11.76",
+      "spikes_per_set_away": "10.94",
+      "spikes_per_set_home_played": "(24)",
+      "spikes_per_set_away_played": "(16)"
+    },
+    "blocks": {
+      "blocks_per_set_home": "2.13",
+      "blocks_per_set_avg": "1.93",
+      "blocks_per_set_away": "2.56",
+      "blocks_home_played": "(24)",
+      "blocks_away_played": "(16)"
+    },
+    "serve": {
+      "aces_home": "37",
+      "aces_away": "14",
+      "aces_per_set_home": "1.54",
+      "aces_per_set_avg": "1.68",
+      "aces_per_set_away": "0.88",
+      "aces_home_played": "(24)",
+      "aces_away_played": "(16)"
+    },
+    "reception": {
+      "reception_eff_home": "29%",
+      "reception_eff_avg": "33%",
+      "reception_eff_away": "24%",
+      "reception_perfect_home": "22%",
+      "reception_perfect_avg": "26%",
+      "reception_perfect_away": "20%"
+    }
+  }
+}
