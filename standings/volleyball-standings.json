@@ -1,28 +1,28 @@
 [
   {
+    "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+    "points": 15,
+    "matches": 6
+  },
+  {
     "team": "ΑΟΝΣ ΜΙΛΩΝ",
     "points": 14,
     "matches": 5
   },
   {
-    "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-    "points": 12,
+    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
+    "points": 10,
     "matches": 5
   },
   {
     "team": "ΟΦΗ",
     "points": 9,
-    "matches": 5
+    "matches": 6
   },
   {
     "team": "ΠΑΟΚ",
     "points": 8,
     "matches": 5
-  },
-  {
-    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-    "points": 7,
-    "matches": 4
   },
   {
     "team": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
@@ -47,6 +47,6 @@
   {
     "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
     "points": 3,
-    "matches": 5
+    "matches": 6
   }
 ]
