@@ -25,7 +25,7 @@
 
         .container {
             width: 1800px;
-            height: 1000px;
+            height: 950px;
             background: url('background.jpeg') center/cover no-repeat;
             border-radius: 30px;
             position: relative;
@@ -48,17 +48,6 @@
             width: 100%;
             height: 100%;
             z-index: 2;
-            display: grid;
-            grid-template-columns: 300px 300px 400px 300px 300px;
-            gap: 40px;
-            padding: 60px;
-        }
-
-        .column {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            position: relative;
         }
 
         .match-box {
@@ -66,25 +55,26 @@
             backdrop-filter: blur(15px);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 20px;
-            padding: 15px;
-            position: relative;
+            padding: 20px;
+            position: absolute;
             opacity: 0;
-            transform: scale(0.5) translateY(30px);
+            transform: scale(0.5);
+            width: 280px;
             z-index: 10;
         }
 
         .match-box.animate {
-            animation: boxAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: boxAppear 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
         @keyframes boxAppear {
             0% {
                 opacity: 0;
-                transform: scale(0.5) translateY(30px);
+                transform: scale(0.5);
             }
             100% {
                 opacity: 1;
-                transform: scale(1) translateY(0);
+                transform: scale(1);
             }
         }
 
@@ -92,7 +82,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px;
+            padding: 12px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             margin-bottom: 8px;
@@ -130,37 +120,51 @@
         .vs-text {
             text-align: center;
             color: #fff;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 900;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-            margin: 5px 0;
+            margin: 8px 0;
         }
 
+        /* Positioning */
+        .q1-top { top: 80px; left: 80px; animation-delay: 0s; }
+        .q1-bottom { top: 500px; left: 80px; animation-delay: 1.2s; }
+        .q2-top { top: 80px; right: 80px; animation-delay: 5s; }
+        .q2-bottom { top: 500px; right: 80px; animation-delay: 6.2s; }
+        .semi-left { top: 290px; left: 450px; animation-delay: 3.6s; }
+        .semi-right { top: 290px; right: 450px; animation-delay: 8.6s; }
+
         .cup-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 15;
         }
 
         .cup-image {
             width: 280px;
             height: auto;
-            filter: drop-shadow(0 10px 30px rgba(255, 215, 0, 0.5));
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
             opacity: 0;
             transform: scale(0);
-            animation: cupAppear 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            animation-delay: 3.8s;
+            animation: cupAppear 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 11.5s;
         }
 
         @keyframes cupAppear {
             0% {
                 opacity: 0;
                 transform: scale(0) rotate(-180deg);
+                filter: drop-shadow(0 0 0px rgba(255, 215, 0, 0));
+            }
+            50% {
+                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1));
             }
             100% {
                 opacity: 1;
                 transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
             }
         }
 
@@ -176,16 +180,16 @@
         }
 
         .connector-line {
-            stroke: rgba(255, 255, 255, 0.6);
+            stroke: rgba(100, 200, 255, 0.8);
             stroke-width: 3;
             fill: none;
             stroke-dasharray: 1000;
             stroke-dashoffset: 1000;
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+            filter: drop-shadow(0 0 8px rgba(100, 200, 255, 0.8)) drop-shadow(0 0 15px rgba(100, 200, 255, 0.5));
         }
 
         .connector-line.animate {
-            animation: drawLine 0.5s ease-out forwards;
+            animation: drawLine 1s ease-out forwards;
         }
 
         @keyframes drawLine {
@@ -194,40 +198,24 @@
             }
         }
 
-        /* Quarter finals (columns 1 and 5) */
-        .column:nth-child(1) .match-box:nth-child(1) { animation-delay: 0s; }
-        .column:nth-child(1) .match-box:nth-child(2) { animation-delay: 0.4s; }
-        .column:nth-child(5) .match-box:nth-child(1) { animation-delay: 0.8s; }
-        .column:nth-child(5) .match-box:nth-child(2) { animation-delay: 1.2s; }
-
-        /* Semi finals (columns 2 and 4) */
-        .column:nth-child(2) .match-box { animation-delay: 1.6s; }
-        .column:nth-child(4) .match-box { animation-delay: 2s; }
-
-        /* Finals (column 3) - will be added */
-        .column:nth-child(3) .match-box { animation-delay: 2.8s; }
-
-        /* Line animations - staggered after boxes appear */
-        .line-1 { animation-delay: 0.5s; }
-        .line-2 { animation-delay: 0.9s; }
-        .line-3 { animation-delay: 1.3s; }
-        .line-4 { animation-delay: 1.7s; }
-        .line-5 { animation-delay: 2.1s; }
-        .line-6 { animation-delay: 2.5s; }
-        .line-7 { animation-delay: 3.3s; }
-        .line-8 { animation-delay: 3.3s; }
+        /* Line animation delays based on sequence */
+        .line-q1-semi { animation-delay: 2.4s; }
+        .line-q2-semi { animation-delay: 7.4s; }
+        .line-semi-cup-left { animation-delay: 10s; }
+        .line-semi-cup-right { animation-delay: 10s; }
 
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="bracket-container" id="bracketContainer">
-            <svg class="lines-svg" id="linesSvg"></svg>
+        <svg class="lines-svg" id="linesSvg"></svg>
+        <div class="bracket-container" id="bracketContainer"></div>
+        <div class="cup-container">
+            <img src="cup.png" alt="Trophy" class="cup-image">
         </div>
     </div>
 
     <script>
-        // Sample bracket data
         const bracketData = {
             "quarter_finals_left": [
                 {
@@ -259,174 +247,136 @@
             }
         };
 
-        function createMatchBox(match) {
-            return `
-                <div class="match-box">
-                    <div class="team">
-                        <div class="team-logo">
-                            <img src="${match.team1.logo}" alt="${match.team1.name}">
-                        </div>
-                        <div class="team-name">${match.team1.name}</div>
+        function createMatchBox(match, className) {
+            const box = document.createElement('div');
+            box.className = `match-box ${className}`;
+            box.innerHTML = `
+                <div class="team">
+                    <div class="team-logo">
+                        <img src="${match.team1.logo}" alt="${match.team1.name}">
                     </div>
-                    <div class="vs-text">VS</div>
-                    <div class="team">
-                        <div class="team-logo">
-                            <img src="${match.team2.logo}" alt="${match.team2.name}">
-                        </div>
-                        <div class="team-name">${match.team2.name}</div>
+                    <div class="team-name">${match.team1.name}</div>
+                </div>
+                <div class="vs-text">VS</div>
+                <div class="team">
+                    <div class="team-logo">
+                        <img src="${match.team2.logo}" alt="${match.team2.name}">
                     </div>
+                    <div class="team-name">${match.team2.name}</div>
                 </div>
             `;
+            return box;
         }
 
-        function getBoxCenter(box) {
-            const rect = box.getBoundingClientRect();
-            const container = document.querySelector('.bracket-container').getBoundingClientRect();
-            return {
-                x: rect.left - container.left + rect.width / 2,
-                y: rect.top - container.top + rect.height / 2,
-                right: rect.right - container.left,
-                left: rect.left - container.left
-            };
-        }
-
-        function createLine(x1, y1, x2, y2, className) {
-            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            
-            // Create bracket-style connection
+        function createPath(x1, y1, x2, y2) {
             const midX = (x1 + x2) / 2;
-            const d = `M ${x1} ${y1} L ${midX} ${y1} L ${midX} ${y2} L ${x2} ${y2}`;
-            
+            return `M ${x1} ${y1} L ${midX} ${y1} L ${midX} ${y2} L ${x2} ${y2}`;
+        }
+
+        function createLine(d, className) {
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             path.setAttribute('d', d);
             path.setAttribute('class', `connector-line ${className}`);
-            
             return path;
         }
 
-        function drawConnectingLines() {
+        function drawLines() {
             const svg = document.getElementById('linesSvg');
-            const boxes = document.querySelectorAll('.match-box');
             
             setTimeout(() => {
-                // Get all box positions
-                const q1Top = boxes[0]; // Quarter 1 Top Left
-                const q1Bottom = boxes[1]; // Quarter 1 Bottom Left
-                const q2Top = boxes[2]; // Quarter 2 Top Right
-                const q2Bottom = boxes[3]; // Quarter 2 Bottom Right
-                const semiLeft = boxes[4]; // Semi Left
-                const semiRight = boxes[5]; // Semi Right
-                const cup = document.querySelector('.cup-image');
+                // Get box positions
+                const q1Top = document.querySelector('.q1-top');
+                const q1Bottom = document.querySelector('.q1-bottom');
+                const q2Top = document.querySelector('.q2-top');
+                const q2Bottom = document.querySelector('.q2-bottom');
+                const semiLeft = document.querySelector('.semi-left');
+                const semiRight = document.querySelector('.semi-right');
 
-                // Left quarter to semi lines
-                const q1TopPos = getBoxCenter(q1Top);
-                const q1BottomPos = getBoxCenter(q1Bottom);
-                const semiLeftPos = getBoxCenter(semiLeft);
-
-                // Line from Q1 Top to Semi Left
-                const line1 = createLine(q1TopPos.right, q1TopPos.y, semiLeftPos.left, semiLeftPos.y - 40, 'line-1');
-                svg.appendChild(line1);
-
-                // Line from Q1 Bottom to Semi Left
-                const line2 = createLine(q1BottomPos.right, q1BottomPos.y, semiLeftPos.left, semiLeftPos.y + 40, 'line-2');
-                svg.appendChild(line2);
-
-                // Right quarter to semi lines
-                const q2TopPos = getBoxCenter(q2Top);
-                const q2BottomPos = getBoxCenter(q2Bottom);
-                const semiRightPos = getBoxCenter(semiRight);
-
-                // Line from Q2 Top to Semi Right
-                const line3 = createLine(q2TopPos.left, q2TopPos.y, semiRightPos.right, semiRightPos.y - 40, 'line-3');
-                svg.appendChild(line3);
-
-                // Line from Q2 Bottom to Semi Right
-                const line4 = createLine(q2BottomPos.left, q2BottomPos.y, semiRightPos.right, semiRightPos.y + 40, 'line-4');
-                svg.appendChild(line4);
-
-                // Semi to center lines (to cup)
-                const cupRect = cup.getBoundingClientRect();
+                const q1TopRect = q1Top.getBoundingClientRect();
+                const q1BottomRect = q1Bottom.getBoundingClientRect();
+                const q2TopRect = q2Top.getBoundingClientRect();
+                const q2BottomRect = q2Bottom.getBoundingClientRect();
+                const semiLeftRect = semiLeft.getBoundingClientRect();
+                const semiRightRect = semiRight.getBoundingClientRect();
                 const containerRect = document.querySelector('.bracket-container').getBoundingClientRect();
-                const cupX = cupRect.left - containerRect.left + cupRect.width / 2;
-                const cupY = cupRect.top - containerRect.top + cupRect.height / 2;
 
-                // Line from Semi Left to Cup
-                const line5 = createLine(semiLeftPos.right, semiLeftPos.y, cupX - 50, cupY, 'line-5');
-                svg.appendChild(line5);
+                // Calculate positions relative to container
+                const getPos = (rect) => ({
+                    left: rect.left - containerRect.left,
+                    right: rect.right - containerRect.left,
+                    centerY: rect.top - containerRect.top + rect.height / 2
+                });
 
-                // Line from Semi Right to Cup
-                const line6 = createLine(semiRightPos.left, semiRightPos.y, cupX + 50, cupY, 'line-6');
-                svg.appendChild(line6);
+                const q1t = getPos(q1TopRect);
+                const q1b = getPos(q1BottomRect);
+                const q2t = getPos(q2TopRect);
+                const q2b = getPos(q2BottomRect);
+                const sl = getPos(semiLeftRect);
+                const sr = getPos(semiRightRect);
 
-                // Vertical connector on semi left side
-                const path7 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                path7.setAttribute('d', `M ${semiLeftPos.left} ${semiLeftPos.y - 40} L ${semiLeftPos.left} ${semiLeftPos.y + 40}`);
-                path7.setAttribute('class', 'connector-line line-7');
-                svg.appendChild(path7);
+                // Left side quarter to semi lines
+                const leftMidY = (q1t.centerY + q1b.centerY) / 2;
+                const path1 = `M ${q1t.right} ${q1t.centerY} L ${q1t.right + 60} ${q1t.centerY} L ${q1t.right + 60} ${leftMidY} L ${sl.left - 60} ${leftMidY} L ${sl.left - 60} ${sl.centerY} L ${sl.left} ${sl.centerY}`;
+                const path2 = `M ${q1b.right} ${q1b.centerY} L ${q1b.right + 60} ${q1b.centerY} L ${q1b.right + 60} ${leftMidY}`;
+                
+                svg.appendChild(createLine(path1, 'line-q1-semi'));
+                svg.appendChild(createLine(path2, 'line-q1-semi'));
 
-                // Vertical connector on semi right side
-                const path8 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                path8.setAttribute('d', `M ${semiRightPos.right} ${semiRightPos.y - 40} L ${semiRightPos.right} ${semiRightPos.y + 40}`);
-                path8.setAttribute('class', 'connector-line line-8');
-                svg.appendChild(path8);
+                // Right side quarter to semi lines
+                const rightMidY = (q2t.centerY + q2b.centerY) / 2;
+                const path3 = `M ${q2t.left} ${q2t.centerY} L ${q2t.left - 60} ${q2t.centerY} L ${q2t.left - 60} ${rightMidY} L ${sr.right + 60} ${rightMidY} L ${sr.right + 60} ${sr.centerY} L ${sr.right} ${sr.centerY}`;
+                const path4 = `M ${q2b.left} ${q2b.centerY} L ${q2b.left - 60} ${q2b.centerY} L ${q2b.left - 60} ${rightMidY}`;
+                
+                svg.appendChild(createLine(path3, 'line-q2-semi'));
+                svg.appendChild(createLine(path4, 'line-q2-semi'));
 
-                // Animate all lines
+                // Semi to cup lines
+                const cupX = containerRect.width / 2;
+                const cupY = containerRect.height / 2;
+
+                const path5 = `M ${sl.right} ${sl.centerY} L ${cupX - 140} ${sl.centerY} L ${cupX - 140} ${cupY} L ${cupX - 100} ${cupY}`;
+                const path6 = `M ${sr.left} ${sr.centerY} L ${cupX + 140} ${sr.centerY} L ${cupX + 140} ${cupY} L ${cupX + 100} ${cupY}`;
+                
+                svg.appendChild(createLine(path5, 'line-semi-cup-left'));
+                svg.appendChild(createLine(path6, 'line-semi-cup-right'));
+
+                // Animate lines
                 document.querySelectorAll('.connector-line').forEach(line => {
                     line.classList.add('animate');
                 });
-            }, 500);
+            }, 200);
         }
 
         function loadBracket() {
             const container = document.getElementById('bracketContainer');
             
-            // Column 1 - Quarter Finals Left
-            const col1 = document.createElement('div');
-            col1.className = 'column';
-            bracketData.quarter_finals_left.forEach(match => {
-                col1.innerHTML += createMatchBox(match);
-            });
-            container.appendChild(col1);
-
-            // Column 2 - Semi Finals Left
-            const col2 = document.createElement('div');
-            col2.className = 'column';
-            col2.innerHTML = createMatchBox(bracketData.semi_finals_left);
-            container.appendChild(col2);
-
-            // Column 3 - Cup
-            const col3 = document.createElement('div');
-            col3.className = 'column cup-container';
-            col3.innerHTML = `
-                <img src="cup.png" alt="Trophy" class="cup-image">
-            `;
-            container.appendChild(col3);
-
-            // Column 4 - Semi Finals Right
-            const col4 = document.createElement('div');
-            col4.className = 'column';
-            col4.innerHTML = createMatchBox(bracketData.semi_finals_right);
-            container.appendChild(col4);
-
-            // Column 5 - Quarter Finals Right
-            const col5 = document.createElement('div');
-            col5.className = 'column';
-            bracketData.quarter_finals_right.forEach(match => {
-                col5.innerHTML += createMatchBox(match);
-            });
-            container.appendChild(col5);
+            // Quarter Finals Left
+            container.appendChild(createMatchBox(bracketData.quarter_finals_left[0], 'q1-top'));
+            container.appendChild(createMatchBox(bracketData.quarter_finals_left[1], 'q1-bottom'));
+            
+            // Quarter Finals Right
+            container.appendChild(createMatchBox(bracketData.quarter_finals_right[0], 'q2-top'));
+            container.appendChild(createMatchBox(bracketData.quarter_finals_right[1], 'q2-bottom'));
+            
+            // Semi Finals
+            container.appendChild(createMatchBox(bracketData.semi_finals_left, 'semi-left'));
+            container.appendChild(createMatchBox(bracketData.semi_finals_right, 'semi-right'));
 
             // Trigger animations
             setTimeout(() => {
                 document.querySelectorAll('.match-box').forEach(box => {
                     box.classList.add('animate');
                 });
+                drawLines();
                 
-                // Draw lines after boxes are positioned
-                drawConnectingLines();
+                // Hide everything after 30 seconds of final state (13s animation + 30s display)
+                setTimeout(() => {
+                    document.querySelector('.container').style.opacity = '0';
+                    document.querySelector('.container').style.transition = 'opacity 1s';
+                }, 43000); // Total: 13s animation + 30s display
             }, 100);
         }
 
-        // Load bracket data from JSON file (optional)
         async function loadBracketFromJSON() {
             try {
                 const response = await fetch('bracket.json');
@@ -440,16 +390,60 @@
             loadBracket();
         }
 
-        // Initialize
+        // Restart animation when page becomes visible
+        function restartAnimation() {
+            // Reset all elements
+            const container = document.querySelector('.container');
+            container.style.opacity = '1';
+            
+            const boxes = document.querySelectorAll('.match-box');
+            boxes.forEach(box => {
+                box.classList.remove('animate');
+                box.style.animation = 'none';
+                void box.offsetWidth; // Force reflow
+                box.style.animation = '';
+            });
+            
+            const lines = document.querySelectorAll('.connector-line');
+            lines.forEach(line => {
+                line.classList.remove('animate');
+                line.style.animation = 'none';
+                void line.offsetWidth;
+                line.style.animation = '';
+            });
+            
+            const cup = document.querySelector('.cup-image');
+            cup.style.animation = 'none';
+            void cup.offsetWidth;
+            cup.style.animation = '';
+            
+            // Restart animations
+            setTimeout(() => {
+                boxes.forEach(box => box.classList.add('animate'));
+                lines.forEach(line => line.classList.add('animate'));
+                
+                // Hide after 30 seconds of final state
+                setTimeout(() => {
+                    container.style.opacity = '0';
+                    container.style.transition = 'opacity 1s';
+                }, 43000);
+            }, 100);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadBracketFromJSON();
         });
 
-        // Redraw lines on window resize
-        window.addEventListener('resize', () => {
-            const svg = document.getElementById('linesSvg');
-            svg.innerHTML = '';
-            drawConnectingLines();
+        // Restart on visibility change (OBS source shown)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                restartAnimation();
+            }
+        });
+
+        // Restart on page focus
+        window.addEventListener('focus', function() {
+            restartAnimation();
         });
     </script>
 </body>
