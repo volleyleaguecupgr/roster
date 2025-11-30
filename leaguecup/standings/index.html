@@ -30,6 +30,8 @@
             border-radius: 30px;
             position: relative;
             overflow: hidden;
+            opacity: 1;
+            transition: opacity 1s;
         }
 
         .container::before {
@@ -63,7 +65,7 @@
             z-index: 10;
         }
 
-        .match-box.animate {
+        .match-box.show {
             animation: boxAppear 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
@@ -127,12 +129,12 @@
         }
 
         /* Positioning */
-        .q1-top { top: 80px; left: 80px; animation-delay: 0s; }
-        .q1-bottom { top: 500px; left: 80px; animation-delay: 1.2s; }
-        .q2-top { top: 80px; right: 80px; animation-delay: 5s; }
-        .q2-bottom { top: 500px; right: 80px; animation-delay: 6.2s; }
-        .semi-left { top: 290px; left: 450px; animation-delay: 3.6s; }
-        .semi-right { top: 290px; right: 450px; animation-delay: 8.6s; }
+        .q1-top { top: 80px; left: 80px; }
+        .q1-bottom { top: 500px; left: 80px; }
+        .q2-top { top: 80px; right: 80px; }
+        .q2-bottom { top: 500px; right: 80px; }
+        .semi-left { top: 290px; left: 450px; }
+        .semi-right { top: 290px; right: 450px; }
 
         .cup-container {
             position: absolute;
@@ -140,22 +142,23 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 15;
+            opacity: 0;
+        }
+
+        .cup-container.show {
+            animation: cupAppear 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
         .cup-image {
             width: 280px;
             height: auto;
             filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
-            opacity: 0;
-            transform: scale(0);
-            animation: cupAppear 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            animation-delay: 11.5s;
         }
 
         @keyframes cupAppear {
             0% {
                 opacity: 0;
-                transform: scale(0) rotate(-180deg);
+                transform: translate(-50%, -50%) scale(0) rotate(-180deg);
                 filter: drop-shadow(0 0 0px rgba(255, 215, 0, 0));
             }
             50% {
@@ -163,7 +166,7 @@
             }
             100% {
                 opacity: 1;
-                transform: scale(1) rotate(0deg);
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
                 filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
             }
         }
@@ -188,7 +191,7 @@
             filter: drop-shadow(0 0 8px rgba(100, 200, 255, 0.8)) drop-shadow(0 0 15px rgba(100, 200, 255, 0.5));
         }
 
-        .connector-line.animate {
+        .connector-line.draw {
             animation: drawLine 1s ease-out forwards;
         }
 
@@ -197,12 +200,6 @@
                 stroke-dashoffset: 0;
             }
         }
-
-        /* Line animation delays based on sequence */
-        .line-q1-semi { animation-delay: 2.4s; }
-        .line-q2-semi { animation-delay: 7.4s; }
-        .line-semi-cup-left { animation-delay: 10s; }
-        .line-semi-cup-right { animation-delay: 10s; }
 
     </style>
 </head>
@@ -219,22 +216,22 @@
         const bracketData = {
             "quarter_finals_left": [
                 {
-                    "team1": { "name": "TEAM 1", "logo": "logos/team1.png" },
-                    "team2": { "name": "KIFISIA", "logo": "logos/kifisia.png" }
+                    "team1": { "name": "ΦΛΟΙΣΒΟΣ MEMBERS PARON", "logo": "floisvos.png" },
+                    "team2": { "name": "ΑΟΠ ΚΗΦΙΣΙΑ", "logo": "kifisia.png" }
                 },
                 {
-                    "team1": { "name": "PAOK", "logo": "logos/paok.png" },
-                    "team2": { "name": "TEAM 4", "logo": "logos/team4.png" }
+                    "team1": { "name": "ΠΑΟΚ", "logo": "paok.png" },
+                    "team2": { "name": "ΑΟΝΣ ΜΙΛΩΝ", "logo": "milon.png" }
                 }
             ],
             "quarter_finals_right": [
                 {
-                    "team1": { "name": "OLYMPIACOS", "logo": "logos/olympiakos.png" },
-                    "team2": { "name": "PANATHINAIKOS", "logo": "logos/panathinaikos.png" }
+                    "team1": { "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ", "logo": "olympiakos.png" },
+                    "team2": { "name": "ΠΑΝΑΘΗΝΑΙΚΟΣ ΑΟ", "logo": "panathinaikos.png" }
                 },
                 {
-                    "team1": { "name": "TEAM 7", "logo": "logos/team7.png" },
-                    "team2": { "name": "OFI", "logo": "logos/ofi.png" }
+                    "team1": { "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ", "logo": "foinikas.png" },
+                    "team2": { "name": "ΟΦΗ", "logo": "ofi.png" }
                 }
             ],
             "semi_finals_left": {
@@ -246,6 +243,8 @@
                 "team2": { "name": "SEMI 4", "logo": "logos/semi4.png" }
             }
         };
+
+        let currentAnimationTimeout = null;
 
         function createMatchBox(match, className) {
             const box = document.createElement('div');
@@ -268,11 +267,6 @@
             return box;
         }
 
-        function createPath(x1, y1, x2, y2) {
-            const midX = (x1 + x2) / 2;
-            return `M ${x1} ${y1} L ${midX} ${y1} L ${midX} ${y2} L ${x2} ${y2}`;
-        }
-
         function createLine(d, className) {
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             path.setAttribute('d', d);
@@ -280,101 +274,207 @@
             return path;
         }
 
-        function drawLines() {
-            const svg = document.getElementById('linesSvg');
+        function getBoxPositions() {
+            const q1Top = document.querySelector('.q1-top');
+            const q1Bottom = document.querySelector('.q1-bottom');
+            const q2Top = document.querySelector('.q2-top');
+            const q2Bottom = document.querySelector('.q2-bottom');
+            const semiLeft = document.querySelector('.semi-left');
+            const semiRight = document.querySelector('.semi-right');
             
-            setTimeout(() => {
-                // Get box positions
-                const q1Top = document.querySelector('.q1-top');
-                const q1Bottom = document.querySelector('.q1-bottom');
-                const q2Top = document.querySelector('.q2-top');
-                const q2Bottom = document.querySelector('.q2-bottom');
-                const semiLeft = document.querySelector('.semi-left');
-                const semiRight = document.querySelector('.semi-right');
+            const containerRect = document.querySelector('.bracket-container').getBoundingClientRect();
 
-                const q1TopRect = q1Top.getBoundingClientRect();
-                const q1BottomRect = q1Bottom.getBoundingClientRect();
-                const q2TopRect = q2Top.getBoundingClientRect();
-                const q2BottomRect = q2Bottom.getBoundingClientRect();
-                const semiLeftRect = semiLeft.getBoundingClientRect();
-                const semiRightRect = semiRight.getBoundingClientRect();
-                const containerRect = document.querySelector('.bracket-container').getBoundingClientRect();
-
-                // Calculate positions relative to container
-                const getPos = (rect) => ({
+            const getPos = (element) => {
+                if (!element) return null;
+                const rect = element.getBoundingClientRect();
+                return {
                     left: rect.left - containerRect.left,
                     right: rect.right - containerRect.left,
                     centerY: rect.top - containerRect.top + rect.height / 2
-                });
+                };
+            };
 
-                const q1t = getPos(q1TopRect);
-                const q1b = getPos(q1BottomRect);
-                const q2t = getPos(q2TopRect);
-                const q2b = getPos(q2BottomRect);
-                const sl = getPos(semiLeftRect);
-                const sr = getPos(semiRightRect);
+            return {
+                q1Top: getPos(q1Top),
+                q1Bottom: getPos(q1Bottom),
+                q2Top: getPos(q2Top),
+                q2Bottom: getPos(q2Bottom),
+                semiLeft: getPos(semiLeft),
+                semiRight: getPos(semiRight),
+                cupX: containerRect.width / 2,
+                cupY: containerRect.height / 2
+            };
+        }
 
-                // Left side quarter to semi lines
-                const leftMidY = (q1t.centerY + q1b.centerY) / 2;
-                const path1 = `M ${q1t.right} ${q1t.centerY} L ${q1t.right + 60} ${q1t.centerY} L ${q1t.right + 60} ${leftMidY} L ${sl.left - 60} ${leftMidY} L ${sl.left - 60} ${sl.centerY} L ${sl.left} ${sl.centerY}`;
-                const path2 = `M ${q1b.right} ${q1b.centerY} L ${q1b.right + 60} ${q1b.centerY} L ${q1b.right + 60} ${leftMidY}`;
-                
-                svg.appendChild(createLine(path1, 'line-q1-semi'));
-                svg.appendChild(createLine(path2, 'line-q1-semi'));
+        function drawLeftQuarterLines(positions) {
+            const svg = document.getElementById('linesSvg');
+            const { q1Top, q1Bottom, semiLeft } = positions;
+            
+            const leftMidY = (q1Top.centerY + q1Bottom.centerY) / 2;
+            
+            // Line from q1-top to junction
+            const path1 = `M ${q1Top.right} ${q1Top.centerY} L ${q1Top.right + 60} ${q1Top.centerY} L ${q1Top.right + 60} ${leftMidY}`;
+            const line1 = createLine(path1, 'line-q1-top');
+            svg.appendChild(line1);
+            
+            // Line from q1-bottom to junction
+            const path2 = `M ${q1Bottom.right} ${q1Bottom.centerY} L ${q1Bottom.right + 60} ${q1Bottom.centerY} L ${q1Bottom.right + 60} ${leftMidY}`;
+            const line2 = createLine(path2, 'line-q1-bottom');
+            svg.appendChild(line2);
+            
+            // Line from junction to semi-left
+            const path3 = `M ${q1Top.right + 60} ${leftMidY} L ${semiLeft.left} ${leftMidY} L ${semiLeft.left} ${semiLeft.centerY}`;
+            const line3 = createLine(path3, 'line-to-semi-left');
+            svg.appendChild(line3);
+            
+            return [line1, line2, line3];
+        }
 
-                // Right side quarter to semi lines
-                const rightMidY = (q2t.centerY + q2b.centerY) / 2;
-                const path3 = `M ${q2t.left} ${q2t.centerY} L ${q2t.left - 60} ${q2t.centerY} L ${q2t.left - 60} ${rightMidY} L ${sr.right + 60} ${rightMidY} L ${sr.right + 60} ${sr.centerY} L ${sr.right} ${sr.centerY}`;
-                const path4 = `M ${q2b.left} ${q2b.centerY} L ${q2b.left - 60} ${q2b.centerY} L ${q2b.left - 60} ${rightMidY}`;
-                
-                svg.appendChild(createLine(path3, 'line-q2-semi'));
-                svg.appendChild(createLine(path4, 'line-q2-semi'));
+        function drawRightQuarterLines(positions) {
+            const svg = document.getElementById('linesSvg');
+            const { q2Top, q2Bottom, semiRight } = positions;
+            
+            const rightMidY = (q2Top.centerY + q2Bottom.centerY) / 2;
+            
+            // Line from q2-top to junction
+            const path1 = `M ${q2Top.left} ${q2Top.centerY} L ${q2Top.left - 60} ${q2Top.centerY} L ${q2Top.left - 60} ${rightMidY}`;
+            const line1 = createLine(path1, 'line-q2-top');
+            svg.appendChild(line1);
+            
+            // Line from q2-bottom to junction
+            const path2 = `M ${q2Bottom.left} ${q2Bottom.centerY} L ${q2Bottom.left - 60} ${q2Bottom.centerY} L ${q2Bottom.left - 60} ${rightMidY}`;
+            const line2 = createLine(path2, 'line-q2-bottom');
+            svg.appendChild(line2);
+            
+            // Line from junction to semi-right
+            const path3 = `M ${q2Top.left - 60} ${rightMidY} L ${semiRight.right} ${rightMidY} L ${semiRight.right} ${semiRight.centerY}`;
+            const line3 = createLine(path3, 'line-to-semi-right');
+            svg.appendChild(line3);
+            
+            return [line1, line2, line3];
+        }
 
-                // Semi to cup lines
-                const cupX = containerRect.width / 2;
-                const cupY = containerRect.height / 2;
+        function drawSemiToCupLines(positions) {
+            const svg = document.getElementById('linesSvg');
+            const { semiLeft, semiRight, cupX, cupY } = positions;
+            
+            // Line from semi-left to cup
+            const path1 = `M ${semiLeft.right} ${semiLeft.centerY} L ${cupX - 140} ${semiLeft.centerY} L ${cupX - 140} ${cupY}`;
+            const line1 = createLine(path1, 'line-semi-left-cup');
+            svg.appendChild(line1);
+            
+            // Line from semi-right to cup
+            const path2 = `M ${semiRight.left} ${semiRight.centerY} L ${cupX + 140} ${semiRight.centerY} L ${cupX + 140} ${cupY}`;
+            const line2 = createLine(path2, 'line-semi-right-cup');
+            svg.appendChild(line2);
+            
+            return [line1, line2];
+        }
 
-                const path5 = `M ${sl.right} ${sl.centerY} L ${cupX - 140} ${sl.centerY} L ${cupX - 140} ${cupY} L ${cupX - 100} ${cupY}`;
-                const path6 = `M ${sr.left} ${sr.centerY} L ${cupX + 140} ${sr.centerY} L ${cupX + 140} ${cupY} L ${cupX + 100} ${cupY}`;
-                
-                svg.appendChild(createLine(path5, 'line-semi-cup-left'));
-                svg.appendChild(createLine(path6, 'line-semi-cup-right'));
+        async function runAnimationSequence() {
+            const q1Top = document.querySelector('.q1-top');
+            const q1Bottom = document.querySelector('.q1-bottom');
+            const q2Top = document.querySelector('.q2-top');
+            const q2Bottom = document.querySelector('.q2-bottom');
+            const semiLeft = document.querySelector('.semi-left');
+            const semiRight = document.querySelector('.semi-right');
+            const cupContainer = document.querySelector('.cup-container');
+            
+            // Step 1: Show Q1 Top (TEAM 1 vs KIFISIA)
+            q1Top.classList.add('show');
+            await wait(1500);
+            
+            // Step 2: Show Q1 Bottom (PAOK vs TEAM 4)
+            q1Bottom.classList.add('show');
+            await wait(1500);
+            
+            // Step 3: Draw lines from Q1 to Semi-Left, then show Semi-Left box
+            await wait(200); // Small delay for positioning
+            const positions = getBoxPositions();
+            const leftLines = drawLeftQuarterLines(positions);
+            leftLines.forEach(line => line.classList.add('draw'));
+            await wait(1200);
+            semiLeft.classList.add('show');
+            await wait(1500);
+            
+            // Step 4: Show Q2 Top (OLYMPIACOS vs PANATHINAIKOS)
+            q2Top.classList.add('show');
+            await wait(1500);
+            
+            // Step 5: Show Q2 Bottom (TEAM 7 vs OFI)
+            q2Bottom.classList.add('show');
+            await wait(1500);
+            
+            // Step 6: Draw lines from Q2 to Semi-Right, then show Semi-Right box
+            await wait(200);
+            const positions2 = getBoxPositions();
+            const rightLines = drawRightQuarterLines(positions2);
+            rightLines.forEach(line => line.classList.add('draw'));
+            await wait(1200);
+            semiRight.classList.add('show');
+            await wait(1500);
+            
+            // Step 7: Draw lines from both semis to cup
+            await wait(200);
+            const positions3 = getBoxPositions();
+            const cupLines = drawSemiToCupLines(positions3);
+            cupLines.forEach(line => line.classList.add('draw'));
+            await wait(1200);
+            
+            // Step 8: Show cup with zoom and lighting
+            cupContainer.classList.add('show');
+            await wait(2000);
+            
+            // Hold final state for 30 seconds
+            await wait(30000);
+            
+            // Fade out
+            document.querySelector('.container').style.opacity = '0';
+        }
 
-                // Animate lines
-                document.querySelectorAll('.connector-line').forEach(line => {
-                    line.classList.add('animate');
-                });
-            }, 200);
+        function wait(ms) {
+            return new Promise(resolve => {
+                currentAnimationTimeout = setTimeout(resolve, ms);
+            });
+        }
+
+        function resetAnimation() {
+            // Clear any running timeouts
+            if (currentAnimationTimeout) {
+                clearTimeout(currentAnimationTimeout);
+            }
+            
+            // Reset container
+            const container = document.querySelector('.container');
+            container.style.opacity = '1';
+            
+            // Reset all boxes
+            document.querySelectorAll('.match-box').forEach(box => {
+                box.classList.remove('show');
+            });
+            
+            // Reset cup
+            document.querySelector('.cup-container').classList.remove('show');
+            
+            // Clear all lines
+            document.getElementById('linesSvg').innerHTML = '';
         }
 
         function loadBracket() {
             const container = document.getElementById('bracketContainer');
             
-            // Quarter Finals Left
+            // Create all boxes
             container.appendChild(createMatchBox(bracketData.quarter_finals_left[0], 'q1-top'));
             container.appendChild(createMatchBox(bracketData.quarter_finals_left[1], 'q1-bottom'));
-            
-            // Quarter Finals Right
             container.appendChild(createMatchBox(bracketData.quarter_finals_right[0], 'q2-top'));
             container.appendChild(createMatchBox(bracketData.quarter_finals_right[1], 'q2-bottom'));
-            
-            // Semi Finals
             container.appendChild(createMatchBox(bracketData.semi_finals_left, 'semi-left'));
             container.appendChild(createMatchBox(bracketData.semi_finals_right, 'semi-right'));
 
-            // Trigger animations
+            // Start animation sequence
             setTimeout(() => {
-                document.querySelectorAll('.match-box').forEach(box => {
-                    box.classList.add('animate');
-                });
-                drawLines();
-                
-                // Hide everything after 30 seconds of final state (13s animation + 30s display)
-                setTimeout(() => {
-                    document.querySelector('.container').style.opacity = '0';
-                    document.querySelector('.container').style.transition = 'opacity 1s';
-                }, 43000); // Total: 13s animation + 30s display
-            }, 100);
+                runAnimationSequence();
+            }, 500);
         }
 
         async function loadBracketFromJSON() {
@@ -390,43 +490,10 @@
             loadBracket();
         }
 
-        // Restart animation when page becomes visible
         function restartAnimation() {
-            // Reset all elements
-            const container = document.querySelector('.container');
-            container.style.opacity = '1';
-            
-            const boxes = document.querySelectorAll('.match-box');
-            boxes.forEach(box => {
-                box.classList.remove('animate');
-                box.style.animation = 'none';
-                void box.offsetWidth; // Force reflow
-                box.style.animation = '';
-            });
-            
-            const lines = document.querySelectorAll('.connector-line');
-            lines.forEach(line => {
-                line.classList.remove('animate');
-                line.style.animation = 'none';
-                void line.offsetWidth;
-                line.style.animation = '';
-            });
-            
-            const cup = document.querySelector('.cup-image');
-            cup.style.animation = 'none';
-            void cup.offsetWidth;
-            cup.style.animation = '';
-            
-            // Restart animations
+            resetAnimation();
             setTimeout(() => {
-                boxes.forEach(box => box.classList.add('animate'));
-                lines.forEach(line => line.classList.add('animate'));
-                
-                // Hide after 30 seconds of final state
-                setTimeout(() => {
-                    container.style.opacity = '0';
-                    container.style.transition = 'opacity 1s';
-                }, 43000);
+                runAnimationSequence();
             }, 100);
         }
 
@@ -434,14 +501,14 @@
             loadBracketFromJSON();
         });
 
-        // Restart on visibility change (OBS source shown)
+        // Restart on visibility change
         document.addEventListener('visibilitychange', function() {
             if (!document.hidden) {
                 restartAnimation();
             }
         });
 
-        // Restart on page focus
+        // Restart on focus
         window.addEventListener('focus', function() {
             restartAnimation();
         });
