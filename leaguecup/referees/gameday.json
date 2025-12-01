@@ -1,0 +1,99 @@
+{
+  "games": [
+    {
+      "homeTeam": "ΟΦΗ",
+      "homeSlug": "ofi",
+      "awayTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ",
+      "awaySlug": "panathinaikos",
+      "refs": {
+        "referees": [
+          "Αγγελίδης",
+          "Κόκκας"
+        ],
+        "observer": "Κοκοτσάκης",
+        "challengeRef": "",
+        "linesmen": [
+          "Αποστολίδης",
+          "Ξυδάκης"
+        ],
+        "secretariat": "Αβραμοπούλου"
+      }
+    },
+    {
+      "homeTeam": "ΚΗΦΙΣΙΑ",
+      "homeSlug": "kifisia",
+      "awayTeam": "ΟΛΥΜΠΙΑΚΟΣ",
+      "awaySlug": "olympiakos",
+      "refs": {
+        "referees": [
+          "Φραγκάκης",
+          "Μουλά Ειρ."
+        ],
+        "observer": "Ονόπας",
+        "challengeRef": "",
+        "linesmen": [
+          "Τουκτούκας",
+          "Σαμοθράκης"
+        ],
+        "secretariat": "Καρατζογλίδου"
+      }
+    },
+    {
+      "homeTeam": "ΠΑΟΚ",
+      "homeSlug": "paok",
+      "awayTeam": "ΠΑΝΙΩΝΙΟΣ",
+      "awaySlug": "panionios",
+      "refs": {
+        "referees": [
+          "Βασιλειάδης",
+          "Ισκάς"
+        ],
+        "observer": "Αντωνούλης",
+        "challengeRef": "Θεμελής",
+        "linesmen": [
+          "Σταυρίδου",
+          "Κοτσικάρη"
+        ],
+        "secretariat": "Εμμανουηλίδου"
+      }
+    },
+    {
+      "homeTeam": "ΚΑΛΑΜΑΤΑ",
+      "homeSlug": "kalamata",
+      "awayTeam": "ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+      "awaySlug": "foinikas",
+      "refs": {
+        "referees": [
+          "Κουτσούλας",
+          "Κτενάς"
+        ],
+        "observer": "Γεωργουλέας",
+        "challengeRef": "",
+        "linesmen": [
+          "Τσεκούρας",
+          "Γεωργοπούλου Αγγ."
+        ],
+        "secretariat": "Βλαχούλη"
+      }
+    },
+    {
+      "homeTeam": "ΜΙΛΩΝ",
+      "homeSlug": "milon",
+      "awayTeam": "ΦΛΟΙΣΒΟΣ",
+      "awaySlug": "floisvos",
+      "refs": {
+        "referees": [
+          "Ιωαννίδης",
+          "Βελώνης"
+        ],
+        "observer": "Μαυρικίδης",
+        "challengeRef": "",
+        "linesmen": [
+          "Ζαρμπίνης",
+          "Παπαγιαννόπουλος"
+        ],
+        "secretariat": "Μισιάκα"
+      }
+    }
+  ]
+}

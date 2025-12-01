@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏐 Referees Overlay - Professional TV Graphics</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
+    
+    :root {
+        --primary-rgb: 59, 130, 246;
+        --secondary-rgb: 255, 255, 255;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', 'Nunito Sans', sans-serif;
+        background: transparent;
+        min-height: 100vh;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Graphics Container - Bottom Aligned */
+    .graphics-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 1920px;
+        height: 600px;
+        transform-origin: bottom left;
+        transform: scale(calc(min(100vw / 1920px, (100vh * 0.6) / 600px)));
+        background: transparent;
+    }
+
+    /* Moving Lines Animation */
+    .moving-lines {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1920px;
+        height: 600px;
+        overflow: hidden;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .line {
+        position: absolute;
+        height: 3px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(var(--primary-rgb), 0.4) 20%, 
+            rgba(var(--secondary-rgb), 0.6) 50%, 
+            rgba(var(--primary-rgb), 0.4) 80%, 
+            transparent 100%
+        );
+        border-radius: 2px;
+        box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.3);
+    }
+
+    .line-1 { width: 400px; top: 15%; animation: moveLine1 12s linear infinite; }
+    .line-2 { width: 350px; top: 35%; animation: moveLine2 10s linear infinite; }
+    .line-3 { width: 500px; top: 55%; animation: moveLine3 14s linear infinite; }
+    .line-4 { width: 300px; top: 75%; animation: moveLine4 11s linear infinite; }
+    .line-5 { width: 450px; top: 25%; animation: moveLine5 9s linear infinite; }
+
+    @keyframes moveLine1 { 0% { left: -400px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: 1920px; opacity: 0; } }
+    @keyframes moveLine2 { 0% { right: -350px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { right: 1920px; opacity: 0; } }
+    @keyframes moveLine3 { 0% { left: -500px; opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { left: 1920px; opacity: 0; } }
+    @keyframes moveLine4 { 0% { right: -300px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { right: 1920px; opacity: 0; } }
+    @keyframes moveLine5 { 0% { right: -450px; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { right: 1920px; opacity: 0; } }
+
+    /* Title */
+    .title {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 42px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #f8fafc 0%, #3b82f6 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
+        z-index: 15;
+        opacity: 0;
+        transform: translateX(-50%) translateY(-30px);
+        animation: titleSlideIn 1.5s ease-out 0.3s forwards;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #f8fafc;
+    }
+
+    @keyframes titleSlideIn {
+        to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+
+    /* Match VS Header */
+    .match-header {
+        position: absolute;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        z-index: 15;
+        opacity: 0;
+        animation: fadeInScale 1s ease-out 0.8s forwards;
+    }
+
+    .vs-header {
+        font-size: 32px;
+        font-weight: 800;
+        color: #f8fafc;
+        text-shadow: 0 0 20px rgba(var(--primary-rgb), 0.6);
+        font-family: 'Orbitron', monospace;
+    }
+
+    @keyframes fadeInScale {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.8);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    }
+
+    /* Referees Container */
+    .referees-container {
+        position: absolute;
+        top: 140px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1700px;
+        z-index: 10;
+    }
+
+    .ref-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    /* Referee Card with Background Image */
+    .ref-card {
+        background: url('background.jpeg') center/cover no-repeat;
+        border-radius: 15px;
+        padding: 15px 20px;
+        border: 2px solid rgba(var(--primary-rgb), 0.4);
+        box-shadow: 
+            0 15px 40px rgba(0, 0, 0, 0.6),
+            0 0 30px rgba(var(--primary-rgb), 0.3);
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+        animation: cardSlideUp 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Dark glassmorphism overlay */
+    .ref-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(15px) saturate(150%);
+        -webkit-backdrop-filter: blur(15px) saturate(150%);
+        z-index: 1;
+        border-radius: 15px;
+    }
+
+    /* Ensure content is above overlay */
+    .ref-card > * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .ref-card:nth-child(1) { animation-delay: 1.2s; }
+    .ref-card:nth-child(2) { animation-delay: 1.4s; }
+    .ref-card:nth-child(3) { animation-delay: 1.6s; }
+    .ref-card:nth-child(4) { animation-delay: 1.8s; }
+    .ref-card:nth-child(5) { animation-delay: 2.0s; }
+
+    @keyframes cardSlideUp {
+        0% {
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            box-shadow: 0 0 0 rgba(var(--primary-rgb), 0);
+        }
+        60% {
+            box-shadow: 0 0 40px rgba(var(--primary-rgb), 0.8);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(var(--primary-rgb), 0.3);
+        }
+    }
+
+    .ref-card-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid rgba(var(--primary-rgb), 0.3);
+    }
+
+    .ref-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.3), rgba(var(--secondary-rgb), 0.1));
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        border: 2px solid rgba(var(--primary-rgb), 0.5);
+        color: #f8fafc;
+    }
+
+    .ref-label {
+        font-size: 16px;
+        font-weight: 800;
+        color: #f8fafc;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: 'Orbitron', monospace;
+    }
+
+    .ref-names {
+        color: #f8fafc;
+        font-size: 29px;
+        font-weight: 600;
+        line-height: 1.4;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Full Width Card for Secretariat */
+    .ref-card.full-width {
+        grid-column: 1 / -1;
+    }
+
+    /* Loading/Error States */
+    .loading, .no-data {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #f8fafc;
+        z-index: 20;
+    }
+
+    .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-top: 4px solid rgba(var(--primary-rgb), 1);
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .no-data {
+        font-size: 24px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 40px;
+        border-radius: 20px;
+        border: 2px solid rgba(var(--primary-rgb), 0.5);
+    }
+</style>
+</head>
+<body>
+    <div class="graphics-container">
+        <!-- Moving Lines -->
+        <div class="moving-lines">
+            <div class="line line-1"></div>
+            <div class="line line-2"></div>
+            <div class="line line-3"></div>
+            <div class="line line-4"></div>
+            <div class="line line-5"></div>
+        </div>
+
+        <!-- Title -->
+        <div class="title">ΔΙΑΙΤΗΤΕΣ</div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loadingScreen">
+            <!-- <div class="spinner"></div>
+            <div class="loading-text">Φόρτωση δεδομένων...</div> -->
+        </div>
+
+        <!-- Match Header (will be populated) -->
+        <div class="match-header" id="matchHeader" style="display: none;"></div>
+
+        <!-- Referees Container -->
+        <div class="referees-container" id="refereesContainer" style="display: none;"></div>
+    </div>
+
+    <script>
+        const githubOwner = "volleyleaguecupgr";
+        const githubRepo = "roster";
+        const branch = "main";
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const teamParam = urlParams.get('team')?.toLowerCase();
+
+        async function fetchGameday() {
+            const url = `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${branch}/referees/gameday.json`;
+            const res = await fetch(url);
+            if (!res.ok) throw new Error("Could not fetch gameday.json");
+            return await res.json();
+        }
+
+        function createRefCard(icon, label, names) {
+            return `
+                <div class="ref-card">
+                    <div class="ref-card-header">
+                        <div class="ref-icon"><i class="${icon}"></i></div>
+                        <div class="ref-label">${label}</div>
+                    </div>
+                    <div class="ref-names">${names}</div>
+                </div>
+            `;
+        }
+
+        function renderGame(game) {
+            const referees = (game.refs.referees || []).join('<br>') || 'Δεν έχει οριστεί';
+            const observer = game.refs.observer || 'Δεν έχει οριστεί';
+            const challengeRef = game.refs.challengeRef || 'Δεν έχει οριστεί';
+            const linesmen = (game.refs.linesmen || []).join('<br>') || 'Δεν έχει οριστεί';
+            const secretariat = game.refs.secretariat || 'Δεν έχει οριστεί';
+
+            // Set match header
+            const matchHeader = document.getElementById('matchHeader');
+            matchHeader.innerHTML = `<div class="vs-header">${game.homeTeam} vs ${game.awayTeam}</div>`;
+            matchHeader.style.display = 'block';
+
+            // Build referee cards in 3-column grid with Font Awesome icons
+            const container = document.getElementById('refereesContainer');
+            container.innerHTML = `
+                <div class="ref-grid">
+                    ${createRefCard('fas fa-volleyball', 'Διαιτητές', referees)}
+                    ${createRefCard('fas fa-user-tie', 'Παρατηρητής', observer)}
+                    ${createRefCard('fas fa-video', 'Challenge Ref', challengeRef)}
+                    ${createRefCard('fas fa-flag', 'Επόπτες Γραμμής', linesmen)}
+                    ${createRefCard('fas fa-clipboard-list', 'Γραμματεία', secretariat)}
+                </div>
+            `;
+            container.style.display = 'block';
+        }
+
+        async function init() {
+            const loadingScreen = document.getElementById('loadingScreen');
+
+            if (!teamParam) {
+                loadingScreen.innerHTML = '<div class="no-data">⚠️ Δεν δόθηκε ομάδα στο URL.<br>Χρησιμοποιήστε: /referees/?team=paok</div>';
+                return;
+            }
+
+            try {
+                const data = await fetchGameday();
+                const games = data.games || [];
+                const filtered = games.filter(g => 
+                    (g.homeSlug || '').toLowerCase() === teamParam || 
+                    (g.awaySlug || '').toLowerCase() === teamParam
+                );
+
+                if (filtered.length === 0) {
+                    loadingScreen.innerHTML = `<div class="no-data">⚠️ Δεν βρέθηκε κανένα παιχνίδι για την ομάδα: <strong>${teamParam}</strong></div>`;
+                    return;
+                }
+
+                // Hide loading, show content
+                loadingScreen.style.display = 'none';
+                renderGame(filtered[0]);
+
+            } catch(e) {
+                loadingScreen.innerHTML = `<div class="no-data">❌ Σφάλμα: ${e.message}</div>`;
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
