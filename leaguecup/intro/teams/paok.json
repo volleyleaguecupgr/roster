@@ -7,12 +7,12 @@
     "logo": "paok.png"
   },
   "awayTeam": {
-    "name": "Πανιώνιος",
-    "subtitle": "Γ.Σ.Σ.",
-    "slug": "panionios",
-    "color": "#004b8d",
-    "logo": "panionios.png"
+    "name": "ΜΙΛΩΝ",
+    "subtitle": "ΑΟΝΣ",
+    "slug": "milon",
+    "color": "#228B22",
+    "logo": "milon.png"
   },
-  "date": "29 Νοεμβρίου 2025",
-  "league": "6η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "2 Δεκεμβρίου 2025",
+  "league": "ΠΡΟΗΜΙΤΕΛΙΚΗ ΦΑΣΗ"
 }
