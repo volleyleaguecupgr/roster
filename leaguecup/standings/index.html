@@ -150,9 +150,9 @@
         }
 
         .cup-image {
-            width: 280px;
+            width: 380px;
             height: auto;
-            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.8));
         }
 
         @keyframes cupAppear {
@@ -235,12 +235,12 @@
                 }
             ],
             "semi_finals_left": {
-                "team1": { "name": "SEMI 1", "logo": "logos/semi1.png" },
-                "team2": { "name": "SEMI 2", "logo": "logos/semi2.png" }
+                "team1": { "name": "ΝΙΚΗΤΗΣ 1", "logo": "" },
+                "team2": { "name": "ΝΙΚΗΤΗΣ 2", "logo": "" }
             },
             "semi_finals_right": {
-                "team1": { "name": "SEMI 3", "logo": "logos/semi3.png" },
-                "team2": { "name": "SEMI 4", "logo": "logos/semi4.png" }
+                "team1": { "name": "ΝΙΚΗΤΗΣ 3", "logo": "" },
+                "team2": { "name": "ΝΙΚΗΤΗΣ 4", "logo": "" }
             }
         };
 
@@ -323,7 +323,7 @@
             svg.appendChild(line2);
             
             // Line from junction to semi-left
-            const path3 = `M ${q1Top.right + 60} ${leftMidY} L ${semiLeft.left} ${leftMidY} L ${semiLeft.left} ${semiLeft.centerY}`;
+            const path3 = `M ${q1Top.right + 60} ${leftMidY} L ${semiLeft.left} ${leftMidY} L ${semiLeft.left-60} ${semiLeft.centerY}`;
             const line3 = createLine(path3, 'line-to-semi-left');
             svg.appendChild(line3);
             
