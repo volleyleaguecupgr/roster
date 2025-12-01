@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Κηφισιά",
-    "subtitle": "A.Ο.Π.Σ.",
-    "slug": "kifisia",
-    "color": "#1e3a8a",
-    "logo": "kifisia.png"
+    "name": "AO ΦΛΟΙΣΒΟΣ",
+    "subtitle": "",
+    "slug": "floisvos",
+    "color": "#1E90FF",
+    "logo": "floisvos.png"
   },
   "awayTeam": {
-    "name": "Ολυμπιακός",
-    "subtitle": "Σ.Φ.Π ΟΝΕΧ",
-    "slug": "olympiakos",
-    "color": "#E41E26",
-    "logo": "olympiakos.png"
+    "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+    "subtitle": "",
+    "slug": "kifisia",
+    "color": "#4169E1",
+    "logo": "kifisia.png"
   },
-  "date": "28 Νοεμβρίου 2025",
-  "league": "6η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "2 Δεκεμβρίου 2025",
+  "league": "ΠΡΟΗΜΙΤΕΛΙΚΗ ΦΑΣΗ"
 }
