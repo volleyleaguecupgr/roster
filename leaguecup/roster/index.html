@@ -22,11 +22,9 @@
             padding: 0;
         }
 
-        /* Main Graphics Container */
         .graphics-container {
             opacity: 0;
             visibility: hidden;
-            display: flex;
             position: fixed;
             top: 0;
             left: 0;
@@ -50,7 +48,6 @@
             visibility: visible;
         }
 
-        /* Loading Screen */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -59,7 +56,6 @@
             height: 100vh;
             background: rgba(0, 0, 0, 0.9);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -71,7 +67,6 @@
             pointer-events: none;
         }
 
-        /* Error Screen */
         .error-screen {
             position: fixed;
             top: 0;
@@ -93,7 +88,6 @@
             display: flex;
         }
 
-        /* Animated Background Lines */
         .moving-lines {
             position: absolute;
             top: 0;
@@ -102,10 +96,8 @@
             height: 1080px;
             overflow: hidden;
             z-index: 1;
-            pointer-events: none;
         }
 
-        /* Team Logo */
         .team-logo {
             position: absolute;
             top: 30px;
@@ -129,7 +121,6 @@
             border-radius: 50%;
         }
 
-        /* Roster Container */
         .roster-container {
             position: absolute;
             bottom: 60px;
@@ -139,17 +130,35 @@
             z-index: 10;
         }
 
-        /* ✨ NEW — image + dark glassmorphism */
-        .roster-table {
-            width: 100%;
-            background:
-                linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
-                url("background.jpeg");
+        /* -----------------------------------------------------------
+           NEW WRAPPERS FOR BACKGROUND IMAGE
+        ------------------------------------------------------------*/
+
+        .roster-bg {
+            background: url("background.jpeg");
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
+            border-radius: 20px;
+            padding: 0;
+        }
+
+        .staff-bg {
+            background: url("background.jpeg");
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        /* -----------------------------------------------------------
+           ORIGINAL INNER GLASS BOXES (unchanged)
+        ------------------------------------------------------------*/
+
+        .roster-table {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(15px);
-            
             border-radius: 20px;
             overflow: hidden;
             border: 2px solid rgba(var(--primary-rgb), 0.3);
@@ -170,21 +179,13 @@
             font-size: 20px;
         }
 
-        /* ✨ NEW — image + dark glassmorphism */
         .staff-section {
-            margin-top: 15px;
-            background:
-                linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
-                url("background.jpeg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            backdrop-filter: blur(12px);
-
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(15px);
             border-radius: 15px;
             padding: 15px;
             border: 1px solid rgba(var(--secondary-rgb), 0.3);
-            opacity: 0;
+            opacity: 1;
         }
 
         .staff-item {
@@ -195,7 +196,6 @@
             text-align: center;
         }
 
-        /* Statistics - Top right */
         .stats-container {
             position: absolute;
             top: -100px;
@@ -225,37 +225,35 @@
 
 <body>
 
-    <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen"></div>
 
-    <!-- Error Screen -->
     <div class="error-screen" id="errorScreen">
         <div class="error-title">⚠️ Team Not Found</div>
         <div class="error-message" id="errorMessage"></div>
         <div class="error-details" id="errorDetails"></div>
     </div>
 
-    <!-- Main Graphics Container -->
     <div class="graphics-container" id="graphicsContainer">
         
-        <!-- Moving Lines -->
         <div class="moving-lines"></div>
-        
-        <!-- Team Logo -->
+
         <div class="team-logo" id="teamLogo">
             <img id="logoImage" src="" alt="">
             <div class="team-logo-placeholder" id="logoPlaceholder">TEAM</div>
         </div>
         
-        <!-- Roster Container -->
         <div class="roster-container">
-            <table class="roster-table">
-                <thead>
-                    <tr id="tableHeaders"></tr>
-                </thead>
-                <tbody id="playersTableBody"></tbody>
-            </table>
-            
+
+            <!-- NEW IMAGE-BACKGROUND WRAPPER -->
+            <div class="roster-bg">
+                <table class="roster-table">
+                    <thead>
+                        <tr id="tableHeaders"></tr>
+                    </thead>
+                    <tbody id="playersTableBody"></tbody>
+                </table>
+            </div>
+
             <div class="stats-container" id="statsContainer">
                 <div class="stat-item">
                     <div class="stat-value" id="avgAgeValue">0</div>
@@ -266,17 +264,20 @@
                     <div class="stat-label">Μ.Ο. Ύψος</div>
                 </div>
             </div>
-            
-            <div class="staff-section">
-                <h3>Τεχνικό Επιτελείο</h3>
-                <div class="staff-grid" id="staffGrid"></div>
+
+            <!-- NEW IMAGE-BACKGROUND WRAPPER -->
+            <div class="staff-bg">
+                <div class="staff-section">
+                    <h3>Τεχνικό Επιτελείο</h3>
+                    <div class="staff-grid" id="staffGrid"></div>
+                </div>
             </div>
         </div>
 
     </div>
 
 <script>
-/* your JS code remains unchanged */
+/* your JS stays exactly the same */
 </script>
 
 </body>
