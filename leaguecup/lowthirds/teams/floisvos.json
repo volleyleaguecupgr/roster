@@ -1,0 +1,170 @@
+{
+  "name": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου",
+  "season": "2025-26",
+  "colors": {
+    "primary": "#1E90FF",
+    "secondary": "#FFFFFF"
+  },
+  "logo": "floisvos.png",
+  "avgAge": "31.9",
+  "avgHeight": "1.96",
+  "coach": {
+    "name": "Κωνσταντίνος Αρσενιάδης",
+    "role": "ΠΡΟΠΟΝΗΤΗΣ"
+  },
+  "assistant": {
+    "name": "Γεώργιος Κάπελας",
+    "role": "ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ"
+  },
+  "staff": [
+    {
+      "role": "Βοηθός Προπονητή",
+      "name": "Γεώργιος Κάπελας"
+    },
+    {
+      "role": "Στατιστικολόγος",
+      "name": "Άλκηστις Δεμπεγιώτη"
+    },
+    {
+      "role": "Team Manager",
+      "name": "Αλέξανδρος Αναγνωστόπουλος"
+    }
+  ],
+  "players": [
+    {
+      "number": 1,
+      "name": "Τσαρκάτογλου Μίλτος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "11/01/1997",
+      "height": "1,97",
+      "team": "Παναχαϊκή Πετοσφαίριση 2013"
+    },
+    {
+      "number": 2,
+      "name": "Kovar Jiri",
+      "nationality": "ITA",
+      "position": "Ακραίος",
+      "birthdate": "10/04/1989",
+      "height": "2,02",
+      "team": "Galatasaray (Τουρκία)"
+    },
+    {
+      "number": 3,
+      "name": "Χαραλαμπίδης Δημήτριος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "03/06/1991",
+      "height": "1,96",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 4,
+      "name": "Μελλές Νικόλαος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "20/01/1995",
+      "height": "1,95",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 5,
+      "name": "Κανελλόπουλος Γεώργιος",
+      "nationality": "GRE",
+      "position": "Πασαδόρος",
+      "birthdate": "30/11/1997",
+      "height": "1,90",
+      "team": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 6,
+      "name": "Van Garderen Maarten",
+      "nationality": "NED",
+      "position": "Ακραίος",
+      "birthdate": "24/01/1990",
+      "height": "2,00",
+      "team": "Παναθηναϊκός Α.Ο."
+    },
+    {
+      "number": 8,
+      "name": "Fraser Garrett",
+      "nationality": "AUS",
+      "position": "Ακραίος",
+      "birthdate": "07/08/2002",
+      "height": "1,92",
+      "team": "NSW Phoenix (Αυστραλία)"
+    },
+    {
+      "number": 9,
+      "name": "Παπαδόπουλος Ηρακλής",
+      "nationality": "GRE",
+      "position": "Διαγώνιος",
+      "birthdate": "02/09/1991",
+      "height": "1,98",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 14,
+      "name": "Αρμενάκης Απόστολος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "19/07/1980",
+      "height": "2,05",
+      "team": "Ολυμπιακός Σ.Φ.Π. ONEX"
+    },
+    {
+      "number": 15,
+      "name": "Vilimanovic Andrija",
+      "nationality": "SRB",
+      "position": "Πασαδόρος",
+      "birthdate": "14/11/1995",
+      "height": "1,95",
+      "team": "OK Nis (Σερβία)"
+    },
+    {
+      "number": 16,
+      "name": "Egleskalns Hermans",
+      "nationality": "LTV",
+      "position": "Διαγώνιος",
+      "birthdate": "08/12/1990",
+      "height": "2,03",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 17,
+      "name": "Παπαδόπουλος Παναγιώτης",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "30/04/1992",
+      "height": "1,98",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 18,
+      "name": "Εφραιμίδης Νικήτας",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "11/02/1989",
+      "height": "1,92",
+      "team": "Πήγασος Πολίχνης"
+    },
+    {
+      "number": 21,
+      "name": "Σωνάκης Αναστάσιος",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "09/11/2001",
+      "height": "1,84",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 22,
+      "name": "Νανόπουλος Δημήτριος",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "20/02/2000",
+      "height": "1,94",
+      "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    }
+  ]
+}

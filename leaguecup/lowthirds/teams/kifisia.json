@@ -1,0 +1,172 @@
+{
+  "name": "Α.Ο.Π. Κηφισιάς",
+  "colors": {
+    "primary": "#4169E1",
+    "secondary": "#FFFFFF"
+  },
+  "logo": "kifisia.png",
+  "avgAge": "27.6",
+  "avgHeight": "1.97",
+  "coach": {
+    "name": "Νικόλαος Ζαλμάς",
+    "role": "ΠΡΟΠΟΝΗΤΗΣ"
+  },
+  "assistant": {
+    "name": "Νικόλαος Κρέτσης",
+    "role": "ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ"
+  },
+  "players": [
+    {
+      "number": 1,
+      "name": "Φρίξος Κωτσάκης",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "01/05/1999",
+      "height": "1,95",
+      "team": "Α.Ο.Ν.Σ. Μίλων"
+    },
+    {
+      "number": 2,
+      "name": "Γρηγόριος Μπαρτακτζιάν",
+      "nationality": "GRE",
+      "position": "Πασαδόρος",
+      "birthdate": "04/10/2002",
+      "height": "1,94",
+      "team": "Ο.Φ.Η."
+    },
+    {
+      "number": 4,
+      "name": "Βασίλειος Κονίδης",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "23/03/2004",
+      "height": "1,93",
+      "team": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 5,
+      "name": "Evgeniy Bannov",
+      "nationality": "RUS",
+      "position": "Διαγώνιος",
+      "birthdate": "21/09/1994",
+      "height": "2,08",
+      "team": "Hapoel Mate Akko (ISR)"
+    },
+    {
+      "number": 8,
+      "name": "Ιωάννης Παπαδόπουλος",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "21/10/1993",
+      "height": "1,89",
+      "team": "Σ.Φ.Α.Μ. Φοίβος"
+    },
+    {
+      "number": 9,
+      "name": "Κυριάκος Σπυριούνης",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "01/09/1997",
+      "height": "1,95",
+      "team": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 10,
+      "name": "Svetoslav Stankov",
+      "nationality": "BUL",
+      "position": "Πασαδόρος",
+      "birthdate": "06/08/1996",
+      "height": "1,94",
+      "team": "SCM Craiova (ROM)"
+    },
+    {
+      "number": 11,
+      "name": "Lucas-Victor Rangel Ferreira",
+      "nationality": "BRA",
+      "position": "Κεντρικός",
+      "birthdate": "29/10/1990",
+      "height": "2,10",
+      "team": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 12,
+      "name": "Αντώνιος Σπηλιώτης",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "21/11/2001",
+      "height": "2,00",
+      "team": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 13,
+      "name": "Γεράσιμος Τζάρας",
+      "nationality": "GRE",
+      "position": "Διαγώνιος",
+      "birthdate": "08/04/2005",
+      "height": "2,04",
+      "team": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 15,
+      "name": "Ανδρέας Φράγκος",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "21/12/1989",
+      "height": "1,95",
+      "team": "Παναθηναϊκός Α.Ο."
+    },
+    {
+      "number": 18,
+      "name": "Maciej Borris",
+      "nationality": "POL",
+      "position": "Κεντρικός",
+      "birthdate": "30/09/1994",
+      "height": "2,04",
+      "team": "Torun (POL)"
+    },
+    {
+      "number": 20,
+      "name": "Ελευθέριος Φωλιάς",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "30/08/2003",
+      "height": "1,89",
+      "team": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 34,
+      "name": "Ιωάννης Αχιλλεόπουλος",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "26/06/1989",
+      "height": "1,84",
+      "team": "Α.Ο. Φλοίσβος Π. Φαλήρου"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Βοηθός Προπονητή",
+      "name": "Νικόλαος Κρέτσης"
+    },
+    {
+      "role": "Team Manager",
+      "name": "Χρήστος Δημητρουλάκος, Δημήτριος Παπαδόπουλος"
+    },
+    {
+      "role": "Στατιστικολόγος",
+      "name": "Ηλίας Γεωργίου"
+    },
+    {
+      "role": "Γυμναστής",
+      "name": "Παναγιώτης Ροξανάς, Μάκης Δήμου"
+    },
+    {
+      "role": "Φυσιοθεραπευτής",
+      "name": "Ανδρέας Τζανής"
+    },
+    {
+      "role": "Φροντιστής",
+      "name": "Νικόλαος Τσάπος"
+    }
+  ]
+}

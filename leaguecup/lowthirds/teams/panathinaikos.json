@@ -1,0 +1,184 @@
+{
+  "team": "panathinaikos",
+  "fullName": "Παναθηναϊκός Α.Ο.",
+  "colors": {
+    "primary": "#00A651",
+    "secondary": "#FFFFFF"
+  },
+  "avgAge": "26.5",
+  "avgHeight": "1.96",
+  "coach": {
+    "name": "Δημήτρης Ανδρεόπουλος",
+    "role": "ΠΡΟΠΟΝΗΤΗΣ"
+  },
+  "assistant": {
+    "name": "Παύλος Καραμαρούδης",
+    "role": "ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ"
+  },
+  "players": [
+    {
+      "number": 1,
+      "name": "Σταύρος Κασαμπαλής",
+      "surname": "Κασαμπαλής",
+      "firstname": "Σταύρος",
+      "nationality": "GRE",
+      "position": "ΠΑΣΑΔΟΡΟΣ",
+      "birthdate": "20/11/2002",
+      "height": "1,91",
+      "previousTeam": "Παναθηναϊκός Α.Ο."
+    },
+    {
+      "number": 2,
+      "name": "Γιώργος Παπαλεξίου",
+      "surname": "Παπαλεξίου",
+      "firstname": "Γιώργος",
+      "nationality": "GRE",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "28/08/1999",
+      "height": "2,05",
+      "previousTeam": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 5,
+      "name": "Σπυρίδων Μπακοδήμος",
+      "surname": "Μπακοδήμος",
+      "firstname": "Σπυρίδων",
+      "nationality": "GRE",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "08/09/2004",
+      "height": "1,86",
+      "previousTeam": "Γ.Α.Σ. Παμβοχαϊκός"
+    },
+    {
+      "number": 6,
+      "name": "Patrick Knoll Gasman",
+      "surname": "Gasman",
+      "firstname": "Patrick Knoll",
+      "nationality": "USA",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "01/02/1997",
+      "height": "2,08",
+      "previousTeam": "Παναθηναϊκός Α.Ο."
+    },
+    {
+      "number": 7,
+      "name": "Dmytro Yanchuk",
+      "surname": "Yanchuk",
+      "firstname": "Dmytro",
+      "nationality": "UKR",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "19/05/1999",
+      "height": "2,00",
+      "previousTeam": "Epicentr-Podolyany (UKR)"
+    },
+    {
+      "number": 8,
+      "name": "Rasmus Breuning-Nielsen",
+      "surname": "Breuning-Nielsen",
+      "firstname": "Rasmus",
+      "nationality": "NOR",
+      "position": "ΔΙΑΓΩΝΙΟΣ",
+      "birthdate": "22/05/1994",
+      "height": "1,98",
+      "previousTeam": "Παναθηναϊκός Α.Ο."
+    },
+    {
+      "number": 12,
+      "name": "Θεόδωρος Βουλκίδης",
+      "surname": "Βουλκίδης",
+      "firstname": "Θεόδωρος",
+      "nationality": "GRE",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "30/03/1996",
+      "height": "2,01",
+      "previousTeam": "Παναθηναϊκός Α.Ο."
+    },
+    {
+      "number": 13,
+      "name": "Χαράλαμπος Ανδρεόπουλος",
+      "surname": "Ανδρεόπουλος",
+      "firstname": "Χαράλαμπος",
+      "nationality": "GRE",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "23/01/2001",
+      "height": "1,88",
+      "previousTeam": "Delta Group Porto Viro (ITA)"
+    },
+    {
+      "number": 18,
+      "name": "Γρηγόριος Κοντοστάθης",
+      "surname": "Κοντοστάθης",
+      "firstname": "Γρηγόριος",
+      "nationality": "GRE",
+      "position": "ΛΙΜΠΕΡΟ",
+      "birthdate": "22/12/1994",
+      "height": "1,90",
+      "previousTeam": "Παναθηναϊκός Α.Ο."
+    },
+    {
+      "number": 19,
+      "name": "Άγγελος Μανδηλάρης",
+      "surname": "Μανδηλάρης",
+      "firstname": "Άγγελος",
+      "nationality": "GRE",
+      "position": "ΔΙΑΓΩΝΙΟΣ",
+      "birthdate": "07/11/1998",
+      "height": "2,00",
+      "previousTeam": "Α.Σ. Άθλος Ορεστιάδας"
+    },
+    {
+      "number": 20,
+      "name": "Filip Savovski",
+      "surname": "Savovski",
+      "firstname": "Filip",
+      "nationality": "MKD",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "04/08/2002",
+      "height": "2,10",
+      "previousTeam": "Vojvodina Novi Sad (SRB)"
+    },
+    {
+      "number": 31,
+      "name": "Luca Spirito",
+      "surname": "Spirito",
+      "firstname": "Luca",
+      "nationality": "ITA",
+      "position": "ΠΑΣΑΔΟΡΟΣ",
+      "birthdate": "30/10/1993",
+      "height": "1,99",
+      "previousTeam": "Rana Verona (ITA)"
+    },
+    {
+      "number": 70,
+      "name": "Αριστείδης Χανδρινός",
+      "surname": "Χανδρινός",
+      "firstname": "Αριστείδης",
+      "nationality": "GRE",
+      "position": "ΛΙΜΠΕΡΟ",
+      "birthdate": "20/11/2002",
+      "height": "1,90",
+      "previousTeam": "Παναθηναϊκός Α.Ο."
+    },
+    {
+      "number": 77,
+      "name": "Αθανάσιος Πρωτοψάλτης",
+      "surname": "Πρωτοψάλτης",
+      "firstname": "Αθανάσιος",
+      "nationality": "GRE",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "12/09/1993",
+      "height": "1,85",
+      "previousTeam": "Παναθηναϊκός Α.Ο."
+    }
+  ],
+  "staff": [
+    {"role": "Προπονητής", "name": "Δημήτρης Ανδρεόπουλος"},
+    {"role": "Βοηθός Προπονητή", "name": "Παύλος Καραμαρούδης"},
+    {"role": "Βοηθός Προπονητή-Γυμναστής", "name": "Χρίστος Μπέλος"},
+    {"role": "Στατιστικολόγος", "name": "Άλκης Μπέλος"},
+    {"role": "Φυσιοθεραπευτής", "name": "Ναπολέων Χαρίσης"},
+    {"role": "Φυσιοθεραπευτής", "name": "Παναγιώτης Βλαχάς"},
+    {"role": "Team Manager", "name": "Δημήτρης Αγραπιδάκης"},
+    {"role": "Αγωνιστικός Διευθυντής", "name": "Σωτήρης Πανταλέων"}
+  ]
+}

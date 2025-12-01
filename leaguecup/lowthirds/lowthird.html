@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Roster - Lower Third Graphics</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: transparent;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            padding: 60px;
+        }
+
+        /* Main Graphics Container */
+        .graphics-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            transform-origin: bottom left;
+            transform: scale(calc(min(100vw / 1920px, 100vh / 1080px)));
+            pointer-events: none;
+        }
+
+        /* Lower Third Card */
+        .lower-third {
+            position: absolute;
+            bottom: 80px;
+            left: 60px;
+            width: 600px;
+            height: 160px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 3px solid rgba(59, 130, 246, 0.4);
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(59, 130, 246, 0.3);
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            gap: 20px;
+            opacity: 0;
+            transform: translateX(-100px) scale(0.9);
+            animation: slideInGlow 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 0.5s;
+            overflow: hidden;
+        }
+
+        @keyframes slideInGlow {
+            0% { 
+                opacity: 0; 
+                transform: translateX(-100px) scale(0.9); 
+                box-shadow: 0 0 0 rgba(59, 130, 246, 0.5);
+            }
+            70% { 
+                box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8), 0 0 100px rgba(59, 130, 246, 0.8);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(0) scale(1); 
+                box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
+            }
+        }
+
+        /* Team gradient overlay */
+        .team-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        /* Team Logo */
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            flex-shrink: 0;
+            z-index: 3;
+            position: relative;
+        }
+
+        .team-logo img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .team-logo-placeholder {
+            font-family: 'Inter', monospace;
+            font-weight: 900;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Player Info */
+        .player-info {
+            flex: 1;
+            color: white;
+            z-index: 3;
+            position: relative;
+        }
+
+        .player-name {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            line-height: 1.1;
+        }
+
+        .player-role {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            margin-bottom: 4px;
+        }
+
+        .team-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Player Number Badge */
+        .player-number {
+            position: absolute;
+            top: 200px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--foinikas) 0%, rgba(255, 69, 0, 0.6) 100%);
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', monospace;
+            font-weight: 900;
+            font-size: 40px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            z-index: 4;
+        }
+
+        .player-number.coach {
+            background: rgba(255, 165, 0, 0.9);
+            font-size: 14px;
+        }
+
+        /* Team-specific gradients */
+        :root {
+            --olympiakos: #dc1414;
+            --panathinaikos: #16a34a;
+            --paok: #1a1a1a;
+            --milon: #228B22;
+            --kifisia: #4169E1;
+            --foinikas: #FF4500;
+            --floisvos: #1E90FF;
+            --ofh: #2c2c2c;
+            --panionios: #DC143C;
+            --kalamata: #32CD32;
+        }
+
+        .gradient-olympiakos { background: linear-gradient(135deg, var(--olympiakos) 0%, rgba(220, 20, 20, 0.6) 100%); }
+        .gradient-panathinaikos { background: linear-gradient(135deg, var(--panathinaikos) 0%, rgba(22, 163, 74, 0.6) 100%); }
+        .gradient-paok { background: linear-gradient(135deg, var(--paok) 0%, rgba(26, 26, 26, 0.6) 100%); }
+        .gradient-milon { background: linear-gradient(135deg, var(--milon) 0%, rgba(34, 139, 34, 0.6) 100%); }
+        .gradient-kifisia { background: linear-gradient(135deg, var(--kifisia) 0%, rgba(65, 105, 225, 0.6) 100%); }
+        .gradient-foinikas { background: linear-gradient(135deg, var(--foinikas) 0%, rgba(255, 69, 0, 0.6) 100%); }
+        .gradient-floisvos { background: linear-gradient(135deg, var(--floisvos) 0%, rgba(30, 144, 255, 0.6) 100%); }
+        .gradient-ofh { background: linear-gradient(135deg, var(--ofh) 0%, rgba(44, 44, 44, 0.6) 100%); }
+        .gradient-panionios { background: linear-gradient(135deg, var(--panionios) 0%, rgba(220, 20, 60, 0.6) 100%); }
+        .gradient-kalamata { background: linear-gradient(135deg, var(--kalamata) 0%, rgba(50, 205, 50, 0.6) 100%); }
+
+        /* Loading state */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .error {
+            background: linear-gradient(135deg, #dc2626 0%, rgba(220, 38, 38, 0.6) 100%);
+        }
+
+        .error .player-name {
+            color: #ffcccb;
+        }
+
+        /* Auto-hide after display */
+        .lower-third.auto-hide {
+            animation: slideInGlow 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                       slideOutGlow 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 8s;
+        }
+
+        @keyframes slideOutGlow {
+            0% { 
+                opacity: 1; 
+                transform: translateX(0) scale(1); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateX(-100px) scale(0.9); 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="graphics-container">
+        <div class="lower-third" id="lowerThird">
+            <div class="team-gradient" id="teamGradient"></div>
+            <div class="team-logo" id="teamLogo">
+                <div class="team-logo-placeholder">TEAM</div>
+            </div>
+            <div class="player-info">
+                <div class="player-name" id="playerName">Loading...</div>
+                <div class="player-role" id="playerRole"></div>
+                <div class="team-name" id="teamName"></div>
+            </div>
+            <div class="player-number" id="playerNumber">?</div>
+        </div>
+    </div>
+
+    <script>
+        // Team roster data structure - replace with your GitHub raw JSON URLs
+        const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/lowthirds/teams/';
+        
+        // Team configuration with logo URLs and display names
+        const TEAMS_CONFIG = {
+            'olympiakos': {
+                name: 'ΟΛΥΜΠΙΑΚΟΣ',
+                logo: 'olympiakos.png',
+                gradient: 'gradient-olympiakos'
+            },
+            'panathinaikos': {
+                name: 'ΠΑΝΑΘΗΝΑΙΚΟΣ',
+                logo: 'panathinaikos.png',
+                gradient: 'gradient-panathinaikos'
+            },
+            'paok': {
+                name: 'Π.Α.Ο.Κ.',
+                logo: 'paok.png',
+                gradient: 'gradient-paok'
+            },
+            'milon': {
+                name: 'ΜΙΛΩΝ',
+                logo: 'milon.png',
+                gradient: 'gradient-milon'
+            },
+            'kifisia': {
+                name: 'ΚΗΦΙΣΙΑ',
+                logo: 'kifisia.png',
+                gradient: 'gradient-kifisia'
+            },
+            'foinikas': {
+                name: 'ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ',
+                logo: 'foinika.png',
+                gradient: 'gradient-foinikas'
+            },
+            'floisvos': {
+                name: 'ΦΛΟΙΣΒΟΣ Π.',
+                logo: 'floisvos.png',
+                gradient: 'gradient-floisvos'
+            },
+            'ofh': {
+                name: 'Ο.Φ.Η.',
+                logo: 'ofi.png',
+                gradient: 'gradient-ofh'
+            },
+            'panionios': {
+                name: 'ΠΑΝΙΩΝΙΟΣ',
+                logo: 'panionios.png',
+                gradient: 'gradient-panionios'
+            },
+            'kalamata': {
+                name: 'ΚΑΛΑΜΑΤΑ',
+                logo: 'kalamata.png',
+                gradient: 'gradient-kalamata'
+            }
+        };
+
+        // Parse URL parameters
+        function getURLParameters() {
+            const path = window.location.pathname;
+            const parts = path.split('_');
+            
+            if (parts.length >= 3) {
+                return {
+                    teamname: parts[parts.length - 2].toLowerCase(),
+                    number: parseInt(parts[parts.length - 1])
+                };
+            }
+            
+            // Fallback to URL search params
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                teamname: urlParams.get('team')?.toLowerCase(),
+                number: parseInt(urlParams.get('number'))
+            };
+        }
+
+        // Load team roster from GitHub
+        async function loadTeamRoster(teamname) {
+            try {
+                const response = await fetch(`${GITHUB_BASE_URL}${teamname}.json`);
+                if (!response.ok) {
+                    throw new Error(`Team ${teamname} not found`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Error loading team roster:', error);
+                throw error;
+            }
+        }
+
+        // Find player by number in roster
+        function findPlayer(roster, number) {
+            if (number === 100) {
+                return roster.coach || null;
+            }
+            return roster.players?.find(player => player.number === number) || null;
+        }
+
+        // Display player information
+        function displayPlayer(teamConfig, player, isCoach = false) {
+            const lowerThird = document.getElementById('lowerThird');
+            const teamGradient = document.getElementById('teamGradient');
+            const teamLogo = document.getElementById('teamLogo');
+            const playerName = document.getElementById('playerName');
+            const playerRole = document.getElementById('playerRole');
+            const teamName = document.getElementById('teamName');
+            const playerNumber = document.getElementById('playerNumber');
+
+            // Set team gradient
+            teamGradient.className = `team-gradient ${teamConfig.gradient}`;
+
+            // Set team logo
+            teamLogo.innerHTML = `<img src="${teamConfig.logo}" alt="${teamConfig.name}" onerror="this.parentElement.innerHTML='<div class=\\'team-logo-placeholder\\'>${teamConfig.name.substring(0,3)}</div>'">`;
+
+            // Set player information
+            playerName.textContent = player.name;
+            teamName.textContent = teamConfig.name;
+
+            if (isCoach) {
+                playerRole.textContent = 'ΠΡΟΠΟΝΗΤΗΣ';
+                playerNumber.textContent = 'C';
+                playerNumber.className = 'player-number coach';
+            } else {
+                playerRole.textContent = player.position || player.role || 'ΠΑΙΚΤΗΣ';
+                playerNumber.textContent = player.number;
+                playerNumber.className = 'player-number';
+            }
+
+            // Add auto-hide animation
+            lowerThird.classList.add('auto-hide');
+        }
+
+        // Display error message
+        function displayError(message) {
+            const lowerThird = document.getElementById('lowerThird');
+            const teamGradient = document.getElementById('teamGradient');
+            const playerName = document.getElementById('playerName');
+            const playerRole = document.getElementById('playerRole');
+            const teamName = document.getElementById('teamName');
+            const playerNumber = document.getElementById('playerNumber');
+
+            teamGradient.className = 'team-gradient error';
+            playerName.textContent = 'ΣΦΑΛΜΑ';
+            playerRole.textContent = message;
+            teamName.textContent = '';
+            playerNumber.textContent = '!';
+            playerNumber.className = 'player-number coach';
+
+            lowerThird.classList.add('auto-hide');
+        }
+
+        // Main initialization function
+        async function initialize() {
+            try {
+                const params = getURLParameters();
+                
+                if (!params.teamname || isNaN(params.number)) {
+                    throw new Error('Μη έγκυρες παράμετροι URL');
+                }
+
+                const teamConfig = TEAMS_CONFIG[params.teamname];
+                if (!teamConfig) {
+                    throw new Error(`Άγνωστη ομάδα: ${params.teamname}`);
+                }
+
+                console.log(`Loading ${params.teamname}, player ${params.number}`);
+                
+                const roster = await loadTeamRoster(params.teamname);
+                const player = findPlayer(roster, params.number);
+                
+                if (!player) {
+                    throw new Error(`Παίκτης με αριθμό ${params.number} δεν βρέθηκε`);
+                }
+
+                displayPlayer(teamConfig, player, params.number === 100);
+
+            } catch (error) {
+                console.error('Initialization error:', error);
+                displayError(error.message);
+            }
+        }
+
+        // Auto-restart functionality for OBS
+        function restartAnimation() {
+            const lowerThird = document.getElementById('lowerThird');
+            lowerThird.style.animation = 'none';
+            lowerThird.offsetHeight; // Force reflow
+            lowerThird.style.animation = null;
+            lowerThird.classList.remove('auto-hide');
+            lowerThird.classList.add('auto-hide');
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initialize);
+
+        // Auto-restart every 12 seconds for OBS looping
+        setInterval(restartAnimation, 12000);
+
+        // Global function for manual restart
+        window.restartPlayerCard = restartAnimation;
+    </script>
+</body>
+</html>
