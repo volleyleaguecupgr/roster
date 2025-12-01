@@ -323,7 +323,7 @@
             svg.appendChild(line2);
             
             // Line from junction to semi-left
-            const path3 = `M ${q1Top.right + 60} ${leftMidY} L ${semiLeft.left} ${leftMidY} L ${semiLeft.left} ${semiLeft.centerY}`;
+            const path3 = `M ${q1Top.right + 60} ${leftMidY} L ${semiLeft.left - 70} ${leftMidY} L ${semiLeft.left - 70} ${semiLeft.centerY}`;
             const line3 = createLine(path3, 'line-to-semi-left');
             svg.appendChild(line3);
             
@@ -347,7 +347,7 @@
             svg.appendChild(line2);
             
             // Line from junction to semi-right
-            const path3 = `M ${q2Top.left - 60} ${rightMidY} L ${semiRight.right + 60} ${rightMidY} L ${semiRight.right + 60} ${semiRight.centerY}`;
+            const path3 = `M ${q2Top.left - 60} ${rightMidY} L ${semiRight.right + 70} ${rightMidY} L ${semiRight.right + 70} ${semiRight.centerY}`;
             const line3 = createLine(path3, 'line-to-semi-right');
             svg.appendChild(line3);
             
@@ -359,12 +359,12 @@
             const { semiLeft, semiRight, cupX, cupY } = positions;
             
             // Line from semi-left to cup
-            const path1 = `M ${semiLeft.right} ${semiLeft.centerY} L ${cupX - 190} ${semiLeft.centerY} L ${cupX - 190} ${cupY}`;
+            const path1 = `M ${semiLeft.right} ${semiLeft.centerY} L ${cupX - 120} ${semiLeft.centerY} L ${cupX - 120} ${cupY}`;
             const line1 = createLine(path1, 'line-semi-left-cup');
             svg.appendChild(line1);
             
             // Line from semi-right to cup
-            const path2 = `M ${semiRight.left} ${semiRight.centerY} L ${cupX + 190} ${semiRight.centerY} L ${cupX + 190} ${cupY}`;
+            const path2 = `M ${semiRight.left} ${semiRight.centerY} L ${cupX + 120} ${semiRight.centerY} L ${cupX + 120} ${cupY}`;
             const line2 = createLine(path2, 'line-semi-right-cup');
             svg.appendChild(line2);
             
