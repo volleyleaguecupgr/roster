@@ -1,0 +1,178 @@
+{
+  "fullName": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ",
+  "colors": {
+    "primary": "#DC143C",
+    "secondary": "#FFFFFF"
+  },
+  "logo": "olympiakos.png",
+  "avgAge": "29.9",
+  "avgHeight": "1.97",
+  "coach": {
+    "name": "Αντώνιος Βουρδέρης",
+    "role": "ΠΡΟΠΟΝΗΤΗΣ"
+  },
+  "players": [
+    {
+      "number": 1,
+      "name": "Christian Fromm",
+      "surname": "Fromm",
+      "firstname": "Christian",
+      "nationality": "GER",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "15/08/1990",
+      "height": "2,04",
+      "previousTeam": "Dinamo Bucuresti (ROM)"
+    },
+    {
+      "number": 2,
+      "name": "Λάμπρος Πιτακούδης",
+      "surname": "Πιτακούδης",
+      "firstname": "Λάμπρος",
+      "nationality": "GRE",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "13/07/2002",
+      "height": "2,02",
+      "previousTeam": "Leuven (BEL)"
+    },
+    {
+      "number": 6,
+      "name": "Ματέο Χασμπάλα",
+      "surname": "Χασμπάλα",
+      "firstname": "Ματέο",
+      "nationality": "GRE",
+      "position": "ΠΑΣΑΔΟΡΟΣ",
+      "birthdate": "22/05/2004",
+      "height": "1,92",
+      "previousTeam": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
+    },
+    {
+      "number": 8,
+      "name": "John Gordon Perrin",
+      "surname": "Perrin",
+      "firstname": "John Gordon",
+      "nationality": "CAN",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "17/08/1989",
+      "height": "2,01",
+      "previousTeam": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
+    },
+    {
+      "number": 9,
+      "name": "Κωνσταντίνος Καπετανίδης",
+      "surname": "Καπετανίδης",
+      "firstname": "Κωνσταντίνος",
+      "nationality": "GRE",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "24/03/1999",
+      "height": "1,93",
+      "previousTeam": "Α.Ο. Φοίνικας Σύρου"
+    },
+    {
+      "number": 12,
+      "name": "Νικόλαος Ζουπάνης",
+      "surname": "Ζουπάνης",
+      "firstname": "Νικόλαος",
+      "nationality": "GRE",
+      "position": "ΔΙΑΓΩΝΙΟΣ",
+      "birthdate": "18/03/1989",
+      "height": "2,02",
+      "previousTeam": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
+    },
+    {
+      "number": 14,
+      "name": "Aleksandar Atanasijevic",
+      "surname": "Atanasijevic",
+      "firstname": "Aleksandar",
+      "nationality": "SRB",
+      "position": "ΔΙΑΓΩΝΙΟΣ",
+      "birthdate": "04/09/1991",
+      "height": "2,02",
+      "previousTeam": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
+    },
+    {
+      "number": 15,
+      "name": "Δημήτριος Τζιάβρας",
+      "surname": "Τζιάβρας",
+      "firstname": "Δημήτριος",
+      "nationality": "GRE",
+      "position": "ΛΙΜΠΕΡΟ",
+      "birthdate": "16/02/1999",
+      "height": "1,76",
+      "previousTeam": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
+    },
+    {
+      "number": 17,
+      "name": "Ανέστης Δαλακούρας",
+      "surname": "Δαλακούρας",
+      "firstname": "Ανέστης",
+      "nationality": "GRE",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "18/06/1993",
+      "height": "1,98",
+      "previousTeam": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
+    },
+    {
+      "number": 18,
+      "name": "Δημήτριος Κωνσταντινίδης",
+      "surname": "Κωνσταντινίδης",
+      "firstname": "Δημήτριος",
+      "nationality": "GRE",
+      "position": "ΛΙΜΠΕΡΟ",
+      "birthdate": "05/08/1993",
+      "height": "1,88",
+      "previousTeam": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
+    },
+    {
+      "number": 19,
+      "name": "Maximiliano Cavanna",
+      "surname": "Cavanna",
+      "firstname": "Maximiliano",
+      "nationality": "ARG",
+      "position": "ΠΑΣΑΔΟΡΟΣ",
+      "birthdate": "02/07/1988",
+      "height": "1,84",
+      "previousTeam": "Dynamo LO (RUS)"
+    },
+    {
+      "number": 21,
+      "name": "Δημήτριος Τζούριτς",
+      "surname": "Τζούριτς",
+      "firstname": "Δημήτριος",
+      "nationality": "GRE",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "25/04/1989",
+      "height": "2,11",
+      "previousTeam": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
+    },
+    {
+      "number": 22,
+      "name": "Δημοσθένης Λινάρδος",
+      "surname": "Λινάρδος",
+      "firstname": "Δημοσθένης",
+      "nationality": "GRE",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "14/02/1997",
+      "height": "2,01",
+      "previousTeam": "Α.Ο.Ν.Σ. Μίλων"
+    },
+    {
+      "number": 29,
+      "name": "Aleksandar Nedeljkovic",
+      "surname": "Nedeljkovic",
+      "firstname": "Aleksandar",
+      "nationality": "SRB",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "27/10/1997",
+      "height": "2,07",
+      "previousTeam": "Cisterna Volley (ITA)"
+    }
+  ],
+  "staff": [
+    {"role": "Στατιστικολόγος", "name": "Ιωάννης Γεωργιάδης"},
+    {"role": "Team Manager", "name": "Νικόλαος Μαντούβαλος"},
+    {"role": "Φυσιοθεραπευτές", "name": "Παναγιώτης Αδαμόπουλος, Βασίλειος Παναγάκος"},
+    {"role": "Γυμναστής", "name": "Κυριάκος Μουτεσίδης"},
+    {"role": "Ιατρός", "name": "Γεώργιος Τσικούρης"},
+    {"role": "Φροντιστής", "name": "Σπυρίδων Μπλέτσας, Ιωάννης Πολυτάρχου"}
+  ]
+}

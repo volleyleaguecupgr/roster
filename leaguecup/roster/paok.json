@@ -1,0 +1,173 @@
+{
+  "name": "Π.Α.Ο.Κ.",
+  "colors": {
+    "primary": "#000000",
+    "secondary": "#FFFFFF"
+  },
+  "logo": "paok.png",
+  "avgAge": "25.9",
+  "avgHeight": "1.96",
+  "coach": {
+    "name": "Joško Milenkoski (MKD)",
+    "role": "ΠΡΟΠΟΝΗΤΗΣ"
+  },
+  "players": [
+    {
+      "number": 1,
+      "name": "Jendryk Jeffrey",
+      "nationality": "USA",
+      "position": "Κεντρικός",
+      "birthdate": "19/05/1995",
+      "height": "2,08",
+      "team": "Fenerbahce (Τουρκία)"
+    },
+    {
+      "number": 4,
+      "name": "Ιάσων Τέλιος",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "22/04/2009",
+      "height": "1,82",
+      "team": "Π.Α.Ο.Κ."
+    },
+    {
+      "number": 6,
+      "name": "Γεώργιος Μιχελάκης",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "27/05/1997",
+      "height": "1,77",
+      "team": "Ο.Φ.Η."
+    },
+    {
+      "number": 9,
+      "name": "Μενέλαος Κοκκινάκης",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "21/01/1993",
+      "height": "1,93",
+      "team": "Π.Α.Ο.Κ."
+    },
+    {
+      "number": 10,
+      "name": "Γεώργιος Παπανικολάου",
+      "nationality": "GRE",
+      "position": "Πασαδόρος",
+      "birthdate": "02/11/2006",
+      "height": "1,90",
+      "team": "Πήγασος Πολίχνης"
+    },
+    {
+      "number": 11,
+      "name": "Alberto Lazaro Torres",
+      "nationality": "CUB",
+      "position": "Ακραίος",
+      "birthdate": "11/09/1996",
+      "height": "1,98",
+      "team": "Α.Ο. Φλοίσβος Π. Φαλήρου"
+    },
+    {
+      "number": 12,
+      "name": "Nikolay Kolev",
+      "nationality": "BUL",
+      "position": "Κεντρικός",
+      "birthdate": "16/12/1997",
+      "height": "2,04",
+      "team": "Π.Α.Ο.Κ."
+    },
+    {
+      "number": 13,
+      "name": "Ιωάννης Τακουρίδης",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "24/05/1988",
+      "height": "1,98",
+      "team": "Π.Α.Ο.Κ."
+    },
+    {
+      "number": 14,
+      "name": "Μάρκος Γαλιώτος",
+      "nationality": "GRE",
+      "position": "Πασαδόρος",
+      "birthdate": "23/08/1996",
+      "height": "1,95",
+      "team": "Π.Α.Ο.Κ."
+    },
+    {
+      "number": 15,
+      "name": "Βασίλειος Καρασαββίδης",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "17/03/1998",
+      "height": "1,98",
+      "team": "Α.Ο. Φλοίσβος Π. Φαλήρου"
+    },
+    {
+      "number": 18,
+      "name": "Νικόλαος Μπόνιας",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "14/02/2008",
+      "height": "2,00",
+      "team": "Π.Α.Ο.Κ."
+    },
+    {
+      "number": 19,
+      "name": "Fernando Hernandez",
+      "nationality": "CUB",
+      "position": "Διαγώνιος",
+      "birthdate": "11/09/1989",
+      "height": "1,96",
+      "team": "Kuwait Club (KWT)"
+    },
+    {
+      "number": 27,
+      "name": "Σταύρος Μούχλιας",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "05/01/2008",
+      "height": "2,05",
+      "team": "Π.Α.Ο.Κ."
+    },
+    {
+      "number": 91,
+      "name": "Kartev Nikolay",
+      "nationality": "BUL",
+      "position": "Κεντρικός",
+      "birthdate": "20/09/1995",
+      "height": "2,04",
+      "team": "Lvi Praha (Τσεχία)"
+    },
+    {
+      "number": 99,
+      "name": "Λάζαρος Παυλίδης",
+      "nationality": "GRE",
+      "position": "Πασαδόρος",
+      "birthdate": "11/07/2006",
+      "height": "1,99",
+      "team": "Μ.Γ.Σ.Α.Ε. Κομοτηνής"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Βοηθός Προπονητή",
+      "name": "Βαλάντης Μαμάης"
+    },
+    {
+      "role": "Στατιστικολόγος",
+      "name": "Βίκυ Νεντή"
+    },
+    {
+      "role": "Team Manager",
+      "name": "Αχιλλέας Τζίκας"
+    },
+    {
+      "role": "Φυσιοθεραπευτής",
+      "name": "Ηλίας Χαρατάσος"
+    },
+    {
+      "role": "Γυμναστής",
+      "name": "Νικόλαος Γκιόσης"
+    }
+  ]
+}

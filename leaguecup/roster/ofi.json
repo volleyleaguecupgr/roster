@@ -1,0 +1,165 @@
+{
+  "name": "Ο.Φ.Η.",
+  "colors": {
+    "primary": "#000000",
+    "secondary": "#FFFFFF"
+  },
+  "logo": "ofi.png",
+  "avgAge": "27.4",
+  "avgHeight": "1.95",
+  "coach": {
+    "name": "Ιωάννης Καλμαζίδης",
+    "role": "ΠΡΟΠΟΝΗΤΗΣ"
+  },
+  "players": [
+    {
+      "number": 2,
+      "name": "Peetu Mäkinen",
+      "nationality": "FIN",
+      "position": "Ακραίος",
+      "birthdate": "19/08/1995",
+      "height": "2,00",
+      "team": "Ο.Φ.Η."
+    },
+    {
+      "number": 4,
+      "name": "Εμμανουήλ Παχιαδάκης",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "22/04/2002",
+      "height": "1,85",
+      "team": "Α.Σ. Άρης"
+    },
+    {
+      "number": 5,
+      "name": "Σωτήριος Συναδινός",
+      "nationality": "GRE",
+      "position": "Λίμπερο",
+      "birthdate": "09/03/2000",
+      "height": "1,83",
+      "team": "Α.Σ. Άθλος Ορεστιάδας"
+    },
+    {
+      "number": 6,
+      "name": "Marios Strugarevic",
+      "nationality": "CYP",
+      "position": "Κεντρικός",
+      "birthdate": "16/08/1998",
+      "height": "1,99",
+      "team": "Παφιακός (CYP)"
+    },
+    {
+      "number": 7,
+      "name": "Ιωσήφ Παπαδόσηφος",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "15/01/2002",
+      "height": "1,95",
+      "team": "Γ.Α.Σ. Παμβοχαϊκός"
+    },
+    {
+      "number": 9,
+      "name": "Pedro Molina",
+      "nationality": "PUR",
+      "position": "Ακραίος",
+      "birthdate": "07/04/1999",
+      "height": "2,00",
+      "team": "Le Plessis (FRA)"
+    },
+    {
+      "number": 11,
+      "name": "Ιωάννης Ρουμελιωτάκης",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "25/06/1989",
+      "height": "1,90",
+      "team": "Ο.Φ.Η."
+    },
+    {
+      "number": 12,
+      "name": "Σωκράτης Χαραλαμπίδης",
+      "nationality": "GRE",
+      "position": "Διαγώνιος",
+      "birthdate": "15/06/1997",
+      "height": "1,98",
+      "team": "Α.Ο. Καλαμάτα 80"
+    },
+    {
+      "number": 14,
+      "name": "Matej Mihajlovic",
+      "nationality": "SLO",
+      "position": "Διαγώνιος",
+      "birthdate": "02/07/1991",
+      "height": "2,00",
+      "team": "Ο.Φ.Η."
+    },
+    {
+      "number": 15,
+      "name": "Βασίλειος Καφαντάρης",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "01/07/2000",
+      "height": "1,87",
+      "team": "Ο.Φ.Η."
+    },
+    {
+      "number": 17,
+      "name": "Ευάγγελος Βαϊόπουλος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "11/03/1997",
+      "height": "2,03",
+      "team": "Α.Ο. Φοίνικας Σύρου"
+    },
+    {
+      "number": 18,
+      "name": "Κωνσταντίνος Βλαχόπουλος",
+      "nationality": "GRE",
+      "position": "Πασαδόρος",
+      "birthdate": "03/07/1989",
+      "height": "1,93",
+      "team": "Πήγασος Πολίχνης"
+    },
+    {
+      "number": 19,
+      "name": "Άγγελος Σταθέλος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "26/07/2005",
+      "height": "2,01",
+      "team": "Α.Ο.Ν.Σ. Μίλων"
+    },
+    {
+      "number": 20,
+      "name": "Ιωάννης Γωνιωτάκης",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "15/03/2010",
+      "height": "1,85",
+      "team": "Ο.Φ.Η."
+    },
+    {
+      "number": 26,
+      "name": "Mihajlo Mitic",
+      "nationality": "SRB",
+      "position": "Πασαδόρος",
+      "birthdate": "17/09/1990",
+      "height": "2,01",
+      "team": "Tehran (IRN)"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Βοηθός Προπονητή",
+      "name": "Ανδρέας Ανδρεάδης"
+    },
+    {
+      "role": "Στατιστικολόγος",
+      "name": "Δήμος Αυτζιόγλου"
+    },
+    {
+      "role": "Γενικός Αρχηγός",
+      "name": "Δημήτριος Ζλατιλίδης"
+    }
+  ]
+}

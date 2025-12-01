@@ -1,0 +1,169 @@
+{
+  "fullName": "Α.Ο.Ν.Σ. Μίλων",
+  "colors": {
+    "primary": "#228B22",
+    "secondary": "#FFFFFF"
+  },
+  "logo": "milon.png",
+  "avgAge": "25.7",
+  "avgHeight": "1.94",
+  "coach": {
+    "name": "Αθανάσιος Ψάρρας",
+    "role": "ΠΡΟΠΟΝΗΤΗΣ"
+  },
+  "players": [
+    {
+      "number": 1,
+      "name": "Δημήτριος Θεοδόσης",
+      "surname": "Θεοδόσης",
+      "firstname": "Δημήτριος",
+      "nationality": "GRE",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "27/06/2003",
+      "height": "2,01",
+      "previousTeam": "Α.Ο.Ν.Σ. Μίλων"
+    },
+    {
+      "number": 2,
+      "name": "Luke Herr",
+      "surname": "Herr",
+      "firstname": "Luke",
+      "nationality": "CAN",
+      "position": "ΠΑΣΑΔΟΡΟΣ",
+      "birthdate": "18/07/1994",
+      "height": "1,94",
+      "previousTeam": "Narbonne (FRA)"
+    },
+    {
+      "number": 4,
+      "name": "Βασίλειος Παπαδόπουλος",
+      "surname": "Παπαδόπουλος",
+      "firstname": "Βασίλειος",
+      "nationality": "GRE",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "14/04/2007",
+      "height": "1,89",
+      "previousTeam": "Α.Ο.Ν.Σ. Μίλων"
+    },
+    {
+      "number": 5,
+      "name": "Γεώργιος Μαντελίδης",
+      "surname": "Μαντελίδης",
+      "firstname": "Γεώργιος",
+      "nationality": "GRE",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "23/10/2007",
+      "height": "1,97",
+      "previousTeam": "Α.Ο.Ν.Σ. Μίλων"
+    },
+    {
+      "number": 6,
+      "name": "Δημήτριος Σουσουρίδης",
+      "surname": "Σουσουρίδης",
+      "firstname": "Δημήτριος",
+      "nationality": "GRE",
+      "position": "ΠΑΣΑΔΟΡΟΣ",
+      "birthdate": "04/04/2005",
+      "height": "1,92",
+      "previousTeam": "Α.Ο.Ν.Σ. Μίλων"
+    },
+    {
+      "number": 7,
+      "name": "Γεώργιος Πετρέας",
+      "surname": "Πετρέας",
+      "firstname": "Γεώργιος",
+      "nationality": "GRE",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "19/11/1986",
+      "height": "2,01",
+      "previousTeam": "Παναθηναϊκός Α.Ο."
+    },
+    {
+      "number": 10,
+      "name": "Casey Schouten",
+      "surname": "Schouten",
+      "firstname": "Casey",
+      "nationality": "CAN",
+      "position": "ΔΙΑΓΩΝΙΟΣ",
+      "birthdate": "29/03/1994",
+      "height": "1,98",
+      "previousTeam": "Narbonne (FRA)"
+    },
+    {
+      "number": 12,
+      "name": "Liberman Agamez",
+      "surname": "Agamez",
+      "firstname": "Liberman",
+      "nationality": "COL",
+      "position": "ΚΕΝΤΡΙΚΟΣ",
+      "birthdate": "15/02/1985",
+      "height": "2,07",
+      "previousTeam": "Al Ittihad (SAU)"
+    },
+    {
+      "number": 14,
+      "name": "Αλέξανδρος Νανόπουλος",
+      "surname": "Νανόπουλος",
+      "firstname": "Αλέξανδρος",
+      "nationality": "GRE",
+      "position": "ΑΚΡΑΙΟΣ-ΔΙΑΓΩΝΙΟΣ",
+      "birthdate": "09/09/2005",
+      "height": "1,90",
+      "previousTeam": "Α.Ο.Ν.Σ. Μίλων"
+    },
+    {
+      "number": 16,
+      "name": "Σπυρίδων Βελούδης",
+      "surname": "Βελούδης",
+      "firstname": "Σπυρίδων",
+      "nationality": "GRE",
+      "position": "ΛΙΜΠΕΡΟ",
+      "birthdate": "16/01/1997",
+      "height": "1,73",
+      "previousTeam": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 18,
+      "name": "Tymofil Poluian",
+      "surname": "Poluian",
+      "firstname": "Tymofil",
+      "nationality": "UKR",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "10/01/1998",
+      "height": "1,98",
+      "previousTeam": "Α.Ο.Ν.Σ. Μίλων"
+    },
+    {
+      "number": 20,
+      "name": "Νικόλαος Δοροβάτας",
+      "surname": "Δοροβάτας",
+      "firstname": "Νικόλαος",
+      "nationality": "GRE",
+      "position": "ΛΙΜΠΕΡΟ",
+      "birthdate": "23/06/2005",
+      "height": "1,88",
+      "previousTeam": "Σ.Φ.Α.Μ. Φοίβος"
+    },
+    {
+      "number": 23,
+      "name": "Σπυρίδων Χάκας",
+      "surname": "Χάκας",
+      "firstname": "Σπυρίδων",
+      "nationality": "GRE",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "23/09/2002",
+      "height": "1,94",
+      "previousTeam": "Α.Ο.Ν.Σ. Μίλων"
+    }
+  ],
+  "staff": [
+    {"role": "Προπονητής", "name": "Αθανάσιος Ψάρρας"},
+    {"role": "Βοηθός Προπονητή", "name": "Παναγιώτης Γεωργούντζος"},
+    {"role": "Στατιστικολόγος", "name": "Ιωάννης Στυλιανού"},
+    {"role": "Team Manager", "name": "Ηλίας Λάππας"},
+    {"role": "Γυμναστής", "name": "Αριστοτέλης Γεωργόπουλος"},
+    {"role": "Φυσιοθεραπευτής", "name": "Ηλίας Δρίτσας"},
+    {"role": "Φροντιστής", "name": "Γιώργος Χάκας"},
+    {"role": "Γενικός Αρχηγός", "name": "Βασίλης Μηνούδης"}
+  ]
+}
