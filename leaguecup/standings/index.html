@@ -264,6 +264,24 @@
                     <div class="team-name">${match.team2.name}</div>
                 </div>
             `;
+
+            const isSemi = !match.team1.logo || match.team1.logo === '';
+            
+            box.innerHTML = `
+                <div class="team">
+                    <div class="team-logo">
+                        ${isSemi ? '<span style="font-size: 28px;">🏐</span>' : `<img src="${match.team1.logo}" alt="${match.team1.name}">`}
+                    </div>
+                    <div class="team-name">${match.team1.name}</div>
+                </div>
+                <div class="vs-text">VS</div>
+                <div class="team">
+                    <div class="team-logo">
+                        ${isSemi ? '<span style="font-size: 28px;">🏐</span>' : `<img src="${match.team2.logo}" alt="${match.team2.name}">`}
+                    </div>
+                    <div class="team-name">${match.team2.name}</div>
+                </div>
+            `;
             return box;
         }
 
@@ -359,12 +377,12 @@
             const { semiLeft, semiRight, cupX, cupY } = positions;
             
             // Line from semi-left to cup
-            const path1 = `M ${semiLeft.right} ${semiLeft.centerY} L ${cupX - 120} ${semiLeft.centerY} L ${cupX - 120} ${cupY}`;
+            const path1 = `M ${semiLeft.right} ${semiLeft.centerY} L ${cupX - 140} ${semiLeft.centerY} L ${cupX - 140} ${cupY}`;
             const line1 = createLine(path1, 'line-semi-left-cup');
             svg.appendChild(line1);
             
             // Line from semi-right to cup
-            const path2 = `M ${semiRight.left} ${semiRight.centerY} L ${cupX + 120} ${semiRight.centerY} L ${cupX + 120} ${cupY}`;
+            const path2 = `M ${semiRight.left} ${semiRight.centerY} L ${cupX + 140} ${semiRight.centerY} L ${cupX + 140} ${cupY}`;
             const line2 = createLine(path2, 'line-semi-right-cup');
             svg.appendChild(line2);
             
