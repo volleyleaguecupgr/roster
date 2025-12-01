@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Καλαμάτα",
-    "subtitle": "A.O. '80 AFFIDEA",
-    "slug": "kalamata",
-    "color": "#008428",
-    "logo": "kalamata.png"
+    "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ",
+    "subtitle": "ΟΝΕΧ",
+    "slug": "olympiakos",
+    "color": "#dc1414",
+    "logo": "olympiakos.png"
   },
   "awayTeam": {
-    "name": "Φοίνικας Σύρου",
-    "subtitle": "A.O.",
+    "name": "ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+    "subtitle": "ΑΟ",
     "slug": "foinikas",
-    "color": "#003399",
+    "color": "#FF4500",
     "logo": "foinikas.png"
   },
-  "date": "29 Νοεμβρίου 2025",
-  "league": "6η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "2 Δεκεμβρίου 2025",
+  "league": "ΠΡΟΗΜΙΤΕΛΙΚΗ ΦΑΣΗ"
 }
