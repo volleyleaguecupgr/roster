@@ -6,7 +6,7 @@
       // Redirect /roster/paok → /roster/?team=paok
       const path = window.location.pathname;
       const parts = path.split('/').filter(Boolean);
-      const repoName = 'roster'; // your repo name on GitHub Pages
+      const repoName = 'leaguecup/roster'; // your repo name on GitHub Pages
       const idx = parts.indexOf(repoName);
       const team = parts[idx + 1]; // next part after 'roster'
 
