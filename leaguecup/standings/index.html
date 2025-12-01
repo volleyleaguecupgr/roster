@@ -377,12 +377,12 @@
             const { semiLeft, semiRight, cupX, cupY } = positions;
             
             // Line from semi-left to cup
-            const path1 = `M ${semiLeft.right} ${semiLeft.centerY} L ${cupX - 140} ${semiLeft.centerY} L ${cupX - 140} ${cupY}`;
+            const path1 = `M ${semiLeft.right} ${semiLeft.centerY} L ${cupX - 100} ${semiLeft.centerY} L ${cupX - 100} ${cupY}`;
             const line1 = createLine(path1, 'line-semi-left-cup');
             svg.appendChild(line1);
             
             // Line from semi-right to cup
-            const path2 = `M ${semiRight.left} ${semiRight.centerY} L ${cupX + 140} ${semiRight.centerY} L ${cupX + 140} ${cupY}`;
+            const path2 = `M ${semiRight.left} ${semiRight.centerY} L ${cupX + 100} ${semiRight.centerY} L ${cupX + 100} ${cupY}`;
             const line2 = createLine(path2, 'line-semi-right-cup');
             svg.appendChild(line2);
             
