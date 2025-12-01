@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Μίλων",
-    "subtitle": "Α.Ο.Ν.Σ",
-    "slug": "milon",
-    "color": "#006400",
-    "logo": "milon.png"
-  },
-  "awayTeam": {
-    "name": "Φλοίσβος",
-    "subtitle": "A. O. MEMBERS PARON",
+    "name": "AO ΦΛΟΙΣΒΟΣ",
+    "subtitle": "",
     "slug": "floisvos",
-    "color": "#3a55a8",
+    "color": "#1E90FF",
     "logo": "floisvos.png"
   },
-  "date": "29 Νοεμβρίου 2025",
-  "league": "6η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+    "subtitle": "",
+    "slug": "kifisia",
+    "color": "#4169E1",
+    "logo": "kifisia.png"
+  },
+  "date": "2 Δεκεμβρίου 2025",
+  "league": "ΠΡΟΗΜΙΤΕΛΙΚΗ ΦΑΣΗ"
 }
