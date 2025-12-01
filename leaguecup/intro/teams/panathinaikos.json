@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Ο.Φ.Η.",
-    "subtitle": ".",
-    "slug": "ofi",
-    "color": "#000000",
-    "logo": "ofi.png"
-  },
-  "awayTeam": {
-    "name": "Παναθηναϊκός",
-    "subtitle": "Α.Ο.",
+    "name": "ΠΑΝΑΘΗΝΑΙΚΟΣ ΑΟ",
+    "subtitle": "",
     "slug": "panathinaikos",
-    "color": "#007A33",
+    "color": "#16a34a",
     "logo": "panathinaikos.png"
   },
-  "date": "28 Νοεμβρίου 2025",
-  "league": "6η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "ΟΦΗ",
+    "subtitle": "",
+    "slug": "ofi",
+    "color": "#2c2c2c",
+    "logo": "ofi.png"
+  },
+  "date": "2 Δεκεμβρίου 2025",
+  "league": "ΠΡΟΗΜΙΤΕΛΙΚΗ ΦΑΣΗ"
 }
