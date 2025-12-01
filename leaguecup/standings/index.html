@@ -323,7 +323,7 @@
             svg.appendChild(line2);
             
             // Line from junction to semi-left
-            const path3 = `M ${q1Top.right + 60} ${leftMidY} L ${semiLeft.left} ${leftMidY} L ${semiLeft.left - 60} ${semiLeft.centerY}`;
+            const path3 = `M ${q1Top.right + 60} ${leftMidY} L ${semiLeft.left} ${leftMidY} L ${semiLeft.left - 260} ${semiLeft.centerY}`;
             const line3 = createLine(path3, 'line-to-semi-left');
             svg.appendChild(line3);
             
@@ -347,7 +347,7 @@
             svg.appendChild(line2);
             
             // Line from junction to semi-right
-            const path3 = `M ${q2Top.left - 60} ${rightMidY} L ${semiRight.right} ${rightMidY} L ${semiRight.right - 60} ${semiRight.centerY}`;
+            const path3 = `M ${q2Top.left - 60} ${rightMidY} L ${semiRight.right} ${rightMidY} L ${semiRight.right + 260} ${semiRight.centerY}`;
             const line3 = createLine(path3, 'line-to-semi-right');
             svg.appendChild(line3);
             
