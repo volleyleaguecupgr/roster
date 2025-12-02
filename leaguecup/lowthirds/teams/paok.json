@@ -8,7 +8,7 @@
   "avgAge": "25.9",
   "avgHeight": "1.96",
   "coach": {
-    "name": "Joško Milenkoski (MKD)",
+    "name": "Βαλάντης Μαμάης",
     "role": "ΠΡΟΠΟΝΗΤΗΣ"
   },
   "assistant": {
@@ -140,6 +140,15 @@
       "position": "Κεντρικός",
       "birthdate": "20/09/1995",
       "height": "2,04",
+      "team": "Lvi Praha (Τσεχία)"
+    },
+    {
+      "number": 93,
+      "name": "Uroš Kovačević",
+      "nationality": "SER",
+      "position": "Ακραίος",
+      "birthdate": "05/06/1993",
+      "height": "1,97",
       "team": "Lvi Praha (Τσεχία)"
     },
     {
