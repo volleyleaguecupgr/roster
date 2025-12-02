@@ -3,17 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <script>
-      // Redirect /roster/paok → /roster/?team=paok
+      // Redirect /leaguecup/roster/TEAM → /leaguecup/roster/?team=TEAM
+
       const path = window.location.pathname;
       const parts = path.split('/').filter(Boolean);
-      const repoName = 'roster'; // your repo name on GitHub Pages
-      const idx = parts.indexOf(repoName);
-      const team = parts[idx + 1]; // next part after 'roster'
+
+      const section = 'leaguecup';
+      const repoName = 'roster';
+
+      const idxLeague = parts.indexOf(section);
+      const idxRoster = parts.indexOf(repoName, idxLeague + 1);
+
+      const team = parts[idxRoster + 1];
 
       if (team) {
-        window.location.replace(`/leaguecup/${repoName}/?team=${team}`);
+        // Redirect to ?team=TEAM
+        window.location.replace(`/${section}/${repoName}/?team=${team}`);
       } else {
-        window.location.replace(`/leaguecup/${repoName}/`);
+        // No team → go to roster root
+        window.location.replace(`/${section}/${repoName}/`);
       }
     </script>
   </head>
