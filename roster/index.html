@@ -298,9 +298,9 @@
             z-index: 10;
         }
 
-        .roster-table {
+        /*.roster-table {
             width: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(15px);
             border-radius: 20px;
             overflow: hidden;
@@ -308,7 +308,44 @@
             box-shadow: 
                 0 20px 60px rgba(0, 0, 0, 0.5),
                 0 0 40px rgba(var(--primary-rgb), 0.2);
+        }*/
+
+        /* To be removed after league cup */
+
+        .roster-table {
+            position: relative;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(var(--primary-rgb), 0.3);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(var(--primary-rgb), 0.2);
+            background: url('background.jpeg') center/cover no-repeat;
         }
+
+        .roster-table::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            z-index: 1;
+            border-radius: 20px;
+        }
+
+        .roster-table thead,
+        .roster-table tbody {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* To be removed after league cup */
+        
 
         .roster-table thead {
             background: linear-gradient(135deg, 
@@ -377,9 +414,9 @@
         }
 
         /* Staff Section */
-        .staff-section {
+        /*.staff-section {
             margin-top: 15px;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 15px;
@@ -387,7 +424,41 @@
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s ease-out;
+        }*/
+
+        /* To be removed after league cup */
+        
+        .staff-section {
+            position: relative;
+            margin-top: 15px;
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(var(--secondary-rgb), 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+            background: url('background.jpeg') center/cover no-repeat;
         }
+
+        .staff-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            z-index: 1;
+            border-radius: 15px;
+        }
+
+        .staff-section > * {
+            position: relative;
+            z-index: 2;
+        }
+        /* To be removed after league cup */
 
         .staff-section.staff-animate {
             opacity: 1;
@@ -463,8 +534,8 @@
 
         .stat-item {
             text-align: center;
-            background: rgba(var(--primary-rgb), 0.9);
-            border: 2px solid rgba(var(--primary-rgb), 0.6);
+            background: rgba(var(--primary-rgb), 0.1);
+            border: 2px solid rgba(var(--primary-rgb), 0.3);
             border-radius: 15px;
             padding: 12px 20px;
             backdrop-filter: blur(10px);
@@ -757,16 +828,11 @@
             // Get position abbreviation (Greek)
             getPositionAbbreviation(position) {
                 const positionMap = {
-                    'Α': 'Ακραίος',
-                    'Λ': 'Λίμπερο',
-                    'Κ': 'Κεντρικός',
-                    'Δ': 'Διαγώνιος',
-                    'Π': 'Πασαδόρος',
-                    'ΑΚΡΑΙΟΣ': 'Ακραίος',
-                    'ΛΙΜΠΕΡΟ': 'Λίμπερο',
-                    'ΚΕΝΤΡΙΚΟΣ': 'Κεντρικός',
-                    'ΔΙΑΓΩΝΙΟΣ': 'Διαγώνιος',
-                    'ΠΑΣΑΔΟΡΟΣ': 'Πασαδόρος'                    
+                    'Ακραίος': 'Α',
+                    'Λίμπερο': 'Λ',
+                    'Κεντρικός': 'Κ',
+                    'Διαγώνιος': 'Δ',
+                    'Πασαδόρος': 'Π'
                 };
                 return positionMap[position] || position;
             }
