@@ -6,16 +6,48 @@
         "homeTeam": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ",
         "awayTeam": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
         "sets": [
+          {
+            "homePoints": 25,
+            "awayPoints": 17
+          },
+          {
+            "homePoints": 18,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 22,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 21
+          },
+          {
+            "homePoints": 15,
+            "awayPoints": 7
+          }
         ],
-        "homeScore": 0,
-        "awayScore": 0
+        "homeScore": 3,
+        "awayScore": 2
       },
       {
         "homeTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
         "awayTeam": "Ο.Φ.Η.",
         "sets": [
+          {
+            "homePoints": 25,
+            "awayPoints": 23
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 20
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 21
+          }
         ],
-        "homeScore": 0,
+        "homeScore": 3,
         "awayScore": 0
       },
       {
