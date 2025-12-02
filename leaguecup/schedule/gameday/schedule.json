@@ -7,56 +7,26 @@
         "color": "#dc1414"
       },
       "away": {
-        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-        "logo": "logos/foinikas.png",
-        "color": "#FF4500"
-      },
-      "date": "02/12",
-      "time": "3-2",
-      "court": "ΜΙΛΩΝ"
-    },
-    {
-      "home": {
         "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
         "logo": "logos/panathinaikos.png",
         "color": "#16a34a"
       },
-      "away": {
-        "name": "ΟΦΗ",
-        "logo": "logos/ofi.png",
-        "color": "#2c2c2c"
-      },
-      "date": "02/12",
-      "time": "3-0",
-      "court": "ΖΗΡΙΝΕΙΟ"
+      "date": "03/12",
+      "time": "17:00",
+      "court": "Σ. ΜΠΕΦΟΝ"
     },
     {
       "home": {
-        "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-        "logo": "logos/floisvos.png",
-        "color": "#1E90FF"
-      },
-      "away": {
         "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
         "logo": "logos/kifisia.png",
         "color": "#4169E1"
       },
-      "date": "02/12",
-      "time": "18:30",
-      "court": "ΜΙΛΩΝ"
-    },
-    {
-      "home": {
+      "away": {
         "name": "ΠΑΟΚ",
         "logo": "logos/paok.png",
         "color": "#1a1a1a"
       },
-      "away": {
-        "name": "ΑΟΝΣ ΜΙΛΩΝ",
-        "logo": "logos/milon.png",
-        "color": "#228B22"
-      },
-      "date": "02/12",
+      "date": "03/12",
       "time": "20:30",
       "court": "Α. ΒΑΡΙΚΑΣ"
     }
