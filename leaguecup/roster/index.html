@@ -299,7 +299,7 @@
         }
 
         .roster-table {
-            background: url('background.jpeg') center/cover no-repeat;
+            position: relative;
             width: 100%;
             border-radius: 20px;
             overflow: hidden;
@@ -307,6 +307,7 @@
             box-shadow: 
                 0 20px 60px rgba(0, 0, 0, 0.5),
                 0 0 40px rgba(var(--primary-rgb), 0.2);
+            background: url('background.jpeg') center/cover no-repeat;
         }
 
         .roster-table::before {
@@ -320,10 +321,11 @@
             backdrop-filter: blur(10px) saturate(150%);
             -webkit-backdrop-filter: blur(10px) saturate(150%);
             z-index: 1;
-            border-radius: 15px;
+            border-radius: 20px;
         }
 
-        .roster-table > * {
+        .roster-table thead,
+        .roster-table tbody {
             position: relative;
             z-index: 2;
         }
@@ -396,7 +398,7 @@
 
         /* Staff Section */
         .staff-section {
-            background: url('background.jpeg') center/cover no-repeat;            
+            position: relative;
             margin-top: 15px;
             border-radius: 15px;
             padding: 15px;
@@ -404,6 +406,7 @@
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s ease-out;
+            background: url('background.jpeg') center/cover no-repeat;
         }
 
         .staff-section::before {
@@ -420,10 +423,10 @@
             border-radius: 15px;
         }
 
-        /*.staff-section > * {
+        .staff-section > * {
             position: relative;
             z-index: 2;
-        }*/
+        }
 
         .staff-section.staff-animate {
             opacity: 1;
