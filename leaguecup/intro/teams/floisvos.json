@@ -7,12 +7,12 @@
     "logo": "floisvos.png"
   },
   "awayTeam": {
-    "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+    "name": "Π.Α.Ο.Κ.",
     "subtitle": "",
-    "slug": "kifisia",
-    "color": "#4169E1",
-    "logo": "kifisia.png"
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png"
   },
-  "date": "2 Δεκεμβρίου 2025",
-  "league": "ΠΡΟΗΜΙΤΕΛΙΚΗ ΦΑΣΗ"
+  "date": "3 Δεκεμβρίου 2025",
+  "league": "ΗΜΙΤΕΛΙΚΗ ΦΑΣΗ"
 }
