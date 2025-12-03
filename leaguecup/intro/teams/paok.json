@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "AO ΦΛΟΙΣΒΟΣ",
+    "subtitle": "",
+    "slug": "floisvos",
+    "color": "#1E90FF",
+    "logo": "floisvos.png"
+  },
+  "awayTeam": {
     "name": "Π.Α.Ο.Κ.",
-    "subtitle": "Α.Σ.",
+    "subtitle": "",
     "slug": "paok",
     "color": "#000000",
     "logo": "paok.png"
   },
-  "awayTeam": {
-    "name": "ΜΙΛΩΝ",
-    "subtitle": "ΑΟΝΣ",
-    "slug": "milon",
-    "color": "#228B22",
-    "logo": "milon.png"
-  },
-  "date": "2 Δεκεμβρίου 2025",
-  "league": "ΠΡΟΗΜΙΤΕΛΙΚΗ ΦΑΣΗ"
+  "date": "3 Δεκεμβρίου 2025",
+  "league": "ΗΜΙΤΕΛΙΚΗ ΦΑΣΗ"
 }
