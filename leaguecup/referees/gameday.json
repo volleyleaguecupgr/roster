@@ -3,8 +3,8 @@
     {
       "homeTeam": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ",
       "homeSlug": "olympiakos",
-      "awayTeam": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-      "awaySlug": "foinikas",
+      "awayTeam": "ΠΑΝΑΘΗΝΑΙΚΟΣ ΑΟ",
+      "awaySlug": "panathinaikos",
       "refs": {
         "referees": [
           "Γεωργιάδης",
@@ -20,60 +20,22 @@
       }
     },
     {
-      "homeTeam": "ΠΑΝΑΘΗΝΑΙΚΟΣ ΑΟ",
-      "homeSlug": "panathinaikos",
-      "awayTeam": "ΟΦΗ",
-      "awaySlug": "ofi",
-      "refs": {
-        "referees": [
-          "Βελώνης",
-          "Μιχαήλογλου"
-        ],
-        "observer": "Ράπτης",
-        "challengeRef": "",
-        "linesmen": [
-          "Τουκτούκας",
-          "Σταυράτη"
-        ],
-        "secretariat": "Ταλάρου"
-      }
-    },
-    {
-      "homeTeam": "ΑΟ ΦΛΟΙΣΒΟΣ",
+      "homeTeam": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
       "homeSlug": "floisvos",
-      "awayTeam": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-      "awaySlug": "kifisia",
+      "awayTeam": "ΠΑΟΚ",
+      "awaySlug": "paok",
       "refs": {
         "referees": [
-          "Πρέντζας",
-          "Οικονόμου Β."
+          "Φραγκάκης",
+          "Μουλά Ειρ."
         ],
-        "observer": "Πολίτης",
+        "observer": "Πέρρος",
         "challengeRef": "",
         "linesmen": [
-          "Νικολάου Λασ.",
-          "Τομαράς Στ."
+          "Κώτσιας",
+          "Καπότης"
         ],
-        "secretariat": "Καπουράνη"
-      }
-    },
-    {
-      "homeTeam": "ΠΑΟΚ",
-      "homeSlug": "paok",
-      "awayTeam": "ΑΟΝΣ ΜΙΛΩΝ",
-      "awaySlug": "milon",
-      "refs": {
-        "referees": [
-          "Νικάκης",
-          "Αρβανίτης"
-        ],
-        "observer": "Γεωργόπουλος",
-        "challengeRef": "",
-        "linesmen": [
-          "Γεωργοπούλου Α",
-          "Παυλάκης"
-        ],
-        "secretariat": "Ιωάννου Μ."
+        "secretariat": "Μισιάκα"
       }
     }
   ]
