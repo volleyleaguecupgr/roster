@@ -1,8 +1,8 @@
 {
   "match_info": {
-    "home_team": "PAOK",
-    "away_team": "AONS MILON",
-    "datetime": "02 December 2025 - 20:30"
+    "home_team": "AO FLOISVOS",
+    "away_team": "PAOK",
+    "datetime": "03 December 2025 - 20:30"
   },
   "teams_comparison": {
     "titles": [
@@ -54,39 +54,39 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "34%",
-        "average": "34%",
-        "away": "41%"
+        "home": "25%",
+        "average": "33%",
+        "away": "33%"
       },
-      "spikes_per_set_home": "12.52",
-      "spikes_per_set_avg": "11.79",
-      "spikes_per_set_away": "13.45",
-      "spikes_per_set_home_played": "(21)",
-      "spikes_per_set_away_played": "(22)"
+      "spikes_per_set_home": "10.78",
+      "spikes_per_set_avg": "11.63",
+      "spikes_per_set_away": "12.52",
+      "spikes_per_set_home_played": "(23)",
+      "spikes_per_set_away_played": "(21)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.43",
-      "blocks_per_set_avg": "1.93",
-      "blocks_per_set_away": "1.73",
-      "blocks_home_played": "(21)",
-      "blocks_away_played": "(22)"
+      "blocks_per_set_home": "1.52",
+      "blocks_per_set_avg": "1.98",
+      "blocks_per_set_away": "2.43",
+      "blocks_home_played": "(23)",
+      "blocks_away_played": "(21)"
     },
     "serve": {
-      "aces_home": "32",
-      "aces_away": "63",
-      "aces_per_set_home": "1.52",
-      "aces_per_set_avg": "1.71",
-      "aces_per_set_away": "2.86",
-      "aces_home_played": "(21)",
-      "aces_away_played": "(22)"
+      "aces_home": "20",
+      "aces_away": "32",
+      "aces_per_set_home": "0.87",
+      "aces_per_set_avg": "1.70",
+      "aces_per_set_away": "1.52",
+      "aces_home_played": "(23)",
+      "aces_away_played": "(21)"
     },
     "reception": {
-      "reception_eff_home": "44%",
-      "reception_eff_avg": "34%",
-      "reception_eff_away": "37%",
-      "reception_perfect_home": "28%",
+      "reception_eff_home": "33%",
+      "reception_eff_avg": "33%",
+      "reception_eff_away": "43%",
+      "reception_perfect_home": "29%",
       "reception_perfect_avg": "26%",
-      "reception_perfect_away": "27%"
+      "reception_perfect_away": "26%"
     }
   }
 }
