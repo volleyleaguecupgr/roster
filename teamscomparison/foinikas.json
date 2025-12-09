@@ -1,8 +1,8 @@
 {
   "match_info": {
-    "home_team": "PANATHINAIKOS A.O.",
-    "away_team": "PAOK",
-    "datetime": "13 December 2025 - 18:15"
+    "home_team": "A.O. FOINIKAS SIROU",
+    "away_team": "AOP KIFISIAS",
+    "datetime": "14 December 2025 - 17:00"
   },
   "teams_comparison": {
     "titles": [
@@ -54,39 +54,39 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "41%",
+        "home": "27%",
         "average": "33%",
         "away": "32%"
       },
-      "spikes_per_set_home": "11.79",
+      "spikes_per_set_home": "11.04",
       "spikes_per_set_avg": "11.61",
-      "spikes_per_set_away": "12.62",
-      "spikes_per_set_home_played": "(28)",
-      "spikes_per_set_away_played": "(26)"
+      "spikes_per_set_away": "11.48",
+      "spikes_per_set_home_played": "(24)",
+      "spikes_per_set_away_played": "(31)"
     },
     "blocks": {
-      "blocks_per_set_home": "1.79",
+      "blocks_per_set_home": "2.58",
       "blocks_per_set_avg": "2.02",
-      "blocks_per_set_away": "2.50",
-      "blocks_home_played": "(28)",
-      "blocks_away_played": "(26)"
+      "blocks_per_set_away": "2.26",
+      "blocks_home_played": "(24)",
+      "blocks_away_played": "(31)"
     },
     "serve": {
-      "aces_home": "75",
-      "aces_away": "41",
-      "aces_per_set_home": "2.68",
+      "aces_home": "24",
+      "aces_away": "38",
+      "aces_per_set_home": "1.00",
       "aces_per_set_avg": "1.69",
-      "aces_per_set_away": "1.58",
-      "aces_home_played": "(28)",
-      "aces_away_played": "(26)"
+      "aces_per_set_away": "1.23",
+      "aces_home_played": "(24)",
+      "aces_away_played": "(31)"
     },
     "reception": {
-      "reception_eff_home": "38%",
+      "reception_eff_home": "25%",
       "reception_eff_avg": "33%",
-      "reception_eff_away": "43%",
-      "reception_perfect_home": "27%",
+      "reception_eff_away": "30%",
+      "reception_perfect_home": "21%",
       "reception_perfect_avg": "26%",
-      "reception_perfect_away": "28%"
+      "reception_perfect_away": "26%"
     }
   }
 }
