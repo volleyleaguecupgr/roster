@@ -2,78 +2,78 @@
   "matches": [
     {
       "home": {
-        "name": "ΟΦΗ",
-        "logo": "logos/ofi.png",
-        "color": "#2c2c2c"
-      },
-      "away": {
-        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-        "logo": "logos/panathinaikos.png",
-        "color": "#16a34a"
-      },
-      "date": "28/11",
-      "time": "1-3",
-      "court": "ΒΑΚ"
-    },
-    {
-      "home": {
-        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "logo": "logos/kifisia.png",
-        "color": "#4169E1"
-      },
-      "away": {
-        "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-        "logo": "logos/olympiakos.png",
-        "color": "#dc1414"
-      },
-      "date": "28/11",
-      "time": "0-3",
-      "court": "ΖΗΡΙΝΕΙΟ"
-    },
-    {
-      "home": {
-        "name": "ΠΑΟΚ",
-        "logo": "logos/paok.png",
-        "color": "#1a1a1a"
-      },
-      "away": {
-        "name": "ΠΑΝΙΩΝΙΟΣ",
-        "logo": "logos/panionios.png",
-        "color": "#DC143C"
-      },
-      "date": "29/11",
-      "time": "3-0",
-      "court": "PAOK SPORTS ARENA"
-    },
-    {
-      "home": {
-        "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
-        "logo": "logos/kalamata.png",
-        "color": "#32CD32"
-      },
-      "away": {
-        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-        "logo": "logos/foinikas.png",
-        "color": "#FF4500"
-      },
-      "date": "29/11",
-      "time": "3-0",
-      "court": "ΠΑΡΑΛΙΑΣ"
-    },
-    {
-      "home": {
-        "name": "ΑΟΝΣ ΜΙΛΩΝ",
-        "logo": "logos/milon.png",
-        "color": "#228B22"
-      },
-      "away": {
         "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
         "logo": "logos/floisvos.png",
         "color": "#1E90FF"
       },
-      "date": "29/11",
+      "away": {
+        "name": "ΟΦΗ",
+        "logo": "logos/ofi.png",
+        "color": "#2c2c2c"
+      },
+      "date": "12/12",
       "time": "19:00",
-      "court": "ΜΙΛΩΝ"
+      "court": "Σ. ΜΠΕΦΟΝ"
+    },
+    {
+      "home": {
+        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "logo": "logos/panathinaikos.png",
+        "color": "#16a34a"
+      },
+      "away": {
+        "name": "ΠΑΟΚ",
+        "logo": "logos/paok.png",
+        "color": "#1a1a1a"
+      },
+      "date": "13/12",
+      "time": "18:15",
+      "court": "ΜΕΤΣ"
+    },
+    {
+      "home": {
+        "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
+        "logo": "logos/olympiakos.png",
+        "color": "#dc1414"
+      },
+      "away": {
+        "name": "ΑΟΝΣ ΜΙΛΩΝ",
+        "logo": "logos/milon.png",
+        "color": "#228B22"
+      },
+      "date": "13/12",
+      "time": "21:00",
+      "court": "Μ. ΜΕΡΚΟΥΡΗ"
+    },
+    {
+      "home": {
+        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+        "logo": "logos/foinikas.png",
+        "color": "#FF4500"
+      },
+      "away": {
+        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+        "logo": "logos/kifisia.png",
+        "color": "#4169E1"
+      },
+      "date": "14/12",
+      "time": "17:00",
+      "court": "Δ. ΒΙΚΕΛΑΣ"
+    },
+    {
+      "home": {
+        "name": "ΠΑΝΙΩΝΙΟΣ",
+        "logo": "logos/panionios.png",
+        "color": "#DC143C"
+      },
+      "away": {
+        "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
+        "logo": "logos/kalamata.png",
+        "color": "#32CD32"
+      },
+      "date": "14/12",
+      "time": "18:00",
+      "court": "Α. ΒΑΡΙΚΑΣ"
     }
   ]
 }
