@@ -1,27 +1,27 @@
 [
   {
     "team": "ΑΟΝΣ ΜΙΛΩΝ",
-    "points": 17,
-    "matches": 6
+    "points": 19,
+    "matches": 7
   },
   {
     "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-    "points": 15,
-    "matches": 6
+    "points": 16,
+    "matches": 7
   },
   {
     "team": "ΠΑΟΚ",
-    "points": 11,
-    "matches": 6
-  },
-  {
-    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-    "points": 10,
-    "matches": 5
+    "points": 13,
+    "matches": 7
   },
   {
     "team": "ΟΦΗ",
-    "points": 9,
+    "points": 12,
+    "matches": 7
+  },
+  {
+    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
+    "points": 11,
     "matches": 6
   },
   {
@@ -40,12 +40,12 @@
     "matches": 6
   },
   {
-    "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
     "points": 3,
-    "matches": 5
+    "matches": 6
   },
   {
-    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+    "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
     "points": 3,
     "matches": 6
   }
