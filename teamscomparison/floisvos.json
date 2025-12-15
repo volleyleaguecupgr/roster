@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "AO FLOISVOS",
-    "away_team": "O.F.I.",
-    "datetime": "12 December 2025 - 19:00"
+    "away_team": "OLYMPIACOS S.F.P.",
+    "datetime": "17 December 2025 - 17:00"
   },
   "teams_comparison": {
     "titles": [
@@ -58,33 +58,33 @@
         "average": "33%",
         "away": "35%"
       },
-      "spikes_per_set_home": "10.93",
-      "spikes_per_set_avg": "11.61",
-      "spikes_per_set_away": "10.04",
-      "spikes_per_set_home_played": "(28)",
-      "spikes_per_set_away_played": "(26)"
+      "spikes_per_set_home": "11.41",
+      "spikes_per_set_avg": "11.82",
+      "spikes_per_set_away": "11.81",
+      "spikes_per_set_home_played": "(32)",
+      "spikes_per_set_away_played": "(31)"
     },
     "blocks": {
-      "blocks_per_set_home": "1.68",
+      "blocks_per_set_home": "1.59",
       "blocks_per_set_avg": "2.02",
-      "blocks_per_set_away": "1.46",
-      "blocks_home_played": "(28)",
-      "blocks_away_played": "(26)"
+      "blocks_per_set_away": "2.61",
+      "blocks_home_played": "(32)",
+      "blocks_away_played": "(31)"
     },
     "serve": {
-      "aces_home": "26",
-      "aces_away": "47",
-      "aces_per_set_home": "0.93",
-      "aces_per_set_avg": "1.69",
-      "aces_per_set_away": "1.81",
-      "aces_home_played": "(28)",
-      "aces_away_played": "(26)"
+      "aces_home": "32",
+      "aces_away": "54",
+      "aces_per_set_home": "1.00",
+      "aces_per_set_avg": "1.65",
+      "aces_per_set_away": "1.74",
+      "aces_home_played": "(32)",
+      "aces_away_played": "(31)"
     },
     "reception": {
       "reception_eff_home": "32%",
-      "reception_eff_avg": "33%",
-      "reception_eff_away": "23%",
-      "reception_perfect_home": "28%",
+      "reception_eff_avg": "34%",
+      "reception_eff_away": "28%",
+      "reception_perfect_home": "27%",
       "reception_perfect_avg": "26%",
       "reception_perfect_away": "24%"
     }
