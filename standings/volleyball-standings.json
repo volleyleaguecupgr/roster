@@ -27,26 +27,26 @@
   {
     "team": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
     "points": 9,
-    "matches": 6
+    "matches": 7
   },
   {
     "team": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-    "points": 6,
-    "matches": 6
+    "points": 9,
+    "matches": 7
   },
   {
     "team": "ΠΑΝΙΩΝΙΟΣ",
-    "points": 4,
-    "matches": 6
-  },
-  {
-    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-    "points": 3,
-    "matches": 6
+    "points": 7,
+    "matches": 7
   },
   {
     "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
     "points": 3,
     "matches": 6
+  },
+  {
+    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+    "points": 3,
+    "matches": 7
   }
 ]
