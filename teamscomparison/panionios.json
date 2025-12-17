@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "PANIONIOS G.S.S.",
-    "away_team": "AO KALAMATA '80",
-    "datetime": "14 December 2025 - 18:00"
+    "away_team": "PANATHINAIKOS A.O.",
+    "datetime": "20 December 2025 - 20:30"
   },
   "teams_comparison": {
     "titles": [
@@ -54,39 +54,39 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "30%",
+        "home": "31%",
         "average": "33%",
-        "away": "32%"
+        "away": "39%"
       },
-      "spikes_per_set_home": "12.08",
-      "spikes_per_set_avg": "11.61",
-      "spikes_per_set_away": "11.52",
-      "spikes_per_set_home_played": "(26)",
-      "spikes_per_set_away_played": "(27)"
+      "spikes_per_set_home": "12.28",
+      "spikes_per_set_avg": "11.81",
+      "spikes_per_set_away": "11.88",
+      "spikes_per_set_home_played": "(29)",
+      "spikes_per_set_away_played": "(33)"
     },
     "blocks": {
-      "blocks_per_set_home": "1.42",
-      "blocks_per_set_avg": "2.02",
-      "blocks_per_set_away": "2.11",
-      "blocks_home_played": "(26)",
-      "blocks_away_played": "(27)"
+      "blocks_per_set_home": "1.66",
+      "blocks_per_set_avg": "2.03",
+      "blocks_per_set_away": "1.82",
+      "blocks_home_played": "(29)",
+      "blocks_away_played": "(33)"
     },
     "serve": {
-      "aces_home": "44",
-      "aces_away": "42",
-      "aces_per_set_home": "1.69",
-      "aces_per_set_avg": "1.69",
-      "aces_per_set_away": "1.56",
-      "aces_home_played": "(26)",
-      "aces_away_played": "(27)"
+      "aces_home": "50",
+      "aces_away": "84",
+      "aces_per_set_home": "1.72",
+      "aces_per_set_avg": "1.63",
+      "aces_per_set_away": "2.55",
+      "aces_home_played": "(29)",
+      "aces_away_played": "(33)"
     },
     "reception": {
       "reception_eff_home": "42%",
-      "reception_eff_avg": "33%",
-      "reception_eff_away": "31%",
-      "reception_perfect_home": "29%",
+      "reception_eff_avg": "34%",
+      "reception_eff_away": "41%",
+      "reception_perfect_home": "30%",
       "reception_perfect_avg": "26%",
-      "reception_perfect_away": "23%"
+      "reception_perfect_away": "28%"
     }
   }
 }
