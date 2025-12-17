@@ -7,12 +7,12 @@
     "logo": "panionios.png"
   },
   "awayTeam": {
-    "name": "Καλαμάτα",
-    "subtitle": "A.O. '80 AFFIDEA",
-    "slug": "kalamata",
-    "color": "#008428",
-    "logo": "kalamata.png"
+    "name": "Παναθηναϊκός",
+    "subtitle": "Α.Ο.",
+    "slug": "panathinaikos",
+    "color": "#007A33",
+    "logo": "panathinaikos.png"
   },
-  "date": "14 Δεκεμβρίου 2025",
-  "league": "7η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "20 Δεκεμβρίου 2025",
+  "league": "8η ΑΓΩΝΙΣΤΙΚΗ"
 }

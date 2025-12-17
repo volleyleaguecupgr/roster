@@ -1,10 +1,10 @@
 {
   "homeTeam": {
-    "name": "Φοίνικας Σύρου",
-    "subtitle": "A.O.",
-    "slug": "foinikas",
-    "color": "#003399",
-    "logo": "foinikas.png"
+    "name": "Καλαμάτα",
+    "subtitle": "A.O. '80 AFFIDEA",
+    "slug": "kalamata",
+    "color": "#008428",
+    "logo": "kalamata.png"
   },
   "awayTeam": {
     "name": "Κηφισιά",
@@ -13,6 +13,6 @@
     "color": "#1e3a8a",
     "logo": "kifisia.png"
   },
-  "date": "14 Δεκεμβρίου 2025",
-  "league": "7η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "21 Δεκεμβρίου 2025",
+  "league": "8η ΑΓΩΝΙΣΤΙΚΗ"
 }
