@@ -1,22 +1,98 @@
 {
   "games": [
     {
-      "homeTeam": "ΦΛΟΙΣΒΟΣ",
-      "homeSlug": "floisvos",
+      "homeTeam": "ΟΦΗ",
+      "homeSlug": "ofi",
       "awayTeam": "ΟΛΥΜΠΙΑΚΟΣ",
       "awaySlug": "olympiakos",
       "refs": {
         "referees": [
-          "Βουδούρης",
-          "Γεωργιάδης Στ."
+          "Μυλωνάκης",
+          "Τραχαλάκη"
         ],
-        "observer": "Γεωργόπουλος",
+        "observer": "Βλαχάκης",
         "challengeRef": "",
         "linesmen": [
-          "Οσιπίδης",
-          "Σαμοθράκης"
+          "Ξηρουχάκης",
+          "Λινοξυλάκη"
         ],
-        "secretariat": "Θεοδωρίδου"
+        "secretariat": "Παπαδάκη Ανθ."
+      }
+    },
+    {
+      "homeTeam": "ΠΑΝΙΩΝΙΟΣ",
+      "homeSlug": "panionios",
+      "awayTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ",
+      "awaySlug": "panathinaikos",
+      "refs": {
+        "referees": [
+          "Κυριοπούλου",
+          "Τσιούλα"
+        ],
+        "observer": "Ονόπας",
+        "challengeRef": "Βουδούρης",
+        "linesmen": [
+          "Παπαγιαννόπουλος",
+          "Ζαρμπίνης"
+        ],
+        "secretariat": "Μπίτσικα"
+      }
+    },
+    {
+      "homeTeam": "ΠΑΟΚ",
+      "homeSlug": "paok",
+      "awayTeam": "ΦΛΟΙΣΒΟΣ",
+      "awaySlug": "floisvos",
+      "refs": {
+        "referees": [
+          "Δανιηλίδου",
+          "Βασιλειάδης"
+        ],
+        "observer": "Μιχελινάκης",
+        "challengeRef": "",
+        "linesmen": [
+          "Βασδέκης",
+          "Σταυρίδου"
+        ],
+        "secretariat": "Παναγιωτίδου"
+      }
+    },
+    {
+      "homeTeam": "ΚΑΛΑΜΑΤΑ",
+      "homeSlug": "kalamata",
+      "awayTeam": "ΚΗΦΙΣΙΑ",
+      "awaySlug": "kifisia",
+      "refs": {
+        "referees": [
+          "Γεροθόδωρος",
+          "Καραγιαννόπουλος"
+        ],
+        "observer": "Ιορδανίδης",
+        "challengeRef": "",
+        "linesmen": [
+          "Κώτσιας",
+          "Κοσμάς"
+        ],
+        "secretariat": "Βλαχούλη"
+      }
+    },
+    {
+      "homeTeam": "ΜΙΛΩΝ",
+      "homeSlug": "milon",
+      "awayTeam": "ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+      "awaySlug": "foinikas",
+      "refs": {
+        "referees": [
+          "Κουτσούλας",
+          "Μενεσλής"
+        ],
+        "observer": "Πολίτης",
+        "challengeRef": "",
+        "linesmen": [
+          "Σπίγγου",
+          "Γεωργοπούλου"
+        ],
+        "secretariat": "Μισιάκα"
       }
     }
   ]
