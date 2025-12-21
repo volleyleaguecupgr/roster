@@ -1,7 +1,7 @@
 {
   "match_info": {
     "home_team": "PAOK",
-    "away_team": "A.O. FOINIKAS SIROU",
+    "away_team": "AO FLOISVOS",
     "datetime": "21 December 2025 - 16:00"
   },
   "teams_comparison": {
@@ -56,37 +56,37 @@
       "efficiency": {
         "home": "32%",
         "average": "33%",
-        "away": "28%"
+        "away": "25%"
       },
       "spikes_per_set_home": "12.26",
       "spikes_per_set_avg": "11.81",
-      "spikes_per_set_away": "11.44",
+      "spikes_per_set_away": "11.35",
       "spikes_per_set_home_played": "(31)",
-      "spikes_per_set_away_played": "(27)"
+      "spikes_per_set_away_played": "(37)"
     },
     "blocks": {
       "blocks_per_set_home": "2.39",
-      "blocks_per_set_avg": "2.03",
-      "blocks_per_set_away": "2.52",
+      "blocks_per_set_avg": "2.05",
+      "blocks_per_set_away": "1.68",
       "blocks_home_played": "(31)",
-      "blocks_away_played": "(27)"
+      "blocks_away_played": "(37)"
     },
     "serve": {
       "aces_home": "43",
-      "aces_away": "35",
+      "aces_away": "39",
       "aces_per_set_home": "1.39",
-      "aces_per_set_avg": "1.63",
-      "aces_per_set_away": "1.30",
+      "aces_per_set_avg": "1.65",
+      "aces_per_set_away": "1.05",
       "aces_home_played": "(31)",
-      "aces_away_played": "(27)"
+      "aces_away_played": "(37)"
     },
     "reception": {
       "reception_eff_home": "40%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "28%",
+      "reception_eff_away": "33%",
       "reception_perfect_home": "26%",
       "reception_perfect_avg": "26%",
-      "reception_perfect_away": "22%"
+      "reception_perfect_away": "27%"
     }
   }
 }
