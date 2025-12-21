@@ -6,8 +6,13 @@
   },
   {
     "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+    "points": 18,
+    "matches": 8
+  },
+  {
+    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
     "points": 16,
-    "matches": 7
+    "matches": 8
   },
   {
     "team": "ΠΑΟΚ",
@@ -15,14 +20,9 @@
     "matches": 7
   },
   {
-    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-    "points": 13,
-    "matches": 7
-  },
-  {
     "team": "ΟΦΗ",
     "points": 12,
-    "matches": 7
+    "matches": 8
   },
   {
     "team": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
@@ -36,8 +36,8 @@
   },
   {
     "team": "ΠΑΝΙΩΝΙΟΣ",
-    "points": 7,
-    "matches": 7
+    "points": 8,
+    "matches": 8
   },
   {
     "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
