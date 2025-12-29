@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Μίλων",
-    "subtitle": "Α.Ο.Ν.Σ",
-    "slug": "milon",
-    "color": "#006400",
-    "logo": "milon.png"
-  },
-  "awayTeam": {
     "name": "Φοίνικας Σύρου",
     "subtitle": "A.O.",
     "slug": "foinikas",
     "color": "#003399",
     "logo": "foinikas.png"
   },
-  "date": "21 Δεκεμβρίου 2025",
-  "league": "8η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Ο.Φ.Η.",
+    "subtitle": ".",
+    "slug": "ofi",
+    "color": "#000000",
+    "logo": "ofi.png"
+  },
+  "date": "14 Ιανουαρίου 2026",
+  "league": "9η ΑΓΩΝΙΣΤΙΚΗ"
 }

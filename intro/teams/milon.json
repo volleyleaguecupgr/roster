@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Κηφισιά",
+    "subtitle": "A.Ο.Π.Σ.",
+    "slug": "kifisia",
+    "color": "#1e3a8a",
+    "logo": "kifisia.png"
+  },
+  "awayTeam": {
     "name": "Μίλων",
     "subtitle": "Α.Ο.Ν.Σ",
     "slug": "milon",
     "color": "#006400",
     "logo": "milon.png"
   },
-  "awayTeam": {
-    "name": "Φοίνικας Σύρου",
-    "subtitle": "A.O.",
-    "slug": "foinikas",
-    "color": "#003399",
-    "logo": "foinikas.png"
-  },
-  "date": "21 Δεκεμβρίου 2025",
-  "league": "8η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "3 Ιανουαρίου 2026",
+  "league": "9η ΑΓΩΝΙΣΤΙΚΗ"
 }

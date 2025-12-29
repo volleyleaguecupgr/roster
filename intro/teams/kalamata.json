@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Παναθηναϊκός",
+    "subtitle": "Α.Ο.",
+    "slug": "panathinaikos",
+    "color": "#007A33",
+    "logo": "panathinaikos.png"
+  },
+  "awayTeam": {
     "name": "Καλαμάτα",
     "subtitle": "A.O. '80 AFFIDEA",
     "slug": "kalamata",
     "color": "#008428",
     "logo": "kalamata.png"
   },
-  "awayTeam": {
-    "name": "Κηφισιά",
-    "subtitle": "A.Ο.Π.Σ.",
-    "slug": "kifisia",
-    "color": "#1e3a8a",
-    "logo": "kifisia.png"
-  },
-  "date": "21 Δεκεμβρίου 2025",
-  "league": "8η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "3 Ιανουαρίου 2026",
+  "league": "9η ΑΓΩΝΙΣΤΙΚΗ"
 }

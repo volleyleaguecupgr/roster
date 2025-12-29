@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Φλοίσβος",
+    "subtitle": "A. O. MEMBERS PARON",
+    "slug": "floisvos",
+    "color": "#3a55a8",
+    "logo": "floisvos.png"
+  },
+  "awayTeam": {
     "name": "Πανιώνιος",
     "subtitle": "Γ.Σ.Σ.",
     "slug": "panionios",
     "color": "#004b8d",
     "logo": "panionios.png"
   },
-  "awayTeam": {
-    "name": "Παναθηναϊκός",
-    "subtitle": "Α.Ο.",
-    "slug": "panathinaikos",
-    "color": "#007A33",
-    "logo": "panathinaikos.png"
-  },
-  "date": "20 Δεκεμβρίου 2025",
-  "league": "8η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "5 Ιανουαρίου 2026",
+  "league": "9η ΑΓΩΝΙΣΤΙΚΗ"
 }
