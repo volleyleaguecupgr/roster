@@ -1,8 +1,8 @@
 [
   {
     "team": "ΑΟΝΣ ΜΙΛΩΝ",
-    "points": 19,
-    "matches": 7
+    "points": 22,
+    "matches": 8
   },
   {
     "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
@@ -26,13 +26,13 @@
   },
   {
     "team": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
-    "points": 9,
-    "matches": 7
+    "points": 12,
+    "matches": 8
   },
   {
     "team": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
     "points": 9,
-    "matches": 7
+    "matches": 8
   },
   {
     "team": "ΠΑΝΙΩΝΙΟΣ",
@@ -47,6 +47,6 @@
   {
     "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
     "points": 3,
-    "matches": 7
+    "matches": 8
   }
 ]
