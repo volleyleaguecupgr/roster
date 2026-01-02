@@ -141,6 +141,24 @@
       "birthdate": "26/06/1989",
       "height": "1,84",
       "team": "Α.Ο. Φλοίσβος Π. Φαλήρου"
+    },
+    {
+      "number": 98,
+      "name": "Mikhail Nikkel",
+      "nationality": "RUS",
+      "position": "Διαγώνιος",
+      "birthdate": "01/10/1997",
+      "height": "2,01",
+      "team": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 99,
+      "name": "Νικόλαος Παπαγγελόπουλος",
+      "nationality": "GRE",
+      "position": "Κεντρικός",
+      "birthdate": "17/11/1988",
+      "height": "2,04",
+      "team": "Α.Ο. Φλοίσβος Π. Φαλήρου"
     }
   ],
   "staff": [
