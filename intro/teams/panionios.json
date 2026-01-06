@@ -1,10 +1,10 @@
 {
   "homeTeam": {
-    "name": "Φλοίσβος",
-    "subtitle": "A. O. MEMBERS PARON",
-    "slug": "floisvos",
-    "color": "#3a55a8",
-    "logo": "floisvos.png"
+    "name": "Ολυμπιακός",
+    "subtitle": "Σ.Φ.Π ΟΝΕΧ",
+    "slug": "olympiakos",
+    "color": "#E41E26",
+    "logo": "olympiakos.png"
   },
   "awayTeam": {
     "name": "Πανιώνιος",
@@ -13,6 +13,6 @@
     "color": "#004b8d",
     "logo": "panionios.png"
   },
-  "date": "5 Ιανουαρίου 2026",
-  "league": "9η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "10 Ιανουαρίου 2026",
+  "league": "10η ΑΓΩΝΙΣΤΙΚΗ"
 }

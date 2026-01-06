@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Φλοίσβος",
+    "subtitle": "A. O. MEMBERS PARON",
+    "slug": "floisvos",
+    "color": "#3a55a8",
+    "logo": "floisvos.png"
+  },
+  "awayTeam": {
     "name": "Παναθηναϊκός",
     "subtitle": "Α.Ο.",
     "slug": "panathinaikos",
     "color": "#007A33",
     "logo": "panathinaikos.png"
   },
-  "awayTeam": {
-    "name": "Καλαμάτα",
-    "subtitle": "A.O. '80 AFFIDEA",
-    "slug": "kalamata",
-    "color": "#008428",
-    "logo": "kalamata.png"
-  },
-  "date": "3 Ιανουαρίου 2026",
-  "league": "9η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "10 Ιανουαρίου 2026",
+  "league": "10η ΑΓΩΝΙΣΤΙΚΗ"
 }

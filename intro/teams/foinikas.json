@@ -7,12 +7,12 @@
     "logo": "foinikas.png"
   },
   "awayTeam": {
-    "name": "Ο.Φ.Η.",
-    "subtitle": ".",
-    "slug": "ofi",
+    "name": "Π.Α.Ο.Κ.",
+    "subtitle": "Α.Σ.",
+    "slug": "paok",
     "color": "#000000",
-    "logo": "ofi.png"
+    "logo": "paok.png"
   },
-  "date": "14 Ιανουαρίου 2026",
-  "league": "9η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "11 Ιανουαρίου 2026",
+  "league": "10η ΑΓΩΝΙΣΤΙΚΗ"
 }

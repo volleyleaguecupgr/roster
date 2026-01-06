@@ -7,12 +7,12 @@
     "logo": "floisvos.png"
   },
   "awayTeam": {
-    "name": "Πανιώνιος",
-    "subtitle": "Γ.Σ.Σ.",
-    "slug": "panionios",
-    "color": "#004b8d",
-    "logo": "panionios.png"
+    "name": "Παναθηναϊκός",
+    "subtitle": "Α.Ο.",
+    "slug": "panathinaikos",
+    "color": "#007A33",
+    "logo": "panathinaikos.png"
   },
-  "date": "5 Ιανουαρίου 2026",
-  "league": "9η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "10 Ιανουαρίου 2026",
+  "league": "10η ΑΓΩΝΙΣΤΙΚΗ"
 }

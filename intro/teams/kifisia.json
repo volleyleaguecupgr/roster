@@ -7,12 +7,12 @@
     "logo": "kifisia.png"
   },
   "awayTeam": {
-    "name": "Μίλων",
-    "subtitle": "Α.Ο.Ν.Σ",
-    "slug": "milon",
-    "color": "#006400",
-    "logo": "milon.png"
+    "name": "Ο.Φ.Η.",
+    "subtitle": ".",
+    "slug": "ofi",
+    "color": "#000000",
+    "logo": "ofi.png"
   },
-  "date": "3 Ιανουαρίου 2026",
-  "league": "9η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "11 Ιανουαρίου 2026",
+  "league": "10η ΑΓΩΝΙΣΤΙΚΗ"
 }
