@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <title>Volleyball Scoreboard</title>
+</head>
+<body>
+        <div class="background"><img src="scorevolley.001.png" width="150%"/ id="bg"></div>
+        <div class="team">
+            <div class="color" id="color-1"></div>
+            <div class="team-info">
+                <img src="https://upload.wikimedia.org/wikipedia/el/5/52/PAOK_FC_%282013_logo%29.png" alt="Team Logo" id="team-logo-1">
+                <div class="team-name-container">
+                    <span id="team-name-1">Team 1</span>
+                </div>   
+            </div>
+            <div class="scores-container">
+                <div class="set" id="set-1">0</div>
+                <div class="score" id="score-1">00</div>
+            </div>  
+            <div class="ball-container">
+                <img src="volley ball serve icon.png" id="ball-1">
+            </div>
+            <div class="set-point-chance">
+                <img src="vol.001.png" id="set-point-chance-1">
+            </div>
+            <div class="match-point-chance">
+                <img src="voll.001.png" id="match-point-chance-1">
+            </div>
+            <div class="timeout">
+                <img src="voll.002.png" id="timeout-team-1">
+            </div>
+            <div class="challenge">
+                <img src="voll.004.png" id="challenge-team-1">
+            </div>
+            <div class="substitution">
+                <img src="voll.003.png" id="substitution-team-1">
+            </div>
+            <div class="substitution-container">
+                <span id="sub-num-1">00</span>
+                <span id="sub-name-1">Player Name</span>
+            </div>  
+        </div>
+        <div class="team">
+            <div class="color" id="color-2"></div>
+            <div class="team-info">
+                <img src="https://upload.wikimedia.org/wikipedia/el/5/52/PAOK_FC_%282013_logo%29.png" alt="Team Logo" id="team-logo-2">
+                <div class="team-name-container">
+                    <span id="team-name-2">Team 2</span>
+                </div>     
+            </div>
+            <div class="scores-container">
+                <div class="score" id="score-2">00</div>
+                <div class="set" id="set-2">0</div>
+            </div>
+            <div class="ball-container">   
+                <img src="volley ball serve icon.png" id="ball-2">
+            </div>
+            <div class="set-point-chance">
+                <img src="vol.001.png" id="set-point-chance-2">
+            </div>
+            <div class="match-point-chance">
+                <img src="voll.001.png" id="match-point-chance-2">
+            </div>
+            <div class="timeout">
+                <img src="voll.002.png" id="timeout-team-2">
+            </div>
+            <div class="challenge">
+                <img src="voll.004.png" id="challenge-team-2">
+            </div>
+            <div class="substitution">
+                <img src="voll.003.png" id="substitution-team-2">
+            </div>
+            <div class="substitution-container">
+                <span id="sub-num-2">00</span>
+                <span id="sub-name-2">Player Name</span>
+            </div>  
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="team-controls">
+            <span id="team-control-1">Team A</span>
+            <div class="points">
+                <button id="add-point-1">+1</button>
+                <button id="remove-point-1">-1</button>
+                <button id="set-team-1">+S</button>
+                <button id="noset-team-1">-S</button>
+            </div>
+            <div class="set-match">
+                <button id="set-point-1">SP</button>
+                <button id="match-point-1">MP</button>
+                <button id="timeout-1">TO</button>
+                <button id="challenge-1">CH</button>
+            </div>
+
+            <input type="text" id="team-name-1-input" placeholder="Team A Name">
+            <input type="text" id="team-logo-url-1" placeholder="Team A Logo URL">
+            <div class="set-team-color">
+                <input type="color" id="team-color-1-input" value="#FF0000">
+            </div>
+            <div class="set-button">
+                <button id="set-logos-1">Set Logo & Name</button>
+                <button id="reset-1">Null</button>
+            </div>
+            <input type="text" id="sub-num-1-input" placeholder="Sub A Num">
+            <input type="text" id="sub-name-1-input" placeholder="Sub A Name">
+            <div class="sub-button">
+                <button id="sub-button-1">Sub</button>
+            </div>
+        </div>
+        <div class="team-controls">
+            <span id="team-control-2">Team B</span>
+            <div class="points">
+                <button id="add-point-2">+1</button>
+                <button id="remove-point-2">-1</button>
+                <button id="set-team-2">+S</button>
+                <button id="noset-team-2">-S</button>
+            </div>
+            <div class="set-match">
+                <button id="set-point-2">SP</button>
+                <button id="match-point-2">MP</button>
+                <button id="timeout-2">TO</button>
+                <button id="challenge-2">CH</button>
+            </div>
+            <input type="text" id="team-name-2-input" placeholder="Team B Name">
+            <input type="text" id="team-logo-url-2" placeholder="Team B Logo URL">
+            <div class="set-team-color">
+                <input type="color" id="team-color-2-input" value="#FF0000">
+            </div>
+            <div class="set-button">
+                <button id="set-logos-2">Set Logo & Name</button>
+                <button id="reset-2">Null</button>
+            </div>
+            <input type="text" id="sub-num-2-input" placeholder="Sub B Num">
+            <input type="text" id="sub-name-2-input" placeholder="Sub B Name">
+            <div class="sub-button">
+                <button id="sub-button-2">Sub</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

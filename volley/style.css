@@ -1,0 +1,464 @@
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@100;200;300;400;500;700&family=Geologica:wght@100;200;400;500;800&family=Space+Mono:wght@400;700&display=swap');
+@font-face {
+    font-family: 'lemurbold';
+    src: url('lemur_bold-webfont.woff2') format('woff2'),
+         url('lemur_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'lemurregular';
+    src: url('lemur_regular-webfont.woff2') format('woff2'),
+         url('lemur_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: 'lemurbold';
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    background-color: #0ee243;
+}
+
+.team-container {
+    display: flex;
+    flex-direction:column;
+    /*margin-left:20px;*/
+    /*justify-content: space-around;*/
+}
+
+/*.ball-container{
+    display: flex;
+    align-items: center;
+    margin-top: -515px;
+    margin-left: 190px;
+    position: relative; 
+}*/
+
+#ball-1{
+    position: relative;
+    margin-left:260px;
+    margin-top:-1184px;
+    display:none;
+}
+
+#ball-2{
+    position: relative;
+    margin-left:260px;
+    margin-top:-1179px;
+    display:none;
+}
+
+#bg{
+    position: relative;
+    width:1920px;
+    height:1080px;
+    top:0px;
+    left:0px;
+    z-index: -1;
+}
+
+.color {
+    position: relative;
+    left: -30px;
+    width:30px;
+    height:90px;
+    background-color:white;
+    border-radius: 95px;
+    padding:23px;
+    z-index: -2;
+}
+
+#color-1{
+    top:-1014px; 
+    padding:23px;
+}
+
+#color-2{
+    top:-1008px; 
+    padding:23px;
+}
+
+.team {
+    width:300px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(to right, rgb(32, 28, 58,1), rgba(255,0,0,0));
+    color: white;
+    border-radius: 95px;
+    left:20px;
+    top: 8px;
+    padding: 1px;
+}
+
+.set {
+    position: relative;
+    left: 255px;
+    top:-1068px;
+    width:40px;
+    height: 30px;
+    align-items: center;
+    color: white;
+    font-size: 30px;
+    border-radius: 95px;
+    padding: 1px;
+}
+
+#set-1{
+    top:-1127px; 
+    left:218px;
+}
+
+#set-2{
+    top:-1152px; 
+    left:218px;
+}
+
+
+#team-name-1{
+    position: relative;
+    left: 44px;
+    text-align:left;
+    top:-1094px;
+    max-width: 100%;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; 
+}
+
+#team-name-2{
+    position: relative;
+    left: 44px;
+    text-align:left;
+    top:-1087px;
+}
+
+#score-1{
+    font-family: 'lemurregular';
+    position: relative;
+    left: 280px;
+    top:-1165px;
+}
+
+#score-2{
+    font-family: 'lemurregular';
+    position: relative;
+    left: 280px;
+    top:-1127px;
+}
+
+.team-info img {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin-left: -40px;
+    border-radius: 100%;
+    background-color: #051432;
+}
+
+#team-logo-1{
+    top:-1054px;
+}
+
+#team-logo-2{
+    top:-1048px;
+}
+
+.team-info span {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.score {
+    position: relative;
+    left: 327px;
+    top:-1090px;
+    width:40px;
+    height: 30px;
+    border-radius: 95px;
+    font-size: 24px;
+    line-height: 50px;
+    background-color: transparent;
+    align-items: center;
+    font-size: 35px;
+    color: white;
+}
+
+.controls {
+    display: flex;
+    flex-direction:line;
+    margin-top: 20px;
+    margin-left:40px;
+    margin:20px;
+    position: relative;
+    top:-1000px;
+    left:80px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="text"] {
+    padding: 5px;
+    margin: 5px;
+}
+
+#set-point-1, #match-point-1,#set-point-2, #match-point-2,#timeout-1,#timeout-2,#challenge-1,#challenge-2{
+    border-radius: 95px;
+    background-color: green; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurregular';
+    color: white;
+}
+
+#set-logos-1,#set-logos-2{
+    top:20px;
+    left:115px;
+    border-radius: 95px;
+    background-color: gray; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurbold';
+    color: white;
+}
+
+#add-point-1{
+    border-radius: 95px;
+    background-color: green; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurregular';
+    color: white;
+}
+
+#add-point-2{
+    border-radius: 95px;
+    background-color: green; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurregular';
+    color: white;
+}
+
+#remove-point-1{
+    border-radius: 95px;
+    background-color: red; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurregular';
+    color: white;
+}
+
+#remove-point-2{
+    border-radius: 95px;
+    background-color: red; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurregular';
+    color: white;
+}
+
+#set-team-1{
+    border-radius: 95px;
+    background-color: green; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurbold';
+    color: white;
+}
+
+#set-team-2{
+    border-radius: 95px;
+    background-color: green; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurbold';
+    color: white;
+}
+
+#noset-team-1{
+    border-radius: 95px;
+    background-color: red; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurbold';
+    color: white;
+}
+
+#noset-team-2{
+    border-radius: 95px;
+    background-color: red; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurbold';
+    color: white;
+}
+
+
+#reset-1,#reset-2{
+    top:20px;
+    left:115px;
+    border-radius: 95px;
+    background-color: gray; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurbold';
+    color: white;  
+}
+
+.set-point-chance{
+    width:19%;
+    position:relative;
+    left:-213px;
+    z-index: -4;
+}
+
+#set-point-chance-1{
+    position:relative;
+    display:none;
+    top:-1350px;
+}
+
+#set-point-chance-2{
+    position:relative;
+    display:none;
+    top:-1345px;
+}
+
+.match-point-chance{
+    width:19%;
+    position:relative;
+    left:-213px;
+    z-index: -3;
+}
+
+#match-point-chance-1{
+    position:relative;
+    display:none;
+    top:-1350px;
+}
+
+#match-point-chance-2{
+    position:relative;
+    display:none;
+    top:-1345px;
+}
+
+.timeout{
+    width:19%;
+    position:relative;
+    left:-213px;
+    z-index: -3;
+}
+
+#timeout-team-1{
+    position:relative;
+    display:none;
+    top:-1350px;
+}
+
+#timeout-team-2{
+    position:relative;
+    display:none;
+    top:-1345px;
+}
+
+.challenge{
+    width:19%;
+    position:relative;
+    left:-213px;
+    z-index: -3;
+}
+
+#challenge-team-1{
+    position:relative;
+    display:none;
+    top:-1350px;
+}
+
+#challenge-team-2{
+    position:relative;
+    display:none;
+    top:-1345px;
+}
+
+.substitution{
+    width:19%;
+    position:relative;
+    left:-103px;
+    z-index: -3;
+}
+
+#substitution-team-1{
+    position:relative;
+    display:none;
+    top:-1263px;
+}
+
+#substitution-team-2{
+    position:relative;
+    display:none;
+    top:-1257px;
+}
+
+#sub-num-1{
+    font-family: 'lemurregular';
+    position:relative;
+    display:none;
+    margin-left:721px;
+    top:-2274px;
+    font-size: 40px;
+}    
+ 
+#sub-name-1{
+    font-family: 'lemurregular';
+    position:relative;
+    display:none;
+    left:799px;
+    top:-2319px;
+    font-size: 30px;
+    text-align: left;
+}
+
+#sub-num-2{
+    font-family: 'lemurregular';
+    position:relative;
+    display:none;
+    margin-left:721px;
+    top:-2267px;
+    font-size: 40px;
+}    
+ 
+#sub-name-2{
+    font-family: 'lemurregular';
+    position:relative;
+    display:none;
+    left:799px;
+    top:-2311px;
+    font-size: 30px;
+    text-align: left;
+}
+
+#sub-button-1,#sub-button-2{
+    top:20px;
+    left:115px;
+    border-radius: 95px;
+    background-color: gray; 
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'lemurbold';
+    color: white;
+}
