@@ -30,67 +30,66 @@
             font-family: 'lemurbold', Arial, sans-serif;
             background-color: #0ee243;
             color: white;
-            padding: 5px;
+            padding: 8px;
             margin: 0;
-            overflow: hidden;
         }
         
         h1 {
             text-align: center;
             color: #051432;
-            font-size: 14px;
-            margin: 2px 0 5px 0;
+            font-size: 16px;
+            margin: 3px 0 8px 0;
         }
         
         .controls-wrapper {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
-            max-width: 600px;
+            gap: 10px;
+            max-width: 750px;
             margin: 0 auto;
         }
         
         .team-controls {
             background-color: rgba(32, 28, 58, 0.95);
-            padding: 5px;
-            border-radius: 10px;
-            border: 2px solid #051432;
+            padding: 10px;
+            border-radius: 15px;
+            flex: 1;
+            border: 3px solid #051432;
         }
         
         .team-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 3px;
+            text-align: center;
+            margin-bottom: 8px;
         }
         
         .team-header h2 {
-            margin: 0;
-            font-size: 12px;
+            margin: 0 0 5px 0;
+            font-size: 16px;
             color: #0ee243;
             font-family: 'lemurbold';
         }
         
         .score-display {
-            font-size: 12px;
+            font-size: 18px;
             font-family: 'lemurregular';
-            padding: 2px 8px;
+            padding: 5px;
             background-color: #051432;
             border-radius: 10px;
         }
         
-        .button-row {
-            display: flex;
-            gap: 3px;
-            margin-bottom: 3px;
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 60px);
+            gap: 5px;
+            justify-content: center;
+            margin-bottom: 8px;
         }
         
         button {
-            width: 36px;
-            height: 36px;
+            width: 60px;
+            height: 60px;
             padding: 0;
-            font-size: 11px;
-            border-radius: 8px;
+            font-size: 13px;
+            border-radius: 12px;
             border: 2px solid white;
             cursor: pointer;
             font-family: 'lemurbold';
@@ -115,43 +114,53 @@
             color: white;
         }
         
+        .btn-wide {
+            grid-column: span 2;
+            width: 125px;
+        }
+        
+        .input-row {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+        
         input[type="text"] {
-            width: 80px;
-            padding: 4px;
-            margin: 0;
-            border-radius: 6px;
-            border: 1px solid #051432;
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: 2px solid #051432;
             font-family: 'lemurregular';
-            font-size: 10px;
+            font-size: 11px;
             background-color: #1a1a1a;
             color: white;
         }
         
         input[type="text"]::placeholder {
             color: #888;
-            font-size: 9px;
         }
         
         input[type="color"] {
-            width: 36px;
+            width: 60px;
             height: 36px;
             cursor: pointer;
             border-radius: 8px;
             border: 2px solid white;
             padding: 0;
-            margin: 0;
         }
         
-        .separator {
-            width: 2px;
-            background-color: #0ee243;
-            align-self: stretch;
+        .section-label {
+            font-size: 11px;
+            color: #0ee243;
+            margin: 8px 0 5px 0;
+            text-align: center;
+            font-family: 'lemurbold';
         }
     </style>
     <title>Volleyball Control</title>
 </head>
 <body>
-    <h1>🏐 CONTROL</h1>
+    <h1>🏐 CONTROL PANEL</h1>
     
     <div class="controls-wrapper">
         <!-- Team A Controls -->
@@ -159,30 +168,39 @@
             <div class="team-header">
                 <h2>TEAM A</h2>
                 <div class="score-display">
-                    <span id="display-score-1">00</span>:<span id="display-set-1">0</span>
+                    <span id="display-score-1">00</span> : <span id="display-set-1">0</span>
                 </div>
             </div>
             
-            <div class="button-row">
+            <div class="button-grid">
                 <button class="btn-green" id="add-point-1" title="Add Point">+1</button>
                 <button class="btn-red" id="remove-point-1" title="Remove Point">-1</button>
                 <button class="btn-green" id="set-team-1" title="Add Set">+S</button>
                 <button class="btn-red" id="noset-team-1" title="Remove Set">-S</button>
-                <button class="btn-gray" id="reset-1" title="Reset Score">R</button>
-                <div class="separator"></div>
+                
                 <button class="btn-green" id="set-point-1" title="Set Point">SP</button>
                 <button class="btn-green" id="match-point-1" title="Match Point">MP</button>
                 <button class="btn-green" id="timeout-1" title="Timeout">TO</button>
                 <button class="btn-green" id="challenge-1" title="Challenge">CH</button>
-                <div class="separator"></div>
-                <input type="text" id="team-name-1-input" placeholder="Name">
-                <input type="text" id="team-logo-url-1" placeholder="Logo URL">
+                
+                <button class="btn-gray btn-wide" id="reset-1" title="Reset Score">RESET</button>
+                <button class="btn-gray btn-wide" id="sub-button-1" title="Toggle Substitution">SUB</button>
+            </div>
+            
+            <div class="section-label">TEAM INFO</div>
+            <div class="input-row">
+                <input type="text" id="team-name-1-input" placeholder="Team Name">
                 <input type="color" id="team-color-1-input" value="#FF0000">
-                <button class="btn-gray" id="set-logos-1" title="Apply Team Info">✓</button>
-                <div class="separator"></div>
-                <input type="text" id="sub-num-1-input" placeholder="Num">
-                <input type="text" id="sub-name-1-input" placeholder="Name">
-                <button class="btn-gray" id="sub-button-1" title="Toggle Substitution">SUB</button>
+            </div>
+            <div class="input-row">
+                <input type="text" id="team-logo-url-1" placeholder="Logo URL">
+                <button class="btn-gray" id="set-logos-1" title="Apply" style="width: 60px; height: 36px;">✓</button>
+            </div>
+            
+            <div class="section-label">SUB INFO</div>
+            <div class="input-row">
+                <input type="text" id="sub-num-1-input" placeholder="Number" style="max-width: 60px;">
+                <input type="text" id="sub-name-1-input" placeholder="Player Name">
             </div>
         </div>
         
@@ -191,30 +209,39 @@
             <div class="team-header">
                 <h2>TEAM B</h2>
                 <div class="score-display">
-                    <span id="display-score-2">00</span>:<span id="display-set-2">0</span>
+                    <span id="display-score-2">00</span> : <span id="display-set-2">0</span>
                 </div>
             </div>
             
-            <div class="button-row">
+            <div class="button-grid">
                 <button class="btn-green" id="add-point-2" title="Add Point">+1</button>
                 <button class="btn-red" id="remove-point-2" title="Remove Point">-1</button>
                 <button class="btn-green" id="set-team-2" title="Add Set">+S</button>
                 <button class="btn-red" id="noset-team-2" title="Remove Set">-S</button>
-                <button class="btn-gray" id="reset-2" title="Reset Score">R</button>
-                <div class="separator"></div>
+                
                 <button class="btn-green" id="set-point-2" title="Set Point">SP</button>
                 <button class="btn-green" id="match-point-2" title="Match Point">MP</button>
                 <button class="btn-green" id="timeout-2" title="Timeout">TO</button>
                 <button class="btn-green" id="challenge-2" title="Challenge">CH</button>
-                <div class="separator"></div>
-                <input type="text" id="team-name-2-input" placeholder="Name">
-                <input type="text" id="team-logo-url-2" placeholder="Logo URL">
+                
+                <button class="btn-gray btn-wide" id="reset-2" title="Reset Score">RESET</button>
+                <button class="btn-gray btn-wide" id="sub-button-2" title="Toggle Substitution">SUB</button>
+            </div>
+            
+            <div class="section-label">TEAM INFO</div>
+            <div class="input-row">
+                <input type="text" id="team-name-2-input" placeholder="Team Name">
                 <input type="color" id="team-color-2-input" value="#0000FF">
-                <button class="btn-gray" id="set-logos-2" title="Apply Team Info">✓</button>
-                <div class="separator"></div>
-                <input type="text" id="sub-num-2-input" placeholder="Num">
-                <input type="text" id="sub-name-2-input" placeholder="Name">
-                <button class="btn-gray" id="sub-button-2" title="Toggle Substitution">SUB</button>
+            </div>
+            <div class="input-row">
+                <input type="text" id="team-logo-url-2" placeholder="Logo URL">
+                <button class="btn-gray" id="set-logos-2" title="Apply" style="width: 60px; height: 36px;">✓</button>
+            </div>
+            
+            <div class="section-label">SUB INFO</div>
+            <div class="input-row">
+                <input type="text" id="sub-num-2-input" placeholder="Number" style="max-width: 60px;">
+                <input type="text" id="sub-name-2-input" placeholder="Player Name">
             </div>
         </div>
     </div>
