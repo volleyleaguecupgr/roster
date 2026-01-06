@@ -2,47 +2,17 @@
   "matches": [
     {
       "home": {
-        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "logo": "logos/kifisia.png",
-        "color": "#4169E1"
-      },
-      "away": {
-        "name": "ΑΟΝΣ ΜΙΛΩΝ",
-        "logo": "logos/milon.png",
-        "color": "#228B22"
-      },
-      "date": "03/01",
-      "time": "17:00",
-      "court": "ΖΗΡΙΝΕΟ"
-    },
-    {
-      "home": {
-        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-        "logo": "logos/panathinaikos.png",
-        "color": "#16a34a"
-      },
-      "away": {
-        "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
-        "logo": "logos/kalamata.png",
-        "color": "#32CD32"
-      },
-      "date": "03/01",
-      "time": "17:00",
-      "court": "ΜΕΤΣ"
-    },
-    {
-      "home": {
         "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
         "logo": "logos/olympiakos.png",
         "color": "#dc1414"
       },
       "away": {
-        "name": "ΠΑΟΚ",
-        "logo": "logos/paok.png",
-        "color": "#1a1a1a"
+        "name": "ΠΑΝΙΩΝΙΟΣ",
+        "logo": "logos/panionios.png",
+        "color": "#DC143C"
       },
-      "date": "04/01",
-      "time": "18:15",
+      "date": "10/01",
+      "time": "15:00",
       "court": "Μ. ΜΕΡΚΟΥΡΗ"
     },
     {
@@ -52,12 +22,12 @@
         "color": "#1E90FF"
       },
       "away": {
-        "name": "ΠΑΝΙΩΝΙΟΣ",
-        "logo": "logos/panionios.png",
-        "color": "#DC143C"
+        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "logo": "logos/panathinaikos.png",
+        "color": "#16a34a"
       },
-      "date": "05/01",
-      "time": "19:00",
+      "date": "10/01",
+      "time": "17:00",
       "court": "Σ. ΜΠΕΦΟΝ"
     },
     {
@@ -67,13 +37,43 @@
         "color": "#FF4500"
       },
       "away": {
+        "name": "ΠΑΟΚ",
+        "logo": "logos/paok.png",
+        "color": "#1a1a1a"
+      },
+      "date": "11/01",
+      "time": "17:00",
+      "court": "ΕΡΜΟΥΠΟΛΗΣ"
+    },
+    {
+      "home": {
+        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+        "logo": "logos/kifisia.png",
+        "color": "#4169E1"
+      },
+      "away": {
         "name": "ΟΦΗ",
         "logo": "logos/ofi.png",
         "color": "#2c2c2c"
       },
-      "date": "14/01",
+      "date": "11/01",
       "time": "19:00",
-      "court": "ΕΡΜΟΥΠΟΛΗΣ"
+      "court": "ΖΗΡΙΝΕΙΟ"
+    },
+    {
+      "home": {
+        "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
+        "logo": "logos/kalamata.png",
+        "color": "#32CD32"
+      },
+      "away": {
+        "name": "ΑΟΝΣ ΜΙΛΩΝ",
+        "logo": "logos/milon.png",
+        "color": "#228B22"
+      },
+      "date": "12/01",
+      "time": "20:00",
+      "court": "ΠΑΡΑΛΙΑΣ"
     }
   ]
 }
