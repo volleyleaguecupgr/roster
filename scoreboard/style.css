@@ -57,7 +57,7 @@ body {
 /* --- ADJUSTED COLORS: Wider and further left --- */
 .color {
     position: relative;
-    left: -45px;        /* Moved further left from -30px */
+    left: -38px;        /* Moved further left from -30px */
     width: 60px;       /* Widened from 30px */
     height: 90px;
     background-color: white;
@@ -85,14 +85,14 @@ body {
     background-image: linear-gradient(to right, rgb(32, 28, 58, 1), rgba(255, 0, 0, 0));
     color: white;
     border-radius: 95px;
-    left: 20px;
+    left: 60px;
     top: 8px;
     padding: 1px;
 }
 
 .set {
     position: relative;
-    left: 255px;
+    left: 275px;
     top: -1068px;
     width: 40px;
     height: 30px;
@@ -116,7 +116,7 @@ body {
 /* --- ADJUSTED TEAM NAMES: Fixed left position --- */
 #team-name-1 {
     position: relative;
-    left: 55px;         /* Uniform fixed position from the left edge */
+    left: 75px;         /* Uniform fixed position from the left edge */
     text-align: left;
     top: -1094px;
     width: 150px;       /* Added fixed width to ensure container doesn't shift */
@@ -126,7 +126,7 @@ body {
 
 #team-name-2 {
     position: relative;
-    left: 55px;         /* Must match team-name-1 exactly */
+    left: 75px;         /* Must match team-name-1 exactly */
     text-align: left;
     top: -1087px;
     width: 150px;       /* Must match team-name-1 exactly */
@@ -137,14 +137,14 @@ body {
 #score-1 {
     font-family: 'lemurregular';
     position: relative;
-    left: 280px;
+    left: 340px;
     top: -1165px;
 }
 
 #score-2 {
     font-family: 'lemurregular';
     position: relative;
-    left: 280px;
+    left: 340px;
     top: -1127px;
 }
 
@@ -172,7 +172,7 @@ body {
 
 .score {
     position: relative;
-    left: 327px;
+    left: 357px;
     top: -1090px;
     width: 40px;
     height: 30px;
