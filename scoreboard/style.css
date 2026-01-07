@@ -57,8 +57,8 @@ body {
 /* --- ADJUSTED COLORS: Wider and further left --- */
 .color {
     position: relative;
-    left: -45px;        /* Moved further left from -30px */
-    width: 60px;       /* Widened from 30px */
+    left: -20px;        /* Moved slightly right from -45px */
+    width: 80px;        /* Kept it wide as requested */
     height: 90px;
     background-color: white;
     border-radius: 95px;
@@ -66,122 +66,64 @@ body {
     z-index: -2;
 }
 
-#color-1 {
-    top: -1014px; 
-    padding: 23px;
-}
-
-#color-2 {
-    top: -1008px; 
-    padding: 23px;
-}
-
-.team {
-    width: 300px;
-    height: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Changed to flex-start to help left alignment */
-    background-image: linear-gradient(to right, rgb(32, 28, 58, 1), rgba(255, 0, 0, 0));
-    color: white;
-    border-radius: 95px;
-    left: 20px;
-    top: 8px;
-    padding: 1px;
-}
-
-.set {
-    position: relative;
-    left: 255px;
-    top: -1068px;
-    width: 40px;
-    height: 30px;
-    align-items: center;
-    color: white;
-    font-size: 30px;
-    border-radius: 95px;
-    padding: 1px;
-}
-
-#set-1 {
-    top: -1127px; 
-    left: 218px;
-}
-
-#set-2 {
-    top: -1152px; 
-    left: 218px;
-}
-
-/* --- ADJUSTED TEAM NAMES: Fixed left position --- */
+/* 2. Adjusted Team Names: Pushed right to clear the logo, but kept aligned */
 #team-name-1 {
     position: relative;
-    left: 55px;         /* Uniform fixed position from the left edge */
+    left: 85px;         /* Increased from 55px to move it away from the logo */
     text-align: left;
     top: -1094px;
-    width: 150px;       /* Added fixed width to ensure container doesn't shift */
+    width: 150px;
     white-space: nowrap;
     overflow: hidden; 
 }
 
 #team-name-2 {
     position: relative;
-    left: 55px;         /* Must match team-name-1 exactly */
+    left: 85px;         /* Match team-name-1 for perfect vertical alignment */
     text-align: left;
     top: -1087px;
-    width: 150px;       /* Must match team-name-1 exactly */
+    width: 150px;
     white-space: nowrap;
     overflow: hidden;
 }
 
+/* 3. Adjusted Sets: Pushed back to the right side of the bar */
+#set-1 {
+    top: -1127px; 
+    left: 480px;        /* Adjusted from 218px */
+}
+
+#set-2 {
+    top: -1152px; 
+    left: 480px;        /* Adjusted from 218px */
+}
+
+/* 4. Adjusted Scores: Pushed back to the far right */
 #score-1 {
     font-family: 'lemurregular';
     position: relative;
-    left: 280px;
+    left: 550px;        /* Adjusted from 280px */
     top: -1165px;
 }
 
 #score-2 {
     font-family: 'lemurregular';
     position: relative;
-    left: 280px;
+    left: 550px;        /* Adjusted from 280px */
     top: -1127px;
 }
 
-.team-info img {
-    position: relative;
-    width: 35px;
-    height: 35px;
-    margin-left: -40px;
-    border-radius: 100%;
-    background-color: #051432;
-}
-
-#team-logo-1 {
-    top: -1054px;
-}
-
-#team-logo-2 {
-    top: -1048px;
-}
-
-.team-info span {
-    font-weight: bold;
-    font-size: 24px;
-}
-
+/* 5. Adjusted Score Class (The containers) */
 .score {
     position: relative;
-    left: 327px;
+    left: 600px;        /* Adjusted from 327px */
     top: -1090px;
     width: 40px;
     height: 30px;
     border-radius: 95px;
-    font-size: 24px;
+    font-size: 35px;
     line-height: 50px;
     background-color: transparent;
-    align-items: center;
-    font-size: 35px;
     color: white;
 }
 
