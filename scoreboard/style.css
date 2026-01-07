@@ -113,31 +113,23 @@ body {
 
 
 #team-name-1{
-    position: absolute;
-    left: 64px;
+    position: relative;
+    left: 44px;
     text-align:left;
-    top:8px;
-    width: 150px;
+    top:-1094px;
+    max-width: 100%;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: hidden; 
 }
 
 #team-name-2{
-    position: absolute;
-    left: 64px;
+    position: relative;
+    left: 44px;
     text-align:left;
-    top:8px;
-    width: 150px;
+    top:-1087px;
+    max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.team-name-container {
-    position: relative;
-    width: 150px;
-    height: 40px;
 }
 
 #score-1{
