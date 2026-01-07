@@ -116,6 +116,7 @@
             display: flex;
             gap: 5px;
             margin-bottom: 5px;
+            align-items: center;
         }
         
         input[type="text"] {
@@ -132,14 +133,41 @@
         input[type="text"]::placeholder {
             color: #888;
         }
+
+        input[type="file"] {
+            display: none;
+        }
         
-        input[type="color"] {
+        .file-button {
             width: 60px;
             height: 36px;
-            cursor: pointer;
+            padding: 0;
+            font-size: 11px;
             border-radius: 8px;
             border: 2px solid white;
-            padding: 2px;
+            cursor: pointer;
+            font-family: 'lemurbold';
+            background-color: #0ee243;
+            color: #051432;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid white;
+            object-fit: cover;
+            background-color: #051432;
+        }
+        
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid white;
         }
         
         .section-label {
@@ -181,11 +209,16 @@
             <div class="section-label">TEAM INFO</div>
             <div class="input-row">
                 <input type="text" id="team-name-1-input" placeholder="Team Name">
-                <input type="color" id="team-color-1-input" value="#FF0000">
             </div>
             <div class="input-row">
-                <input type="text" id="team-logo-url-1" placeholder="Logo URL">
-                <button class="btn-gray" id="set-logos-1" title="Apply" style="width: 60px; height: 36px;">✓</button>
+                <input type="file" id="logo-file-1" accept="image/*">
+                <button class="file-button" id="logo-button-1">📁</button>
+                <img id="logo-preview-1" class="logo-preview" src="https://upload.wikimedia.org/wikipedia/el/5/52/PAOK_FC_%282013_logo%29.png" alt="Logo">
+                <div class="color-preview" id="color-preview-1" style="background-color: #FF0000;"></div>
+                <button class="btn-gray" id="set-team-1-button" style="width: 60px; height: 40px; font-size: 10px;">APPLY</button>
+            </div>
+            <div class="input-row">
+                <input type="text" id="team-logo-url-1" placeholder="Or paste logo URL here">
             </div>
             
             <div class="section-label">SUB INFO</div>
@@ -222,11 +255,16 @@
             <div class="section-label">TEAM INFO</div>
             <div class="input-row">
                 <input type="text" id="team-name-2-input" placeholder="Team Name">
-                <input type="color" id="team-color-2-input" value="#0000FF">
             </div>
             <div class="input-row">
-                <input type="text" id="team-logo-url-2" placeholder="Logo URL">
-                <button class="btn-gray" id="set-logos-2" title="Apply" style="width: 60px; height: 36px;">✓</button>
+                <input type="file" id="logo-file-2" accept="image/*">
+                <button class="file-button" id="logo-button-2">📁</button>
+                <img id="logo-preview-2" class="logo-preview" src="https://upload.wikimedia.org/wikipedia/el/5/52/PAOK_FC_%282013_logo%29.png" alt="Logo">
+                <div class="color-preview" id="color-preview-2" style="background-color: #0000FF;"></div>
+                <button class="btn-gray" id="set-team-2-button" style="width: 60px; height: 40px; font-size: 10px;">APPLY</button>
+            </div>
+            <div class="input-row">
+                <input type="text" id="team-logo-url-2" placeholder="Or paste logo URL here">
             </div>
             
             <div class="section-label">SUB INFO</div>
