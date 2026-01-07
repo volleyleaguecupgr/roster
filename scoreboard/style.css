@@ -85,7 +85,7 @@ body {
     background-image: linear-gradient(to right, rgb(32, 28, 58, 1), rgba(255, 0, 0, 0));
     color: white;
     border-radius: 95px;
-    left: 60px;
+    left: 120px;
     top: 8px;
     padding: 1px;
 }
@@ -105,18 +105,18 @@ body {
 
 #set-1 {
     top: -1127px; 
-    left: 218px;
+    left: 340px;
 }
 
 #set-2 {
     top: -1152px; 
-    left: 218px;
+    left: 340px;
 }
 
 /* --- ADJUSTED TEAM NAMES: Fixed left position --- */
 #team-name-1 {
     position: relative;
-    left: 75px;         /* Uniform fixed position from the left edge */
+    left: 120px;         /* Uniform fixed position from the left edge */
     text-align: left;
     top: -1094px;
     width: 150px;       /* Added fixed width to ensure container doesn't shift */
@@ -126,7 +126,7 @@ body {
 
 #team-name-2 {
     position: relative;
-    left: 75px;         /* Must match team-name-1 exactly */
+    left: 120px;         /* Must match team-name-1 exactly */
     text-align: left;
     top: -1087px;
     width: 150px;       /* Must match team-name-1 exactly */
@@ -137,14 +137,14 @@ body {
 #score-1 {
     font-family: 'lemurregular';
     position: relative;
-    left: 340px;
+    left: 365px;
     top: -1165px;
 }
 
 #score-2 {
     font-family: 'lemurregular';
     position: relative;
-    left: 340px;
+    left: 365px;
     top: -1127px;
 }
 
