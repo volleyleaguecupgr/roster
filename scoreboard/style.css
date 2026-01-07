@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@100;200;300;400;500;700&family=Geologica:wght@100;200;400;500;800&family=Space+Mono:wght@400;700&display=swap');
+
 @font-face {
     font-family: 'lemurbold';
     src: url('lemur_bold-webfont.woff2') format('woff2'),
@@ -27,63 +28,64 @@ body {
 
 .team-container {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
 }
 
-#ball-1{
+#ball-1 {
     position: relative;
-    margin-left:260px;
-    margin-top:-1184px;
-    display:none;
+    margin-left: 260px;
+    margin-top: -1184px;
+    display: none;
 }
 
-#ball-2{
+#ball-2 {
     position: relative;
-    margin-left:260px;
-    margin-top:-1179px;
-    display:none;
+    margin-left: 260px;
+    margin-top: -1179px;
+    display: none;
 }
 
-#bg{
+#bg {
     position: relative;
-    width:1920px;
-    height:1080px;
-    top:0px;
-    left:0px;
+    width: 1920px;
+    height: 1080px;
+    top: 0px;
+    left: 0px;
     z-index: -1;
 }
 
+/* --- ADJUSTED COLORS: Wider and further left --- */
 .color {
     position: relative;
-    left: -30px;
-    width:30px;
-    height:90px;
-    background-color:white;
+    left: -45px;        /* Moved further left from -30px */
+    width: 60px;       /* Widened from 30px */
+    height: 90px;
+    background-color: white;
     border-radius: 95px;
-    padding:23px;
+    padding: 23px;
     z-index: -2;
 }
 
-#color-1{
-    top:-1014px; 
-    padding:23px;
+#color-1 {
+    top: -1014px; 
+    padding: 23px;
 }
 
-#color-2{
-    top:-1008px; 
-    padding:23px;
+#color-2 {
+    top: -1008px; 
+    padding: 23px;
 }
 
 .team {
-    width:300px;
+    width: 300px;
     height: 40px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-image: linear-gradient(to right, rgb(32, 28, 58,1), rgba(255,0,0,0));
+    align-items: flex-start; /* Changed to flex-start to help left alignment */
+    background-image: linear-gradient(to right, rgb(32, 28, 58, 1), rgba(255, 0, 0, 0));
     color: white;
     border-radius: 95px;
-    left:20px;
+    left: 20px;
     top: 8px;
     padding: 1px;
 }
@@ -91,8 +93,8 @@ body {
 .set {
     position: relative;
     left: 255px;
-    top:-1068px;
-    width:40px;
+    top: -1068px;
+    width: 40px;
     height: 30px;
     align-items: center;
     color: white;
@@ -101,49 +103,49 @@ body {
     padding: 1px;
 }
 
-#set-1{
-    top:-1127px; 
-    left:218px;
+#set-1 {
+    top: -1127px; 
+    left: 218px;
 }
 
-#set-2{
-    top:-1152px; 
-    left:218px;
+#set-2 {
+    top: -1152px; 
+    left: 218px;
 }
 
-
-#team-name-1{
+/* --- ADJUSTED TEAM NAMES: Fixed left position --- */
+#team-name-1 {
     position: relative;
-    left: 44px;
-    text-align:left;
-    top:-1094px;
-    max-width: 100%;
+    left: 55px;         /* Uniform fixed position from the left edge */
+    text-align: left;
+    top: -1094px;
+    width: 150px;       /* Added fixed width to ensure container doesn't shift */
     white-space: nowrap;
     overflow: hidden; 
 }
 
-#team-name-2{
+#team-name-2 {
     position: relative;
-    left: 44px;
-    text-align:left;
-    top:-1087px;
-    max-width: 100%;
+    left: 55px;         /* Must match team-name-1 exactly */
+    text-align: left;
+    top: -1087px;
+    width: 150px;       /* Must match team-name-1 exactly */
     white-space: nowrap;
     overflow: hidden;
 }
 
-#score-1{
+#score-1 {
     font-family: 'lemurregular';
     position: relative;
     left: 280px;
-    top:-1165px;
+    top: -1165px;
 }
 
-#score-2{
+#score-2 {
     font-family: 'lemurregular';
     position: relative;
     left: 280px;
-    top:-1127px;
+    top: -1127px;
 }
 
 .team-info img {
@@ -155,12 +157,12 @@ body {
     background-color: #051432;
 }
 
-#team-logo-1{
-    top:-1054px;
+#team-logo-1 {
+    top: -1054px;
 }
 
-#team-logo-2{
-    top:-1048px;
+#team-logo-2 {
+    top: -1048px;
 }
 
 .team-info span {
@@ -171,8 +173,8 @@ body {
 .score {
     position: relative;
     left: 327px;
-    top:-1090px;
-    width:40px;
+    top: -1090px;
+    width: 40px;
     height: 30px;
     border-radius: 95px;
     font-size: 24px;
