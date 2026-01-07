@@ -22,23 +22,13 @@ body {
     font-feature-settings: "tnum";
     font-variant-numeric: tabular-nums;
     text-align: center;
-    background-color: #0ee243;
+    background-color: transparent;
 }
 
 .team-container {
     display: flex;
     flex-direction:column;
-    /*margin-left:20px;*/
-    /*justify-content: space-around;*/
 }
-
-/*.ball-container{
-    display: flex;
-    align-items: center;
-    margin-top: -515px;
-    margin-left: 190px;
-    position: relative; 
-}*/
 
 #ball-1{
     position: relative;
@@ -123,20 +113,31 @@ body {
 
 
 #team-name-1{
-    position: relative;
-    left: 44px;
+    position: absolute;
+    left: 64px;
     text-align:left;
-    top:-1094px;
-    max-width: 100%;
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; 
+    top:8px;
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #team-name-2{
-    position: relative;
-    left: 44px;
+    position: absolute;
+    left: 64px;
     text-align:left;
-    top:-1087px;
+    top:8px;
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.team-name-container {
+    position: relative;
+    width: 150px;
+    height: 40px;
 }
 
 #score-1{
