@@ -68,12 +68,12 @@ body {
 
 #color-1 {
     top: -1014px; 
-    padding: 23px;
+    padding: 5px;
 }
 
 #color-2 {
     top: -1008px; 
-    padding: 23px;
+    padding: 5px;
 }
 
 .team {
@@ -105,18 +105,18 @@ body {
 
 #set-1 {
     top: -1127px; 
-    left: 340px;
+    left: 345px;
 }
 
 #set-2 {
     top: -1152px; 
-    left: 340px;
+    left: 345px;
 }
 
 /* --- ADJUSTED TEAM NAMES: Fixed left position --- */
 #team-name-1 {
     position: relative;
-    left: 120px;         /* Uniform fixed position from the left edge */
+    left: 150px;         /* Uniform fixed position from the left edge */
     text-align: left;
     top: -1094px;
     width: 150px;       /* Added fixed width to ensure container doesn't shift */
@@ -126,7 +126,7 @@ body {
 
 #team-name-2 {
     position: relative;
-    left: 120px;         /* Must match team-name-1 exactly */
+    left: 150px;         /* Must match team-name-1 exactly */
     text-align: left;
     top: -1087px;
     width: 150px;       /* Must match team-name-1 exactly */
@@ -137,14 +137,14 @@ body {
 #score-1 {
     font-family: 'lemurregular';
     position: relative;
-    left: 365px;
+    left: 385px;
     top: -1165px;
 }
 
 #score-2 {
     font-family: 'lemurregular';
     position: relative;
-    left: 365px;
+    left: 385px;
     top: -1127px;
 }
 
@@ -159,10 +159,12 @@ body {
 
 #team-logo-1 {
     top: -1054px;
+    left: 110px; 
 }
 
 #team-logo-2 {
     top: -1048px;
+    left: 110px; 
 }
 
 .team-info span {
