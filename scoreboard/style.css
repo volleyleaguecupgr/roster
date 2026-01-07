@@ -33,14 +33,14 @@ body {
 
 #ball-1 {
     position: relative;
-    margin-left: 270px;
+    margin-left: 280px;
     margin-top: -1184px;
     display: none;
 }
 
 #ball-2 {
     position: relative;
-    margin-left: 270px;
+    margin-left: 280px;
     margin-top: -1179px;
     display: none;
 }
@@ -107,18 +107,18 @@ body {
 
 #set-1 {
     top: -1127px; 
-    left: 345px;
+    left: 347px;
 }
 
 #set-2 {
     top: -1152px; 
-    left: 345px;
+    left: 347px;
 }
 
 /* --- ADJUSTED TEAM NAMES: Fixed left position --- */
 #team-name-1 {
     position: relative;
-    left: 155px;         /* Uniform fixed position from the left edge */
+    left: 160px;         /* Uniform fixed position from the left edge */
     text-align: left;
     top: -1094px;
     width: 150px;       /* Added fixed width to ensure container doesn't shift */
@@ -128,7 +128,7 @@ body {
 
 #team-name-2 {
     position: relative;
-    left: 155px;         /* Must match team-name-1 exactly */
+    left: 160px;         /* Must match team-name-1 exactly */
     text-align: left;
     top: -1087px;
     width: 150px;       /* Must match team-name-1 exactly */
@@ -348,12 +348,14 @@ input[type="text"] {
     position:relative;
     display:none;
     top:-1350px;
+    left:420px;
 }
 
 #match-point-chance-2{
     position:relative;
     display:none;
     top:-1345px;
+    left:420px;
 }
 
 .timeout{
@@ -367,12 +369,14 @@ input[type="text"] {
     position:relative;
     display:none;
     top:-1350px;
+    left:420px;
 }
 
 #timeout-team-2{
     position:relative;
     display:none;
     top:-1345px;
+    left:420px;
 }
 
 .challenge{
@@ -386,12 +390,14 @@ input[type="text"] {
     position:relative;
     display:none;
     top:-1350px;
+    left:420px;
 }
 
 #challenge-team-2{
     position:relative;
     display:none;
     top:-1345px;
+    left:420px;
 }
 
 .substitution{
@@ -405,12 +411,14 @@ input[type="text"] {
     position:relative;
     display:none;
     top:-1263px;
+    left:420px;
 }
 
 #substitution-team-2{
     position:relative;
     display:none;
     top:-1257px;
+    left:420px;
 }
 
 #sub-num-1{
