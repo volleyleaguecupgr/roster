@@ -329,12 +329,14 @@ input[type="text"] {
     position:relative;
     display:none;
     top:-1350px;
+    left:100px
 }
 
 #set-point-chance-2{
     position:relative;
     display:none;
     top:-1345px;
+    left:100px
 }
 
 .match-point-chance{
@@ -348,14 +350,14 @@ input[type="text"] {
     position:relative;
     display:none;
     top:-1350px;
-    left:420px;
+    left:100px;
 }
 
 #match-point-chance-2{
     position:relative;
     display:none;
     top:-1345px;
-    left:420px;
+    left:100px;
 }
 
 .timeout{
@@ -369,14 +371,14 @@ input[type="text"] {
     position:relative;
     display:none;
     top:-1350px;
-    left:420px;
+    left:100px;
 }
 
 #timeout-team-2{
     position:relative;
     display:none;
     top:-1345px;
-    left:420px;
+    left:100px;
 }
 
 .challenge{
@@ -390,14 +392,14 @@ input[type="text"] {
     position:relative;
     display:none;
     top:-1350px;
-    left:420px;
+    left:100px;
 }
 
 #challenge-team-2{
     position:relative;
     display:none;
     top:-1345px;
-    left:420px;
+    left:100px;
 }
 
 .substitution{
@@ -411,14 +413,14 @@ input[type="text"] {
     position:relative;
     display:none;
     top:-1263px;
-    left:420px;
+    left:390px;
 }
 
 #substitution-team-2{
     position:relative;
     display:none;
     top:-1257px;
-    left:420px;
+    left:390px;
 }
 
 #sub-num-1{
