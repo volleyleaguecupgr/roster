@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "AO KALAMATA '80",
-    "away_team": "AOP KIFISIAS",
-    "datetime": "21 December 2025 - 19:00"
+    "away_team": "AONS MILON",
+    "datetime": "12 January 2026 - 20:00"
   },
   "teams_comparison": {
     "titles": [
@@ -56,37 +56,37 @@
       "efficiency": {
         "home": "32%",
         "average": "33%",
-        "away": "33%"
+        "away": "41%"
       },
-      "spikes_per_set_home": "11.67",
-      "spikes_per_set_avg": "11.81",
-      "spikes_per_set_away": "11.79",
-      "spikes_per_set_home_played": "(30)",
-      "spikes_per_set_away_played": "(34)"
+      "spikes_per_set_home": "11.81",
+      "spikes_per_set_avg": "11.87",
+      "spikes_per_set_away": "13.09",
+      "spikes_per_set_home_played": "(37)",
+      "spikes_per_set_away_played": "(33)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.00",
-      "blocks_per_set_avg": "2.03",
-      "blocks_per_set_away": "2.15",
-      "blocks_home_played": "(30)",
-      "blocks_away_played": "(34)"
+      "blocks_per_set_home": "2.05",
+      "blocks_per_set_avg": "2.04",
+      "blocks_per_set_away": "1.82",
+      "blocks_home_played": "(37)",
+      "blocks_away_played": "(33)"
     },
     "serve": {
-      "aces_home": "45",
-      "aces_away": "41",
-      "aces_per_set_home": "1.50",
-      "aces_per_set_avg": "1.63",
-      "aces_per_set_away": "1.21",
-      "aces_home_played": "(30)",
-      "aces_away_played": "(34)"
+      "aces_home": "50",
+      "aces_away": "90",
+      "aces_per_set_home": "1.35",
+      "aces_per_set_avg": "1.64",
+      "aces_per_set_away": "2.73",
+      "aces_home_played": "(37)",
+      "aces_away_played": "(33)"
     },
     "reception": {
-      "reception_eff_home": "34%",
+      "reception_eff_home": "33%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "30%",
+      "reception_eff_away": "34%",
       "reception_perfect_home": "24%",
-      "reception_perfect_avg": "26%",
-      "reception_perfect_away": "27%"
+      "reception_perfect_avg": "25%",
+      "reception_perfect_away": "24%"
     }
   }
 }
