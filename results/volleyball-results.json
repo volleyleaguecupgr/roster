@@ -1,21 +1,45 @@
 [
   {
-    "title": "ΑΠΟΤΕΛΕΣΜΑΤΑ 9ΗΣ ΑΓΩΝΙΣΤΙΚΗΣ",
+    "title": "ΑΠΟΤΕΛΕΣΜΑΤΑ 10ΗΣ ΑΓΩΝΙΣΤΙΚΗΣ",
     "games": [
       {
-        "homeTeam": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "awayTeam": "ΑΟΝΣ ΜΙΛΩΝ",
+        "homeTeam": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ",
+        "awayTeam": "ΠΑΝΙΩΝΙΟΣ",
         "sets": [
           {
-            "homePoints": 25,
-            "awayPoints": 27
+            "homePoints": 31,
+            "awayPoints": 29
           },
           {
-            "homePoints": 21,
+            "homePoints": 25,
+            "awayPoints": 16
+          },
+          {
+            "homePoints": 22,
             "awayPoints": 25
           },
           {
-            "homePoints": 19,
+            "homePoints": 25,
+            "awayPoints": 21
+          }
+        ],
+        "homeScore": 3,
+        "awayScore": 1
+      },
+      {
+        "homeTeam": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+        "awayTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "sets": [
+          {
+            "homePoints": 15,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 17,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 16,
             "awayPoints": 25
           }
         ],
@@ -23,12 +47,16 @@
         "awayScore": 3
       },
       {
-        "homeTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-        "awayTeam": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
+        "homeTeam": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+        "awayTeam": "Π.Α.Ο.Κ.",
         "sets": [
           {
+            "homePoints": 17,
+            "awayPoints": 25
+          },
+          {
             "homePoints": 25,
-            "awayPoints": 17
+            "awayPoints": 22
           },
           {
             "homePoints": 21,
@@ -36,19 +64,19 @@
           },
           {
             "homePoints": 25,
-            "awayPoints": 18
+            "awayPoints": 22
           },
           {
-            "homePoints": 25,
-            "awayPoints": 13
+            "homePoints": 12,
+            "awayPoints": 15
           }
         ],
-        "homeScore": 3,
-        "awayScore": 1
+        "homeScore": 2,
+        "awayScore": 3
       },
       {
-        "homeTeam": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ",
-        "awayTeam": "Π.Α.Ο.Κ.",
+        "homeTeam": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+        "awayTeam": "Ο.Φ.Η.",
         "sets": [
           {
             "homePoints": 22,
@@ -60,50 +88,35 @@
           },
           {
             "homePoints": 25,
-            "awayPoints": 21
-          },
-          {
-            "homePoints": 20,
-            "awayPoints": 25
-          },
-          {
-            "homePoints": 12,
-            "awayPoints": 15
-          }
-        ],
-        "homeScore": 2,
-        "awayScore": 3
-      },
-      {
-        "homeTeam": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-        "awayTeam": "ΠΑΝΙΩΝΙΟΣ",
-        "sets": [
-          {
-            "homePoints": 13,
-            "awayPoints": 25
-          },
-          {
-            "homePoints": 20,
-            "awayPoints": 25
+            "awayPoints": 23
           },
           {
             "homePoints": 25,
-            "awayPoints": 17
-          },
-          {
-            "homePoints": 19,
-            "awayPoints": 25
+            "awayPoints": 19
           }
         ],
-        "homeScore": 1,
-        "awayScore": 3
+        "homeScore": 3,
+        "awayScore": 1
       },
       {
-        "homeTeam": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-        "awayTeam": "Ο.Φ.Η.",
-        "sets": [],
+        "homeTeam": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
+        "awayTeam": "ΑΟΝΣ ΜΙΛΩΝ",
+        "sets": [
+          {
+            "homePoints": 16,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 22,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 27,
+            "awayPoints": 29
+          }
+        ],
         "homeScore": 0,
-        "awayScore": 0
+        "awayScore": 3
       }
     ]
   }
