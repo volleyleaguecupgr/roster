@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "A.O. FOINIKAS SIROU",
-    "away_team": "PAOK",
-    "datetime": "11 January 2026 - 17:00"
+    "away_team": "O.F.I.",
+    "datetime": "14 January 2026 - 19:00"
   },
   "teams_comparison": {
     "titles": [
@@ -58,34 +58,34 @@
         "average": "33%",
         "away": "34%"
       },
-      "spikes_per_set_home": "11.33",
-      "spikes_per_set_avg": "11.87",
-      "spikes_per_set_away": "12.53",
-      "spikes_per_set_home_played": "(30)",
-      "spikes_per_set_away_played": "(40)"
+      "spikes_per_set_home": "11.17",
+      "spikes_per_set_avg": "11.92",
+      "spikes_per_set_away": "10.76",
+      "spikes_per_set_home_played": "(35)",
+      "spikes_per_set_away_played": "(38)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.33",
-      "blocks_per_set_avg": "2.04",
-      "blocks_per_set_away": "2.20",
-      "blocks_home_played": "(30)",
-      "blocks_away_played": "(40)"
+      "blocks_per_set_home": "2.40",
+      "blocks_per_set_avg": "2.05",
+      "blocks_per_set_away": "2.00",
+      "blocks_home_played": "(35)",
+      "blocks_away_played": "(38)"
     },
     "serve": {
-      "aces_home": "40",
-      "aces_away": "57",
-      "aces_per_set_home": "1.33",
-      "aces_per_set_avg": "1.64",
-      "aces_per_set_away": "1.43",
-      "aces_home_played": "(30)",
-      "aces_away_played": "(40)"
+      "aces_home": "48",
+      "aces_away": "59",
+      "aces_per_set_home": "1.37",
+      "aces_per_set_avg": "1.62",
+      "aces_per_set_away": "1.55",
+      "aces_home_played": "(35)",
+      "aces_away_played": "(38)"
     },
     "reception": {
-      "reception_eff_home": "26%",
+      "reception_eff_home": "29%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "41%",
+      "reception_eff_away": "26%",
       "reception_perfect_home": "22%",
-      "reception_perfect_avg": "25%",
+      "reception_perfect_avg": "26%",
       "reception_perfect_away": "26%"
     }
   }
