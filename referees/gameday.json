@@ -1,98 +1,22 @@
 {
   "games": [
     {
-      "homeTeam": "ΟΛΥΜΠΙΑΚΟΣ",
-      "homeSlug": "olympiakos",
-      "awayTeam": "ΠΑΝΙΩΝΙΟΣ",
-      "awaySlug": "panionios",
-      "refs": {
-        "referees": [
-          "Φραγκάκης",
-          "Ράντσιου"
-        ],
-        "observer": "Πέρρος",
-        "challengeRef": "Μουλά Λ.",
-        "linesmen": [
-          "Οσιπίδης",
-          "Τσεκούρας"
-        ],
-        "secretariat": "Μπίτσικα"
-      }
-    },
-    {
-      "homeTeam": "ΦΛΟΙΣΒΟΣ",
-      "homeSlug": "floisvos",
-      "awayTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ",
-      "awaySlug": "panathinaikos",
-      "refs": {
-        "referees": [
-          "Αγγελίδης",
-          "Βουδούρης"
-        ],
-        "observer": "Γεωργουλέας",
-        "challengeRef": "",
-        "linesmen": [
-          "Πολάτος",
-          "Βέντρας"
-        ],
-        "secretariat": "Γλυκού"
-      }
-    },
-    {
       "homeTeam": "ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
       "homeSlug": "foinikas",
-      "awayTeam": "ΠΑΟΚ",
-      "awaySlug": "paok",
-      "refs": {
-        "referees": [
-          "Γεροθόδωρος",
-          "Αρβανίτης"
-        ],
-        "observer": "Μαυρικίδης",
-        "challengeRef": "",
-        "linesmen": [
-          "Συρίγος",
-          "Παπαδημητρίου"
-        ],
-        "secretariat": "Ταλάρου"
-      }
-    },
-    {
-      "homeTeam": "ΚΗΦΙΣΙΑ",
-      "homeSlug": "kifisia",
       "awayTeam": "ΟΦΗ",
       "awaySlug": "ofi",
       "refs": {
         "referees": [
-          "Κυριοπούλου",
-          "Καραγιαννόπουλος"
+          "Νικάκης",
+          "Γεωργιάδης Στ."
         ],
-        "observer": "Ράπτης",
+        "observer": "Πολίτης",
         "challengeRef": "",
         "linesmen": [
-          "Σωνάκης",
-          "Δημόπουλος"
+          "Βρούτσης",
+          "Συρίγος"
         ],
-        "secretariat": "Θεοδωρίδου"
-      }
-    },
-    {
-      "homeTeam": "ΚΑΛΑΜΑΤΑ",
-      "homeSlug": "kalamata",
-      "awayTeam": "ΜΙΛΩΝ",
-      "awaySlug": "milon",
-      "refs": {
-        "referees": [
-          "Μυλωνάκης",
-          "Σπίνας"
-        ],
-        "observer": "Καννελίδης",
-        "challengeRef": "Καραγιαννόπουλος",
-        "linesmen": [
-          "Τουκτούκας",
-          "Κοσμάς"
-        ],
-        "secretariat": "Βλαχούλη"
+        "secretariat": "Λορέντζου"
       }
     }
   ]
