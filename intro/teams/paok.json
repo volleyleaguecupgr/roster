@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Φοίνικας Σύρου",
-    "subtitle": "A.O.",
-    "slug": "foinikas",
-    "color": "#003399",
-    "logo": "foinikas.png"
-  },
-  "awayTeam": {
     "name": "Π.Α.Ο.Κ.",
     "subtitle": "Α.Σ.",
     "slug": "paok",
     "color": "#000000",
     "logo": "paok.png"
   },
-  "date": "11 Ιανουαρίου 2026",
-  "league": "10η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Κηφισιά",
+    "subtitle": "A.Ο.Π.Σ.",
+    "slug": "kifisia",
+    "color": "#1e3a8a",
+    "logo": "kifisia.png"
+  },
+  "date": "16 Ιανουαρίου 2026",
+  "league": "11η ΑΓΩΝΙΣΤΙΚΗ"
 }

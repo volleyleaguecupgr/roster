@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Φοίνικας Σύρου",
-    "subtitle": "A.O.",
-    "slug": "foinikas",
-    "color": "#003399",
-    "logo": "foinikas.png"
-  },
-  "awayTeam": {
     "name": "Ο.Φ.Η.",
     "subtitle": ".",
     "slug": "ofi",
     "color": "#000000",
     "logo": "ofi.png"
   },
-  "date": "14 Ιανουαρίου 2026",
-  "league": "9η ΑΓΩΝΙΣΤΙΚΗ (ΕΞ' ΑΝΑΒΟΛΗΣ)"
+  "awayTeam": {
+    "name": "Μίλων",
+    "subtitle": "Α.Ο.Ν.Σ",
+    "slug": "milon",
+    "color": "#006400",
+    "logo": "milon.png"
+  },
+  "date": "18 Ιανουαρίου 2026",
+  "league": "11η ΑΓΩΝΙΣΤΙΚΗ"
 }

@@ -7,12 +7,12 @@
     "logo": "floisvos.png"
   },
   "awayTeam": {
-    "name": "Παναθηναϊκός",
-    "subtitle": "Α.Ο.",
-    "slug": "panathinaikos",
-    "color": "#007A33",
-    "logo": "panathinaikos.png"
+    "name": "Καλαμάτα",
+    "subtitle": "A.O. '80 AFFIDEA",
+    "slug": "kalamata",
+    "color": "#008428",
+    "logo": "kalamata.png"
   },
-  "date": "10 Ιανουαρίου 2026",
-  "league": "10η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "19 Ιανουαρίου 2026",
+  "league": "11η ΑΓΩΝΙΣΤΙΚΗ"
 }

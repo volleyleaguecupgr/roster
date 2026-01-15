@@ -1,10 +1,10 @@
 {
   "homeTeam": {
-    "name": "Καλαμάτα",
-    "subtitle": "A.O. '80 AFFIDEA",
-    "slug": "kalamata",
-    "color": "#008428",
-    "logo": "kalamata.png"
+    "name": "Ο.Φ.Η.",
+    "subtitle": ".",
+    "slug": "ofi",
+    "color": "#000000",
+    "logo": "ofi.png"
   },
   "awayTeam": {
     "name": "Μίλων",
@@ -13,6 +13,6 @@
     "color": "#006400",
     "logo": "milon.png"
   },
-  "date": "12 Ιανουαρίου 2026",
-  "league": "10η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "18 Ιανουαρίου 2026",
+  "league": "11η ΑΓΩΝΙΣΤΙΚΗ"
 }
