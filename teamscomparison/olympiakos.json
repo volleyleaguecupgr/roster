@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "OLYMPIACOS S.F.P.",
-    "away_team": "PANIONIOS G.S.S.",
-    "datetime": "10 January 2026 - 15:00"
+    "away_team": "AO FLOISVOS",
+    "datetime": "24 January 2026 - 19:30"
   },
   "teams_comparison": {
     "titles": [
@@ -54,39 +54,39 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "34%",
+        "home": "35%",
         "average": "33%",
-        "away": "32%"
+        "away": "26%"
       },
-      "spikes_per_set_home": "11.71",
-      "spikes_per_set_avg": "11.87",
-      "spikes_per_set_away": "12.03",
-      "spikes_per_set_home_played": "(45)",
-      "spikes_per_set_away_played": "(38)"
+      "spikes_per_set_home": "11.70",
+      "spikes_per_set_avg": "11.94",
+      "spikes_per_set_away": "11.47",
+      "spikes_per_set_home_played": "(57)",
+      "spikes_per_set_away_played": "(51)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.47",
-      "blocks_per_set_avg": "2.04",
-      "blocks_per_set_away": "1.79",
-      "blocks_home_played": "(45)",
-      "blocks_away_played": "(38)"
+      "blocks_per_set_home": "2.23",
+      "blocks_per_set_avg": "2.06",
+      "blocks_per_set_away": "1.88",
+      "blocks_home_played": "(57)",
+      "blocks_away_played": "(51)"
     },
     "serve": {
-      "aces_home": "80",
+      "aces_home": "98",
       "aces_away": "54",
-      "aces_per_set_home": "1.78",
+      "aces_per_set_home": "1.72",
       "aces_per_set_avg": "1.64",
-      "aces_per_set_away": "1.42",
-      "aces_home_played": "(45)",
-      "aces_away_played": "(38)"
+      "aces_per_set_away": "1.06",
+      "aces_home_played": "(57)",
+      "aces_away_played": "(51)"
     },
     "reception": {
-      "reception_eff_home": "27%",
+      "reception_eff_home": "28%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "40%",
+      "reception_eff_away": "34%",
       "reception_perfect_home": "20%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "29%"
+      "reception_perfect_away": "27%"
     }
   }
 }

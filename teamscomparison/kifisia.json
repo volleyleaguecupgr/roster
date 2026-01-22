@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "AOP KIFISIAS",
-    "away_team": "O.F.I.",
-    "datetime": "11 January 2026 - 19:00"
+    "away_team": "PANIONIOS G.S.S.",
+    "datetime": "23 January 2026 - 19:00"
   },
   "teams_comparison": {
     "titles": [
@@ -56,37 +56,37 @@
       "efficiency": {
         "home": "33%",
         "average": "33%",
-        "away": "34%"
+        "away": "33%"
       },
-      "spikes_per_set_home": "11.85",
-      "spikes_per_set_avg": "11.87",
-      "spikes_per_set_away": "10.56",
-      "spikes_per_set_home_played": "(40)",
-      "spikes_per_set_away_played": "(34)"
+      "spikes_per_set_home": "11.94",
+      "spikes_per_set_avg": "11.94",
+      "spikes_per_set_away": "12.29",
+      "spikes_per_set_home_played": "(48)",
+      "spikes_per_set_away_played": "(45)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.15",
-      "blocks_per_set_avg": "2.04",
-      "blocks_per_set_away": "2.00",
-      "blocks_home_played": "(40)",
-      "blocks_away_played": "(34)"
+      "blocks_per_set_home": "2.06",
+      "blocks_per_set_avg": "2.06",
+      "blocks_per_set_away": "1.82",
+      "blocks_home_played": "(48)",
+      "blocks_away_played": "(45)"
     },
     "serve": {
-      "aces_home": "46",
-      "aces_away": "56",
-      "aces_per_set_home": "1.15",
+      "aces_home": "54",
+      "aces_away": "66",
+      "aces_per_set_home": "1.13",
       "aces_per_set_avg": "1.64",
-      "aces_per_set_away": "1.65",
-      "aces_home_played": "(40)",
-      "aces_away_played": "(34)"
+      "aces_per_set_away": "1.47",
+      "aces_home_played": "(48)",
+      "aces_away_played": "(45)"
     },
     "reception": {
-      "reception_eff_home": "30%",
+      "reception_eff_home": "31%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "25%",
-      "reception_perfect_home": "26%",
+      "reception_eff_away": "41%",
+      "reception_perfect_home": "25%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "26%"
+      "reception_perfect_away": "28%"
     }
   }
 }
