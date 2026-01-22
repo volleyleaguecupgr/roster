@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Παναθηναϊκός",
-    "subtitle": "Α.Ο.",
-    "slug": "panathinaikos",
-    "color": "#007A33",
-    "logo": "panathinaikos.png"
-  },
-  "awayTeam": {
     "name": "Ολυμπιακός",
     "subtitle": "Σ.Φ.Π ΟΝΕΧ",
     "slug": "olympiakos",
     "color": "#E41E26",
     "logo": "olympiakos.png"
   },
-  "date": "16 Ιανουαρίου 2026",
-  "league": "11η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Φλοίσβος",
+    "subtitle": "A. O. MEMBERS PARON",
+    "slug": "floisvos",
+    "color": "#3a55a8",
+    "logo": "floisvos.png"
+  },
+  "date": "24 Ιανουαρίου 2026",
+  "league": "12η ΑΓΩΝΙΣΤΙΚΗ"
 }

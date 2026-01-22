@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Μίλων",
+    "subtitle": "Α.Ο.Ν.Σ",
+    "slug": "milon",
+    "color": "#006400",
+    "logo": "milon.png"
+  },
+  "awayTeam": {
     "name": "Π.Α.Ο.Κ.",
     "subtitle": "Α.Σ.",
     "slug": "paok",
     "color": "#000000",
     "logo": "paok.png"
   },
-  "awayTeam": {
-    "name": "Κηφισιά",
-    "subtitle": "A.Ο.Π.Σ.",
-    "slug": "kifisia",
-    "color": "#1e3a8a",
-    "logo": "kifisia.png"
-  },
-  "date": "16 Ιανουαρίου 2026",
-  "league": "11η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "25 Ιανουαρίου 2026",
+  "league": "12η ΑΓΩΝΙΣΤΙΚΗ"
 }

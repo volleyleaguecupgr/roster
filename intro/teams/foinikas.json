@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Πανιώνιος",
-    "subtitle": "Γ.Σ.Σ.",
-    "slug": "panionios",
-    "color": "#004b8d",
-    "logo": "panionios.png"
-  },
-  "awayTeam": {
     "name": "Φοίνικας Σύρου",
     "subtitle": "A.O.",
     "slug": "foinikas",
     "color": "#003399",
     "logo": "foinikas.png"
   },
-  "date": "17 Ιανουαρίου 2026",
-  "league": "11η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Παναθηναϊκός",
+    "subtitle": "Α.Ο.",
+    "slug": "panathinaikos",
+    "color": "#007A33",
+    "logo": "panathinaikos.png"
+  },
+  "date": "25 Ιανουαρίου 2026",
+  "league": "12η ΑΓΩΝΙΣΤΙΚΗ"
 }
