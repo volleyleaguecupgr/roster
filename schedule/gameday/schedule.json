@@ -47,6 +47,21 @@
     },
     {
       "home": {
+        "name": "ΠΑΟΚ",
+        "logo": "logos/paok.png",
+        "color": "#1a1a1a"
+      },
+      "away": {
+        "name": "ΟΦΗ",
+        "logo": "logos/ofi.png",
+        "color": "#2c2c2c"
+      },
+      "date": "-",
+      "time": "-",
+      "court": "ΑΝΑΒΟΛΗ"
+    },
+    {
+      "home": {
         "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
         "logo": "logos/floisvos.png",
         "color": "#1E90FF"
