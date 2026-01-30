@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "OLYMPIACOS S.F.P.",
-    "away_team": "AO FLOISVOS",
-    "datetime": "24 January 2026 - 19:30"
+    "away_team": "AO KALAMATA '80",
+    "datetime": "31 January 2026 - 20:30"
   },
   "teams_comparison": {
     "titles": [
@@ -56,37 +56,37 @@
       "efficiency": {
         "home": "35%",
         "average": "33%",
-        "away": "26%"
+        "away": "29%"
       },
-      "spikes_per_set_home": "11.70",
-      "spikes_per_set_avg": "11.94",
-      "spikes_per_set_away": "11.47",
-      "spikes_per_set_home_played": "(57)",
-      "spikes_per_set_away_played": "(51)"
+      "spikes_per_set_home": "11.97",
+      "spikes_per_set_avg": "11.99",
+      "spikes_per_set_away": "11.85",
+      "spikes_per_set_home_played": "(61)",
+      "spikes_per_set_away_played": "(48)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.23",
+      "blocks_per_set_home": "2.18",
       "blocks_per_set_avg": "2.06",
-      "blocks_per_set_away": "1.88",
-      "blocks_home_played": "(57)",
-      "blocks_away_played": "(51)"
+      "blocks_per_set_away": "2.04",
+      "blocks_home_played": "(61)",
+      "blocks_away_played": "(48)"
     },
     "serve": {
-      "aces_home": "98",
-      "aces_away": "54",
+      "aces_home": "105",
+      "aces_away": "65",
       "aces_per_set_home": "1.72",
       "aces_per_set_avg": "1.64",
-      "aces_per_set_away": "1.06",
-      "aces_home_played": "(57)",
-      "aces_away_played": "(51)"
+      "aces_per_set_away": "1.35",
+      "aces_home_played": "(61)",
+      "aces_away_played": "(48)"
     },
     "reception": {
-      "reception_eff_home": "28%",
+      "reception_eff_home": "29%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "34%",
-      "reception_perfect_home": "20%",
+      "reception_eff_away": "33%",
+      "reception_perfect_home": "19%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "27%"
+      "reception_perfect_away": "24%"
     }
   }
 }
