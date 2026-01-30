@@ -3,7 +3,7 @@
     "id": 1769771407041,
     "name": "ΜΑΡΚΟΣ ΓΑΛΙΩΤΟΣ",
     "position": "ΠΑΣΑΔΟΡΟΣ",
-    "team": "Π.Α.Ο.Κ.",
+    "team": "ΠΑΟΚ",
     "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1769771405368.png"
   },
   {
@@ -23,29 +23,29 @@
   {
     "id": 1769771458329,
     "name": "ΠΕΤΟΥ ΜΑΚΙΝΕΝ",
-    "position": "ΑΚΡΑΙΟΣ",
-    "team": "Ο.Φ.Η.",
+    "position": "ΑΚΡΑΙΟΣ.",
+    "team": "ΟΦΗ",
     "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1769771456250.png"
   },
   {
     "id": 1769771483667,
     "name": "ΜΑΤΣΙΕΙ ΜΠΟΡΙΣ",
-    "position": "ΚΕΝΤΡΙΚΟΣ",
-    "team": "Α.Ο.Π. ΚΗΦΙΣΙΑΣ",
+    "position": "ΚΕΝΤΡΙΚΟΣ.",
+    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
     "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1769771481189.png"
   },
   {
     "id": 1769771500012,
     "name": "ΣΕΡΓΚΕΙ ΜΠΑΝΟΦ",
     "position": "ΔΙΑΓΩΝΙΟΣ",
-    "team": "Α.Ο.Π. ΚΗΦΙΣΙΑΣ",
+    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
     "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1769771498365.png"
   },
   {
     "id": 1769771525462,
     "name": "ΣΩΤΗΡΗΣ ΣΥΝΑΔΙΝΟΣ",
     "position": "ΛΙΜΠΕΡΟ",
-    "team": "Ο.Φ.Η.",
+    "team": "ΟΦΗ.",
     "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1769771523946.png"
   }
 ]
