@@ -2,18 +2,18 @@
   "matches": [
     {
       "home": {
-        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "logo": "logos/kifisia.png",
-        "color": "#4169E1"
-      },
-      "away": {
         "name": "ΠΑΝΙΩΝΙΟΣ",
         "logo": "logos/panionios.png",
         "color": "#DC143C"
       },
-      "date": "23/01",
-      "time": "3-1",
-      "court": "ΖΗΡΙΝΕΙΟ"
+      "away": {
+        "name": "ΑΟΝΣ ΜΙΛΩΝ",
+        "logo": "logos/milon.png",
+        "color": "#228B22"
+      },
+      "date": "30/01",
+      "time": "19:00",
+      "court": "Α. ΒΑΡΙΚΑΣ"
     },
     {
       "home": {
@@ -22,58 +22,43 @@
         "color": "#dc1414"
       },
       "away": {
-        "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-        "logo": "logos/floisvos.png",
-        "color": "#1E90FF"
-      },
-      "date": "24/01",
-      "time": "3-1",
-      "court": "Μ. ΜΕΡΚΟΥΡΗ"
-    },
-    {
-      "home": {
-        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-        "logo": "logos/foinikas.png",
-        "color": "#FF4500"
-      },
-      "away": {
-        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-        "logo": "logos/panathinaikos.png",
-        "color": "#16a34a"
-      },
-      "date": "25/01",
-      "time": "2-1",
-      "court": "Δ. ΒΙΚΕΛΑΣ"
-    },
-    {
-      "home": {
-        "name": "ΑΟΝΣ ΜΙΛΩΝ",
-        "logo": "logos/milon.png",
-        "color": "#228B22"
-      },
-      "away": {
-        "name": "ΠΑΟΚ",
-        "logo": "logos/paok.png",
-        "color": "#1a1a1a"
-      },
-      "date": "25/01",
-      "time": "18:30",
-      "court": "Κ. ΠΕΡΣΗΣ"
-    },
-    {
-      "home": {
         "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
         "logo": "logos/kalamata.png",
         "color": "#32CD32"
       },
-      "away": {
-        "name": "ΟΦΗ",
-        "logo": "logos/ofi.png",
-        "color": "#2c2c2c"
+      "date": "31/01",
+      "time": "20:30",
+      "court": "Μ. ΜΕΡΚΟΥΡΗ"
+    },
+    {
+      "home": {
+        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "logo": "logos/panathinaikos.png",
+        "color": "#16a34a"
       },
-      "date": "25/01",
+      "away": {
+        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+        "logo": "logos/kifisia.png",
+        "color": "#4169E1"
+      },
+      "date": "31/01",
+      "time": "21:00",
+      "court": "ΜΕΤΣ"
+    },
+    {
+      "home": {
+        "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+        "logo": "logos/floisvos.png",
+        "color": "#1E90FF"
+      },
+      "away": {
+        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+        "logo": "logos/foinikas.png",
+        "color": "#FF4500"
+      },
+      "date": "01/01",
       "time": "19:00",
-      "court": "ΠΑΡΑΛΙΑΣ"
+      "court": "Σ. ΜΠΕΦΟΝ"
     }
   ]
 }
