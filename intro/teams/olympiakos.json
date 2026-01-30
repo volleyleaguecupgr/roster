@@ -7,12 +7,12 @@
     "logo": "olympiakos.png"
   },
   "awayTeam": {
-    "name": "Φλοίσβος",
-    "subtitle": "A. O. MEMBERS PARON",
-    "slug": "floisvos",
-    "color": "#3a55a8",
-    "logo": "floisvos.png"
+    "name": "Καλαμάτα",
+    "subtitle": "A.O. '80 AFFIDEA",
+    "slug": "kalamata",
+    "color": "#008428",
+    "logo": "kalamata.png"
   },
-  "date": "24 Ιανουαρίου 2026",
-  "league": "12η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "31 Ιανουαρίου 2026",
+  "league": "13η ΑΓΩΝΙΣΤΙΚΗ"
 }

@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Φλοίσβος",
+    "subtitle": "A. O. MEMBERS PARON",
+    "slug": "floisvos",
+    "color": "#3a55a8",
+    "logo": "floisvos.png"
+  },
+  "awayTeam": {
     "name": "Φοίνικας Σύρου",
     "subtitle": "A.O.",
     "slug": "foinikas",
     "color": "#003399",
     "logo": "foinikas.png"
   },
-  "awayTeam": {
-    "name": "Παναθηναϊκός",
-    "subtitle": "Α.Ο.",
-    "slug": "panathinaikos",
-    "color": "#007A33",
-    "logo": "panathinaikos.png"
-  },
-  "date": "25 Ιανουαρίου 2026",
-  "league": "12η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "1 Φεβρουαρίου 2026",
+  "league": "13η ΑΓΩΝΙΣΤΙΚΗ"
 }
