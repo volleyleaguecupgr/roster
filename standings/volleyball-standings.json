@@ -37,16 +37,16 @@
   {
     "team": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
     "points": 12,
-    "matches": 12
+    "matches": 13
+  },
+  {
+    "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+    "points": 10,
+    "matches": 13
   },
   {
     "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
     "points": 9,
     "matches": 13
-  },
-  {
-    "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-    "points": 7,
-    "matches": 12
   }
 ]
