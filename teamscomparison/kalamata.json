@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "AO KALAMATA '80",
-    "away_team": "O.F.I.",
-    "datetime": "25 January 2026 - 19:00"
+    "away_team": "PAOK",
+    "datetime": "07 February 2026 - 19:30"
   },
   "teams_comparison": {
     "titles": [
@@ -56,37 +56,37 @@
       "efficiency": {
         "home": "30%",
         "average": "33%",
-        "away": "34%"
+        "away": "36%"
       },
-      "spikes_per_set_home": "11.98",
-      "spikes_per_set_avg": "11.94",
-      "spikes_per_set_away": "10.89",
-      "spikes_per_set_home_played": "(43)",
-      "spikes_per_set_away_played": "(44)"
+      "spikes_per_set_home": "11.96",
+      "spikes_per_set_avg": "12.00",
+      "spikes_per_set_away": "12.87",
+      "spikes_per_set_home_played": "(51)",
+      "spikes_per_set_away_played": "(53)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.12",
-      "blocks_per_set_avg": "2.06",
-      "blocks_per_set_away": "2.14",
-      "blocks_home_played": "(43)",
-      "blocks_away_played": "(44)"
+      "blocks_per_set_home": "2.00",
+      "blocks_per_set_avg": "2.05",
+      "blocks_per_set_away": "2.08",
+      "blocks_home_played": "(51)",
+      "blocks_away_played": "(53)"
     },
     "serve": {
-      "aces_home": "56",
-      "aces_away": "74",
-      "aces_per_set_home": "1.30",
+      "aces_home": "69",
+      "aces_away": "75",
+      "aces_per_set_home": "1.35",
       "aces_per_set_avg": "1.64",
-      "aces_per_set_away": "1.68",
-      "aces_home_played": "(43)",
-      "aces_away_played": "(44)"
+      "aces_per_set_away": "1.42",
+      "aces_home_played": "(51)",
+      "aces_away_played": "(53)"
     },
     "reception": {
       "reception_eff_home": "34%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "25%",
-      "reception_perfect_home": "25%",
+      "reception_eff_away": "43%",
+      "reception_perfect_home": "26%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "25%"
+      "reception_perfect_away": "28%"
     }
   }
 }

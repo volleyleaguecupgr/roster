@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "AONS MILON",
-    "away_team": "PAOK",
-    "datetime": "25 January 2026 - 18:30"
+    "away_team": "PANATHINAIKOS A.O.",
+    "datetime": "09 February 2026 - 19:00"
   },
   "teams_comparison": {
     "titles": [
@@ -56,37 +56,37 @@
       "efficiency": {
         "home": "39%",
         "average": "33%",
-        "away": "35%"
+        "away": "39%"
       },
-      "spikes_per_set_home": "12.90",
-      "spikes_per_set_avg": "11.94",
-      "spikes_per_set_away": "12.73",
-      "spikes_per_set_home_played": "(39)",
-      "spikes_per_set_away_played": "(49)"
+      "spikes_per_set_home": "13.09",
+      "spikes_per_set_avg": "12.00",
+      "spikes_per_set_away": "12.11",
+      "spikes_per_set_home_played": "(47)",
+      "spikes_per_set_away_played": "(62)"
     },
     "blocks": {
-      "blocks_per_set_home": "1.97",
-      "blocks_per_set_avg": "2.06",
-      "blocks_per_set_away": "2.06",
-      "blocks_home_played": "(39)",
-      "blocks_away_played": "(49)"
+      "blocks_per_set_home": "1.89",
+      "blocks_per_set_avg": "2.05",
+      "blocks_per_set_away": "1.95",
+      "blocks_home_played": "(47)",
+      "blocks_away_played": "(62)"
     },
     "serve": {
-      "aces_home": "107",
-      "aces_away": "69",
-      "aces_per_set_home": "2.74",
+      "aces_home": "121",
+      "aces_away": "154",
+      "aces_per_set_home": "2.57",
       "aces_per_set_avg": "1.64",
-      "aces_per_set_away": "1.41",
-      "aces_home_played": "(39)",
-      "aces_away_played": "(49)"
+      "aces_per_set_away": "2.48",
+      "aces_home_played": "(47)",
+      "aces_away_played": "(62)"
     },
     "reception": {
-      "reception_eff_home": "32%",
+      "reception_eff_home": "33%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "43%",
+      "reception_eff_away": "42%",
       "reception_perfect_home": "23%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "28%"
+      "reception_perfect_away": "27%"
     }
   }
 }
