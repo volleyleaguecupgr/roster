@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Φοίνικας Σύρου",
+    "subtitle": "A.O.",
+    "slug": "foinikas",
+    "color": "#003399",
+    "logo": "foinikas.png"
+  },
+  "awayTeam": {
     "name": "Ολυμπιακός",
     "subtitle": "Σ.Φ.Π ΟΝΕΧ",
     "slug": "olympiakos",
     "color": "#E41E26",
     "logo": "olympiakos.png"
   },
-  "awayTeam": {
-    "name": "Καλαμάτα",
-    "subtitle": "A.O. '80 AFFIDEA",
-    "slug": "kalamata",
-    "color": "#008428",
-    "logo": "kalamata.png"
-  },
-  "date": "31 Ιανουαρίου 2026",
-  "league": "13η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "8 Φεβρουαρίου 2026",
+  "league": "14η ΑΓΩΝΙΣΤΙΚΗ"
 }

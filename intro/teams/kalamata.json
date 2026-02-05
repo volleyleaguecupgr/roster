@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Ολυμπιακός",
-    "subtitle": "Σ.Φ.Π ΟΝΕΧ",
-    "slug": "olympiakos",
-    "color": "#E41E26",
-    "logo": "olympiakos.png"
-  },
-  "awayTeam": {
     "name": "Καλαμάτα",
     "subtitle": "A.O. '80 AFFIDEA",
     "slug": "kalamata",
     "color": "#008428",
     "logo": "kalamata.png"
   },
-  "date": "31 Ιανουαρίου 2026",
-  "league": "13η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Π.Α.Ο.Κ.",
+    "subtitle": "Α.Σ.",
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png"
+  },
+  "date": "7 Φεβρουαρίου 2026",
+  "league": "14η ΑΓΩΝΙΣΤΙΚΗ"
 }

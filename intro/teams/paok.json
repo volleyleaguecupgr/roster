@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Καλαμάτα",
+    "subtitle": "A.O. '80 AFFIDEA",
+    "slug": "kalamata",
+    "color": "#008428",
+    "logo": "kalamata.png"
+  },
+  "awayTeam": {
     "name": "Π.Α.Ο.Κ.",
     "subtitle": "Α.Σ.",
     "slug": "paok",
     "color": "#000000",
     "logo": "paok.png"
   },
-  "awayTeam": {
-    "name": "Ο.Φ.Η.",
-    "subtitle": ".",
-    "slug": "ofi",
-    "color": "#000000",
-    "logo": "ofi.png"
-  },
-  "date": "1 Φεβρουαρίου 2026",
-  "league": "13η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "7 Φεβρουαρίου 2026",
+  "league": "14η ΑΓΩΝΙΣΤΙΚΗ"
 }
