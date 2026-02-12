@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "OLYMPIACOS S.F.P.",
-    "away_team": "AO KALAMATA '80",
-    "datetime": "31 January 2026 - 20:30"
+    "away_team": "AOP KIFISIAS",
+    "datetime": "14 February 2026 - 20:30"
   },
   "teams_comparison": {
     "titles": [
@@ -54,39 +54,39 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "35%",
-        "average": "33%",
-        "away": "29%"
+        "home": "36%",
+        "average": "34%",
+        "away": "35%"
       },
-      "spikes_per_set_home": "11.97",
-      "spikes_per_set_avg": "11.99",
-      "spikes_per_set_away": "11.85",
-      "spikes_per_set_home_played": "(61)",
-      "spikes_per_set_away_played": "(48)"
+      "spikes_per_set_home": "12.19",
+      "spikes_per_set_avg": "12.06",
+      "spikes_per_set_away": "12.00",
+      "spikes_per_set_home_played": "(68)",
+      "spikes_per_set_away_played": "(61)"
     },
     "blocks": {
       "blocks_per_set_home": "2.18",
-      "blocks_per_set_avg": "2.06",
-      "blocks_per_set_away": "2.04",
-      "blocks_home_played": "(61)",
-      "blocks_away_played": "(48)"
+      "blocks_per_set_avg": "2.03",
+      "blocks_per_set_away": "2.13",
+      "blocks_home_played": "(68)",
+      "blocks_away_played": "(61)"
     },
     "serve": {
-      "aces_home": "105",
-      "aces_away": "65",
-      "aces_per_set_home": "1.72",
-      "aces_per_set_avg": "1.64",
-      "aces_per_set_away": "1.35",
-      "aces_home_played": "(61)",
-      "aces_away_played": "(48)"
+      "aces_home": "120",
+      "aces_away": "67",
+      "aces_per_set_home": "1.76",
+      "aces_per_set_avg": "1.65",
+      "aces_per_set_away": "1.10",
+      "aces_home_played": "(68)",
+      "aces_away_played": "(61)"
     },
     "reception": {
-      "reception_eff_home": "29%",
+      "reception_eff_home": "31%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "33%",
-      "reception_perfect_home": "19%",
+      "reception_eff_away": "30%",
+      "reception_perfect_home": "22%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "24%"
+      "reception_perfect_away": "25%"
     }
   }
 }

@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "PANATHINAIKOS A.O.",
-    "away_team": "AOP KIFISIAS",
-    "datetime": "31 January 2026 - 21:00"
+    "away_team": "O.F.I.",
+    "datetime": "13 February 2026 - 19:00"
   },
   "teams_comparison": {
     "titles": [
@@ -54,39 +54,39 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "39%",
-        "average": "33%",
+        "home": "38%",
+        "average": "34%",
         "away": "34%"
       },
-      "spikes_per_set_home": "12.10",
-      "spikes_per_set_avg": "11.99",
-      "spikes_per_set_away": "12.12",
-      "spikes_per_set_home_played": "(58)",
+      "spikes_per_set_home": "12.08",
+      "spikes_per_set_avg": "12.06",
+      "spikes_per_set_away": "11.25",
+      "spikes_per_set_home_played": "(65)",
       "spikes_per_set_away_played": "(52)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.02",
-      "blocks_per_set_avg": "2.06",
-      "blocks_per_set_away": "2.12",
-      "blocks_home_played": "(58)",
+      "blocks_per_set_home": "1.95",
+      "blocks_per_set_avg": "2.03",
+      "blocks_per_set_away": "2.08",
+      "blocks_home_played": "(65)",
       "blocks_away_played": "(52)"
     },
     "serve": {
-      "aces_home": "142",
-      "aces_away": "57",
-      "aces_per_set_home": "2.45",
-      "aces_per_set_avg": "1.64",
-      "aces_per_set_away": "1.10",
-      "aces_home_played": "(58)",
+      "aces_home": "167",
+      "aces_away": "90",
+      "aces_per_set_home": "2.57",
+      "aces_per_set_avg": "1.65",
+      "aces_per_set_away": "1.73",
+      "aces_home_played": "(65)",
       "aces_away_played": "(52)"
     },
     "reception": {
       "reception_eff_home": "41%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "31%",
-      "reception_perfect_home": "27%",
+      "reception_eff_away": "25%",
+      "reception_perfect_home": "26%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "25%"
+      "reception_perfect_away": "26%"
     }
   }
 }
