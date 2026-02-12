@@ -2,18 +2,48 @@
   "matches": [
     {
       "home": {
-        "name": "ΟΦΗ",
-        "logo": "logos/ofi.png",
-        "color": "#2c2c2c"
-      },
-      "away": {
         "name": "ΠΑΝΙΩΝΙΟΣ",
         "logo": "logos/panionios.png",
         "color": "#DC143C"
       },
-      "date": "07/02",
-      "time": "3-0",
-      "court": "ΒΑΚ"
+      "away": {
+        "name": "ΠΑΟΚ",
+        "logo": "logos/paok.png",
+        "color": "#1a1a1a"
+      },
+      "date": "13/02",
+      "time": "18:00",
+      "court": "Α. ΒΑΡΙΚΑΣ"
+    },
+    {
+      "home": {
+        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "logo": "logos/panathinaikos.png",
+        "color": "#16a34a"
+      },
+      "away": {
+        "name": "ΟΦΗ",
+        "logo": "logos/ofi.png",
+        "color": "#2c2c2c"
+      },
+      "date": "13/02",
+      "time": "19:00",
+      "court": "ΜΕΤΣ"
+    },
+    {
+      "home": {
+        "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
+        "logo": "logos/olympiakos.png",
+        "color": "#dc1414"
+      },
+      "away": {
+        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+        "logo": "logos/kifisia.png",
+        "color": "#4169E1"
+      },
+      "date": "14/02",
+      "time": "20:30",
+      "court": "Μ. ΜΕΡΚΟΥΡΗ"
     },
     {
       "home": {
@@ -22,58 +52,28 @@
         "color": "#32CD32"
       },
       "away": {
-        "name": "ΠΑΟΚ",
-        "logo": "logos/paok.png",
-        "color": "#1a1a1a"
-      },
-      "date": "07/02",
-      "time": "1-3",
-      "court": "ΠΑΡΑΛΙΑΣ"
-    },
-    {
-      "home": {
-        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "logo": "logos/kifisia.png",
-        "color": "#4169E1"
-      },
-      "away": {
-        "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-        "logo": "logos/floisvos.png",
-        "color": "#1E90FF"
-      },
-      "date": "08/02",
-      "time": "18:00",
-      "court": "ΖΗΡΙΝΕΙΟ"
-    },
-    {
-      "home": {
         "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
         "logo": "logos/foinikas.png",
         "color": "#FF4500"
       },
-      "away": {
-        "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-        "logo": "logos/olympiakos.png",
-        "color": "#dc1414"
-      },
-      "date": "08/02",
-      "time": "19:00",
+      "date": "15/02",
+      "time": "17:00",
       "court": "Δ. ΒΙΚΕΛΑΣ"
     },
     {
       "home": {
+        "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+        "logo": "logos/floisvos.png",
+        "color": "#1E90FF"
+      },
+      "away": {
         "name": "ΑΟΝΣ ΜΙΛΩΝ",
         "logo": "logos/milon.png",
         "color": "#228B22"
       },
-      "away": {
-        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-        "logo": "logos/panathinaikos.png",
-        "color": "#16a34a"
-      },
-      "date": "09/02",
-      "time": "19:00",
-      "court": "K. ΠΕΡΣΗΣ"
+      "date": "15/02",
+      "time": "18:00",
+      "court": "Σ. ΜΠΕΦΟΝ"
     }
   ]
 }
