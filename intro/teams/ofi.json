@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Παναθηναϊκός",
+    "subtitle": "Α.Ο.",
+    "slug": "panathinaikos",
+    "color": "#007A33",
+    "logo": "panathinaikos.png"
+  },
+  "awayTeam": {
     "name": "Ο.Φ.Η.",
     "subtitle": ".",
     "slug": "ofi",
     "color": "#000000",
     "logo": "ofi.png"
   },
-  "awayTeam": {
-    "name": "Πανιώνιος",
-    "subtitle": "Γ.Σ.Σ.",
-    "slug": "panionios",
-    "color": "#004b8d",
-    "logo": "panionios.png"
-  },
-  "date": "7 Φεβρουαρίου 2026",
-  "league": "14η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "13 Φεβρουαρίου 2026",
+  "league": "15η ΑΓΩΝΙΣΤΙΚΗ"
 }

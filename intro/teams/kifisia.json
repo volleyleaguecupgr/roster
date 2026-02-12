@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Ολυμπιακός",
+    "subtitle": "Σ.Φ.Π ΟΝΕΧ",
+    "slug": "olympiakos",
+    "color": "#E41E26",
+    "logo": "olympiakos.png"
+  },
+  "awayTeam": {
     "name": "Κηφισιά",
     "subtitle": "A.Ο.Π.Σ.",
     "slug": "kifisia",
     "color": "#1e3a8a",
     "logo": "kifisia.png"
   },
-  "awayTeam": {
-    "name": "Φλοίσβος",
-    "subtitle": "A. O. MEMBERS PARON",
-    "slug": "floisvos",
-    "color": "#3a55a8",
-    "logo": "floisvos.png"
-  },
-  "date": "8 Φεβρουαρίου 2026",
-  "league": "14η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "14 Φεβρουαρίου 2026",
+  "league": "15η ΑΓΩΝΙΣΤΙΚΗ"
 }
