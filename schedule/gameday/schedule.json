@@ -47,21 +47,6 @@
     },
     {
       "home": {
-        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-        "logo": "logos/foinikas.png",
-        "color": "#FF4500"        
-      },
-      "away": {
-        "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
-        "logo": "logos/kalamata.png",
-        "color": "#32CD32"
-      },
-      "date": "15/02",
-      "time": "17:00",
-      "court": "Δ. ΒΙΚΕΛΑΣ"
-    },
-    {
-      "home": {
         "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
         "logo": "logos/floisvos.png",
         "color": "#1E90FF"
@@ -74,6 +59,21 @@
       "date": "15/02",
       "time": "18:00",
       "court": "Σ. ΜΠΕΦΟΝ"
+    },
+        {
+      "home": {
+        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+        "logo": "logos/foinikas.png",
+        "color": "#FF4500"        
+      },
+      "away": {
+        "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
+        "logo": "logos/kalamata.png",
+        "color": "#32CD32"
+      },
+      "date": "15/02",
+      "time": "21:45",
+      "court": "Δ. ΒΙΚΕΛΑΣ"
     }
   ]
 }
