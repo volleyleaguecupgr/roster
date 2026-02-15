@@ -5,17 +5,17 @@
     "matches": 15
   },
   {
+    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
+    "points": 32,
+    "matches": 15
+  },
+  {
     "team": "ΑΟΝΣ ΜΙΛΩΝ",
     "points": 31,
     "matches": 14
   },
   {
     "team": "ΠΑΟΚ",
-    "points": 29,
-    "matches": 14
-  },
-  {
-    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
     "points": 29,
     "matches": 14
   },
@@ -47,6 +47,6 @@
   {
     "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
     "points": 11,
-    "matches": 14
+    "matches": 15
   }
 ]
