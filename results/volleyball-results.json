@@ -1,121 +1,117 @@
 [
   {
-    "title": "ΑΠΟΤΕΛΕΣΜΑΤΑ 14ΗΣ ΑΓΩΝΙΣΤΙΚΗΣ",
+    "title": "ΑΠΟΤΕΛΕΣΜΑΤΑ 15ΗΣ ΑΓΩΝΙΣΤΙΚΗΣ",
     "games": [
       {
-        "homeTeam": "Ο.Φ.Η.",
-        "awayTeam": "ΠΑΝΙΩΝΙΟΣ",
+        "homeTeam": "ΠΑΝΙΩΝΙΟΣ",
+        "awayTeam": "Π.Α.Ο.Κ.",
         "sets": [
           {
-            "homePoints": 27,
-            "awayPoints": 25
+            "homePoints": 25,
+            "awayPoints": 19
           },
           {
             "homePoints": 25,
-            "awayPoints": 21
+            "awayPoints": 15
           },
           {
             "homePoints": 25,
-            "awayPoints": 20
+            "awayPoints": 14
           }
         ],
         "homeScore": 3,
         "awayScore": 0
       },
       {
-        "homeTeam": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
-        "awayTeam": "Π.Α.Ο.Κ.",
+        "homeTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "awayTeam": "Ο.Φ.Η.",
         "sets": [
+          {
+            "homePoints": 25,
+            "awayPoints": 17
+          },
+          {
+            "homePoints": 21,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 30,
+            "awayPoints": 28
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 22
+          }
+        ],
+        "homeScore": 3,
+        "awayScore": 1
+      },
+      {
+        "homeTeam": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ",
+        "awayTeam": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+        "sets": [
+          {
+            "homePoints": 25,
+            "awayPoints": 21
+          },
           {
             "homePoints": 25,
             "awayPoints": 22
           },
           {
-            "homePoints": 22,
-            "awayPoints": 25
-          },
-          {
-            "homePoints": 20,
-            "awayPoints": 25
-          },
-          {
             "homePoints": 25,
-            "awayPoints": 27
-          }
-        ],
-        "homeScore": 1,
-        "awayScore": 3
-      },
-      {
-        "homeTeam": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "awayTeam": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-        "sets": [
-          {
-            "homePoints": 25,
-            "awayPoints": 21
-          },
-          {
-            "homePoints": 17,
-            "awayPoints": 25
-          },
-          {
-            "homePoints": 26,
-            "awayPoints": 24
-          },
-          {
-            "homePoints": 22,
-            "awayPoints": 25
-          },
-          {
-            "homePoints": 15,
-            "awayPoints": 9
+            "awayPoints": 22
           }
         ],
         "homeScore": 3,
-        "awayScore": 2
+        "awayScore": 0
       },
       {
-        "homeTeam": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-        "awayTeam": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ",
+        "homeTeam": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+        "awayTeam": "ΑΟΝΣ ΜΙΛΩΝ",
         "sets": [
           {
-            "homePoints": 25,
-            "awayPoints": 21
-          },
-          {
-            "homePoints": 17,
+            "homePoints": 21,
             "awayPoints": 25
-          },
-          {
-            "homePoints": 20,
-            "awayPoints": 25
-          },
-          {
-            "homePoints": 20,
-            "awayPoints": 25
-          }
-        ],
-        "homeScore": 1,
-        "awayScore": 3
-      },
-      {
-        "homeTeam": "ΑΟΝΣ ΜΙΛΩΝ",
-        "awayTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-        "sets": [
-          {
-            "homePoints": 25,
-            "awayPoints": 27
           },
           {
             "homePoints": 22,
             "awayPoints": 25
           },
           {
-            "homePoints": 28,
-            "awayPoints": 30
+            "homePoints": 23,
+            "awayPoints": 25
           }
         ],
         "homeScore": 0,
+        "awayScore": 3
+      },
+      {
+        "homeTeam": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+        "awayTeam": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
+        "sets": [
+          {
+            "homePoints": 18,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 18,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 19
+          },
+          {
+            "homePoints": 25,
+            "awayPoints": 19
+          },
+          {
+            "homePoints": 14,
+            "awayPoints": 16
+          }
+        ],
+        "homeScore": 2,
         "awayScore": 3
       }
     ]
