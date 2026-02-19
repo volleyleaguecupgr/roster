@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "AOP KIFISIAS",
-    "away_team": "AO FLOISVOS",
-    "datetime": "08 February 2026 - 18:00"
+    "away_team": "A.O. FOINIKAS SIROU",
+    "datetime": "22 February 2026 - 18:30"
   },
   "teams_comparison": {
     "titles": [
@@ -55,38 +55,38 @@
     "spikes": {
       "efficiency": {
         "home": "34%",
-        "average": "33%",
-        "away": "28%"
+        "average": "34%",
+        "away": "26%"
       },
-      "spikes_per_set_home": "11.95",
-      "spikes_per_set_avg": "12.00",
-      "spikes_per_set_away": "11.71",
-      "spikes_per_set_home_played": "(56)",
+      "spikes_per_set_home": "11.94",
+      "spikes_per_set_avg": "12.04",
+      "spikes_per_set_away": "10.95",
+      "spikes_per_set_home_played": "(64)",
       "spikes_per_set_away_played": "(58)"
     },
     "blocks": {
       "blocks_per_set_home": "2.14",
-      "blocks_per_set_avg": "2.05",
-      "blocks_per_set_away": "1.97",
-      "blocks_home_played": "(56)",
+      "blocks_per_set_avg": "2.03",
+      "blocks_per_set_away": "2.22",
+      "blocks_home_played": "(64)",
       "blocks_away_played": "(58)"
     },
     "serve": {
-      "aces_home": "60",
-      "aces_away": "62",
-      "aces_per_set_home": "1.07",
-      "aces_per_set_avg": "1.64",
-      "aces_per_set_away": "1.07",
-      "aces_home_played": "(56)",
+      "aces_home": "69",
+      "aces_away": "82",
+      "aces_per_set_home": "1.08",
+      "aces_per_set_avg": "1.65",
+      "aces_per_set_away": "1.41",
+      "aces_home_played": "(64)",
       "aces_away_played": "(58)"
     },
     "reception": {
       "reception_eff_home": "30%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "34%",
+      "reception_eff_away": "32%",
       "reception_perfect_home": "24%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "27%"
+      "reception_perfect_away": "24%"
     }
   }
 }

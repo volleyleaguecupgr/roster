@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "PAOK",
-    "away_team": "AOP KIFISIAS",
-    "datetime": "16 January 2026 - 19:00"
+    "away_team": "PANATHINAIKOS A.O.",
+    "datetime": "21 February 2026 - 17:00"
   },
   "teams_comparison": {
     "titles": [
@@ -54,37 +54,37 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "34%",
-        "average": "33%",
-        "away": "33%"
+        "home": "35%",
+        "average": "34%",
+        "away": "38%"
       },
-      "spikes_per_set_home": "12.56",
-      "spikes_per_set_avg": "11.91",
-      "spikes_per_set_away": "11.93",
-      "spikes_per_set_home_played": "(45)",
-      "spikes_per_set_away_played": "(44)"
+      "spikes_per_set_home": "12.75",
+      "spikes_per_set_avg": "12.04",
+      "spikes_per_set_away": "12.12",
+      "spikes_per_set_home_played": "(60)",
+      "spikes_per_set_away_played": "(69)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.13",
-      "blocks_per_set_avg": "2.04",
-      "blocks_per_set_away": "2.11",
-      "blocks_home_played": "(45)",
-      "blocks_away_played": "(44)"
+      "blocks_per_set_home": "2.02",
+      "blocks_per_set_avg": "2.03",
+      "blocks_per_set_away": "1.94",
+      "blocks_home_played": "(60)",
+      "blocks_away_played": "(69)"
     },
     "serve": {
-      "aces_home": "64",
-      "aces_away": "53",
+      "aces_home": "85",
+      "aces_away": "182",
       "aces_per_set_home": "1.42",
-      "aces_per_set_avg": "1.61",
-      "aces_per_set_away": "1.20",
-      "aces_home_played": "(45)",
-      "aces_away_played": "(44)"
+      "aces_per_set_avg": "1.65",
+      "aces_per_set_away": "2.64",
+      "aces_home_played": "(60)",
+      "aces_away_played": "(69)"
     },
     "reception": {
-      "reception_eff_home": "41%",
+      "reception_eff_home": "43%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "30%",
-      "reception_perfect_home": "27%",
+      "reception_eff_away": "40%",
+      "reception_perfect_home": "28%",
       "reception_perfect_avg": "25%",
       "reception_perfect_away": "26%"
     }
