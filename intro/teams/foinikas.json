@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Κηφισιά",
+    "subtitle": "A.Ο.Π.Σ.",
+    "slug": "kifisia",
+    "color": "#1e3a8a",
+    "logo": "kifisia.png"
+  },
+  "awayTeam": {
     "name": "Φοίνικας Σύρου",
     "subtitle": "A.O.",
     "slug": "foinikas",
     "color": "#003399",
     "logo": "foinikas.png"
   },
-  "awayTeam": {
-    "name": "Καλαμάτα",
-    "subtitle": "A.O. '80 AFFIDEA",
-    "slug": "kalamata",
-    "color": "#008428",
-    "logo": "kalamata.png"
-  },
-  "date": "15 Φεβρουαρίου 2026",
-  "league": "15η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "22 Φεβρουαρίου 2026",
+  "league": "16η ΑΓΩΝΙΣΤΙΚΗ"
 }
