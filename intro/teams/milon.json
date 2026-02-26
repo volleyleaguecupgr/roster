@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Φοίνικας Σύρου",
+    "subtitle": "A.O.",
+    "slug": "foinikas",
+    "color": "#003399",
+    "logo": "foinikas.png"
+  },
+  "awayTeam": {
     "name": "Μίλων",
     "subtitle": "Α.Ο.Ν.Σ",
     "slug": "milon",
     "color": "#006400",
     "logo": "milon.png"
   },
-  "awayTeam": {
-    "name": "Ολυμπιακός",
-    "subtitle": "Σ.Φ.Π ΟΝΕΧ",
-    "slug": "olympiakos",
-    "color": "#E41E26",
-    "logo": "olympiakos.png"
-  },
-  "date": "22 Φεβρουαρίου 2026",
-  "league": "16η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "1 Μαρτίου 2026",
+  "league": "17η ΑΓΩΝΙΣΤΙΚΗ"
 }

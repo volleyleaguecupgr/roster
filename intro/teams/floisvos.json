@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Ο.Φ.Η.",
-    "subtitle": ".",
-    "slug": "ofi",
-    "color": "#000000",
-    "logo": "ofi.png"
-  },
-  "awayTeam": {
     "name": "Φλοίσβος",
     "subtitle": "A. O. MEMBERS PARON",
     "slug": "floisvos",
     "color": "#3a55a8",
     "logo": "floisvos.png"
   },
-  "date": "20 Φεβρουαρίου 2026",
-  "league": "16η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Π.Α.Ο.Κ.",
+    "subtitle": "Α.Σ.",
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png"
+  },
+  "date": "1 Μαρτίου 2026",
+  "league": "17η ΑΓΩΝΙΣΤΙΚΗ"
 }

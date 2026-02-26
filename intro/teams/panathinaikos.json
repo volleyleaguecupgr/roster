@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Π.Α.Ο.Κ.",
-    "subtitle": "Α.Σ.",
-    "slug": "paok",
-    "color": "#000000",
-    "logo": "paok.png"
-  },
-  "awayTeam": {
     "name": "Παναθηναϊκός",
     "subtitle": "Α.Ο.",
     "slug": "panathinaikos",
     "color": "#007A33",
     "logo": "panathinaikos.png"
   },
-  "date": "21 Φεβρουαρίου 2026",
-  "league": "16η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Πανιώνιος",
+    "subtitle": "Γ.Σ.Σ.",
+    "slug": "panionios",
+    "color": "#004b8d",
+    "logo": "panionios.png"
+  },
+  "date": "1 Μαρτίου 2026",
+  "league": "17η ΑΓΩΝΙΣΤΙΚΗ"
 }
