@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Κηφισιά",
-    "subtitle": "A.Ο.Π.Σ.",
-    "slug": "kifisia",
-    "color": "#1e3a8a",
-    "logo": "kifisia.png"
-  },
-  "awayTeam": {
     "name": "Καλαμάτα",
     "subtitle": "A.O. '80 AFFIDEA",
     "slug": "kalamata",
     "color": "#008428",
     "logo": "kalamata.png"
   },
-  "date": "1 Μαρτίου 2026",
-  "league": "17η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Παναθηναϊκός",
+    "subtitle": "Α.Ο.",
+    "slug": "panathinaikos",
+    "color": "#007A33",
+    "logo": "panathinaikos.png"
+  },
+  "date": "8 Μαρτίου 2026",
+  "league": "18η ΑΓΩΝΙΣΤΙΚΗ"
 }
