@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "AONS MILON",
-    "away_team": "OLYMPIACOS S.F.P.",
-    "datetime": "22 February 2026 - 18:00"
+    "away_team": "AOP KIFISIAS",
+    "datetime": "08 March 2026 - 18:30"
   },
   "teams_comparison": {
     "titles": [
@@ -54,39 +54,39 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "39%",
-        "average": "34%",
-        "away": "35%"
+        "home": "38%",
+        "average": "33%",
+        "away": "34%"
       },
-      "spikes_per_set_home": "13.04",
-      "spikes_per_set_avg": "12.04",
-      "spikes_per_set_away": "12.23",
-      "spikes_per_set_home_played": "(53)",
+      "spikes_per_set_home": "12.94",
+      "spikes_per_set_avg": "12.01",
+      "spikes_per_set_away": "12.00",
+      "spikes_per_set_home_played": "(62)",
       "spikes_per_set_away_played": "(71)"
     },
     "blocks": {
-      "blocks_per_set_home": "1.87",
-      "blocks_per_set_avg": "2.03",
-      "blocks_per_set_away": "2.18",
-      "blocks_home_played": "(53)",
+      "blocks_per_set_home": "1.82",
+      "blocks_per_set_avg": "2.06",
+      "blocks_per_set_away": "2.28",
+      "blocks_home_played": "(62)",
       "blocks_away_played": "(71)"
     },
     "serve": {
-      "aces_home": "134",
-      "aces_away": "125",
-      "aces_per_set_home": "2.53",
+      "aces_home": "158",
+      "aces_away": "82",
+      "aces_per_set_home": "2.55",
       "aces_per_set_avg": "1.65",
-      "aces_per_set_away": "1.76",
-      "aces_home_played": "(53)",
+      "aces_per_set_away": "1.15",
+      "aces_home_played": "(62)",
       "aces_away_played": "(71)"
     },
     "reception": {
       "reception_eff_home": "33%",
       "reception_eff_avg": "34%",
       "reception_eff_away": "31%",
-      "reception_perfect_home": "23%",
+      "reception_perfect_home": "24%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "22%"
+      "reception_perfect_away": "24%"
     }
   }
 }
