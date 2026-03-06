@@ -126,6 +126,8 @@
             animation: slideInScale 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             position: relative; overflow: visible; transition: all 0.6s ease;
             border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 0;
+            margin: 0;
         }
 
         .team-row:nth-child(2) { animation-delay: 2.5s; }
@@ -236,11 +238,12 @@
             font-weight: 700; font-size: 11px;
             text-transform: uppercase; letter-spacing: 0.5px;
             text-align: center;
-            writing-mode: horizontal-tb;
             padding: 15px 8px;
             line-height: 1.1;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             z-index: 5;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
         }
 
         .playoff-semifinals {
@@ -346,16 +349,16 @@
                 const position = index + 1;
                 let badgeHtml = '';
                 
-                // Add badge only for first row of each group with proper height
+                // Add badge only for first row of each group with proper positioning
                 if (position === 1) {
                     const badge = getPlayoffBadge(position);
-                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 280px; top: 0px;">${badge.text}</div>`;
+                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 280px; top: 0; left: -75px;">${badge.text}</div>`;
                 } else if (position === 5) {
                     const badge = getPlayoffBadge(position);
-                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0px;">${badge.text}</div>`;
+                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0; left: -75px;">${badge.text}</div>`;
                 } else if (position === 8) {
                     const badge = getPlayoffBadge(position);
-                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0px;">${badge.text}</div>`;
+                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0; left: -75px;">${badge.text}</div>`;
                 }
                 
                 row.innerHTML = `
