@@ -60,10 +60,11 @@
         @keyframes titleSlideIn { to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
         .standings-container {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 1200px; z-index: 10; opacity: 0;
+            position: absolute; top: 50%; left: 50%;
+            width: 1300px; z-index: 10; opacity: 0;
             transform: translate(-50%, -50%) translateY(50px);
             animation: containerSlideIn 2s ease-out 1.5s forwards;
+            padding-left: 80px;
         }
 
         @keyframes containerSlideIn { to { opacity: 1; transform: translate(-50%, -50%) translateY(0); } }
@@ -226,18 +227,20 @@
         }
 
         .playoff-badge {
-            position: absolute; left: -65px; width: 50px;
+            position: absolute; left: -75px; 
+            width: 55px;
             backdrop-filter: blur(10px);
-            border-radius: 12px;
+            border-radius: 15px;
             border: 2px solid rgba(255, 255, 255, 0.3);
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 12px;
+            font-weight: 700; font-size: 11px;
             text-transform: uppercase; letter-spacing: 0.5px;
             text-align: center;
             writing-mode: horizontal-tb;
             padding: 15px 8px;
-            line-height: 1.2;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            line-height: 1.1;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 5;
         }
 
         .playoff-semifinals {
@@ -343,16 +346,16 @@
                 const position = index + 1;
                 let badgeHtml = '';
                 
-                // Add badge only for first row of each group
+                // Add badge only for first row of each group with proper height
                 if (position === 1) {
                     const badge = getPlayoffBadge(position);
-                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 290px; top: 0;">${badge.text}</div>`;
+                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 280px; top: 0px;">${badge.text}</div>`;
                 } else if (position === 5) {
                     const badge = getPlayoffBadge(position);
-                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0;">${badge.text}</div>`;
+                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0px;">${badge.text}</div>`;
                 } else if (position === 8) {
                     const badge = getPlayoffBadge(position);
-                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0;">${badge.text}</div>`;
+                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0px;">${badge.text}</div>`;
                 }
                 
                 row.innerHTML = `
