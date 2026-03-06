@@ -70,9 +70,10 @@
 
         .standings-table {
             width: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px);
-            border-radius: 25px; overflow: hidden;
+            border-radius: 25px; overflow: visible;
             border: 3px solid rgba(59, 130, 246, 0.4);
             box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
+            position: relative;
         }
 
         .team-logo {
@@ -124,7 +125,6 @@
             animation: slideInScale 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             position: relative; overflow: visible; transition: all 0.6s ease;
             border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-            margin-left: 80px;
         }
 
         .team-row:nth-child(2) { animation-delay: 2.5s; }
@@ -226,29 +226,32 @@
         }
 
         .playoff-badge {
-            padding: 12px 8px; border-radius: 12px; font-weight: 700; font-size: 11px;
-            text-transform: uppercase; letter-spacing: 1px; white-space: nowrap;
-            position: absolute; left: -70px; top: 50%; transform: translateY(-50%);
-            writing-mode: horizontal-tb; width: 60px; text-align: center;
-            display: flex; align-items: center; justify-content: center;
+            position: absolute; left: -65px; width: 50px;
             backdrop-filter: blur(10px);
+            border-radius: 12px;
             border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 12px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            text-align: center;
+            writing-mode: horizontal-tb;
+            padding: 15px 8px;
+            line-height: 1.2;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .playoff-semifinals {
-            background: rgba(134, 239, 172, 0.4);
+            background: rgba(134, 239, 172, 0.5);
             color: #065f46;
         }
 
         .playoff-57 {
-            background: rgba(147, 197, 253, 0.4);
+            background: rgba(147, 197, 253, 0.5);
             color: #1e40af;
         }
 
         .playout {
-            background: rgba(252, 165, 165, 0.4);
+            background: rgba(252, 165, 165, 0.5);
             color: #991b1b;
         }
     </style>
@@ -338,10 +341,22 @@
                 row.className = `team-row ${team.className}`;
                 
                 const position = index + 1;
-                const badge = getPlayoffBadge(position);
+                let badgeHtml = '';
+                
+                // Add badge only for first row of each group
+                if (position === 1) {
+                    const badge = getPlayoffBadge(position);
+                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 290px; top: 0;">${badge.text}</div>`;
+                } else if (position === 5) {
+                    const badge = getPlayoffBadge(position);
+                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0;">${badge.text}</div>`;
+                } else if (position === 8) {
+                    const badge = getPlayoffBadge(position);
+                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0;">${badge.text}</div>`;
+                }
                 
                 row.innerHTML = `
-                    <div class="playoff-badge ${badge.className}">${badge.text}</div>
+                    ${badgeHtml}
                     <td class="position">${position}</td>
                     <td>
                         <div class="team-info">
