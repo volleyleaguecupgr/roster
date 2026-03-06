@@ -11,10 +11,6 @@
     "name": "Slobodan Prakljačić (SER)",
     "role": "ΠΡΟΠΟΝΗΤΗΣ"
   },
-  "assistant": {
-    "name": "Alejandro Schneider (ARG)",
-    "role": "ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ"
-  },
   "players": [
     {
       "number": 1,
@@ -125,12 +121,30 @@
       "team": "Α.Σ. Άρης"
     },
     {
+      "number": 22,
+      "name": "Mehic David",
+      "nationality": "SER",
+      "position": "Ακραίος",
+      "birthdate": "24/09/1997",
+      "height": "1,97",
+      "team": "Α.Σ. Άρης"
+    },
+    {
       "number": 25,
       "name": "Μιχαήλ Καγιαλής",
       "nationality": "GRE",
       "position": "Κεντρικός",
       "birthdate": "24/06/2000",
       "height": "2,00",
+      "team": "Α.Ο.Π. Κηφισιάς"
+    },
+    {
+      "number": 26,
+      "name": "Σιαπάνης Σωτήρης",
+      "nationality": "CYP",
+      "position": "Ακραίος",
+      "birthdate": "25/01/2001",
+      "height": "1,92",
       "team": "Α.Ο.Π. Κηφισιάς"
     }
   ],
