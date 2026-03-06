@@ -12,10 +12,6 @@
     "name": "Κώστας Χριστοφιδέλης",
     "role": "ΠΡΟΠΟΝΗΤΗΣ"
   },
-  "assistant": {
-    "name": "Γεώργιος Κάπελας",
-    "role": "ΒΟΗΘΟΣ ΠΡΟΠΟΝΗΤΗ"
-  },
   "staff": [
     {
       "role": "Βοηθός Προπονητή",
@@ -32,8 +28,17 @@
   ],
   "players": [
     {
+      "number": 0,
+      "name": "Vucicevic Bozidar",
+      "nationality": "SER",
+      "position": "Διαγώνιος",
+      "birthdate": "09/12/1998",
+      "height": "2,05",
+      "team": "Παναχαϊκή Πετοσφαίριση 2013"
+    },
+    {
       "number": 1,
-      "name": "Τσαρκάτογλου Μίλτος",
+      "name": "Μίλτος Τσαρκάτογλου",
       "nationality": "GRE",
       "position": "Κεντρικός",
       "birthdate": "11/01/1997",
@@ -42,7 +47,7 @@
     },
     {
       "number": 2,
-      "name": "Kovar Jiri",
+      "name": "Jiri Kovar",
       "nationality": "ITA",
       "position": "Ακραίος",
       "birthdate": "10/04/1989",
@@ -51,7 +56,7 @@
     },
     {
       "number": 3,
-      "name": "Χαραλαμπίδης Δημήτριος",
+      "name": "Δημήτριος Χαραλαμπίδης",
       "nationality": "GRE",
       "position": "Κεντρικός",
       "birthdate": "03/06/1991",
@@ -60,7 +65,7 @@
     },
     {
       "number": 4,
-      "name": "Μελλές Νικόλαος",
+      "name": "Νικόλαος Μελλές",
       "nationality": "GRE",
       "position": "Κεντρικός",
       "birthdate": "20/01/1995",
@@ -69,7 +74,7 @@
     },
     {
       "number": 5,
-      "name": "Κανελλόπουλος Γεώργιος",
+      "name": "Γεώργιος Κανελλόπουλος",
       "nationality": "GRE",
       "position": "Πασαδόρος",
       "birthdate": "30/11/1997",
@@ -78,7 +83,7 @@
     },
     {
       "number": 6,
-      "name": "Van Garderen Maarten",
+      "name": "Maarten Van Garderen",
       "nationality": "NED",
       "position": "Ακραίος",
       "birthdate": "24/01/1990",
@@ -87,7 +92,7 @@
     },
     {
       "number": 8,
-      "name": "Fraser Garrett",
+      "name": "Garrett Fraser",
       "nationality": "AUS",
       "position": "Ακραίος",
       "birthdate": "07/08/2002",
@@ -96,7 +101,7 @@
     },
     {
       "number": 9,
-      "name": "Παπαδόπουλος Ηρακλής",
+      "name": "Ηρακλής Παπαδόπουλος",
       "nationality": "GRE",
       "position": "Διαγώνιος",
       "birthdate": "02/09/1991",
@@ -104,8 +109,17 @@
       "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
     },
     {
+      "number": 12,
+      "name": "Καπετανίδης Κώστας",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "24/03/1999",
+      "height": "1,93",
+      "team": "Ολυμπιακός Σ.Φ.Π. ONEX"
+    },
+    {
       "number": 14,
-      "name": "Αρμενάκης Απόστολος",
+      "name": "Απόστολος Αρμενάκης",
       "nationality": "GRE",
       "position": "Κεντρικός",
       "birthdate": "19/07/1980",
@@ -114,7 +128,7 @@
     },
     {
       "number": 15,
-      "name": "Vilimanovic Andrija",
+      "name": "Andrija Vilimanovic",
       "nationality": "SRB",
       "position": "Πασαδόρος",
       "birthdate": "14/11/1995",
@@ -123,7 +137,7 @@
     },
     {
       "number": 16,
-      "name": "Egleskalns Hermans",
+      "name": "Hermans Egleskalns",
       "nationality": "LTV",
       "position": "Διαγώνιος",
       "birthdate": "08/12/1990",
@@ -132,7 +146,7 @@
     },
     {
       "number": 17,
-      "name": "Παπαδόπουλος Παναγιώτης",
+      "name": "Παναγιώτης Παπαδόπουλος",
       "nationality": "GRE",
       "position": "Ακραίος",
       "birthdate": "30/04/1992",
@@ -141,7 +155,7 @@
     },
     {
       "number": 18,
-      "name": "Εφραιμίδης Νικήτας",
+      "name": "Νικήτας Εφραιμίδης",
       "nationality": "GRE",
       "position": "Λίμπερο",
       "birthdate": "11/02/1989",
@@ -150,7 +164,7 @@
     },
     {
       "number": 21,
-      "name": "Σωνάκης Αναστάσιος",
+      "name": "Αναστάσιος Σωνάκης",
       "nationality": "GRE",
       "position": "Λίμπερο",
       "birthdate": "09/11/2001",
@@ -159,7 +173,7 @@
     },
     {
       "number": 22,
-      "name": "Νανόπουλος Δημήτριος",
+      "name": "Δημήτριος Νανόπουλος",
       "nationality": "GRE",
       "position": "Ακραίος",
       "birthdate": "20/02/2000",
