@@ -28,6 +28,15 @@
   ],
   "players": [
     {
+      "number": 0,
+      "name": "Vucicevic Bozidar",
+      "nationality": "SER",
+      "position": "Διαγώνιος",
+      "birthdate": "09/12/1998",
+      "height": "2,05",
+      "team": "Παναχαϊκή Πετοσφαίριση 2013"
+    },
+    {
       "number": 1,
       "name": "Μίλτος Τσαρκάτογλου",
       "nationality": "GRE",
@@ -98,6 +107,15 @@
       "birthdate": "02/09/1991",
       "height": "1,98",
       "team": "Α.Ο. Φλοίσβος Παλαιού Φαλήρου"
+    },
+    {
+      "number": 12,
+      "name": "Καπετανίδης Κώστας",
+      "nationality": "GRE",
+      "position": "Ακραίος",
+      "birthdate": "24/03/1999",
+      "height": "1,93",
+      "team": "Ολυμπιακός Σ.Φ.Π. ONEX"
     },
     {
       "number": 14,
