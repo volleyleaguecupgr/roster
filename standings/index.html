@@ -318,11 +318,11 @@
 
         function getPlayoffBadge(position) {
             if (position <= 4) {
-                return { text: 'PLAYOFF ΗΜΙΤΕΛΙΚΩΝ', className: 'playoff-semifinals' };
+                return { text: 'PLAYOFFS ΗΜΙΤΕΛΙΚΩΝ', className: 'playoff-semifinals' };
             } else if (position <= 7) {
-                return { text: 'PLAYOFF 5-7', className: 'playoff-57' };
+                return { text: 'PLAYOFFS 5-7', className: 'playoff-57' };
             } else {
-                return { text: 'PLAYOUT', className: 'playout' };
+                return { text: 'PLAYOUTS', className: 'playout' };
             }
         }
 
@@ -386,7 +386,7 @@
             document.querySelectorAll('.playoff-badge-group').forEach(el => el.remove());
             
             const badgeConfigs = [
-                { position: 1, height: 300, className: 'playoff-semifinals', text: 'PLAYOFF ΗΜΙΤΕΛΙΚΩΝ', group: 'semifinals' },
+                { position: 1, height: 340, className: 'playoff-semifinals', text: 'PLAYOFF ΗΜΙΤΕΛΙΚΩΝ', group: 'semifinals' },
                 { position: 5, height: 230, className: 'playoff-57', text: 'PLAYOFF 5-7', group: 'playoff-57' },
                 { position: 8, height: 230, className: 'playout', text: 'PLAYOUT', group: 'playout' }
             ];
