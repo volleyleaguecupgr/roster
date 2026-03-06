@@ -46,6 +46,28 @@
       "previousTeam": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
     },
     {
+      "number": 7,
+      "name": "Sedlacek Marko",
+      "surname": "Sedlacek",
+      "firstname": "Marko",
+      "nationality": "COR",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "29/07/1996",
+      "height": "2,02",
+      "previousTeam": "Acqua S.B. Cuneo (Ιταλία)"
+    },
+    {
+    "number": 7(2),
+      "name": "Βαϊόπουλος Βαγγέλης",
+      "surname": "Βαϊόπουλος",
+      "firstname": "Βαγγέλης",
+      "nationality": "GRE",
+      "position": "ΑΚΡΑΙΟΣ",
+      "birthdate": "11/03/1997",
+      "height": "2,03",
+      "previousTeam": "Α.Ο. Φοίνικας Σύρου"
+    },
+    {
       "number": 8,
       "name": "John Gordon Perrin",
       "surname": "Perrin",
@@ -55,17 +77,6 @@
       "birthdate": "17/08/1989",
       "height": "2,01",
       "previousTeam": "Ολυμπιακός Σ.Φ.Π. ΟΝΕΧ"
-    },
-    {
-      "number": 9,
-      "name": "Κωνσταντίνος Καπετανίδης",
-      "surname": "Καπετανίδης",
-      "firstname": "Κωνσταντίνος",
-      "nationality": "GRE",
-      "position": "ΑΚΡΑΙΟΣ",
-      "birthdate": "24/03/1999",
-      "height": "1,93",
-      "previousTeam": "Α.Ο. Φοίνικας Σύρου"
     },
     {
       "number": 12,
