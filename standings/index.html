@@ -244,21 +244,25 @@
             z-index: 5;
             writing-mode: vertical-rl;
             transform: rotate(180deg);
+            pointer-events: none;
         }
 
-        .playoff-semifinals {
+        .playoff-badge.playoff-semifinals {
             background: rgba(134, 239, 172, 0.5);
             color: #065f46;
+            top: 0;
         }
 
-        .playoff-57 {
+        .playoff-badge.playoff-57 {
             background: rgba(147, 197, 253, 0.5);
             color: #1e40af;
+            top: 300px;
         }
 
-        .playout {
+        .playoff-badge.playout {
             background: rgba(252, 165, 165, 0.5);
             color: #991b1b;
+            top: 530px;
         }
     </style>
 </head>
@@ -344,25 +348,22 @@
                 if (!team) return;
 
                 const row = document.createElement('tr');
-                row.className = `team-row ${team.className}`;
-                
                 const position = index + 1;
-                let badgeHtml = '';
                 
-                // Add badge only for first row of each group with proper positioning
-                if (position === 1) {
-                    const badge = getPlayoffBadge(position);
-                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 280px; top: 0; left: -75px;">${badge.text}</div>`;
-                } else if (position === 5) {
-                    const badge = getPlayoffBadge(position);
-                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0; left: -75px;">${badge.text}</div>`;
-                } else if (position === 8) {
-                    const badge = getPlayoffBadge(position);
-                    badgeHtml = `<div class="playoff-badge ${badge.className}" style="height: 210px; top: 0; left: -75px;">${badge.text}</div>`;
+                // Add playoff group as data attribute
+                let playoffGroup = '';
+                if (position <= 4) {
+                    playoffGroup = 'semifinals';
+                } else if (position <= 7) {
+                    playoffGroup = 'playoff-57';
+                } else {
+                    playoffGroup = 'playout';
                 }
                 
+                row.className = `team-row ${team.className}`;
+                row.setAttribute('data-playoff', playoffGroup);
+                
                 row.innerHTML = `
-                    ${badgeHtml}
                     <td class="position">${position}</td>
                     <td>
                         <div class="team-info">
@@ -375,6 +376,27 @@
                 `;
 
                 tbody.appendChild(row);
+            });
+
+            // Create badges as separate elements positioned outside table
+            const container = document.querySelector('.standings-container');
+            const table = document.querySelector('.standings-table');
+            
+            // Remove old badges if any
+            document.querySelectorAll('.playoff-badge-group').forEach(el => el.remove());
+            
+            const badgeConfigs = [
+                { position: 1, height: 300, className: 'playoff-semifinals', text: 'PLAYOFF ΗΜΙΤΕΛΙΚΩΝ', group: 'semifinals' },
+                { position: 5, height: 230, className: 'playoff-57', text: 'PLAYOFF 5-7', group: 'playoff-57' },
+                { position: 8, height: 230, className: 'playout', text: 'PLAYOUT', group: 'playout' }
+            ];
+
+            badgeConfigs.forEach(config => {
+                const badge = document.createElement('div');
+                badge.className = `playoff-badge ${config.className} playoff-badge-group`;
+                badge.textContent = config.text;
+                badge.style.height = config.height + 'px';
+                container.appendChild(badge);
             });
         }
 
