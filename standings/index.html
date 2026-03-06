@@ -122,8 +122,9 @@
         .team-row {
             opacity: 0; transform: translateX(-150px) scale(0.95);
             animation: slideInScale 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            position: relative; overflow: hidden; transition: all 0.6s ease;
+            position: relative; overflow: visible; transition: all 0.6s ease;
             border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            margin-left: 50px;
         }
 
         .team-row:nth-child(2) { animation-delay: 2.5s; }
@@ -223,6 +224,34 @@
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             color: #fff; font-size: 24px; z-index: 100;
         }
+
+        .playoff-badge {
+            padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 12px;
+            text-transform: uppercase; letter-spacing: 1px; white-space: nowrap;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            position: absolute; left: -50px; top: 50%; transform: translateY(-50%);
+            writing-mode: horizontal-tb; width: 45px; text-align: center;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; padding: 8px 4px;
+        }
+
+        .playoff-semifinals {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.9) 0%, rgba(22, 163, 74, 0.9) 100%);
+            color: #f8fafc; border: 2px solid rgba(34, 197, 94, 0.6);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .playoff-57 {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.9) 0%, rgba(217, 119, 6, 0.9) 100%);
+            color: #1a1a1a; border: 2px solid rgba(251, 191, 36, 0.6);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+        }
+
+        .playout {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.9) 0%, rgba(153, 27, 27, 0.9) 100%);
+            color: #f8fafc; border: 2px solid rgba(239, 68, 68, 0.6);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -275,6 +304,16 @@
             'ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA': { logo: 'kalamata.png', className: 'kalamata' }
         };
 
+        function getPlayoffBadge(position) {
+            if (position <= 4) {
+                return { text: 'PLAYOFF ΗΜΙΤΕΛΙΚΩΝ', className: 'playoff-semifinals' };
+            } else if (position <= 7) {
+                return { text: 'PLAYOFF 5-7', className: 'playoff-57' };
+            } else {
+                return { text: 'PLAYOUT', className: 'playout' };
+            }
+        }
+
         async function loadStandings() {
             try {
                 const response = await fetch('volleyball-standings.json');
@@ -299,8 +338,12 @@
                 const row = document.createElement('tr');
                 row.className = `team-row ${team.className}`;
                 
+                const position = index + 1;
+                const badge = getPlayoffBadge(position);
+                
                 row.innerHTML = `
-                    <td class="position">${index + 1}</td>
+                    <div class="playoff-badge ${badge.className}">${badge.text}</div>
+                    <td class="position">${position}</td>
                     <td>
                         <div class="team-info">
                             <div class="team-logo"><img src="${team.logo}"></div>
