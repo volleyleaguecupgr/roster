@@ -1,51 +1,51 @@
 [
   {
-    "id": 1772788521233,
-    "name": "ΣΒΕΤΟΣΛΑΒ ΣΤΑΝΚΟΦ",
-    "position": "ΠΑΣΑΔΟΡΟΣ",
-    "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1772788519633.png"
-  },
-  {
-    "id": 1772788541031,
-    "name": "ΔΗΜΗΤΡΗΣ ΘΕΟΔΟΣΗΣ",
-    "position": "ΚΕΝΤΡΙΚΟΣ",
-    "team": "ΑΟΝΣ ΜΙΛΩΝ",
-    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1772788539817.png"
-  },
-  {
-    "id": 1772788567317,
-    "name": "ΜΕΝΕΛΑΟΣ ΚΟΚΚΙΝΑΚΗΣ",
-    "position": "ΑΚΡΑΙΟΣ",
-    "team": "ΠΑΟΚ",
-    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1772788565976.png"
-  },
-  {
-    "id": 1772788603054,
-    "name": "ΤΖ. ΓΚΟΡΝΤΟΝ ΠΕΡΡΙΝ",
-    "position": "ΑΚΡΑΙΟΣ.",
-    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1772788601314.png"
-  },
-  {
-    "id": 1772788618210,
-    "name": "ΠΑΤΡΙΚ ΓΚΑΣΜΑΝ",
-    "position": "ΚΕΝΤΡΙΚΟΣ.",
-    "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1772788616679.png"
-  },
-  {
-    "id": 1772788651492,
-    "name": "ΚΕΙΣΙ ΣΧΑΟΥΤΕΝ",
-    "position": "ΔΙΑΓΩΝΙΟΣ",
-    "team": "ΑΟΝΣ ΜΙΛΩΝ",
-    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1772788649992.png"
-  },
-  {
     "id": 1772788668797,
     "name": "ΓΙΩΡΓΟΣ ΜΙΧΕΛΑΚΗΣ",
     "position": "ΛΙΜΠΕΡΟ",
     "team": "ΠΑΟΚ",
     "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1772788667179.png"
+  },
+  {
+    "id": 1773351718053,
+    "name": "ΜΙΧΑΗΛΟ ΜΙΤΙΤΣ",
+    "position": "ΠΑΣΑΔΟΡΟΣ",
+    "team": "ΟΦΗ",
+    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1773351716322.png"
+  },
+  {
+    "id": 1773351739290,
+    "name": "ΛΙΜΠΕΡΜΑΝ ΑΓΚΑΜΕΖ",
+    "position": "ΚΕΝΤΡΙΚΟΣ",
+    "team": "ΑΟΝΣ ΜΙΛΩΝ",
+    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1773351738027.png"
+  },
+  {
+    "id": 1773351770119,
+    "name": "ΑΝΔΡΕΟΠΟΥΛΟΣ ΧΑΡΑΛΑΜΠΟΣ",
+    "position": "ΑΚΡΑΙΟΣ",
+    "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ ΑΟ",
+    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1773351768660.png"
+  },
+  {
+    "id": 1773351789614,
+    "name": "ΚΩΣΤΑΣ ΚΑΠΕΤΑΝΙΔΗΣ",
+    "position": "ΑΚΡΑΙΟΣ",
+    "team": "ΑΟ ΦΛΟΙΣΒΟΣ",
+    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1773351788227.png"
+  },
+  {
+    "id": 1773351805691,
+    "name": "ΤΖΟΥΛΙΑΝ ΜΠΙΣΕΤ",
+    "position": "ΚΕΝΤΡΙΚΟΣ",
+    "team": "ΠΑΝΙΩΝΙΟΣ",
+    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1773351804232.png"
+  },
+  {
+    "id": 1773351833547,
+    "name": "ΦΕΡΝΑΝΤΟ ΕΡΝΑΝΤΕΖ",
+    "position": "ΔΙΑΓΩΝΙΟΣ",
+    "team": "ΠΑΟΚ",
+    "photo": "https://raw.githubusercontent.com/volleyleaguecupgr/roster/main/photos/__1773351832265.png"
   }
 ]
