@@ -2,18 +2,18 @@
   "matches": [
     {
       "home": {
-        "name": "ΟΦΗ",
-        "logo": "logos/ofi.png",
-        "color": "#2c2c2c"
+        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "logo": "logos/panathinaikos.png",
+        "color": "#16a34a"
       },
       "away": {
-        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-        "logo": "logos/foinikas.png",
-        "color": "#FF4500"
+        "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
+        "logo": "logos/olympiakos.png",
+        "color": "#dc1414"
       },
-      "date": "08/03",
-      "time": "18:30",
-      "court": "ΒΑΚ"
+      "date": "13/03",
+      "time": "21:00",
+      "court": "ΜΕΤΣ"
     },
     {
       "home": {
@@ -22,28 +22,13 @@
         "color": "#228B22"
       },
       "away": {
-        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "logo": "logos/kifisia.png",
-        "color": "#4169E1"
+        "name": "ΠΑΟΚ",
+        "logo": "logos/paok.png",
+        "color": "#1a1a1a"
       },
-      "date": "08/03",
-      "time": "18:30",
-      "court": "Κ .ΠΕΡΣΗΣ"
-    },
-    {
-      "home": {
-        "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
-        "logo": "logos/kalamata.png",
-        "color": "#32CD32"
-      },
-      "away": {
-        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-        "logo": "logos/panathinaikos.png",
-        "color": "#16a34a"
-      },
-      "date": "08/03",
-      "time": "18:30",
-      "court": "ΠΑΡΑΛΙΑΣ"
+      "date": "14/03",
+      "time": "20:30",
+      "court": "Κ.ΠΕΡΣΗΣ"
     },
     {
       "home": {
@@ -52,28 +37,28 @@
         "color": "#DC143C"
       },
       "away": {
-        "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-        "logo": "logos/floisvos.png",
-        "color": "#1E90FF"
+        "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
+        "logo": "logos/kalamata.png",
+        "color": "#32CD32"
       },
-      "date": "08/03",
-      "time": "18:30",
-      "court": "Α. ΒΑΡΙΚΑΣ"
+      "date": "14/03",
+      "time": "17:00",
+      "court": "A. ΒΑΡΙΚΑΣ"
     },
     {
       "home": {
-        "name": "ΠΑΟΚ",
-        "logo": "logos/paok.png",
-        "color": "#1a1a1a"
+        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+        "logo": "logos/kifisia.png",
+        "color": "#4169E1"
       },
       "away": {
-        "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-        "logo": "logos/olympiakos.png",
-        "color": "#dc1414"
+        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+        "logo": "logos/foinikas.png",
+        "color": "#FF4500"
       },
-      "date": "08/03",
+      "date": "14/03",
       "time": "18:30",
-      "court": "PAOK SPORTS ARENA"
+      "court": "ΖΗΡΙΝΕΙΟ"
     }
   ]
 }
