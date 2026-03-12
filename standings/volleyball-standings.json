@@ -1,52 +1,52 @@
 [
   {
     "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-    "points": 40,
-    "matches": 17
+    "points": 43,
+    "matches": 18
   },
   {
     "team": "ΑΟΝΣ ΜΙΛΩΝ",
-    "points": 39,
-    "matches": 17
-  },
-  {
-    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-    "points": 35,
-    "matches": 17
+    "points": 42,
+    "matches": 18
   },
   {
     "team": "ΠΑΟΚ",
-    "points": 34,
-    "matches": 17
+    "points": 36,
+    "matches": 18
+  },
+  {
+    "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
+    "points": 36,
+    "matches": 18
   },
   {
     "team": "ΟΦΗ",
-    "points": 28,
-    "matches": 17
+    "points": 30,
+    "matches": 18
+  },
+  {
+    "team": "ΠΑΝΙΩΝΙΟΣ",
+    "points": 19,
+    "matches": 18
   },
   {
     "team": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
     "points": 18,
-    "matches": 17
-  },
-  {
-    "team": "ΠΑΝΙΩΝΙΟΣ",
-    "points": 18,
-    "matches": 17
+    "matches": 18
   },
   {
     "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
     "points": 17,
-    "matches": 17
+    "matches": 18
   },
   {
     "team": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-    "points": 14,
-    "matches": 17
+    "points": 15,
+    "matches": 18
   },
   {
     "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-    "points": 12,
-    "matches": 17
+    "points": 14,
+    "matches": 18
   }
 ]
