@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Πανιώνιος",
+    "subtitle": "Γ.Σ.Σ.",
+    "slug": "panionios",
+    "color": "#004b8d",
+    "logo": "panionios.png"
+  },
+  "awayTeam": {
     "name": "Καλαμάτα",
     "subtitle": "A.O. '80 AFFIDEA",
     "slug": "kalamata",
     "color": "#008428",
     "logo": "kalamata.png"
   },
-  "awayTeam": {
-    "name": "Παναθηναϊκός",
-    "subtitle": "Α.Ο.",
-    "slug": "panathinaikos",
-    "color": "#007A33",
-    "logo": "panathinaikos.png"
-  },
-  "date": "8 Μαρτίου 2026",
-  "league": "18η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "14 Μαρτίου 2026",
+  "league": "PLAYOFFS 5-7 1Η ΑΓ."
 }

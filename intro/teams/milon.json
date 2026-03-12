@@ -7,12 +7,12 @@
     "logo": "milon.png"
   },
   "awayTeam": {
-    "name": "Κηφισιά",
-    "subtitle": "A.Ο.Π.Σ.",
-    "slug": "kifisia",
-    "color": "#1e3a8a",
-    "logo": "kifisia.png"
+    "name": "Π.Α.Ο.Κ.",
+    "subtitle": "Α.Σ.",
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png"
   },
-  "date": "8 Μαρτίου 2026",
-  "league": "18η ΑΓΩΝΙΣΤΙΚΗ"
+  "date": "14 Μαρτίου 2026",
+  "league": "PLAYOFFS ΗΜΙΤΕΛΙΚΩΝ 1Η ΑΓ."
 }

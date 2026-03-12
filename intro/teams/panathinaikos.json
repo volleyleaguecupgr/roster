@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Καλαμάτα",
-    "subtitle": "A.O. '80 AFFIDEA",
-    "slug": "kalamata",
-    "color": "#008428",
-    "logo": "kalamata.png"
-  },
-  "awayTeam": {
     "name": "Παναθηναϊκός",
     "subtitle": "Α.Ο.",
     "slug": "panathinaikos",
     "color": "#007A33",
     "logo": "panathinaikos.png"
   },
-  "date": "8 Μαρτίου 2026",
-  "league": "18η ΑΓΩΝΙΣΤΙΚΗ"
+  "awayTeam": {
+    "name": "Ολυμπιακός",
+    "subtitle": "Σ.Φ.Π ΟΝΕΧ",
+    "slug": "olympiakos",
+    "color": "#E41E26",
+    "logo": "olympiakos.png"
+  },
+  "date": "13 Μαρτίου 2026",
+  "league": "PLAYOFFS ΗΜΙΤΕΛΙΚΩΝ 1Η ΑΓ."
 }
