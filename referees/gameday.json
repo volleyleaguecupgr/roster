@@ -1,98 +1,79 @@
 {
   "games": [
     {
-      "homeTeam": "ΟΦΗ",
-      "homeSlug": "ofi",
-      "awayTeam": "ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-      "awaySlug": "foinikas",
+      "homeTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ",
+      "homeSlug": "panathinaikos",
+      "awayTeam": "ΟΛΥΜΠΙΑΚΟΣ",
+      "awaySlug": "olympiakos",
       "refs": {
         "referees": [
-          "Νικάκης",
-          "Τραχαλάκη"
+          "Βασιλειάδης",
+          "Βουδούρης"
         ],
-        "observer": "Βλαχάκης",
-        "challengeRef": "",
+        "observer": "Καλπακτσόγλου",
+        "challengeRef": "Κουτσούλας",
         "linesmen": [
-          "Ξηρουχάκης",
-          "Αποστολίδης"
+          "Ζαρμπίνης",
+          "Τσεκούρας"
         ],
-        "secretariat": "Παπαδάκη Ανθ."
+        "secretariat": "Ταλάρου"
       }
     },
     {
       "homeTeam": "ΜΙΛΩΝ",
       "homeSlug": "milon",
-      "awayTeam": "ΚΗΦΙΣΙΑ",
-      "awaySlug": "kifisia",
+      "awayTeam": "ΠΑΟΚ",
+      "awaySlug": "paok",
       "refs": {
         "referees": [
-          "Μυλωνάκης",
-          "Μιχαήλογλου"
+          "Νικάκης",
+          "Γεωργιάδης Στ."
         ],
-        "observer": "Ράπτης",
-        "challengeRef": "",
+        "observer": "Γεωργόπουλος",
+        "challengeRef": "Μυλωνάκης",
         "linesmen": [
-          "Σωνάκης",
-          "Τσεκούρας"
+          "Γεώργας",
+          "Κώτσιας"
         ],
-        "secretariat": "Θεοδωρίδου"
-      }
-    },
-    {
-      "homeTeam": "ΚΑΛΑΜΑΤΑ",
-      "homeSlug": "kalamata",
-      "awayTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ",
-      "awaySlug": "panathinaikos",
-      "refs": {
-        "referees": [
-          "Καραγιαννόπουλος",
-          "Κτενάς"
-        ],
-        "observer": "Κανελλίδης",
-        "challengeRef": "",
-        "linesmen": [
-          "Κοσμάς",
-          "Βλάσσης"
-        ],
-        "secretariat": "Ραβάνη"
+        "secretariat": "Μπίτσικα"
       }
     },
     {
       "homeTeam": "ΠΑΝΙΩΝΙΟΣ",
       "homeSlug": "panionios",
-      "awayTeam": "ΦΛΟΙΣΒΟΣ",
-      "awaySlug": "floisvos",
+      "awayTeam": "ΚΑΛΑΜΑΤΑ",
+      "awaySlug": "kalamata",
       "refs": {
         "referees": [
-          "Βασιλειάδης",
-          "Πρέντζας"
+          "Φραγκάκης",
+          "Καραγιαννόπουλος"
         ],
-        "observer": "Κατσούλης",
-        "challengeRef": "Κατσούλης",
+        "observer": "Πέρρος",
+        "challengeRef": "Μουλά Λ.",
         "linesmen": [
-          "Μουζακίτη",
-          "Ζαρμπίνης"
+          "Γεωργοπούλου",
+          "Νικολάου"
         ],
-        "secretariat": "Λορέντζου"
+        "secretariat": "Καρατζογλίδου"
       }
     },
     {
-      "homeTeam": "ΠΑΟΚ",
-      "homeSlug": "paok",
-      "awayTeam": "ΟΛΥΜΠΙΑΚΟΣ",
-      "awaySlug": "olympiakos",
+      "homeTeam": "ΚΗΦΙΣΙΑ",
+      "homeSlug": "kifisia",
+      "awayTeam": "ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+      "awaySlug": "foinikas",
       "refs": {
         "referees": [
-          "Κουτσούλας",
-          "Αβραμίδης"
+          "Κυριοπούλου",
+          "Γεροθόδωρος"
         ],
-        "observer": "Δεληκωστίδης",
-        "challengeRef": "Δρανίτσας",
+        "observer": "Ράπτης",
+        "challengeRef": "",
         "linesmen": [
-          "Ψύχου",
-          "Σταυρίδου"
+          "Τομαράς",
+          "Μουζακίτη"
         ],
-        "secretariat": "Κουμπλή"
+        "secretariat": "Γλυκού"
       }
     }
   ]
