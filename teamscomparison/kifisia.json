@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "AOP KIFISIAS",
-    "away_team": "AO KALAMATA '80",
-    "datetime": "01 March 2026 - 19:00"
+    "away_team": "A.O. FOINIKAS SIROU",
+    "datetime": "14 March 2026 - 18:30"
   },
   "teams_comparison": {
     "titles": [
@@ -56,29 +56,29 @@
       "efficiency": {
         "home": "34%",
         "average": "33%",
-        "away": "32%"
+        "away": "27%"
       },
-      "spikes_per_set_home": "11.96",
-      "spikes_per_set_avg": "11.99",
-      "spikes_per_set_away": "11.98",
-      "spikes_per_set_home_played": "(68)",
-      "spikes_per_set_away_played": "(63)"
+      "spikes_per_set_home": "11.92",
+      "spikes_per_set_avg": "11.97",
+      "spikes_per_set_away": "11.13",
+      "spikes_per_set_home_played": "(75)",
+      "spikes_per_set_away_played": "(72)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.22",
-      "blocks_per_set_avg": "2.04",
-      "blocks_per_set_away": "2.16",
-      "blocks_home_played": "(68)",
-      "blocks_away_played": "(63)"
+      "blocks_per_set_home": "2.31",
+      "blocks_per_set_avg": "2.06",
+      "blocks_per_set_away": "2.19",
+      "blocks_home_played": "(75)",
+      "blocks_away_played": "(72)"
     },
     "serve": {
-      "aces_home": "74",
-      "aces_away": "81",
-      "aces_per_set_home": "1.09",
-      "aces_per_set_avg": "1.66",
-      "aces_per_set_away": "1.29",
-      "aces_home_played": "(68)",
-      "aces_away_played": "(63)"
+      "aces_home": "88",
+      "aces_away": "104",
+      "aces_per_set_home": "1.17",
+      "aces_per_set_avg": "1.64",
+      "aces_per_set_away": "1.44",
+      "aces_home_played": "(75)",
+      "aces_away_played": "(72)"
     },
     "reception": {
       "reception_eff_home": "30%",

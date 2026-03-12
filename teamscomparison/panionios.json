@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "PANIONIOS G.S.S.",
-    "away_team": "AO FLOISVOS",
-    "datetime": "08 March 2026 - 18:30"
+    "away_team": "AO KALAMATA '80 \"Affidea\"",
+    "datetime": "14 March 2026 - 17:00"
   },
   "teams_comparison": {
     "titles": [
@@ -56,37 +56,37 @@
       "efficiency": {
         "home": "33%",
         "average": "33%",
-        "away": "29%"
+        "away": "31%"
       },
-      "spikes_per_set_home": "12.09",
-      "spikes_per_set_avg": "12.01",
-      "spikes_per_set_away": "11.86",
-      "spikes_per_set_home_played": "(67)",
-      "spikes_per_set_away_played": "(74)"
+      "spikes_per_set_home": "12.06",
+      "spikes_per_set_avg": "11.97",
+      "spikes_per_set_away": "11.74",
+      "spikes_per_set_home_played": "(72)",
+      "spikes_per_set_away_played": "(69)"
     },
     "blocks": {
-      "blocks_per_set_home": "1.79",
+      "blocks_per_set_home": "1.86",
       "blocks_per_set_avg": "2.06",
-      "blocks_per_set_away": "1.96",
-      "blocks_home_played": "(67)",
-      "blocks_away_played": "(74)"
+      "blocks_per_set_away": "2.12",
+      "blocks_home_played": "(72)",
+      "blocks_away_played": "(69)"
     },
     "serve": {
-      "aces_home": "106",
-      "aces_away": "77",
-      "aces_per_set_home": "1.58",
-      "aces_per_set_avg": "1.65",
-      "aces_per_set_away": "1.04",
-      "aces_home_played": "(67)",
-      "aces_away_played": "(74)"
+      "aces_home": "108",
+      "aces_away": "86",
+      "aces_per_set_home": "1.50",
+      "aces_per_set_avg": "1.64",
+      "aces_per_set_away": "1.25",
+      "aces_home_played": "(72)",
+      "aces_away_played": "(69)"
     },
     "reception": {
-      "reception_eff_home": "39%",
+      "reception_eff_home": "40%",
       "reception_eff_avg": "34%",
       "reception_eff_away": "32%",
       "reception_perfect_home": "26%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "26%"
+      "reception_perfect_away": "24%"
     }
   }
 }

@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "AONS MILON",
-    "away_team": "AOP KIFISIAS",
-    "datetime": "08 March 2026 - 18:30"
+    "away_team": "PAOK",
+    "datetime": "14 March 2026 - 20:30"
   },
   "teams_comparison": {
     "titles": [
@@ -54,39 +54,39 @@
     ],
     "spikes": {
       "efficiency": {
-        "home": "38%",
+        "home": "39%",
         "average": "33%",
         "away": "34%"
       },
-      "spikes_per_set_home": "12.94",
-      "spikes_per_set_avg": "12.01",
-      "spikes_per_set_away": "12.00",
-      "spikes_per_set_home_played": "(62)",
-      "spikes_per_set_away_played": "(71)"
+      "spikes_per_set_home": "13.00",
+      "spikes_per_set_avg": "11.97",
+      "spikes_per_set_away": "12.61",
+      "spikes_per_set_home_played": "(66)",
+      "spikes_per_set_away_played": "(77)"
     },
     "blocks": {
-      "blocks_per_set_home": "1.82",
+      "blocks_per_set_home": "1.80",
       "blocks_per_set_avg": "2.06",
-      "blocks_per_set_away": "2.28",
-      "blocks_home_played": "(62)",
-      "blocks_away_played": "(71)"
+      "blocks_per_set_away": "1.94",
+      "blocks_home_played": "(66)",
+      "blocks_away_played": "(77)"
     },
     "serve": {
-      "aces_home": "158",
-      "aces_away": "82",
-      "aces_per_set_home": "2.55",
-      "aces_per_set_avg": "1.65",
-      "aces_per_set_away": "1.15",
-      "aces_home_played": "(62)",
-      "aces_away_played": "(71)"
+      "aces_home": "164",
+      "aces_away": "108",
+      "aces_per_set_home": "2.48",
+      "aces_per_set_avg": "1.64",
+      "aces_per_set_away": "1.40",
+      "aces_home_played": "(66)",
+      "aces_away_played": "(77)"
     },
     "reception": {
       "reception_eff_home": "33%",
       "reception_eff_avg": "34%",
-      "reception_eff_away": "31%",
+      "reception_eff_away": "42%",
       "reception_perfect_home": "24%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "24%"
+      "reception_perfect_away": "27%"
     }
   }
 }
