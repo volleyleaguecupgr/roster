@@ -59,6 +59,7 @@
 
         @keyframes titleSlideIn { to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
+        /* ── OUTER WRAPPER ─────────────────────────────────────── */
         .standings-container {
             position: absolute; top: 50%; left: 50%;
             width: 1300px; z-index: 10; opacity: 0;
@@ -69,33 +70,207 @@
 
         @keyframes containerSlideIn { to { opacity: 1; transform: translate(-50%, -50%) translateY(0); } }
 
+        /* ── TOP SECTION: BRACKETS + LOWER TABLE ──────────────── */
+        .top-section {
+            display: flex;
+            gap: 0;
+            margin-bottom: 0;
+        }
+
+        /* ── SEMIFINALS BRACKET ────────────────────────────────── */
+        .brackets-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 25px 25px 0 0;
+            border: 3px solid rgba(59, 130, 246, 0.4);
+            border-bottom: none;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
+            padding: 12px 16px;
+            position: relative;
+        }
+
+        .brackets-wrapper::before {
+            content: 'PLAYOFFS ΗΜΙΤΕΛΙΚΩΝ';
+            position: absolute;
+            top: 8px; left: 50%; transform: translateX(-50%);
+            font-size: 11px; font-weight: 800; letter-spacing: 2px;
+            color: rgba(134, 239, 172, 0.9);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* LEFT bracket: 1st vs 4th */
+        .bracket-side {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-top: 22px;
+        }
+
+        .bracket-side.right {
+            flex-direction: row-reverse;
+        }
+
+        /* The two team cards stacked */
+        .bracket-teams {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        /* SVG bracket lines in the middle */
+        .bracket-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            flex-shrink: 0;
+        }
+
+        .bracket-connector svg {
+            width: 36px;
+            height: 100px;
+        }
+
+        /* Center "VS" divider */
+        .bracket-vs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            flex-shrink: 0;
+            padding-top: 22px;
+        }
+
+        .bracket-vs span {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+            letter-spacing: 1px;
+        }
+
+        .bracket-vs .final-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(134, 239, 172, 0.7);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* ── TEAM CARD in bracket ──────────────────────────────── */
+        .bracket-team-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.15);
+            position: relative;
+            opacity: 0;
+            animation: slideInScale 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .bracket-team-card:nth-child(1) { animation-delay: 2.5s; }
+        .bracket-team-card:nth-child(2) { animation-delay: 2.8s; }
+
+        .bracket-side.right .bracket-team-card:nth-child(1) { animation-delay: 2.65s; }
+        .bracket-side.right .bracket-team-card:nth-child(2) { animation-delay: 2.95s; }
+
+        @keyframes slideInScale {
+            0% { opacity:0; transform:translateX(-80px) scale(0.95); }
+            70% { box-shadow:0 0 30px rgba(59,130,246,0.8); }
+            100% { opacity:1; transform:translateX(0) scale(1); box-shadow:0 0 15px rgba(59,130,246,0.3); }
+        }
+
+        .bracket-side.right .bracket-team-card {
+            animation-name: slideInScaleRight;
+        }
+
+        @keyframes slideInScaleRight {
+            0% { opacity:0; transform:translateX(80px) scale(0.95); }
+            70% { box-shadow:0 0 30px rgba(59,130,246,0.8); }
+            100% { opacity:1; transform:translateX(0) scale(1); box-shadow:0 0 15px rgba(59,130,246,0.3); }
+        }
+
+        .bracket-position {
+            font-size: 18px; font-weight: 900; color: rgba(255,255,255,0.7);
+            width: 22px; text-align: center; flex-shrink: 0;
+        }
+
+        .bracket-logo {
+            width: 44px; height: 44px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .bracket-logo img {
+            width: 40px; height: 40px; object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .bracket-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .bracket-name {
+            font-size: 16px; font-weight: 700; color: #f8fafc;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+            white-space: nowrap;
+        }
+
+        /* Victory counter */
+        .bracket-wins {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .wins-counter {
+            font-size: 20px; font-weight: 900;
+            color: #fbbf24;
+            text-shadow: 0 0 12px rgba(251, 191, 36, 0.7);
+            letter-spacing: 1px;
+        }
+
+        .wins-label {
+            font-size: 10px; font-weight: 600;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* ── LOWER STANDINGS TABLE ─────────────────────────────── */
         .standings-table {
             width: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px);
-            border-radius: 25px; overflow: visible;
+            border-radius: 0 0 25px 25px; overflow: visible;
             border: 3px solid rgba(59, 130, 246, 0.4);
+            border-top: none;
             box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
             position: relative;
         }
 
         .team-logo {
-          width: 60px;
-          height: 60px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          margin-left: 15px; /* Moves logos slightly right */
+          width: 60px; height: 60px;
+          display: flex; align-items: center; justify-content: center;
+          flex-shrink: 0; margin-left: 15px;
         }
         
         .team-logo img {
-          width: 55px;
-          height: 55px;
-          object-fit: contain;
-          border-radius: 8px;
-          padding: 3px;
+          width: 55px; height: 55px; object-fit: contain;
+          border-radius: 8px; padding: 3px;
           background: rgba(255, 255, 255, 0.05);
         }
-
 
         .table-header {
             background: linear-gradient(135deg, rgba(30, 64, 175, 0.95) 0%, rgba(59, 130, 246, 0.95) 100%);
@@ -123,26 +298,20 @@
 
         .team-row {
             opacity: 0; transform: translateX(-150px) scale(0.95);
-            animation: slideInScale 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: slideInScaleRow 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             position: relative; overflow: visible; transition: all 0.6s ease;
             border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-            padding: 0;
-            margin: 0;
         }
 
-        .team-row:nth-child(2) { animation-delay: 2.5s; }
-        .team-row:nth-child(3) { animation-delay: 2.8s; }
-        .team-row:nth-child(4) { animation-delay: 3.1s; }
-        .team-row:nth-child(5) { animation-delay: 3.4s; }
-        .team-row:nth-child(6) { animation-delay: 3.7s; }
-        .team-row:nth-child(7) { animation-delay: 4.0s; }
-        .team-row:nth-child(8) { animation-delay: 4.3s; }
-        .team-row:nth-child(9) { animation-delay: 4.6s; }
-        .team-row:nth-child(10) { animation-delay: 4.9s; }
-        .team-row:nth-child(11) { animation-delay: 5.2s; }
+        .team-row:nth-child(1) { animation-delay: 3.1s; }
+        .team-row:nth-child(2) { animation-delay: 3.4s; }
+        .team-row:nth-child(3) { animation-delay: 3.7s; }
+        .team-row:nth-child(4) { animation-delay: 4.0s; }
+        .team-row:nth-child(5) { animation-delay: 4.3s; }
+        .team-row:nth-child(6) { animation-delay: 4.6s; }
 
-        @keyframes slideInScale {
-            0% { opacity:0; transform:translateX(-150px) scale(0.95); box-shadow:0 0 0 rgba(59,130,246,0.5); }
+        @keyframes slideInScaleRow {
+            0% { opacity:0; transform:translateX(-150px) scale(0.95); }
             70% { box-shadow:0 0 30px rgba(59,130,246,0.8), 0 0 60px rgba(59,130,246,0.4); }
             100% { opacity:1; transform:translateX(0) scale(1); box-shadow:0 0 15px rgba(59,130,246,0.3); }
         }
@@ -173,28 +342,11 @@
         .panionios { background: linear-gradient(135deg, var(--panionios) 0%, #991b1b 50%, #7f1d1d 100%); }
         .kalamata { background: linear-gradient(135deg, var(--kalamata) 0%, #16a34a 50%, #15803d 100%); }
 
-        .position {
-            font-weight: 900; font-size: 20px;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7); width: 80px;
-        }
-
+        .position { font-weight: 900; font-size: 20px; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7); width: 80px; }
         .team-info { display: flex; align-items: center; gap: 25px; }
-
-        .team-name {
-            font-family: 'Inter', sans-serif; font-weight: 700; font-size: 24px;
-            color: #f8fafc; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-        }
-
-        .points {
-            font-family: 'Inter', sans-serif; font-weight: 900; font-size: 24px;
-            color: #f8fafc; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-        }
-
-        .matches {
-            font-family: 'Inter', sans-serif; color: #e2e8f0;
-            font-weight: 600; font-size: 24px;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-        }
+        .team-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 24px; color: #f8fafc; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7); }
+        .points { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 24px; color: #f8fafc; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }
+        .matches { font-family: 'Inter', sans-serif; color: #e2e8f0; font-weight: 600; font-size: 24px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
 
         .league-logo {
             position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
@@ -215,55 +367,42 @@
         }
 
         @keyframes logoGlow {
-            0%, 100% { 
-                filter:drop-shadow(0 0 20px rgba(59,130,246,0.6)) drop-shadow(0 0 40px rgba(59,130,246,0.3)) brightness(1);
-            }
-            50% { 
-                filter:drop-shadow(0 0 30px rgba(59,130,246,0.8)) drop-shadow(0 0 60px rgba(59,130,246,0.5)) brightness(1.1);
-            }
-        }
-
-        .loading {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: #fff; font-size: 24px; z-index: 100;
+            0%, 100% { filter:drop-shadow(0 0 20px rgba(59,130,246,0.6)) drop-shadow(0 0 40px rgba(59,130,246,0.3)) brightness(1); }
+            50% { filter:drop-shadow(0 0 30px rgba(59,130,246,0.8)) drop-shadow(0 0 60px rgba(59,130,246,0.5)) brightness(1.1); }
         }
 
         .playoff-badge {
             position: absolute; left: 15px; 
-            width: 55px;
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            width: 55px; backdrop-filter: blur(10px);
+            border-radius: 15px; border: 2px solid rgba(255, 255, 255, 0.3);
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 20px;
-            text-transform: uppercase; letter-spacing: 0.5px;
-            text-align: center;
-            padding: 15px 8px;
-            line-height: 1.1;
+            font-weight: 700; font-size: 20px; text-transform: uppercase;
+            letter-spacing: 0.5px; text-align: center;
+            padding: 15px 8px; line-height: 1.1;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            z-index: 5;
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
+            z-index: 5; writing-mode: vertical-rl; transform: rotate(180deg);
             pointer-events: none;
         }
 
-        .playoff-badge.playoff-semifinals {
-            background: rgba(134, 239, 172, 0.5);
-            color: #ffffff;
-            top: 40px;
-        }
-
         .playoff-badge.playoff-57 {
-            background: rgba(147, 197, 253, 0.5);
-            color: #ffffff;
-            top: 420px;
+            background: rgba(147, 197, 253, 0.5); color: #ffffff; top: 0px;
         }
 
         .playoff-badge.playout {
-            background: rgba(252, 165, 165, 0.5);
-            color: #ffffff;
-            top: 660px;
+            background: rgba(252, 165, 165, 0.5); color: #ffffff;
         }
+
+        /* Bracket color accents per team */
+        .bracket-team-card.olympiakos  { border-color: rgba(220, 20, 20, 0.5); background: linear-gradient(135deg, rgba(220,20,20,0.25) 0%, rgba(153,27,27,0.2) 100%); }
+        .bracket-team-card.panathinaikos { border-color: rgba(22,163,74,0.5); background: linear-gradient(135deg, rgba(22,163,74,0.25) 0%, rgba(21,128,61,0.2) 100%); }
+        .bracket-team-card.paok { border-color: rgba(100,100,100,0.5); background: linear-gradient(135deg, rgba(26,26,26,0.4) 0%, rgba(3,7,18,0.4) 100%); }
+        .bracket-team-card.milon { border-color: rgba(34,139,34,0.5); background: linear-gradient(135deg, rgba(34,139,34,0.25) 0%, rgba(21,128,61,0.2) 100%); }
+        .bracket-team-card.kifisia { border-color: rgba(65,105,225,0.5); background: linear-gradient(135deg, rgba(65,105,225,0.25) 0%, rgba(29,78,216,0.2) 100%); }
+        .bracket-team-card.foinikas { border-color: rgba(255,69,0,0.5); background: linear-gradient(135deg, rgba(255,69,0,0.25) 0%, rgba(234,88,12,0.2) 100%); }
+        .bracket-team-card.floisvos { border-color: rgba(30,144,255,0.5); background: linear-gradient(135deg, rgba(30,144,255,0.25) 0%, rgba(29,78,216,0.2) 100%); }
+        .bracket-team-card.panionios { border-color: rgba(220,20,60,0.5); background: linear-gradient(135deg, rgba(220,20,60,0.25) 0%, rgba(153,27,27,0.2) 100%); }
+        .bracket-team-card.kalamata { border-color: rgba(50,205,50,0.5); background: linear-gradient(135deg, rgba(50,205,50,0.25) 0%, rgba(22,163,74,0.2) 100%); }
+        .bracket-team-card.ofh { border-color: rgba(80,80,80,0.5); background: linear-gradient(135deg, rgba(44,44,44,0.4) 0%, rgba(3,7,18,0.4) 100%); }
     </style>
 </head>
 <body>
@@ -280,20 +419,53 @@
         
         <div class="title">ΒΑΘΜΟΛΟΓΙΑ VOLLEYLEAGUE</div>
         
-        <!-- <div class="loading" id="loading">Φόρτωση βαθμολογίας...</div> -->
-        
         <div class="standings-container">
-            <table class="standings-table">
-                <thead class="table-header">
-                    <tr>
-                        <th>ΘΕΣΗ</th>
-                        <th>ΟΜΑΔΑ</th>
-                        <th>ΒΑΘΜΟΙ</th>
-                        <th>ΑΓΩΝΕΣ</th>
-                    </tr>
-                </thead>
-                <tbody id="standingsBody"></tbody>
-            </table>
+
+            <!-- TOP: Semifinals Bracket -->
+            <div class="brackets-wrapper" id="bracketsWrapper">
+                <!-- Left bracket: 1st vs 4th -->
+                <div class="bracket-side left" id="leftBracket">
+                    <div class="bracket-teams" id="leftTeams"></div>
+                    <div class="bracket-connector">
+                        <svg viewBox="0 0 36 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 10 H18 V50 H18 V90 H2" stroke="rgba(59,130,246,0.7)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="18" cy="50" r="3" fill="#fbbf24" opacity="0.9"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Center VS -->
+                <div class="bracket-vs">
+                    <span>VS</span>
+                    <div class="final-label">ΗΜΙΤΕΛΙΚΑ</div>
+                </div>
+
+                <!-- Right bracket: 2nd vs 3rd -->
+                <div class="bracket-side right" id="rightBracket">
+                    <div class="bracket-connector">
+                        <svg viewBox="0 0 36 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M34 10 H18 V50 H18 V90 H34" stroke="rgba(59,130,246,0.7)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="18" cy="50" r="3" fill="#fbbf24" opacity="0.9"/>
+                        </svg>
+                    </div>
+                    <div class="bracket-teams" id="rightTeams"></div>
+                </div>
+            </div>
+
+            <!-- LOWER TABLE: positions 5–10 -->
+            <div style="position: relative;">
+                <table class="standings-table">
+                    <thead class="table-header">
+                        <tr>
+                            <th>ΘΕΣΗ</th>
+                            <th>ΟΜΑΔΑ</th>
+                            <th>ΒΑΘΜΟΙ</th>
+                            <th>ΑΓΩΝΕΣ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="standingsBody"></tbody>
+                </table>
+            </div>
         </div>
 
         <div class="league-logo">
@@ -316,55 +488,70 @@
             'ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA': { logo: 'kalamata.png', className: 'kalamata' }
         };
 
-        function getPlayoffBadge(position) {
-            if (position <= 4) {
-                return { text: 'PLAYOFFS ΗΜΙΤΕΛΙΚΩΝ', className: 'playoff-semifinals' };
-            } else if (position <= 7) {
-                return { text: 'PLAYOFFS 5-7', className: 'playoff-57' };
-            } else {
-                return { text: 'PLAYOUTS', className: 'playout' };
-            }
+        function buildBracketCard(standing, position) {
+            const team = teams[standing.team];
+            if (!team) return null;
+
+            const card = document.createElement('div');
+            card.className = `bracket-team-card ${team.className}`;
+            card.innerHTML = `
+                <div class="bracket-position">${position}</div>
+                <div class="bracket-logo"><img src="${team.logo}" alt="${standing.team}"></div>
+                <div class="bracket-info">
+                    <div class="bracket-name">${standing.team}</div>
+                    <div class="bracket-wins">
+                        <span class="wins-counter">${standing.wins ?? 0}/3</span>
+                        <span class="wins-label">ΝΙΚΕΣ</span>
+                    </div>
+                </div>
+            `;
+            return card;
         }
 
         async function loadStandings() {
             try {
                 const response = await fetch('volleyball-standings.json');
                 const standings = await response.json();
-                
                 renderStandings(standings);
-                document.getElementById('loading').style.display = 'none';
             } catch (error) {
                 console.error('Error loading standings:', error);
-                document.getElementById('loading').textContent = 'Σφάλμα φόρτωσης βαθμολογίας';
             }
         }
 
         function renderStandings(standings) {
+            // ── TOP 4: bracket ──────────────────────────────────────────
+            const leftTeams  = document.getElementById('leftTeams');
+            const rightTeams = document.getElementById('rightTeams');
+
+            // Left: 1st (index 0) and 4th (index 3)
+            const card1 = buildBracketCard(standings[0], 1);
+            const card4 = buildBracketCard(standings[3], 4);
+            if (card1) leftTeams.appendChild(card1);
+            if (card4) leftTeams.appendChild(card4);
+
+            // Right: 2nd (index 1) and 3rd (index 2)
+            const card2 = buildBracketCard(standings[1], 2);
+            const card3 = buildBracketCard(standings[2], 3);
+            if (card2) rightTeams.appendChild(card2);
+            if (card3) rightTeams.appendChild(card3);
+
+            // ── POSITIONS 5–10: normal table ────────────────────────────
             const tbody = document.getElementById('standingsBody');
             tbody.innerHTML = '';
 
-            standings.forEach((standing, index) => {
+            const lowerStandings = standings.slice(4);
+
+            // Calculate badge heights dynamically after render
+            lowerStandings.forEach((standing, index) => {
                 const team = teams[standing.team];
                 if (!team) return;
 
+                const globalPosition = index + 5;
                 const row = document.createElement('tr');
-                const position = index + 1;
-                
-                // Add playoff group as data attribute
-                let playoffGroup = '';
-                if (position <= 4) {
-                    playoffGroup = 'semifinals';
-                } else if (position <= 7) {
-                    playoffGroup = 'playoff-57';
-                } else {
-                    playoffGroup = 'playout';
-                }
-                
                 row.className = `team-row ${team.className}`;
-                row.setAttribute('data-playoff', playoffGroup);
-                
+
                 row.innerHTML = `
-                    <td class="position">${position}</td>
+                    <td class="position">${globalPosition}</td>
                     <td>
                         <div class="team-info">
                             <div class="team-logo"><img src="${team.logo}"></div>
@@ -374,138 +561,83 @@
                     <td class="points">${standing.points}</td>
                     <td class="matches">${standing.matches}</td>
                 `;
-
                 tbody.appendChild(row);
             });
 
-            // Create badges as separate elements positioned outside table
-            const container = document.querySelector('.standings-container');
-            const table = document.querySelector('.standings-table');
-            
-            // Remove old badges if any
-            document.querySelectorAll('.playoff-badge-group').forEach(el => el.remove());
-            
-            const badgeConfigs = [
-                { position: 1, height: 360, className: 'playoff-semifinals', text: 'PLAYOFF ΗΜΙΤΕΛΙΚΩΝ', group: 'semifinals' },
-                { position: 5, height: 230, className: 'playoff-57', text: 'PLAYOFF 5-7', group: 'playoff-57' },
-                { position: 8, height: 230, className: 'playout', text: 'PLAYOUT', group: 'playout' }
-            ];
+            // ── Badges on lower table ────────────────────────────────────
+            const lowerWrapper = document.querySelector('.standings-container > div[style]');
 
-            badgeConfigs.forEach(config => {
-                const badge = document.createElement('div');
-                badge.className = `playoff-badge ${config.className} playoff-badge-group`;
-                badge.textContent = config.text;
-                badge.style.height = config.height + 'px';
-                container.appendChild(badge);
-            });
+            // Positions 5-7 → PLAYOFFS 5-7 (3 rows = indexes 0,1,2 of lowerStandings)
+            // Positions 8-10 → PLAYOUT   (3 rows = indexes 3,4,5 of lowerStandings)
+            // Each row ~77px; badge tops are relative to the lower table div
+            const rowHeight = 77;
+
+            const badge57 = document.createElement('div');
+            badge57.className = 'playoff-badge playoff-57 playoff-badge-group';
+            badge57.textContent = 'PLAYOFF 5-7';
+            badge57.style.height = (3 * rowHeight) + 'px';
+            badge57.style.top = '42px'; // after header
+            lowerWrapper.appendChild(badge57);
+
+            const badgePO = document.createElement('div');
+            badgePO.className = 'playoff-badge playout playoff-badge-group';
+            badgePO.textContent = 'PLAYOUT';
+            badgePO.style.height = (3 * rowHeight) + 'px';
+            badgePO.style.top = (42 + 3 * rowHeight) + 'px';
+            lowerWrapper.appendChild(badgePO);
         }
 
-        // 3D Volleyball Scene
+        // ── 3D Scene ────────────────────────────────────────────────────
         let scene, camera, renderer, volleyballs = [];
         let animationId;
 
         function init3D() {
             const container = document.getElementById('volleyball-3d-scene');
-            
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, 1920 / 1080, 0.1, 1000);
             camera.position.set(0, 0, 15);
-            
             renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             renderer.setSize(1920, 1080);
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             container.appendChild(renderer.domElement);
-            
             const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
             scene.add(ambientLight);
-            
             const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
             directionalLight.position.set(10, 10, 5);
             directionalLight.castShadow = true;
             scene.add(directionalLight);
-
             createFlyingVolleyballs();
             animate3D();
         }
 
         function createVolleyball() {
             const volleyballGeometry = new THREE.SphereGeometry(2, 64, 64);
-            
             const canvas = document.createElement('canvas');
-            canvas.width = 1024;
-            canvas.height = 1024;
+            canvas.width = 1024; canvas.height = 1024;
             const ctx = canvas.getContext('2d');
-            
-            const centerX = 512;
-            const centerY = 512;
-            
-            ctx.fillStyle = '#1e3a8a';
-            ctx.fillRect(0, 0, 1024, 1024);
-            
+            const centerX = 512, centerY = 512;
+            ctx.fillStyle = '#1e3a8a'; ctx.fillRect(0, 0, 1024, 1024);
             ctx.fillStyle = '#fbbf24';
-            
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, 400, -Math.PI/2, 0);
-            ctx.lineTo(centerX, centerY);
-            ctx.fill();
-            
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, 400, Math.PI/2, Math.PI);
-            ctx.lineTo(centerX, centerY);
-            ctx.fill();
-            
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, 400, Math.PI, 3*Math.PI/2);
-            ctx.lineTo(centerX, centerY);
-            ctx.fill();
-            
-            ctx.strokeStyle = '#1a1a1a';
-            ctx.lineWidth = 8;
-            ctx.lineCap = 'round';
-            
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, 350, 0.3, Math.PI - 0.3);
-            ctx.stroke();
-            
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, 350, Math.PI + 0.3, 2 * Math.PI - 0.3);
-            ctx.stroke();
-            
+            ctx.beginPath(); ctx.arc(centerX, centerY, 400, -Math.PI/2, 0); ctx.lineTo(centerX, centerY); ctx.fill();
+            ctx.beginPath(); ctx.arc(centerX, centerY, 400, Math.PI/2, Math.PI); ctx.lineTo(centerX, centerY); ctx.fill();
+            ctx.beginPath(); ctx.arc(centerX, centerY, 400, Math.PI, 3*Math.PI/2); ctx.lineTo(centerX, centerY); ctx.fill();
+            ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 8; ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.arc(centerX, centerY, 350, 0.3, Math.PI - 0.3); ctx.stroke();
+            ctx.beginPath(); ctx.arc(centerX, centerY, 350, Math.PI + 0.3, 2 * Math.PI - 0.3); ctx.stroke();
             const volleyballTexture = new THREE.CanvasTexture(canvas);
-            
-            const volleyballMaterial = new THREE.MeshPhongMaterial({
-                map: volleyballTexture,
-                shininess: 25,
-                specular: new THREE.Color(0x333333)
-            });
-            
+            const volleyballMaterial = new THREE.MeshPhongMaterial({ map: volleyballTexture, shininess: 25, specular: new THREE.Color(0x333333) });
             const volleyball = new THREE.Mesh(volleyballGeometry, volleyballMaterial);
-            volleyball.castShadow = true;
-            volleyball.receiveShadow = true;
-            
+            volleyball.castShadow = true; volleyball.receiveShadow = true;
             return volleyball;
         }
 
         function createFlyingVolleyballs() {
             for (let i = 0; i < 3; i++) {
                 const volleyball = createVolleyball();
-                
-                volleyball.userData = {
-                    speed: 0.8 + i * 0.3,
-                    yOffset: (i - 1) * 8,
-                    phase: i * Math.PI * 0.66,
-                    direction: i % 2 === 0 ? 1 : -1
-                };
-                
-                volleyball.position.set(
-                    volleyball.userData.direction === 1 ? -25 : 25, 
-                    volleyball.userData.yOffset, 
-                    -5 + i * 2
-                );
-                
+                volleyball.userData = { speed: 0.8 + i * 0.3, yOffset: (i - 1) * 8, phase: i * Math.PI * 0.66, direction: i % 2 === 0 ? 1 : -1 };
+                volleyball.position.set(volleyball.userData.direction === 1 ? -25 : 25, volleyball.userData.yOffset, -5 + i * 2);
                 volleyball.scale.set(0.8 + i * 0.1, 0.8 + i * 0.1, 0.8 + i * 0.1);
-                
                 volleyballs.push(volleyball);
                 scene.add(volleyball);
             }
@@ -513,32 +645,21 @@
 
         function animate3D() {
             animationId = requestAnimationFrame(animate3D);
-            
             const time = Date.now() * 0.001;
-            
             volleyballs.forEach((volleyball, index) => {
                 const userData = volleyball.userData;
                 const progress = (time * userData.speed + userData.phase) % (Math.PI * 2);
-                
                 const normalizedProgress = (Math.sin(progress) + 1) / 2;
-                
                 if (userData.direction === 1) {
-                    const x = -25 + normalizedProgress * 50;
-                    const y = userData.yOffset + Math.sin(normalizedProgress * Math.PI) * 6;
-                    volleyball.position.set(x, y, volleyball.position.z);
+                    volleyball.position.set(-25 + normalizedProgress * 50, userData.yOffset + Math.sin(normalizedProgress * Math.PI) * 6, volleyball.position.z);
                 } else {
-                    const x = 25 - normalizedProgress * 50;
-                    const y = userData.yOffset + Math.sin(normalizedProgress * Math.PI) * 6;
-                    volleyball.position.set(x, y, volleyball.position.z);
+                    volleyball.position.set(25 - normalizedProgress * 50, userData.yOffset + Math.sin(normalizedProgress * Math.PI) * 6, volleyball.position.z);
                 }
-                
                 volleyball.rotation.x += 0.02 * userData.speed;
                 volleyball.rotation.y += 0.015 * userData.speed;
-                
                 const scale = 0.8 + index * 0.1 + Math.sin(time * 2 + index) * 0.1;
                 volleyball.scale.set(scale, scale, scale);
             });
-            
             renderer.render(scene, camera);
         }
 
@@ -548,19 +669,14 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Volleyball Standings loaded');
             loadStandings();
             init3D();
             window.addEventListener('resize', onWindowResize);
         });
 
         window.addEventListener('beforeunload', function() {
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-            }
-            if (renderer) {
-                renderer.dispose();
-            }
+            if (animationId) cancelAnimationFrame(animationId);
+            if (renderer) renderer.dispose();
         });
     </script>
 </body>
