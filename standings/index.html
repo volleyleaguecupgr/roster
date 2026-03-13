@@ -114,6 +114,7 @@
 
         .bracket-side.right {
             flex-direction: row-reverse;
+            left: 0px;
         }
 
         /* The two team cards stacked */
@@ -570,20 +571,22 @@
             // Positions 5-7 → PLAYOFFS 5-7 (3 rows = indexes 0,1,2 of lowerStandings)
             // Positions 8-10 → PLAYOUT   (3 rows = indexes 3,4,5 of lowerStandings)
             // Each row ~77px; badge tops are relative to the lower table div
-            const rowHeight = 82;
+            const rowHeight = 85;
 
             const badge57 = document.createElement('div');
             badge57.className = 'playoff-badge playoff-57 playoff-badge-group';
             badge57.textContent = 'PLAYOFF 5-7';
             badge57.style.height = (3 * rowHeight) + 'px';
-            badge57.style.top = '42px'; // after header
+            badge57.style.top = '44px'; // after header
+            badge57.style.left = '20px';
             lowerWrapper.appendChild(badge57);
 
             const badgePO = document.createElement('div');
             badgePO.className = 'playoff-badge playout playoff-badge-group';
             badgePO.textContent = 'PLAYOUT';
             badgePO.style.height = (3 * rowHeight) + 'px';
-            badgePO.style.top = (42 + 3 * rowHeight + 20) + 'px';
+            badgePO.style.top = (42 + 3 * rowHeight + 15) + 'px';
+            badgePO.style.left = '20px';
             lowerWrapper.appendChild(badgePO);
         }
 
