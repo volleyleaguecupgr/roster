@@ -595,7 +595,7 @@
                 const headerRect = headerEl.getBoundingClientRect();
 
                 const firstRowTop = headerRect.bottom - containerRect.top;
-                const rowHeight = firstRow ? firstRow.getBoundingClientRect().height : 52;
+                const rowHeight = firstRow ? firstRow.getBoundingClientRect().height : 42;
                 const leftEdge = unifiedRect.left - containerRect.left - 80;
 
                 const badge57 = document.createElement('div');
@@ -610,7 +610,7 @@
                 badgePO.className = 'playoff-badge playout playoff-badge-group';
                 badgePO.textContent = 'PLAYOUT';
                 badgePO.style.height = (3 * rowHeight) + 'px';
-                badgePO.style.top = '360px';
+                badgePO.style.top = '410px';
                 badgePO.style.left = leftEdge + 'px';
                 standingsContainer.appendChild(badgePO);
             });
