@@ -570,7 +570,7 @@
             // Positions 5-7 → PLAYOFFS 5-7 (3 rows = indexes 0,1,2 of lowerStandings)
             // Positions 8-10 → PLAYOUT   (3 rows = indexes 3,4,5 of lowerStandings)
             // Each row ~77px; badge tops are relative to the lower table div
-            const rowHeight = 77;
+            const rowHeight = 82;
 
             const badge57 = document.createElement('div');
             badge57.className = 'playoff-badge playoff-57 playoff-badge-group';
@@ -583,7 +583,7 @@
             badgePO.className = 'playoff-badge playout playoff-badge-group';
             badgePO.textContent = 'PLAYOUT';
             badgePO.style.height = (3 * rowHeight) + 'px';
-            badgePO.style.top = (42 + 3 * rowHeight) + 'px';
+            badgePO.style.top = (42 + 3 * rowHeight + 20) + 'px';
             lowerWrapper.appendChild(badgePO);
         }
 
