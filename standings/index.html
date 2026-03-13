@@ -112,7 +112,9 @@
             padding-top: 22px;
         }
 
-        /* right side flows naturally: teams → connector */
+        .bracket-side.right .bracket-team-card {
+            animation-name: slideInScaleRight;
+        }
 
         /* The two team cards stacked */
         .bracket-teams {
@@ -440,13 +442,13 @@
 
                 <!-- Right bracket: 2nd vs 3rd -->
                 <div class="bracket-side right" id="rightBracket">
-                    <div class="bracket-teams" id="rightTeams"></div>
                     <div class="bracket-connector">
                         <svg viewBox="0 0 36 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M34 10 H18 V50 H18 V90 H34" stroke="rgba(59,130,246,0.7)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                             <circle cx="18" cy="50" r="3" fill="#fbbf24" opacity="0.9"/>
                         </svg>
                     </div>
+                    <div class="bracket-teams" id="rightTeams"></div>
                 </div>
             </div>
 
@@ -575,7 +577,7 @@
             badge57.textContent = 'PLAYOFF 5-7';
             badge57.style.height = (3 * rowHeight) + 'px';
             badge57.style.top = '42px'; 
-            badge57.style.left = '-10px'; 
+            badge57.style.left = '-40px'; 
             lowerWrapper.appendChild(badge57);
 
             const badgePO = document.createElement('div');
@@ -583,7 +585,7 @@
             badgePO.textContent = 'PLAYOUT';
             badgePO.style.height = (3 * rowHeight) + 'px';
             badgePO.style.top = (42 + 3 * rowHeight) + 'px';
-            badgePO.style.left = '-10px'; 
+            badgePO.style.left = '-40px'; 
             lowerWrapper.appendChild(badgePO);
         }
 
