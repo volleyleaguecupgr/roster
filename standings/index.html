@@ -83,13 +83,8 @@
             align-items: center;
             gap: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
-            border-radius: 25px 25px 0 0;
-            border: 3px solid rgba(59, 130, 246, 0.4);
-            border-bottom: none;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
-            padding: 12px 16px;
+            background: transparent;
+            padding: 12px 16px 8px 16px;
             position: relative;
         }
 
@@ -252,12 +247,20 @@
 
         /* ── LOWER STANDINGS TABLE ─────────────────────────────── */
         .standings-table {
-            width: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px);
-            border-radius: 0 0 25px 25px; overflow: visible;
-            border: 3px solid rgba(59, 130, 246, 0.4);
-            border-top: none;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
+            width: 100%; background: transparent;
+            border-radius: 0; overflow: visible;
+            border: none;
             position: relative;
+        }
+
+        /* Single unified outer box wrapping brackets + table */
+        .unified-box {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 3px solid rgba(59, 130, 246, 0.4);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
+            overflow: hidden;
             padding-bottom: 6px;
         }
 
@@ -278,7 +281,7 @@
             color: #f8fafc; font-weight: 800; text-transform: uppercase;
             letter-spacing: 2px; position: relative; overflow: hidden;
             border-radius: 12px;
-            margin: 6px 6px 2px 6px;
+            margin: 4px 6px 2px 6px;
             display: table;
             width: calc(100% - 12px);
         }
@@ -299,7 +302,11 @@
         }
 
         .table-header th:last-child { border-right: none; border-radius: 0 12px 12px 0; }
-        .table-header th:first-child { width: 80px; border-radius: 12px 0 0 12px; }
+        .table-header th:first-child { border-radius: 12px 0 0 12px; }
+        /* ΘΕΣΗ, ΒΑΘΜΟΙ, ΑΓΩΝΕΣ all same narrow width; ΟΜΑΔΑ takes the rest */
+        .table-header th:nth-child(1) { width: 80px; }
+        .table-header th:nth-child(3) { width: 80px; }
+        .table-header th:nth-child(4) { width: 80px; }
 
         .team-row {
             opacity: 0; transform: translateX(-150px) scale(0.95);
@@ -307,7 +314,7 @@
             position: relative; overflow: hidden; transition: all 0.6s ease;
             border-bottom: none;
             border-radius: 12px;
-            margin: 4px 6px;
+            margin: 3px 6px;
         }
 
         .team-row:nth-child(1) { animation-delay: 3.1s; }
@@ -353,8 +360,8 @@
         .position { font-weight: 900; font-size: 20px; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7); width: 80px; }
         .team-info { display: flex; align-items: center; gap: 25px; }
         .team-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 24px; color: #f8fafc; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7); }
-        .points { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 24px; color: #f8fafc; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }
-        .matches { font-family: 'Inter', sans-serif; color: #e2e8f0; font-weight: 600; font-size: 24px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
+        .points { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 24px; color: #f8fafc; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); width: 80px; }
+        .matches { font-family: 'Inter', sans-serif; color: #e2e8f0; font-weight: 600; font-size: 24px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); width: 80px; }
 
         .league-logo {
             position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
@@ -428,6 +435,7 @@
         <div class="title">ΒΑΘΜΟΛΟΓΙΑ VOLLEYLEAGUE</div>
         
         <div class="standings-container">
+          <div class="unified-box">
 
             <!-- TOP: Semifinals Bracket -->
             <div class="brackets-wrapper" id="bracketsWrapper">
@@ -460,8 +468,11 @@
                 </div>
             </div>
 
+            <!-- Divider between bracket and table -->
+            <div style="height:1px; background: rgba(59,130,246,0.35); margin: 0 12px;"></div>
+
             <!-- LOWER TABLE: positions 5–10 -->
-            <div style="position: relative;">
+            <div style="position: relative;" id="lowerTableWrapper">
                 <table class="standings-table">
                     <thead class="table-header">
                         <tr>
@@ -474,6 +485,8 @@
                     <tbody id="standingsBody"></tbody>
                 </table>
             </div>
+
+          </div>
         </div>
 
         <div class="league-logo">
@@ -572,29 +585,39 @@
                 tbody.appendChild(row);
             });
 
-            // ── Badges on lower table ────────────────────────────────────
-            const lowerWrapper = document.querySelector('.standings-container > div[style]');
+            // ── Badges positioned relative to .standings-container ───────
+            // Measure real positions after paint
+            requestAnimationFrame(() => {
+                const standingsContainer = document.querySelector('.standings-container');
+                const unifiedBox = document.querySelector('.unified-box');
+                const tbody = document.getElementById('standingsBody');
+                const theadEl = document.querySelector('.table-header');
 
-            // Positions 5-7 → PLAYOFFS 5-7 (3 rows = indexes 0,1,2 of lowerStandings)
-            // Positions 8-10 → PLAYOUT   (3 rows = indexes 3,4,5 of lowerStandings)
-            // Each row ~77px; badge tops are relative to the lower table div
-            const rowHeight = 87;
+                const containerRect = standingsContainer.getBoundingClientRect();
+                const unifiedRect = unifiedBox.getBoundingClientRect();
+                const theadRect = theadEl.getBoundingClientRect();
 
-            const badge57 = document.createElement('div');
-            badge57.className = 'playoff-badge playoff-57 playoff-badge-group';
-            badge57.textContent = 'PLAYOFF 5-7';
-            badge57.style.height = (3 * rowHeight) + 'px';
-            badge57.style.top = '42px'; 
-            badge57.style.left = '-60px'; 
-            lowerWrapper.appendChild(badge57);
+                // top of first data row relative to standingsContainer
+                const firstRowTop = theadRect.bottom - containerRect.top;
+                const rowHeight = tbody.rows[0] ? tbody.rows[0].getBoundingClientRect().height : 87;
+                const leftEdge = unifiedRect.left - containerRect.left - 65;
 
-            const badgePO = document.createElement('div');
-            badgePO.className = 'playoff-badge playout playoff-badge-group';
-            badgePO.textContent = 'PLAYOUT';
-            badgePO.style.height = (3 * rowHeight) + 'px';
-            badgePO.style.top = (42 + 3 * rowHeight) + 'px';
-            badgePO.style.left = '-60px'; 
-            lowerWrapper.appendChild(badgePO);
+                const badge57 = document.createElement('div');
+                badge57.className = 'playoff-badge playoff-57 playoff-badge-group';
+                badge57.textContent = 'PLAYOFF 5-7';
+                badge57.style.height = (3 * rowHeight) + 'px';
+                badge57.style.top = firstRowTop + 'px';
+                badge57.style.left = leftEdge + 'px';
+                standingsContainer.appendChild(badge57);
+
+                const badgePO = document.createElement('div');
+                badgePO.className = 'playoff-badge playout playoff-badge-group';
+                badgePO.textContent = 'PLAYOUT';
+                badgePO.style.height = (3 * rowHeight) + 'px';
+                badgePO.style.top = (firstRowTop + 3 * rowHeight) + 'px';
+                badgePO.style.left = leftEdge + 'px';
+                standingsContainer.appendChild(badgePO);
+            });
         }
 
         // ── 3D Scene ────────────────────────────────────────────────────
