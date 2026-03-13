@@ -246,12 +246,74 @@
         }
 
         /* ── LOWER STANDINGS TABLE ─────────────────────────────── */
-        .standings-table {
-            width: 100%; background: transparent;
-            border-radius: 0; overflow: visible;
-            border: none;
-            position: relative;
+        .standings-table { display: none; } /* not used anymore */
+
+        /* Shared column widths - single source of truth */
+        :root { --col-pos: 90px; --col-num: 90px; }
+
+        /* ── FLEX HEADER ───────────────────────────────────────── */
+        .table-header {
+            display: flex; align-items: center;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.95) 0%, rgba(59, 130, 246, 0.95) 100%);
+            color: #f8fafc; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 2px; position: relative; overflow: hidden;
+            border-radius: 12px;
+            margin: 6px 6px 3px 6px;
+            padding: 12px 0;
         }
+
+        .table-header::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+            animation: headerShimmer 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes headerShimmer { 0%, 100% { transform: translateX(-100%); } 50% { transform: translateX(100%); } }
+
+        .th-pos, .th-team, .th-num {
+            font-family: 'Inter', sans-serif; font-size: 14px;
+            text-align: center; position: relative; z-index: 1;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .th-pos  { width: var(--col-pos); flex-shrink: 0; border-right: 2px solid rgba(255,255,255,0.2); }
+        .th-team { flex: 1; border-right: 2px solid rgba(255,255,255,0.2); }
+        .th-num  { width: var(--col-num); flex-shrink: 0; border-right: 2px solid rgba(255,255,255,0.2); }
+        .th-num:last-child { border-right: none; }
+
+        /* ── FLEX ROWS ─────────────────────────────────────────── */
+        .team-row {
+            display: flex; align-items: center;
+            opacity: 0; transform: translateX(-150px) scale(0.95);
+            animation: slideInScaleRow 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            position: relative; overflow: hidden; transition: all 0.6s ease;
+            border-radius: 12px;
+            margin: 3px 6px;
+            min-height: 68px;
+        }
+
+        .team-row:nth-child(1) { animation-delay: 3.1s; }
+        .team-row:nth-child(2) { animation-delay: 3.4s; }
+        .team-row:nth-child(3) { animation-delay: 3.7s; }
+        .team-row:nth-child(4) { animation-delay: 4.0s; }
+        .team-row:nth-child(5) { animation-delay: 4.3s; }
+        .team-row:nth-child(6) { animation-delay: 4.6s; }
+
+        @keyframes slideInScaleRow {
+            0% { opacity:0; transform:translateX(-150px) scale(0.95); }
+            70% { box-shadow:0 0 30px rgba(59,130,246,0.8), 0 0 60px rgba(59,130,246,0.4); }
+            100% { opacity:1; transform:translateX(0) scale(1); box-shadow:0 0 15px rgba(59,130,246,0.3); }
+        }
+
+        .td-pos, .td-team, .td-num {
+            color: white; font-family: 'Inter', sans-serif;
+            font-weight: 600; text-align: center;
+            padding: 12px 8px; align-self: stretch;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .td-pos  { width: var(--col-pos); flex-shrink: 0; border-right: 1px solid rgba(255,255,255,0.1); }
+        .td-team { flex: 1; border-right: 1px solid rgba(255,255,255,0.1); justify-content: flex-start; padding-left: 0; }
+        .td-num  { width: var(--col-num); flex-shrink: 0; border-right: 1px solid rgba(255,255,255,0.1); }
+        .td-num:last-child { border-right: none; }
 
         /* Single unified outer box wrapping brackets + table */
         .unified-box {
@@ -357,11 +419,11 @@
         .panionios { background: linear-gradient(135deg, var(--panionios) 0%, #991b1b 50%, #7f1d1d 100%); }
         .kalamata { background: linear-gradient(135deg, var(--kalamata) 0%, #16a34a 50%, #15803d 100%); }
 
-        .position { font-weight: 900; font-size: 20px; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7); width: 80px; }
+        .position { font-weight: 900; font-size: 20px; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7); }
         .team-info { display: flex; align-items: center; gap: 25px; }
         .team-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 24px; color: #f8fafc; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7); }
-        .points { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 24px; color: #f8fafc; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); width: 80px; }
-        .matches { font-family: 'Inter', sans-serif; color: #e2e8f0; font-weight: 600; font-size: 24px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); width: 80px; }
+        .points { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 24px; color: #f8fafc; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }
+        .matches { font-family: 'Inter', sans-serif; color: #e2e8f0; font-weight: 600; font-size: 24px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
 
         .league-logo {
             position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
@@ -473,17 +535,15 @@
 
             <!-- LOWER TABLE: positions 5–10 -->
             <div style="position: relative;" id="lowerTableWrapper">
-                <table class="standings-table">
-                    <thead class="table-header">
-                        <tr>
-                            <th>ΘΕΣΗ</th>
-                            <th>ΟΜΑΔΑ</th>
-                            <th>ΒΑΘΜΟΙ</th>
-                            <th>ΑΓΩΝΕΣ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="standingsBody"></tbody>
-                </table>
+                <!-- Flex header pill -->
+                <div class="table-header">
+                    <div class="th-pos">ΘΕΣΗ</div>
+                    <div class="th-team">ΟΜΑΔΑ</div>
+                    <div class="th-num">ΒΑΘΜΟΙ</div>
+                    <div class="th-num">ΑΓΩΝΕΣ</div>
+                </div>
+                <!-- Rows injected here -->
+                <div id="standingsBody"></div>
             </div>
 
           </div>
@@ -556,50 +616,47 @@
             if (card2) rightTeams.appendChild(card2);
             if (card3) rightTeams.appendChild(card3);
 
-            // ── POSITIONS 5–10: normal table ────────────────────────────
+            // ── POSITIONS 5–10: flex rows ────────────────────────────────
             const tbody = document.getElementById('standingsBody');
             tbody.innerHTML = '';
 
             const lowerStandings = standings.slice(4);
 
-            // Calculate badge heights dynamically after render
             lowerStandings.forEach((standing, index) => {
                 const team = teams[standing.team];
                 if (!team) return;
 
                 const globalPosition = index + 5;
-                const row = document.createElement('tr');
+                const row = document.createElement('div');
                 row.className = `team-row ${team.className}`;
 
                 row.innerHTML = `
-                    <td class="position">${globalPosition}</td>
-                    <td>
+                    <div class="td-pos position">${globalPosition}</div>
+                    <div class="td-team">
                         <div class="team-info">
                             <div class="team-logo"><img src="${team.logo}"></div>
                             <div class="team-name">${standing.team}</div>
                         </div>
-                    </td>
-                    <td class="points">${standing.points}</td>
-                    <td class="matches">${standing.matches}</td>
+                    </div>
+                    <div class="td-num points">${standing.points}</div>
+                    <div class="td-num matches">${standing.matches}</div>
                 `;
                 tbody.appendChild(row);
             });
 
             // ── Badges positioned relative to .standings-container ───────
-            // Measure real positions after paint
             requestAnimationFrame(() => {
                 const standingsContainer = document.querySelector('.standings-container');
                 const unifiedBox = document.querySelector('.unified-box');
-                const tbody = document.getElementById('standingsBody');
-                const theadEl = document.querySelector('.table-header');
+                const headerEl = document.querySelector('.table-header');
+                const firstRow = tbody.querySelector('.team-row');
 
                 const containerRect = standingsContainer.getBoundingClientRect();
                 const unifiedRect = unifiedBox.getBoundingClientRect();
-                const theadRect = theadEl.getBoundingClientRect();
+                const headerRect = headerEl.getBoundingClientRect();
 
-                // top of first data row relative to standingsContainer
-                const firstRowTop = theadRect.bottom - containerRect.top;
-                const rowHeight = tbody.rows[0] ? tbody.rows[0].getBoundingClientRect().height : 87;
+                const firstRowTop = headerRect.bottom - containerRect.top;
+                const rowHeight = firstRow ? firstRow.getBoundingClientRect().height : 74;
                 const leftEdge = unifiedRect.left - containerRect.left - 65;
 
                 const badge57 = document.createElement('div');
