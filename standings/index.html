@@ -595,14 +595,14 @@
                 const headerRect = headerEl.getBoundingClientRect();
 
                 const firstRowTop = headerRect.bottom - containerRect.top;
-                const rowHeight = firstRow ? firstRow.getBoundingClientRect().height : 62;
+                const rowHeight = firstRow ? firstRow.getBoundingClientRect().height : 52;
                 const leftEdge = unifiedRect.left - containerRect.left - 80;
 
                 const badge57 = document.createElement('div');
                 badge57.className = 'playoff-badge playoff-57 playoff-badge-group';
                 badge57.textContent = 'PLAYOFF 5-7';
                 badge57.style.height = (3 * rowHeight) + 'px';
-                badge57.style.top = '242px';
+                badge57.style.top = '235px';
                 badge57.style.left = leftEdge + 'px';
                 standingsContainer.appendChild(badge57);
 
@@ -610,7 +610,7 @@
                 badgePO.className = 'playoff-badge playout playoff-badge-group';
                 badgePO.textContent = 'PLAYOUT';
                 badgePO.style.height = (3 * rowHeight) + 'px';
-                badgePO.style.top = '36px';
+                badgePO.style.top = '360px';
                 badgePO.style.left = leftEdge + 'px';
                 standingsContainer.appendChild(badgePO);
             });
