@@ -2,63 +2,63 @@
   "matches": [
     {
       "home": {
-        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-        "logo": "logos/panathinaikos.png",
-        "color": "#16a34a"
-      },
-      "away": {
-        "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
-        "logo": "logos/olympiakos.png",
-        "color": "#dc1414"
-      },
-      "date": "13/03",
-      "time": "3-1",
-      "court": "ΜΕΤΣ"
-    },
-    {
-      "home": {
-        "name": "ΑΟΝΣ ΜΙΛΩΝ",
-        "logo": "logos/milon.png",
-        "color": "#228B22"
-      },
-      "away": {
         "name": "ΠΑΟΚ",
         "logo": "logos/paok.png",
         "color": "#1a1a1a"
       },
-      "date": "14/03",
-      "time": "20:30",
-      "court": "Κ.ΠΕΡΣΗΣ"
+      "away": {
+        "name": "ΑΟΝΣ ΜΙΛΩΝ",
+        "logo": "logos/milon.png",
+        "color": "#228B22"
+      },
+      "date": "27/03",
+      "time": "21:30",
+      "court": "PAOK SPORTS ARENA"
     },
     {
       "home": {
-        "name": "ΠΑΝΙΩΝΙΟΣ",
-        "logo": "logos/panionios.png",
-        "color": "#DC143C"
+        "name": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
+        "logo": "logos/olympiakos.png",
+        "color": "#dc1414"
       },
       "away": {
+        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "logo": "logos/panathinaikos.png",
+        "color": "#16a34a"
+      },
+      "date": "28/03",
+      "time": "20:30",
+      "court": "Μ. ΜΕΡΚΟΥΡΗ"
+    },
+    {
+      "home": {
         "name": "ΑΟ ΚΑΛΑΜΑΤΑ '80 AFFIDEA",
         "logo": "logos/kalamata.png",
         "color": "#32CD32"
       },
-      "date": "14/03",
-      "time": "0-2",
-      "court": "A. ΒΑΡΙΚΑΣ"
+      "away": {
+        "name": "ΟΦΗ",
+        "logo": "logos/ofi.png",
+        "color": "#2c2c2c"
+      },
+      "date": "25/03",
+      "time": "17:00",
+      "court": "ΠΑΡΑΛΙΑΣ"
     },
     {
       "home": {
-        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "logo": "logos/kifisia.png",
-        "color": "#4169E1"
-      },
-      "away": {
         "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
         "logo": "logos/foinikas.png",
         "color": "#FF4500"
       },
-      "date": "14/03",
-      "time": "18:30",
-      "court": "ΖΗΡΙΝΕΙΟ"
+      "away": {
+        "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+        "logo": "logos/floisvos.png",
+        "color": "#1E90FF"
+      },
+      "date": "28/03",
+      "time": "19:00",
+      "court": "Δ. ΒΙΚΕΛΑΣ"
     }
   ]
 }
