@@ -1,79 +1,22 @@
 {
   "games": [
     {
-      "homeTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ",
-      "homeSlug": "panathinaikos",
-      "awayTeam": "ΟΛΥΜΠΙΑΚΟΣ",
-      "awaySlug": "olympiakos",
+      "homeTeam": "ΚΑΛΑΜΑΤΑ",
+      "homeSlug": "kalamata",
+      "awayTeam": "ΟΦΗ",
+      "awaySlug": "ofi",
       "refs": {
         "referees": [
-          "Βασιλειάδης",
-          "Βουδούρης"
+          "Γεροθόδωρος",
+          "Σπίνας"
         ],
-        "observer": "Καλπακτσόγλου",
-        "challengeRef": "Κουτσούλας",
-        "linesmen": [
-          "Ζαρμπίνης",
-          "Τσεκούρας"
-        ],
-        "secretariat": "Ταλάρου"
-      }
-    },
-    {
-      "homeTeam": "ΜΙΛΩΝ",
-      "homeSlug": "milon",
-      "awayTeam": "ΠΑΟΚ",
-      "awaySlug": "paok",
-      "refs": {
-        "referees": [
-          "Νικάκης",
-          "Γεωργιάδης Στ."
-        ],
-        "observer": "Γεωργόπουλος",
-        "challengeRef": "Μυλωνάκης",
-        "linesmen": [
-          "Γεώργας",
-          "Κώτσιας"
-        ],
-        "secretariat": "Μπίτσικα"
-      }
-    },
-    {
-      "homeTeam": "ΠΑΝΙΩΝΙΟΣ",
-      "homeSlug": "panionios",
-      "awayTeam": "ΚΑΛΑΜΑΤΑ",
-      "awaySlug": "kalamata",
-      "refs": {
-        "referees": [
-          "Φραγκάκης",
-          "Καραγιαννόπουλος"
-        ],
-        "observer": "Πέρρος",
-        "challengeRef": "Μουλά Λ.",
-        "linesmen": [
-          "Γεωργοπούλου",
-          "Νικολάου"
-        ],
-        "secretariat": "Καρατζογλίδου"
-      }
-    },
-    {
-      "homeTeam": "ΚΗΦΙΣΙΑ",
-      "homeSlug": "kifisia",
-      "awayTeam": "ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-      "awaySlug": "foinikas",
-      "refs": {
-        "referees": [
-          "Κυριοπούλου",
-          "Γεροθόδωρος"
-        ],
-        "observer": "Ράπτης",
+        "observer": "Τομαράς",
         "challengeRef": "",
         "linesmen": [
-          "Τομαράς",
-          "Μουζακίτη"
+          "Βλάσσης",
+          "Κοσμάς"
         ],
-        "secretariat": "Γλυκού"
+        "secretariat": "Βλαχούλη"
       }
     }
   ]
