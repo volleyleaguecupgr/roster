@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Πανιώνιος",
-    "subtitle": "Γ.Σ.Σ.",
-    "slug": "panionios",
-    "color": "#004b8d",
-    "logo": "panionios.png"
-  },
-  "awayTeam": {
     "name": "Καλαμάτα",
     "subtitle": "A.O. '80 AFFIDEA",
     "slug": "kalamata",
     "color": "#008428",
     "logo": "kalamata.png"
   },
-  "date": "14 Μαρτίου 2026",
-  "league": "PLAYOFFS 5-7 1Η ΑΓ."
+  "awayTeam": {
+    "name": "Ο.Φ.Η.",
+    "subtitle": ".",
+    "slug": "ofi",
+    "color": "#000000",
+    "logo": "ofi.png"
+  },
+  "date": "25 Μαρτίου 2026",
+  "league": "2η ΑΓΩΝΙΣΤΙΚΗ (PLAYOFF 5-7)"
 }
