@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "O.F.I.",
-    "away_team": "A.O. FOINIKAS SIROU",
-    "datetime": "08 March 2026 - 18:30"
+    "away_team": "PANIONIOS G.S.S.",
+    "datetime": "28 March 2026 - 17:00"
   },
   "teams_comparison": {
     "titles": [
@@ -56,34 +56,34 @@
       "efficiency": {
         "home": "32%",
         "average": "33%",
-        "away": "26%"
+        "away": "33%"
       },
-      "spikes_per_set_home": "11.01",
-      "spikes_per_set_avg": "12.01",
-      "spikes_per_set_away": "11.07",
-      "spikes_per_set_home_played": "(69)",
-      "spikes_per_set_away_played": "(67)"
+      "spikes_per_set_home": "10.96",
+      "spikes_per_set_avg": "11.98",
+      "spikes_per_set_away": "12.17",
+      "spikes_per_set_home_played": "(79)",
+      "spikes_per_set_away_played": "(76)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.14",
-      "blocks_per_set_avg": "2.06",
-      "blocks_per_set_away": "2.16",
-      "blocks_home_played": "(69)",
-      "blocks_away_played": "(67)"
+      "blocks_per_set_home": "2.09",
+      "blocks_per_set_avg": "2.05",
+      "blocks_per_set_away": "1.86",
+      "blocks_home_played": "(79)",
+      "blocks_away_played": "(76)"
     },
     "serve": {
-      "aces_home": "119",
-      "aces_away": "95",
-      "aces_per_set_home": "1.72",
-      "aces_per_set_avg": "1.65",
-      "aces_per_set_away": "1.42",
-      "aces_home_played": "(69)",
-      "aces_away_played": "(67)"
+      "aces_home": "139",
+      "aces_away": "112",
+      "aces_per_set_home": "1.76",
+      "aces_per_set_avg": "1.62",
+      "aces_per_set_away": "1.47",
+      "aces_home_played": "(79)",
+      "aces_away_played": "(76)"
     },
     "reception": {
-      "reception_eff_home": "26%",
-      "reception_eff_avg": "34%",
-      "reception_eff_away": "34%",
+      "reception_eff_home": "29%",
+      "reception_eff_avg": "35%",
+      "reception_eff_away": "41%",
       "reception_perfect_home": "25%",
       "reception_perfect_avg": "25%",
       "reception_perfect_away": "25%"
