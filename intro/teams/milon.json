@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Μίλων",
-    "subtitle": "Α.Ο.Ν.Σ",
-    "slug": "milon",
-    "color": "#006400",
-    "logo": "milon.png"
-  },
-  "awayTeam": {
     "name": "Π.Α.Ο.Κ.",
     "subtitle": "Α.Σ.",
     "slug": "paok",
     "color": "#000000",
     "logo": "paok.png"
   },
-  "date": "14 Μαρτίου 2026",
-  "league": "PLAYOFFS ΗΜΙΤΕΛΙΚΩΝ 1Η ΑΓ."
+  "awayTeam": {
+    "name": "Μίλων",
+    "subtitle": "Α.Ο.Ν.Σ",
+    "slug": "milon",
+    "color": "#006400",
+    "logo": "milon.png"
+  },
+  "date": "27 Μαρτίου 2026",
+  "league": "2η ΑΓΩΝΙΣΤΙΚΗ (ΗΜΙΤΕΛΙΚΩΝ)"
 }

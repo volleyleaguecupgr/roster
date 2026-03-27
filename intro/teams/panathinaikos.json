@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Παναθηναϊκός",
-    "subtitle": "Α.Ο.",
-    "slug": "panathinaikos",
-    "color": "#007A33",
-    "logo": "panathinaikos.png"
-  },
-  "awayTeam": {
     "name": "Ολυμπιακός",
     "subtitle": "Σ.Φ.Π ΟΝΕΧ",
     "slug": "olympiakos",
     "color": "#E41E26",
     "logo": "olympiakos.png"
   },
-  "date": "13 Μαρτίου 2026",
-  "league": "PLAYOFFS ΗΜΙΤΕΛΙΚΩΝ 1Η ΑΓ."
+  "awayTeam": {
+    "name": "Παναθηναϊκός",
+    "subtitle": "Α.Ο.",
+    "slug": "panathinaikos",
+    "color": "#007A33",
+    "logo": "panathinaikos.png"
+  },
+  "date": "28 Μαρτίου 2026",
+  "league": "2η ΑΓΩΝΙΣΤΙΚΗ (ΗΜΙΤΕΛΙΚΩΝ)"
 }
