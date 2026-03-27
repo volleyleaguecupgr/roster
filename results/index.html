@@ -114,6 +114,52 @@
             font-size:12px; opacity:0.8; margin-right:4px;
         }
 
+        /* ── PLAYOFF BADGES ─────────────────────────────────────── */
+        .playoff-badge {
+            position: absolute;
+            left: -65px;
+            width: 55px;
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 20px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            text-align: center; line-height: 1.1;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 5;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            pointer-events: none;
+            color: #ffffff;
+        }
+
+        /* Adjust these heights to match your actual row counts:        */
+        /* Each game-row is roughly 148px tall (100px logo + padding).  */
+        /* playoffs-14 covers the top N rows, playoff-57 and playout    */
+        /* cover the remaining rows below. Tweak top/height as needed.  */
+
+        /* 4 rows */
+        .playoff-badge.playoffs-14 {
+            background: rgba(134, 239, 172, 0.5);
+            height: 338px;
+            top: 0px;
+        }
+
+        /* 1 row */
+        .playoff-badge.playoff-57 {
+            background: rgba(147, 197, 253, 0.5);
+            height: 169px;
+            top: 338px;
+        }
+
+        /* 1 row */
+        .playoff-badge.playout {
+            background: rgba(252, 165, 165, 0.5);
+            height: 169px;
+            top: 507px;
+        }
+
         .league-logo {
             position:absolute; bottom:30px; left:47%; transform:translateX(-50%);
             width:180px; height:180px; z-index:20;
@@ -166,6 +212,11 @@
         <div class="title" id="gamedayTitle">ΑΠΟΤΕΛΕΣΜΑΤΑ ΠΡΟΗΓΟΥΜΕΝΗΣ ΑΓΩΝΙΣΤΙΚΗΣ</div>
         <!-- <div class="loading" id="loading">Φόρτωση αποτελεσμάτων...</div> -->
         <div class="schedule-container">
+            <!-- Playoff badges on the left -->
+            <div class="playoff-badge playoffs-14">PLAYOFFS ΗΜΙΤΕΛΙΚΩΝ</div>
+            <div class="playoff-badge playoff-57">PLAYOFF 5-7</div>
+            <div class="playoff-badge playout">PLAYOUT</div>
+
             <div class="schedule-table" id="scheduleTable">
                 <!-- Games will be dynamically loaded here -->
             </div>
