@@ -11,16 +11,18 @@
         body {
             font-family: 'Inter', sans-serif;
             background-image: url('background.png');
-            background-size: 1920px 1080px;
-            background-position: top left;
+            background-size: cover;
+            background-position: center;
             background-repeat: no-repeat;
             width: 1920px;
             height: 1080px;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transform-origin: top left;
         }
 
-        /* Scale body to fit any screen */
         @media screen {
             body {
                 transform: scale(calc(min(100vw / 1920px, 100vh / 1080px)));
@@ -28,50 +30,50 @@
         }
 
         .container {
-            position: relative;
             width: 1920px;
             height: 1080px;
-        }
-
-        /* ── Home logo — centred on left card in background ── */
-        .home-logo {
-            position: absolute;
-            /* Left card in background: roughly x 220–595, y 185–545 */
-            left: 220px;
-            top:  185px;
-            width:  375px;
-            height: 360px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* ── Away logo — centred on right card in background ── */
-        .away-logo {
-            position: absolute;
-            /* Right card in background: roughly x 880–1255, y 185–545 */
-            left: 880px;
-            top:  185px;
-            width:  375px;
-            height: 360px;
+        /* ── Match card ── */
+        .match-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            margin-top: -60px; /* nudge up into the background card zone */
+        }
+
+        /* ── Team column — invisible, just for sizing/alignment ── */
+        .team-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            width: 380px;
+        }
+
+        /* Transparent placeholder — same size as background cards */
+        .team-logo-slot {
+            width: 380px;
+            height: 340px;
+            background: transparent;
+            border: none;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .home-logo img,
-        .away-logo  img {
-            max-width:  300px;
+        .team-logo-slot img {
+            max-width: 300px;
             max-height: 290px;
             object-fit: contain;
         }
 
-        /* ── Team names below the cards ── */
-        .home-name,
-        .away-name {
-            position: absolute;
-            top: 555px;   /* just below cards */
-            font-size: 1.5em;
+        .team-name {
+            font-size: 1.45em;
             font-weight: 800;
             text-transform: uppercase;
             color: #ffffff;
@@ -80,40 +82,25 @@
             line-height: 1.3;
         }
 
-        .home-name {
-            left:  220px;
-            width: 375px;
-        }
-
-        .away-name {
-            left:  880px;
-            width: 375px;
-        }
-
-        /* ── Centre info: date / VS / time / court ── */
+        /* ── Centre info ── */
         .match-info {
-            position: absolute;
-            /* Horizontally centred between the two cards (~595 to ~880, mid = ~737) */
-            left: 595px;
-            width: 285px;
-            top: 230px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0;
+            min-width: 220px;
         }
 
         .date {
-            font-size: 2.8em;
+            font-size: 3em;
             font-weight: 900;
             color: #5eb3e4;
             letter-spacing: 0.02em;
             line-height: 1.1;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .vs {
-            font-size: 6.5em;
+            font-size: 7em;
             font-weight: 900;
             color: #ffffff;
             line-height: 1;
@@ -121,28 +108,25 @@
         }
 
         .time {
-            font-size: 2.8em;
+            font-size: 3em;
             font-weight: 900;
             color: #ffffff;
             letter-spacing: 0.02em;
             line-height: 1.1;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         .court {
-            font-size: 1em;
+            font-size: 1.05em;
             font-weight: 600;
             text-align: center;
             color: #5eb3e4;
-            margin-top: 10px;
+            margin-top: 12px;
             letter-spacing: 0.04em;
         }
 
         /* ── Error / loading ── */
         .no-match, .loading {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
             text-align: center;
             color: #fff;
             font-size: 2em;
@@ -209,28 +193,31 @@
             }
 
             el.innerHTML = `
-                <!-- Home logo -->
-                <div class="home-logo">
-                    <img src="${match.home.logo}" alt="${match.home.name}"
-                         onerror="this.src='logos/default.png'">
-                </div>
+                <div class="match-card">
 
-                <!-- Away logo -->
-                <div class="away-logo">
-                    <img src="${match.away.logo}" alt="${match.away.name}"
-                         onerror="this.src='logos/default.png'">
-                </div>
+                    <div class="team-container">
+                        <div class="team-logo-slot">
+                            <img src="${match.home.logo}" alt="${match.home.name}"
+                                 onerror="this.src='logos/default.png'">
+                        </div>
+                        <div class="team-name">${match.home.name}</div>
+                    </div>
 
-                <!-- Team names -->
-                <div class="home-name">${match.home.name}</div>
-                <div class="away-name">${match.away.name}</div>
+                    <div class="match-info">
+                        <div class="date">${match.date}</div>
+                        <div class="vs">VS</div>
+                        <div class="time">${match.time}</div>
+                        <div class="court">${match.court}</div>
+                    </div>
 
-                <!-- Centre info -->
-                <div class="match-info">
-                    <div class="date">${match.date}</div>
-                    <div class="vs">VS</div>
-                    <div class="time">${match.time}</div>
-                    <div class="court">${match.court}</div>
+                    <div class="team-container">
+                        <div class="team-logo-slot">
+                            <img src="${match.away.logo}" alt="${match.away.name}"
+                                 onerror="this.src='logos/default.png'">
+                        </div>
+                        <div class="team-name">${match.away.name}</div>
+                    </div>
+
                 </div>
             `;
         }
