@@ -43,22 +43,24 @@
             align-items: center;
             justify-content: center;
             gap: 60px;
-            margin-top: -60px; /* nudge up into the background card zone */
+            /* Shift the whole card upward so logos sit in the
+               vertical centre of the background's card shapes    */
+            margin-top: -130px;
         }
 
-        /* ── Team column — invisible, just for sizing/alignment ── */
+        /* ── Team column ── */
         .team-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 18px;
+            gap: 22px;
             width: 380px;
         }
 
-        /* Transparent placeholder — same size as background cards */
+        /* Transparent slot — sized to fill the background card area */
         .team-logo-slot {
             width: 380px;
-            height: 340px;
+            height: 300px;          /* taller → logo sits higher */
             background: transparent;
             border: none;
             display: flex;
@@ -67,8 +69,8 @@
         }
 
         .team-logo-slot img {
-            max-width: 300px;
-            max-height: 290px;
+            max-width: 280px;
+            max-height: 270px;
             object-fit: contain;
         }
 
@@ -88,6 +90,8 @@
             flex-direction: column;
             align-items: center;
             min-width: 220px;
+            /* Align the centre column with the logo vertical midpoint */
+            margin-top: -30px;
         }
 
         .date {
@@ -96,7 +100,7 @@
             color: #5eb3e4;
             letter-spacing: 0.02em;
             line-height: 1.1;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .vs {
@@ -104,7 +108,7 @@
             font-weight: 900;
             color: #ffffff;
             line-height: 1;
-            margin: 4px 0;
+            margin: 2px 0;
         }
 
         .time {
@@ -113,7 +117,7 @@
             color: #ffffff;
             letter-spacing: 0.02em;
             line-height: 1.1;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         .court {
@@ -121,7 +125,7 @@
             font-weight: 600;
             text-align: center;
             color: #5eb3e4;
-            margin-top: 12px;
+            margin-top: 10px;
             letter-spacing: 0.04em;
         }
 
