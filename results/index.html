@@ -240,8 +240,8 @@
                 ).join('');
 
                 // Logo paths — derive from team name if not supplied
-                const homeLogo = game.home?.logo || `${slugify(game.homeTeam)}.png`;
-                const awayLogo = game.away?.logo || `${slugify(game.awayTeam)}.png`;
+                const homeLogo = game.home.logo || `${slugify(game.homeTeam)}.png`;
+                const awayLogo = game.away.logo || `${slugify(game.awayTeam)}.png`;
 
                 row.innerHTML = `
                     <div class="home-logo team-logo">
