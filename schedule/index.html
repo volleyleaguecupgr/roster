@@ -57,14 +57,11 @@
         /* ── TABLE WRAPPER ─────────────────────────────────────── */
         .schedule-table {
             width:100%;
-            background: rgba(8, 16, 40, 0.92);
+            background: transparent;
             border-radius:20px;
-            overflow:hidden;
-            border:2px solid rgba(59,130,246,0.35);
-            box-shadow:
-                0 25px 80px rgba(0,0,0,0.7),
-                0 0 0 1px rgba(255,255,255,0.04) inset,
-                0 0 60px rgba(59,130,246,0.08) inset;
+            overflow: visible;
+            border: none;
+            box-shadow: none;
         }
 
         /* ── GAME ROW ─────────────────────────────────────── */
@@ -72,32 +69,13 @@
             position:relative; overflow:hidden;
             display:grid; grid-template-columns:280px 1fr 280px 150px;
             align-items:center; gap:20px; padding:18px 24px;
-            border-bottom:1px solid rgba(59,130,246,0.15);
-            background: linear-gradient(
-                90deg,
-                rgba(10, 20, 55, 0.97) 0%,
-                rgba(15, 28, 65, 0.95) 40%,
-                rgba(15, 28, 65, 0.95) 60%,
-                rgba(10, 20, 55, 0.97) 100%
-            );
+            border-bottom: none;
+            background: url('Layer_1.png') center center / 100% 100% no-repeat;
             opacity:0; transform:translateX(-150px) scale(0.95);
-            border-radius:10px; margin:4px 6px;
+            border-radius:12px; margin:5px 6px;
             box-shadow:0 0 0 rgba(59,130,246,0.5);
             animation:slideInScaleGlow 1.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
-            transition: background 0.3s ease;
         }
-
-        /* subtle left accent bar per row */
-        .game-row::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 4px;
-            background: linear-gradient(180deg, rgba(59,130,246,0.8) 0%, rgba(34,211,238,0.8) 100%);
-            border-radius: 4px 0 0 4px;
-        }
-
-        .game-row:last-child { border-bottom: none; }
 
         @keyframes slideInScaleGlow {
             0% { opacity:0; transform:translateX(-150px) scale(0.95); box-shadow:0 0 0 rgba(59,130,246,0.5); }
