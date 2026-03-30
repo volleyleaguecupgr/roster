@@ -68,7 +68,7 @@
             /* home-logo | home-name | score-area | away-name | away-logo */
             grid-template-columns: 120px 1fr 420px 1fr 120px;
             align-items:center; gap:0; padding:14px 30px;
-            background: url('Layer_1.png') center center / cover no-repeat;
+            background: url('Layer_1__1_.png') center center / cover no-repeat;
             opacity:0; transform:translateX(-150px) scale(0.95);
             border-radius:14px; margin:6px 0;
             animation:slideInScaleGlow 1.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
@@ -106,6 +106,7 @@
         /* Main score badge — uses Vector.png as background */
         .score-badge {
             position:relative;
+            background: url('Vector.png') center center / 100% 100% no-repeat;
             min-width:200px; height:62px;
             display:flex; align-items:center; justify-content:center;
         }
@@ -147,9 +148,9 @@
             z-index:5; writing-mode:vertical-rl; transform:rotate(180deg);
             pointer-events:none; color:#ffffff;
         }
-        .playoff-badge.playoffs-14 { background:rgba(135,135,135,0.95); height:288px; top:0; }
-        .playoff-badge.playoff-57  { background:rgba(135,135,135,0.95); height:153px; top:288px; }
-        .playoff-badge.playout     { background:rgba(135,135,135,0.95); height:153px; top:441px; }
+        .playoff-badge.playoffs-14 { background:rgba(135,135,135,0.95); height:388px; top:0; }
+        .playoff-badge.playoff-57  { background:rgba(135,135,135,0.95); height:209px; top:388px; }
+        .playoff-badge.playout     { background:rgba(135,135,135,0.95); height:194px; top:597px; }
 
         /* ── LEAGUE LOGO ─── */
         .league-logo {
@@ -196,7 +197,7 @@
     </div>
 
     <div class="league-logo">
-        <img src="VL_logo.png" alt="Greek Volleyball League">
+        <img src="logos/VL_logo.png" alt="Greek Volleyball League">
     </div>
 </div>
 
@@ -205,9 +206,23 @@
     /* ── DATA LOADER ─────────────────────────────────── */
     const SET_LABELS = ['1st', '2nd', '3rd', '4th', '5th'];
 
+    const teams = {
+        'ΑΟΝΣ ΜΙΛΩΝ':                  { logo: 'milon.png' },
+        'ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA':      { logo: 'kalamata.png' },
+        'Ο.Φ.Η.':                      { logo: 'ofi.png' },
+        'ΑΟΠ ΚΗΦΙΣΙΑΣ':               { logo: 'kifisia.png' },
+        'Π.Α.Ο.Κ.':                    { logo: 'paok.png' },
+        'ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ':           { logo: 'foinikas.png' },
+        'ΠΑΝΙΩΝΙΟΣ':                   { logo: 'panionios.png' },
+        'ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ ΟΝΕΧ':        { logo: 'olympiakos.png' },
+        'ΠΑΝΑΘΗΝΑΪΚΟΣ AO':             { logo: 'panathinaikos.png' },
+        'ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON':   { logo: 'floisvos.png' },
+        'ΠΑΝΙΩΝΙΟΣ ΓΣΣ':              { logo: 'panionios.png' }
+    };
+
     async function loadResults() {
         try {
-            const res  = await fetch('./volleyball-results.json');
+            const res  = await fetch('./gameday/results.json');
             const raw  = await res.json();
 
             // Support both array-of-rounds and single-round object
@@ -240,8 +255,10 @@
                 ).join('');
 
                 // Logo paths — derive from team name if not supplied
-                const homeLogo = game.home.logo || `${slugify(game.homeTeam)}.png`;
-                const awayLogo = game.away.logo || `${slugify(game.awayTeam)}.png`;
+                const homeTeamData = teams[game.homeTeam] || {};
+                const awayTeamData = teams[game.awayTeam] || {};
+                const homeLogo = game.home?.logo || homeTeamData.logo || 'default.png';
+                const awayLogo = game.away?.logo || awayTeamData.logo || 'default.png';
 
                 row.innerHTML = `
                     <div class="home-logo team-logo">
@@ -270,19 +287,7 @@
         }
     }
 
-    // Simple slug helper for logo filenames
-    function slugify(name) {
-        return name.toLowerCase()
-            .replace(/[αά]/g,'a').replace(/[εέ]/g,'e').replace(/[ηή]/g,'h')
-            .replace(/[ιίϊΐ]/g,'i').replace(/[οό]/g,'o').replace(/[υύϋΰ]/g,'y')
-            .replace(/[ωώ]/g,'w').replace(/[βb]/g,'v').replace(/[γ]/g,'g')
-            .replace(/[δ]/g,'d').replace(/[ζ]/g,'z').replace(/[θ]/g,'th')
-            .replace(/[κ]/g,'k').replace(/[λ]/g,'l').replace(/[μ]/g,'m')
-            .replace(/[νn]/g,'n').replace(/[ξ]/g,'x').replace(/[πp]/g,'p')
-            .replace(/[ρ]/g,'r').replace(/[σς]/g,'s').replace(/[τt]/g,'t')
-            .replace(/[φ]/g,'f').replace(/[χ]/g,'ch').replace(/[ψ]/g,'ps')
-            .replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
-    }
+    // Logo lookup handled via teams const above
 
     /* ── 3-D VOLLEYBALLS ─────────────────────────────── */
     let scene, camera, renderer, volleyballs = [], animationId;
