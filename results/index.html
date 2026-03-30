@@ -222,7 +222,7 @@
 
     async function loadResults() {
         try {
-            const res  = await fetch('./gameday/results.json');
+            const res  = await fetch('./volleyball-results.json');
             const raw  = await res.json();
 
             // Support both array-of-rounds and single-round object
