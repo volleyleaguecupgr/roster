@@ -147,9 +147,9 @@
             z-index:5; writing-mode:vertical-rl; transform:rotate(180deg);
             pointer-events:none; color:#ffffff;
         }
-        .playoff-badge.playoffs-14 { background:rgba(135,135,135,0.95); height:258px; top:0; }
-        .playoff-badge.playoff-57  { background:rgba(135,135,135,0.95); height:103px; top:258px; }
-        .playoff-badge.playout     { background:rgba(135,135,135,0.95); height:103px; top:361px; }
+        .playoff-badge.playoffs-14 { background:rgba(135,135,135,0.95); height:288px; top:0; }
+        .playoff-badge.playoff-57  { background:rgba(135,135,135,0.95); height:183px; top:288px; }
+        .playoff-badge.playout     { background:rgba(135,135,135,0.95); height:183px; top:4711px; }
 
         /* ── LEAGUE LOGO ─── */
         .league-logo {
@@ -240,8 +240,8 @@
                 ).join('');
 
                 // Logo paths — derive from team name if not supplied
-                const homeLogo = game.home?.logo || `logos/${slugify(game.homeTeam)}.png`;
-                const awayLogo = game.away?.logo || `logos/${slugify(game.awayTeam)}.png`;
+                const homeLogo = game.home?.logo || `${slugify(game.homeTeam)}.png`;
+                const awayLogo = game.away?.logo || `${slugify(game.awayTeam)}.png`;
 
                 row.innerHTML = `
                     <div class="home-logo team-logo">
