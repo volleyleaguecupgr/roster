@@ -88,11 +88,11 @@
         .away-team { justify-content:flex-end; }
 
         .team-logo img {
-            width:90px; height:90px; border-radius:50%; object-fit:contain;
-            background:rgba(255,255,255,0.95);
-            box-shadow:0 4px 16px rgba(0,0,0,0.5);
-            border:2px solid rgba(255,255,255,0.7);
-            padding:6px;
+            width:90px; height:90px; object-fit:contain;
+            background: transparent;
+            border: none;
+            padding: 0;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
         }
 
         .team-info { color:#fff; }
@@ -112,28 +112,32 @@
         }
 
         /* ── VS SECTION ─────────────────────────────────────── */
-        .vs-section { display:flex; flex-direction:column; align-items:center; }
-
-        .vs-text {
-            font-size:36px; font-weight:900; letter-spacing:2px;
-            color:#ffffff;
-            text-shadow:
-                0 0 20px rgba(59,130,246,0.9),
-                0 0 40px rgba(59,130,246,0.5);
-            margin-bottom:6px;
+        .vs-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            height: 100%;
         }
 
+        /* VS is baked into the row background image — hide the text */
+        .vs-text { display: none; }
+
         .game-date {
-            font-size:22px; font-weight:600;
-            color: rgba(200,220,255,0.9);
-            margin-bottom:4px;
-            letter-spacing: 1px;
+            font-size:22px; font-weight:700;
+            color: rgba(200,220,255,0.95);
+            letter-spacing: 2px;
+            margin-bottom: 48px;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.7);
         }
 
         .game-time {
             font-size:28px; font-weight:800;
             color:#ffffff;
-            letter-spacing:1px;
+            letter-spacing:2px;
+            margin-top: 48px;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.7);
         }
 
         /* ── COURT INFO ─────────────────────────────────────── */
