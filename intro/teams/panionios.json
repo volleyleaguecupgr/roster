@@ -1,10 +1,10 @@
 {
   "homeTeam": {
-    "name": "Ο.Φ.Η.",
-    "subtitle": ".",
-    "slug": "ofi",
-    "color": "#000000",
-    "logo": "ofi.png"
+    "name": "Καλαμάτα",
+    "subtitle": "A.O. '80 AFFIDEA",
+    "slug": "kalamata",
+    "color": "#008428",
+    "logo": "kalamata.png"
   },
   "awayTeam": {
     "name": "Πανιώνιος",
@@ -13,6 +13,6 @@
     "color": "#004b8d",
     "logo": "panionios.png"
   },
-  "date": "28 Μαρτίου 2026",
-  "league": "3η ΑΓΩΝΙΣΤΙΚΗ (PLAYOFFS 5-7)"
+  "date": "1 Απριλίου 2026",
+  "league": "4η ΑΓΩΝΙΣΤΙΚΗ (PLAYOFFS 5-7)"
 }

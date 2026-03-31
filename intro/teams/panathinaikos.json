@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Ολυμπιακός",
-    "subtitle": "Σ.Φ.Π ΟΝΕΧ",
-    "slug": "olympiakos",
-    "color": "#E41E26",
-    "logo": "olympiakos.png"
-  },
-  "awayTeam": {
     "name": "Παναθηναϊκός",
     "subtitle": "Α.Ο.",
     "slug": "panathinaikos",
     "color": "#007A33",
     "logo": "panathinaikos.png"
   },
-  "date": "28 Μαρτίου 2026",
-  "league": "2η ΑΓΩΝΙΣΤΙΚΗ (ΗΜΙΤΕΛΙΚΩΝ)"
+  "awayTeam": {
+    "name": "Π.Α.Ο.Κ.",
+    "subtitle": "Α.Σ.",
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png"
+  },
+  "date": "1 Απριλίου 2026",
+  "league": "3η ΑΓΩΝΙΣΤΙΚΗ (PLAYOFFS 1-4)"
 }
