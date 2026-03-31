@@ -2,14 +2,12 @@
   {
     "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
     "points": 43,
-    "matches": 18,
-    "wins":1
+    "matches": 18
   },
   {
     "team": "ΑΟΝΣ ΜΙΛΩΝ",
     "points": 42,
-    "matches": 18,
-    "wins":1
+    "matches": 18
   },
   {
     "team": "ΠΑΟΚ",
@@ -23,8 +21,8 @@
   },
   {
     "team": "ΟΦΗ",
-    "points": 32,
-    "matches": 1
+    "points": 35,
+    "matches": 2
   },
   {
     "team": "ΑΟ ΚΑΛΑΜΑΤΑ 80 AFFIDEA",
@@ -34,7 +32,7 @@
   {
     "team": "ΠΑΝΙΩΝΙΟΣ",
     "points": 19,
-    "matches": 1
+    "matches": 2
   },
   {
     "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
@@ -43,12 +41,12 @@
   },
   {
     "team": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-    "points": 15,
-    "matches": 1
+    "points": 17,
+    "matches": 2
   },
   {
     "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-    "points": 14,
-    "matches": 0
+    "points": 15,
+    "matches": 1
   }
 ]
