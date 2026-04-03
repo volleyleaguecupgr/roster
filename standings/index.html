@@ -59,6 +59,35 @@
 
         @keyframes titleSlideIn { to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
+        .bracket-team-card.eliminated {
+            opacity: 0.4;
+            filter: grayscale(40%);
+            transition: opacity 0.8s ease, filter 0.8s ease;
+        }
+        
+        .connector-winner-logo {
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 2px solid #fbbf24;
+            box-shadow: 0 0 18px rgba(251, 191, 36, 0.9), 0 0 35px rgba(251, 191, 36, 0.4);
+            background: rgba(0, 0, 0, 0.75);
+            padding: 4px;
+            z-index: 20;
+            animation: winnerLogoPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
+        @keyframes winnerLogoPop {
+            0% { opacity: 0; transform: scale(0.3); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .bracket-connector {
+            position: relative; /* add this — keep existing flex rules */
+        }
+
         /* ── OUTER WRAPPER ─────────────────────────────────────── */
         .standings-container {
             position: absolute; top: 50%; left: 50%;
@@ -539,36 +568,68 @@
         }
 
         function renderStandings(standings) {
-            // ── TOP 4: bracket ──────────────────────────────────────────
             const leftTeams  = document.getElementById('leftTeams');
             const rightTeams = document.getElementById('rightTeams');
-
-            // Left: 1st (index 0) and 4th (index 3)
+        
+            // Build bracket cards
             const card1 = buildBracketCard(standings[0], 1);
             const card4 = buildBracketCard(standings[3], 4);
-            if (card1) leftTeams.appendChild(card1);
-            if (card4) leftTeams.appendChild(card4);
-
-            // Right: 2nd (index 1) and 3rd (index 2)
             const card2 = buildBracketCard(standings[1], 2);
             const card3 = buildBracketCard(standings[2], 3);
+        
+            if (card1) leftTeams.appendChild(card1);
+            if (card4) leftTeams.appendChild(card4);
             if (card2) rightTeams.appendChild(card2);
             if (card3) rightTeams.appendChild(card3);
-
-            // ── POSITIONS 5–10: flex rows ────────────────────────────────
+        
+            // ── Check for 3-win winners and apply effects ──────────────────
+        
+            // Helper: inject winner logo into a connector element
+            function injectWinnerLogo(connectorEl, logoSrc) {
+                const img = document.createElement('img');
+                img.src = logoSrc;
+                img.className = 'connector-winner-logo';
+                connectorEl.style.position = 'relative';
+                connectorEl.appendChild(img);
+            }
+        
+            // Left pair: 1st vs 4th
+            const leftConnector = document.querySelector('#leftBracket .bracket-connector');
+            const wins1 = standings[0].wins ?? 0;
+            const wins4 = standings[3].wins ?? 0;
+        
+            if (wins1 === 3 && card4) {
+                card4.classList.add('eliminated');
+                injectWinnerLogo(leftConnector, teams[standings[0].team].logo);
+            } else if (wins4 === 3 && card1) {
+                card1.classList.add('eliminated');
+                injectWinnerLogo(leftConnector, teams[standings[3].team].logo);
+            }
+        
+            // Right pair: 2nd vs 3rd
+            const rightConnector = document.querySelector('#rightBracket .bracket-connector');
+            const wins2 = standings[1].wins ?? 0;
+            const wins3 = standings[2].wins ?? 0;
+        
+            if (wins2 === 3 && card3) {
+                card3.classList.add('eliminated');
+                injectWinnerLogo(rightConnector, teams[standings[1].team].logo);
+            } else if (wins3 === 3 && card2) {
+                card2.classList.add('eliminated');
+                injectWinnerLogo(rightConnector, teams[standings[2].team].logo);
+            }
+        
+            // ── POSITIONS 5–10: flex rows ──────────────────────────────────
             const tbody = document.getElementById('standingsBody');
             tbody.innerHTML = '';
-
-            const lowerStandings = standings.slice(4);
-
-            lowerStandings.forEach((standing, index) => {
+        
+            standings.slice(4).forEach((standing, index) => {
                 const team = teams[standing.team];
                 if (!team) return;
-
+        
                 const globalPosition = index + 5;
                 const row = document.createElement('div');
                 row.className = `team-row ${team.className}`;
-
                 row.innerHTML = `
                     <div class="td-pos position">${globalPosition}</div>
                     <div class="td-team">
@@ -582,22 +643,20 @@
                 `;
                 tbody.appendChild(row);
             });
-
-            // ── Badges positioned relative to .standings-container ───────
+        
+            // ── Badges ────────────────────────────────────────────────────
             requestAnimationFrame(() => {
                 const standingsContainer = document.querySelector('.standings-container');
                 const unifiedBox = document.querySelector('.unified-box');
                 const headerEl = document.querySelector('.table-header');
                 const firstRow = tbody.querySelector('.team-row');
-
+        
                 const containerRect = standingsContainer.getBoundingClientRect();
                 const unifiedRect = unifiedBox.getBoundingClientRect();
                 const headerRect = headerEl.getBoundingClientRect();
-
-                const firstRowTop = headerRect.bottom - containerRect.top;
-                const rowHeight = firstRow ? firstRow.getBoundingClientRect().height : 42;
+        
                 const leftEdge = unifiedRect.left - containerRect.left - 60;
-
+        
                 const badge57 = document.createElement('div');
                 badge57.className = 'playoff-badge playoff-57 playoff-badge-group';
                 badge57.textContent = 'PLAYOFF 5-7';
@@ -605,7 +664,7 @@
                 badge57.style.top = '235px';
                 badge57.style.left = leftEdge + 'px';
                 standingsContainer.appendChild(badge57);
-
+        
                 const badgePO = document.createElement('div');
                 badgePO.className = 'playoff-badge playout playoff-badge-group';
                 badgePO.textContent = 'PLAYOUT';
