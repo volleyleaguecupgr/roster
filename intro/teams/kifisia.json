@@ -1,18 +1,18 @@
 {
   "homeTeam": {
+    "name": "Φλοίσβος",
+    "subtitle": "A. O. MEMBERS PARON",
+    "slug": "floisvos",
+    "color": "#3a55a8",
+    "logo": "floisvos.png"
+  },
+  "awayTeam": {
     "name": "Κηφισιά",
     "subtitle": "A.Ο.Π.Σ.",
     "slug": "kifisia",
     "color": "#1e3a8a",
     "logo": "kifisia.png"
   },
-  "awayTeam": {
-    "name": "Φοίνικας Σύρου",
-    "subtitle": "A.O.",
-    "slug": "foinikas",
-    "color": "#003399",
-    "logo": "foinikas.png"
-  },
-  "date": "14 Μαρτίου 2026",
-  "league": "PLAYOUTS 1Η ΑΓ."
+  "date": "4 Απριλίου 2026",
+  "league": "3η ΑΓΩΝΙΣΤΙΚΗ (PLAYOUT)"
 }
