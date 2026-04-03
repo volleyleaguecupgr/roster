@@ -59,10 +59,17 @@
 
         @keyframes titleSlideIn { to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
-        .bracket-team-card.eliminated {
+        .bracket-team-card.eliminated .bracket-logo img {
             opacity: 0.4;
-            filter: grayscale(40%);
-            transition: opacity 0.8s ease, filter 0.8s ease;
+            filter: grayscale(50%);
+        }
+        
+        .bracket-team-card.eliminated .bracket-name,
+        .bracket-team-card.eliminated .bracket-position,
+        .bracket-team-card.eliminated .wins-counter,
+        .bracket-team-card.eliminated .wins-label {
+            opacity: 0.4;
+            text-shadow: none;
         }
         
         .connector-winner-logo {
@@ -483,7 +490,7 @@
                 <!-- Center VS -->
                 <div class="bracket-vs">
                     <span>VS</span>
-                    <div class="final-label">ΗΜΙΤΕΛΙΚΑ</div>
+                    <div class="final-label">ΤΕΛΙΚΟΙ</div>
                 </div>
 
                 <!-- Right bracket: 2nd vs 3rd -->
