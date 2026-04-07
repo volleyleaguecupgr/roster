@@ -1,8 +1,8 @@
 {
   "match_info": {
     "home_team": "A.O. FOINIKAS SIROU",
-    "away_team": "AO FLOISVOS",
-    "datetime": "28 March 2026 - 19:00"
+    "away_team": "AOP KIFISIAS",
+    "datetime": "09 April 2026 - 19:00"
   },
   "teams_comparison": {
     "titles": [
@@ -56,37 +56,37 @@
       "efficiency": {
         "home": "27%",
         "average": "33%",
-        "away": "29%"
+        "away": "33%"
       },
-      "spikes_per_set_home": "11.16",
-      "spikes_per_set_avg": "11.98",
-      "spikes_per_set_away": "11.95",
-      "spikes_per_set_home_played": "(76)",
-      "spikes_per_set_away_played": "(79)"
+      "spikes_per_set_home": "11.12",
+      "spikes_per_set_avg": "11.97",
+      "spikes_per_set_away": "11.81",
+      "spikes_per_set_home_played": "(81)",
+      "spikes_per_set_away_played": "(84)"
     },
     "blocks": {
-      "blocks_per_set_home": "2.20",
-      "blocks_per_set_avg": "2.05",
-      "blocks_per_set_away": "1.94",
-      "blocks_home_played": "(76)",
-      "blocks_away_played": "(79)"
+      "blocks_per_set_home": "2.30",
+      "blocks_per_set_avg": "2.07",
+      "blocks_per_set_away": "2.40",
+      "blocks_home_played": "(81)",
+      "blocks_away_played": "(84)"
     },
     "serve": {
-      "aces_home": "105",
-      "aces_away": "84",
-      "aces_per_set_home": "1.38",
-      "aces_per_set_avg": "1.62",
-      "aces_per_set_away": "1.06",
-      "aces_home_played": "(76)",
-      "aces_away_played": "(79)"
+      "aces_home": "109",
+      "aces_away": "100",
+      "aces_per_set_home": "1.35",
+      "aces_per_set_avg": "1.60",
+      "aces_per_set_away": "1.19",
+      "aces_home_played": "(81)",
+      "aces_away_played": "(84)"
     },
     "reception": {
       "reception_eff_home": "33%",
       "reception_eff_avg": "35%",
-      "reception_eff_away": "34%",
-      "reception_perfect_home": "25%",
+      "reception_eff_away": "31%",
+      "reception_perfect_home": "26%",
       "reception_perfect_avg": "25%",
-      "reception_perfect_away": "25%"
+      "reception_perfect_away": "24%"
     }
   }
 }
