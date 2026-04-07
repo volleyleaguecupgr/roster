@@ -1,18 +1,18 @@
 {
   "homeTeam": {
-    "name": "Π.Α.Ο.Κ.",
-    "subtitle": "Α.Σ.",
-    "slug": "paok",
-    "color": "#000000",
-    "logo": "paok.png"
-  },
-  "awayTeam": {
     "name": "Μίλων",
     "subtitle": "Α.Ο.Ν.Σ",
     "slug": "milon",
     "color": "#006400",
     "logo": "milon.png"
   },
-  "date": "5 Απριλίου 2026",
-  "league": "4η ΑΓΩΝΙΣΤΙΚΗ (PLAYOFFS 1-4)"
+  "awayTeam": {
+    "name": "Π.Α.Ο.Κ.",
+    "subtitle": "Α.Σ.",
+    "slug": "paok",
+    "color": "#000000",
+    "logo": "paok.png"
+  },
+  "date": "9 Απριλίου 2026",
+  "league": "5η ΑΓΩΝΙΣΤΙΚΗ (PLAYOFFS 1-4)"
 }
