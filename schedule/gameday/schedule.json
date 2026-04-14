@@ -2,33 +2,33 @@
   "matches": [
     {
       "home": {
-        "name": "ΑΟΝΣ ΜΙΛΩΝ",
-        "logo": "logos/milon.png",
-        "color": "#228B22"
+        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "logo": "logos/panathinaikos.png",
+        "color": "#16a34a"
       },
       "away": {
         "name": "ΠΑΟΚ",
         "logo": "logos/paok.png",
         "color": "#1a1a1a"
       },
-      "date": "09/04",
-      "time": "19:00",
-      "court": "K. ΠΕΡΣΗΣ"
+      "date": "18/04",
+      "time": "20:30",
+      "court": "ΜΕΤΣ"
     },
     {
       "home": {
+        "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
+        "logo": "logos/floisvos.png",
+        "color": "#1E90FF"
+      },
+      "away": {
         "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
         "logo": "logos/foinikas.png",
         "color": "#FF4500"
       },
-      "away": {
-        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "logo": "logos/kifisia.png",
-        "color": "#4169E1"
-      },
-      "date": "09/04",
+      "date": "18/04",
       "time": "19:00",
-      "court": "Δ. ΒΙΚΕΛΑΣ"
+      "court": "Σ. ΜΠΕΦΟΝ"
     }
   ]
 }
