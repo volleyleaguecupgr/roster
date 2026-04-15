@@ -1,41 +1,41 @@
 {
   "games": [
     {
-      "homeTeam": "ΜΙΛΩΝ",
-      "homeSlug": "milon",
+      "homeTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ",
+      "homeSlug": "panathinaikos",
       "awayTeam": "ΠΑΟΚ",
       "awaySlug": "paok",
       "refs": {
         "referees": [
-          "Κουτσούλας",
-          "Ράντσιου"
+          "Μυλωνάκης",
+          "Νικάκης"
         ],
-        "observer": "Μαυρικίδης",
-        "challengeRef": "Βουδούρης",
+        "observer": "Καλπακτσόγλου",
+        "challengeRef": "Μουλά Λ.",
         "linesmen": [
-          "Μουζακίτη",
-          "Τσεκούρας"
+          "Γεώργας",
+          "Ζαρμπίνης"
         ],
-        "secretariat": "Θεοδωρίδου"
+        "secretariat": "Καρατζογλίδου"
       }
     },
     {
-      "homeTeam": "ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-      "homeSlug": "foinikas",
-      "awayTeam": "ΚΗΦΙΣΙΑ",
-      "awaySlug": "kifisia",
+      "homeTeam": "ΦΛΟΙΣΒΟΣ",
+      "homeSlug": "floisvos",
+      "awayTeam": "ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+      "awaySlug": "foinikas",
       "refs": {
         "referees": [
-          "Νικάκης",
-          "Γεωργιάδης Στ."
+          "Φραγκάκης",
+          "Μουλά Ειρ."
         ],
-        "observer": "Γεωργουλέας",
+        "observer": "Πέρρος",
         "challengeRef": "",
         "linesmen": [
-          "Συρίγος",
-          "Βρούτσης"
+          "Κώτσιας",
+          "Τομαράς"
         ],
-        "secretariat": "Ταλάρου"
+        "secretariat": "Καλιγέρη"
       }
     }
   ]
