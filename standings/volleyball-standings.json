@@ -15,7 +15,7 @@
     "team": "ΠΑΟΚ",
     "points": 36,
     "matches": 18,
-    "wins": 2
+    "wins": 3
   },
   {
     "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
@@ -40,16 +40,16 @@
   },
   {
     "team": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-    "points": 20,
-    "matches": 2
-  },
-  {
-    "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-    "points": 17,
-    "matches": 2
+    "points": 22,
+    "matches": 3
   },
   {
     "team": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+    "points": 19,
+    "matches": 3
+  },
+  {
+    "team": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
     "points": 17,
     "matches": 2
   }
