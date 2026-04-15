@@ -3,48 +3,52 @@
     "title": "ΑΠΟΤΕΛΕΣΜΑΤΑ ΠΡΟΗΓΟΥΜΕΝΗΣ ΑΓΩΝΙΣΤΙΚΗΣ",
     "games": [
       {
-        "homeTeam": "Π.Α.Ο.Κ.",
-        "awayTeam": "ΑΟΝΣ ΜΙΛΩΝ",
+        "homeTeam": "ΑΟΝΣ ΜΙΛΩΝ",
+        "awayTeam": "Π.Α.Ο.Κ.",
         "sets": [
           {
-            "homePoints": 25,
-            "awayPoints": 20
+            "homePoints": 26,
+            "awayPoints": 24
           },
           {
-            "homePoints": 28,
-            "awayPoints": 26
-          },
-          {
-            "homePoints": 25,
-            "awayPoints": 21
-          }
-        ],
-        "homeScore": 3,
-        "awayScore": 0
-      },
-      {
-        "homeTeam": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
-        "awayTeam": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
-        "sets": [
-          {
-            "homePoints": 27,
-            "awayPoints": 29
-          },
-          {
-            "homePoints": 23,
+            "homePoints": 19,
             "awayPoints": 25
           },
           {
-            "homePoints": 25,
-            "awayPoints": 19
+            "homePoints": 18,
+            "awayPoints": 25
+          },
+          {
+            "homePoints": 28,
+            "awayPoints": 30
+          }
+        ],
+        "homeScore": 1,
+        "awayScore": 3
+      },
+      {
+        "homeTeam": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
+        "awayTeam": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+        "sets": [
+          {
+            "homePoints": 22,
+            "awayPoints": 25
           },
           {
             "homePoints": 25,
             "awayPoints": 23
           },
           {
+            "homePoints": 25,
+            "awayPoints": 21
+          },
+          {
+            "homePoints": 21,
+            "awayPoints": 25
+          },
+          {
             "homePoints": 15,
-            "awayPoints": 11
+            "awayPoints": 12
           }
         ],
         "homeScore": 3,
