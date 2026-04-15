@@ -7,12 +7,12 @@
     "logo": "floisvos.png"
   },
   "awayTeam": {
-    "name": "Κηφισιά",
-    "subtitle": "A.Ο.Π.Σ.",
-    "slug": "kifisia",
-    "color": "#1e3a8a",
-    "logo": "kifisia.png"
+    "name": "Φοίνικας Σύρου",
+    "subtitle": "A.O.",
+    "slug": "foinikas",
+    "color": "#003399",
+    "logo": "foinikas.png"
   },
-  "date": "4 Απριλίου 2026",
-  "league": "3η ΑΓΩΝΙΣΤΙΚΗ (PLAYOUT)"
+  "date": "18 Απριλίου 2026",
+  "league": "PLAYOUTS (5η ΑΓΩΝΙΣΤΙΚΗ)"
 }
