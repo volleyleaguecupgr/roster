@@ -103,12 +103,19 @@ setInterval(function() {
     updateDisplay(currentState);
 }, 100); // Check every 100ms
 
+
 function renderSetHistory() {
-    const history = JSON.parse(localStorage.getItem('setHistory') || '[]');
+    const history = JSON.parse(localStorage.getItem('vb_setHistory') || '[]');
     const list = document.getElementById('set-history-list');
+    const content = document.getElementById('set-history-content');
+
+    // Show or hide the panel based on control panel toggle
+    const isVisible = localStorage.getItem('vb_history_visible') === 'true';
+    if (content) content.style.display = isVisible ? 'block' : 'none';
+
     list.innerHTML = history.map(s => `
         <div class="set-history-entry">
-            <span>SET ${s.set}</span><br>
+            <span>SET ${s.setNum}</span><br>
             <span class="${s.winner === 1 ? 'set-winner' : ''}">${String(s.score1).padStart(2,'0')}</span>
             <span> – </span>
             <span class="${s.winner === 2 ? 'set-winner' : ''}">${String(s.score2).padStart(2,'0')}</span>
@@ -116,4 +123,4 @@ function renderSetHistory() {
     `).join('');
 }
 
-setInterval(renderSetHistory, 300); // poll localStorage for updates
+setInterval(renderSetHistory, 300);// poll localStorage for updates
