@@ -102,3 +102,18 @@ setInterval(function() {
     const currentState = getState();
     updateDisplay(currentState);
 }, 100); // Check every 100ms
+
+function renderSetHistory() {
+    const history = JSON.parse(localStorage.getItem('setHistory') || '[]');
+    const list = document.getElementById('set-history-list');
+    list.innerHTML = history.map(s => `
+        <div class="set-history-entry">
+            <span>SET ${s.set}</span><br>
+            <span class="${s.winner === 1 ? 'set-winner' : ''}">${String(s.score1).padStart(2,'0')}</span>
+            <span> – </span>
+            <span class="${s.winner === 2 ? 'set-winner' : ''}">${String(s.score2).padStart(2,'0')}</span>
+        </div>
+    `).join('');
+}
+
+setInterval(renderSetHistory, 300); // poll localStorage for updates
