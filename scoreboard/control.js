@@ -1,4 +1,13 @@
 // Control panel - updates localStorage which the display page reads
+// ── Toggle history visibility on display ──────────────────
+
+let historyVisible = false;
+document.getElementById('toggle-history').addEventListener('click', () => {
+    historyVisible = !historyVisible;
+    localStorage.setItem('vb_history_visible', historyVisible);
+    document.getElementById('toggle-history').textContent = 
+        historyVisible ? '📋 HIDE SETS' : '📋 SHOW SETS';
+});
 
 // Initialize state from localStorage or use defaults
 function getState() {
