@@ -231,10 +231,12 @@ document.getElementById('sub-button-2').addEventListener('click', () => {
 // ── END SET ───────────────────────────────────────────────
 // KEY FIX: use 'vb_setHistory' + 'setNum' to match display.js
 document.getElementById('end-set').addEventListener('click', () => {
-    const score1 = state.team1.score;
-    const score2 = state.team2.score;
+    // Read directly from the live display elements — always in sync
+    const score1 = parseInt(document.getElementById('display-score-1').textContent) || 0;
+    const score2 = parseInt(document.getElementById('display-score-2').textContent) || 0;
     const winner = score1 >= score2 ? 1 : 2;
 
+    // Load existing history, push new entry, save back
     const history = JSON.parse(localStorage.getItem('vb_setHistory') || '[]');
     history.push({ setNum: history.length + 1, score1, score2, winner });
     localStorage.setItem('vb_setHistory', JSON.stringify(history));
@@ -243,8 +245,8 @@ document.getElementById('end-set').addEventListener('click', () => {
     if (winner === 1) state.team1.sets++;
     else              state.team2.sets++;
 
-    // Reset scores and all indicators for next set
-    state.team1.score = 0;       state.team2.score = 0;
+    // Reset scores and all indicators
+    state.team1.score = 0;        state.team2.score = 0;
     state.team1.setPoint  = false; state.team2.setPoint  = false;
     state.team1.matchPoint = false; state.team2.matchPoint = false;
     state.team1.timeout   = false; state.team2.timeout   = false;
