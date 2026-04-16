@@ -490,6 +490,10 @@ input[type="text"] {
     display: none;
 }
 
+#set-history-panel {
+    display: none; /* JS reveals it when SHOW SETS is clicked */
+}
+
 .history-toggle-btn {
     background: #0ee243;
     color: #051432;
