@@ -471,3 +471,49 @@ input[type="text"] {
     font-family: 'lemurbold';
     color: white;
 }
+
+.set-history-panel {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(5, 20, 50, 0.92);
+    border: 2px solid #0ee243;
+    border-radius: 12px;
+    padding: 8px;
+    min-width: 120px;
+}
+
+.history-toggle-btn {
+    background: #0ee243;
+    color: #051432;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-family: 'lemurbold';
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 6px;
+}
+
+.set-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.set-history-entry {
+    color: white;
+    font-family: 'lemurregular';
+    font-size: 13px;
+    text-align: center;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 4px 8px;
+    border-left: 3px solid #0ee243;
+}
+
+.set-history-entry .set-winner {
+    color: #0ee243;
+    font-family: 'lemurbold';
+}
