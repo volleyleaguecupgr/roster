@@ -473,8 +473,8 @@ input[type="text"] {
 }
 
 .set-history-panel {
-    position: absolute;
-    right: 10px;
+    position: fixed;        /* fixed so it stays on screen regardless of scroll */
+    right: 16px;
     top: 50%;
     transform: translateY(-50%);
     background: rgba(5, 20, 50, 0.92);
@@ -482,6 +482,12 @@ input[type="text"] {
     border-radius: 12px;
     padding: 8px;
     min-width: 120px;
+    z-index: 9999;          /* always above scoreboard elements */
+}
+
+/* Hidden by default — display.js toggles this via vb_history_visible */
+#set-history-content {
+    display: none;
 }
 
 .history-toggle-btn {
