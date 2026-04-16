@@ -375,3 +375,21 @@ document.getElementById('sub-button-2').addEventListener('click', function() {
     state.team2.sub.active = !state.team2.sub.active;
     saveState(state);
 });
+
+// When END SET is clicked:
+document.getElementById('end-set').addEventListener('click', () => {
+    const score1 = parseInt(document.getElementById('display-score-1').textContent);
+    const score2 = parseInt(document.getElementById('display-score-2').textContent);
+    const winner = score1 > score2 ? 1 : 2;
+
+    const history = JSON.parse(localStorage.getItem('setHistory') || '[]');
+    history.push({ set: history.length + 1, score1, score2, winner });
+    localStorage.setItem('setHistory', JSON.stringify(history));
+
+    // Then trigger your existing +S and score reset logic
+});
+
+document.getElementById('reset-history').addEventListener('click', () => {
+    localStorage.removeItem('setHistory');
+    localStorage.setItem('setHistoryUpdated', Date.now());
+});
