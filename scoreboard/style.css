@@ -524,12 +524,13 @@ input[type="text"] {
 .set-history-entry {
     color: white;
     font-family: 'lemurregular';
-    font-size: 13px;
+    font-size: 18px;
     text-align: center;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 6px;
     padding: 5px 12px;
     border-left: 3px solid #0ee243;
+    border-right: 3px solid #0ee243;
     white-space: nowrap;
 }
 
