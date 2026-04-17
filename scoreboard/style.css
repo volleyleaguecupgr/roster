@@ -26,6 +26,38 @@ body {
     background-color: transparent;
 }
 
+/* Fix background image overflow causing bottom-right artifact */
+.background {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+#bg {
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Logo size fix — was too large */
+.set-history-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #051432;
+    border: 2px solid #0ee243;
+    margin: 0 10px;
+    vertical-align: middle;
+}
+
 .team-container {
     display: flex;
     flex-direction: column;
