@@ -106,44 +106,22 @@ setInterval(function() {
 
 function renderSetHistory() {
     const history = JSON.parse(localStorage.getItem('vb_setHistory') || '[]');
-    const list    = document.getElementById('set-history-list');
     const panel   = document.getElementById('set-history-panel');
+    const content = document.getElementById('set-history-content');
 
     const isVisible = localStorage.getItem('vb_history_visible') === 'true';
     if (panel) panel.style.display = isVisible ? 'block' : 'none';
 
-    if (!list) return;
+    if (!content) return;
 
-    // Get logos from current state
-    const state  = JSON.parse(localStorage.getItem('volleyballState') || '{}');
-    const logo1  = state.team1?.logo || '';
-    const logo2  = state.team2?.logo || '';
+    const state = JSON.parse(localStorage.getItem('volleyballState') || '{}');
+    const logo1 = state.team1?.logo || '';
+    const logo2 = state.team2?.logo || '';
 
-    // Calculate total sets won
     const sets1 = history.filter(s => s.winner === 1).length;
     const sets2 = history.filter(s => s.winner === 2).length;
 
-    // Remove old header if exists, rebuild fresh
-    const old = document.getElementById('set-final-score-el');
-    if (old) old.remove();
-
-    const heading = document.querySelector('.set-history-heading');
-    if (heading) {
-        const div = document.createElement('div');
-        div.id = 'set-final-score-el';
-        div.innerHTML = `
-            <div class="set-final-score">
-                <img src="${logo1}" class="set-history-logo">
-                <span class="${sets1 > sets2 ? 'set-winner' : ''}">${sets1}</span>
-                <span style="color:#555"> – </span>
-                <span class="${sets2 > sets1 ? 'set-winner' : ''}">${sets2}</span>
-                <img src="${logo2}" class="set-history-logo">
-            </div>
-        `;
-        heading.after(div);
-    }
-
-    list.innerHTML = history.map(s => `
+    const chips = history.map(s => `
         <div class="set-history-entry">
             <span>SET ${s.setNum}</span><br>
             <span class="${s.winner === 1 ? 'set-winner' : ''}">${String(s.score1).padStart(2, '0')}</span>
@@ -151,6 +129,21 @@ function renderSetHistory() {
             <span class="${s.winner === 2 ? 'set-winner' : ''}">${String(s.score2).padStart(2, '0')}</span>
         </div>
     `).join('');
+
+    // Rebuild entire panel content in one shot — no floating elements
+    content.innerHTML = `
+        <div class="set-history-heading">COMPLETED SETS</div>
+        <div class="set-final-score">
+            <img src="${logo1}" class="set-history-logo">
+            <span class="${sets1 > sets2 ? 'set-winner' : ''}">${sets1}</span>
+            <span style="color:#555"> – </span>
+            <span class="${sets2 > sets1 ? 'set-winner' : ''}">${sets2}</span>
+            <img src="${logo2}" class="set-history-logo">
+        </div>
+        <div id="set-history-list" style="display:flex; flex-direction:row; gap:8px; justify-content:center;">
+            ${chips}
+        </div>
+    `;
 }
 
 setInterval(renderSetHistory, 300);
