@@ -472,24 +472,70 @@ input[type="text"] {
     color: white;
 }
 
+#set-history-panel {
+    display: none;
+}
+
 .set-history-panel {
-    position: fixed;        /* fixed so it stays on screen regardless of scroll */
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     background: rgba(5, 20, 50, 0.92);
     border: 2px solid #0ee243;
     border-radius: 12px;
-    padding: 8px;
-    min-width: 120px;
-    z-index: 9999;          /* always above scoreboard elements */
+    padding: 10px 16px;
+    z-index: 9999;
+    min-width: max-content;
 }
 
-/* Hidden by default — display.js toggles this via vb_history_visible */
+.set-history-heading {
+    color: #0ee243;
+    font-family: 'lemurbold';
+    font-size: 11px;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+}
 
+/* Final sets score row — e.g. "2 – 1" */
+.set-final-score {
+    text-align: center;
+    color: white;
+    font-family: 'lemurbold';
+    font-size: 22px;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+}
 
-#set-history-panel {
-    display: none; /* JS reveals it when SHOW SETS is clicked */
+.set-final-score .set-winner {
+    color: #0ee243;
+}
+
+/* Horizontal row of set chips */
+#set-history-list {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.set-history-entry {
+    color: white;
+    font-family: 'lemurregular';
+    font-size: 13px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 5px 12px;
+    border-left: 3px solid #0ee243;
+    white-space: nowrap;
+}
+
+.set-history-entry .set-winner {
+    color: #0ee243;
+    font-family: 'lemurbold';
 }
 
 .history-toggle-btn {
@@ -504,24 +550,4 @@ input[type="text"] {
     margin-bottom: 6px;
 }
 
-.set-history-list {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
 
-.set-history-entry {
-    color: white;
-    font-family: 'lemurregular';
-    font-size: 13px;
-    text-align: center;
-    background: rgba(255,255,255,0.08);
-    border-radius: 6px;
-    padding: 4px 8px;
-    border-left: 3px solid #0ee243;
-}
-
-.set-history-entry .set-winner {
-    color: #0ee243;
-    font-family: 'lemurbold';
-}
