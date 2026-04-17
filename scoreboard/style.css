@@ -503,7 +503,7 @@ input[type="text"] {
     text-align: center;
     color: white;
     font-family: 'lemurbold';
-    font-size: 22px;
+    font-size: 25px;
     margin-bottom: 8px;
     letter-spacing: 2px;
 }
@@ -529,8 +529,7 @@ input[type="text"] {
     background: rgba(255, 255, 255, 0.08);
     border-radius: 6px;
     padding: 5px 12px;
-    border-left: 3px solid #0ee243;
-    border-right: 3px solid #0ee243;
+    border: 2px solid #0ee243;
     white-space: nowrap;
 }
 
