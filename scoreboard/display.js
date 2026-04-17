@@ -107,13 +107,38 @@ setInterval(function() {
 function renderSetHistory() {
     const history = JSON.parse(localStorage.getItem('vb_setHistory') || '[]');
     const list    = document.getElementById('set-history-list');
-    const panel   = document.getElementById('set-history-panel'); // ← whole panel, not just content
+    const panel   = document.getElementById('set-history-panel');
 
-    // Show/hide the entire panel based on control toggle
     const isVisible = localStorage.getItem('vb_history_visible') === 'true';
     if (panel) panel.style.display = isVisible ? 'block' : 'none';
 
     if (!list) return;
+
+    // Calculate total sets won from history
+    const sets1 = history.filter(s => s.winner === 1).length;
+    const sets2 = history.filter(s => s.winner === 2).length;
+
+    // Build final score header + set chips
+    const finalScore = `
+        <div class="set-final-score">
+            <span class="${sets1 > sets2 ? 'set-winner' : ''}">${sets1}</span>
+            <span style="color:#555"> – </span>
+            <span class="${sets2 > sets1 ? 'set-winner' : ''}">${sets2}</span>
+        </div>
+    `;
+
+    // Insert final score above the list
+    const heading = document.querySelector('.set-history-heading');
+    if (heading) {
+        // Remove old final score if exists, then insert fresh
+        const old = document.getElementById('set-final-score-el');
+        if (old) old.remove();
+        const div = document.createElement('div');
+        div.id = 'set-final-score-el';
+        div.innerHTML = finalScore;
+        heading.after(div);
+    }
+
     list.innerHTML = history.map(s => `
         <div class="set-history-entry">
             <span>SET ${s.setNum}</span><br>
