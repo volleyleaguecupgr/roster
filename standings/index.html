@@ -547,7 +547,15 @@
         function buildBracketCard(standing, position) {
             const team = teams[standing.team];
             if (!team) return null;
-
+        
+            const winF = standing.winF ?? 0;
+            const finalsRow = winF > 0
+                ? `<div class="bracket-wins" style="margin-top:3px;">
+                       <span class="wins-counter" style="color:#86efac; text-shadow:0 0 12px rgba(134,239,172,0.7);">${winF}/3</span>
+                       <span class="wins-label" style="color:rgba(134,239,172,0.6);">ΝΙΚΕΣ ΤΕΛΙΚΟΥ</span>
+                   </div>`
+                : '';
+        
             const card = document.createElement('div');
             card.className = `bracket-team-card ${team.className}`;
             card.innerHTML = `
@@ -557,13 +565,14 @@
                     <div class="bracket-name">${standing.team}</div>
                     <div class="bracket-wins">
                         <span class="wins-counter">${standing.wins ?? 0}/3</span>
-                        <span class="wins-label">ΝΙΚΕΣ</span>
+                        <span class="wins-label">ΝΙΚΕΣ ΗΜΙΤΕΛΙΚΟΥ</span>
                     </div>
+                    ${finalsRow}
                 </div>
             `;
             return card;
         }
-
+        
         async function loadStandings() {
             try {
                 const response = await fetch('volleyball-standings.json');
