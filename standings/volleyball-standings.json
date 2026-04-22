@@ -3,7 +3,8 @@
     "team": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
     "points": 43,
     "matches": 18,
-    "wins": 3
+    "wins": 3,
+    "winF": 1
   },
   {
     "team": "ΑΟΝΣ ΜΙΛΩΝ",
@@ -15,7 +16,8 @@
     "team": "ΠΑΟΚ",
     "points": 36,
     "matches": 18,
-    "wins": 3
+    "wins": 3,
+    "winF": 0
   },
   {
     "team": "ΟΛΥΜΠΙΑΚΟΣ ΣΦΠ OΝΕΧ",
