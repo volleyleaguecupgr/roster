@@ -2,33 +2,33 @@
   "matches": [
     {
       "home": {
-        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
-        "logo": "logos/panathinaikos.png",
-        "color": "#16a34a"
-      },
-      "away": {
         "name": "ΠΑΟΚ",
         "logo": "logos/paok.png",
         "color": "#1a1a1a"
       },
-      "date": "18/04",
-      "time": "20:30",
-      "court": "ΜΕΤΣ"
+      "away": {
+        "name": "ΠΑΝΑΘΗΝΑΪΚΟΣ AO",
+        "logo": "logos/panathinaikos.png",
+        "color": "#16a34a"
+      },
+      "date": "26/04",
+      "time": "18:30",
+      "court": "PAOK SPORTS ARENA"
     },
     {
       "home": {
+        "name": "ΑΟΠ ΚΗΦΙΣΙΑΣ",
+        "logo": "logos/kifisia.png",
+        "color": "#4169E1"
+      },
+      "away": {
         "name": "ΑΟ ΦΛΟΙΣΒΟΣ MEMBERS PARON",
         "logo": "logos/floisvos.png",
         "color": "#1E90FF"
       },
-      "away": {
-        "name": "ΑΟ ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-        "logo": "logos/foinikas.png",
-        "color": "#FF4500"
-      },
-      "date": "18/04",
+      "date": "25/04",
       "time": "19:00",
-      "court": "Σ. ΜΠΕΦΟΝ"
+      "court": "ΖΗΡΙΝΕΙΟ"
     }
   ]
 }
