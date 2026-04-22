@@ -1,41 +1,41 @@
 {
   "games": [
     {
-      "homeTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ",
-      "homeSlug": "panathinaikos",
-      "awayTeam": "ΠΑΟΚ",
-      "awaySlug": "paok",
+      "homeTeam": "ΠΑΟΚ",
+      "homeSlug": "paok",
+      "awayTeam": "ΠΑΝΑΘΗΝΑΪΚΟΣ",
+      "awaySlug": "panathinaikos",
       "refs": {
         "referees": [
-          "Μυλωνάκης",
-          "Νικάκης"
+          "Βασιλειάδης",
+          "Αβραμίδης"
         ],
-        "observer": "Καλπακτσόγλου",
-        "challengeRef": "Μουλά Λ.",
+        "observer": "Μιχελινάκης",
+        "challengeRef": "Θεμελής",
         "linesmen": [
-          "Γεώργας",
-          "Ζαρμπίνης"
+          "Ψύχου",
+          "Βασδέκης"
         ],
-        "secretariat": "Καρατζογλίδου"
+        "secretariat": "Κουμπλή"
       }
     },
     {
-      "homeTeam": "ΦΛΟΙΣΒΟΣ",
-      "homeSlug": "floisvos",
-      "awayTeam": "ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ",
-      "awaySlug": "foinikas",
+      "homeTeam": "ΚΗΦΙΣΙΑ",
+      "homeSlug": "kifisia",
+      "awayTeam": "ΦΛΟΙΣΒΟΣ",
+      "awaySlug": "floisvos",
       "refs": {
         "referees": [
-          "Φραγκάκης",
-          "Μουλά Ειρ."
+          "Βουδούρης",
+          "Μάλφας"
         ],
-        "observer": "Πέρρος",
+        "observer": "Ονόπας",
         "challengeRef": "",
         "linesmen": [
-          "Κώτσιας",
-          "Τομαράς"
+          "Νικολάου",
+          "Τσεκούρας"
         ],
-        "secretariat": "Καλιγέρη"
+        "secretariat": "Καπουράνη"
       }
     }
   ]
