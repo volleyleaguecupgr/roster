@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Scoreboard Overlay</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,800;0,900;1,800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    width: 1280px;
+    height: 720px;
+    background: transparent;
+    overflow: hidden;
+    font-family: 'Barlow Condensed', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+  }
+
+  /* ═══════════════════════ MAIN BAR ═══════════════════════ */
+  #bar {
+    width: 100%;
+    background: #191908;
+    display: flex;
+    align-items: stretch;
+    height: 78px;
+    border-top: 2px solid #9c9c14;
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  /* ── League logo ── */
+  #logo-block {
+    display: flex; align-items: center; justify-content: center;
+    background: #ffffff;
+    border-right: 1px solid rgba(255,255,255,0.09);
+    width: 90px; flex-shrink: 0; padding: 6px 10px;
+  }
+
+  #league-logo {
+    height: 46px; max-width: 72px; object-fit: contain;
+    filter: brightness(1.05) drop-shadow(0 0 5px rgba(255,255,255,0.12));
+    display: none;
+  }
+
+  #league-placeholder {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    color: rgba(255,255,255,0.2); text-transform: uppercase; text-align: center;
+  }
+
+  /* ── Team column ── */
+  .team-col { display: flex; flex-direction: column; flex-shrink: 0; position: relative; }
+
+  /* top: logo circle + abr highlight + score */
+  .team-top { display: flex; align-items: center; height: 54px; flex-shrink: 0; }
+
+  /* bottom: fouls strip */
+  .team-bot {
+    height: 24px; display: flex; align-items: center;
+    gap: 5px; padding: 0 8px;
+    background: rgba(0,0,0,0.42);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+
+  /* circular logo */
+  .bar-logo {
+    width: 40px; height: 40px; border-radius: 50%; object-fit: cover;
+    background: #1e1e0a; border: 1.5px solid rgba(255,255,255,0.14);
+    flex-shrink: 0;
+  }
+
+  #bar-logo-home { margin: 0 6px 0 8px; }
+  #bar-logo-away { margin: 0 8px 0 6px; }
+
+  /* Abbreviation block — colors driven by CSS vars */
+  .team-abr {
+    display: flex; align-items: center; justify-content: center;
+    height: 100%; padding: 0 15px;
+    font-size: 23px; font-weight: 900; letter-spacing: 1px;
+    text-transform: uppercase; white-space: nowrap;
+    flex-shrink: 0; min-width: 76px;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  #abr-home {
+    background: var(--home-bg, rgba(255,255,255,0.93));
+    color:      var(--home-txt, #0d0d05);
+  }
+
+  #abr-away {
+    background: var(--away-bg, transparent);
+    color:      var(--away-txt, #f5c518);
+  }
+
+  /* Score */
+  /*.team-score {
+    font-size: 36px; font-weight: 900; letter-spacing: -1px;
+    padding: 0 18px; white-space: nowrap; line-height: 1; flex-shrink: 0;
+    transition: color 0.4s;
+  }*/
+  .team-score {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    padding: 0 18px;
+    white-space: nowrap;
+    line-height: 1;
+
+    /* KEY FIX */
+    width: 90px;              /* reserve space */
+    text-align: center;       /* keep number centered */
+    flex-shrink: 0;
+
+    transition: color 0.4s;
+  }
+
+
+  #score-home { color: var(--home-score-color, #fff); }
+  #score-away { color: var(--away-score-color, #f5c518); }
+
+  /* Foul dots (max 5) */
+  .foul-label {
+    font-size: 8px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: rgba(255,255,255,0.28); flex-shrink: 0;
+  }
+
+  .foul-dots { display: flex; gap: 4px; align-items: center; }
+
+  .fdot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    flex-shrink: 0; transition: background 0.2s, box-shadow 0.2s;
+  }
+  .fdot.lit    { background: #f5a020; border-color: #f5a020; box-shadow: 0 0 6px rgba(245,160,32,0.9); }
+  .fdot.danger { background: #e03030; border-color: #e03030; box-shadow: 0 0 7px rgba(220,48,48,1); }
+
+  .foul-num { font-size: 13px; font-weight: 900; color: rgba(255,255,255,0.45); margin-left: 2px; }
+
+  /* Separator */
+  .sep {
+    width: 2px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(156,156,20,0.55) 50%, transparent 100%);
+    align-self: stretch; flex-shrink: 0;
+  }
+
+  /* ── Center: QTR / TIME / SHOT ── */
+  #center-info {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 2px; padding: 0 22px; flex-shrink: 0;
+  }
+
+  #qtr-text {
+    font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.6);
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+
+  /* ★ BLACK background on time pill */
+  #time-pill {
+    background: #000;
+    border: 2px solid rgba(255,255,255,0.48);
+    border-radius: 4px; padding: 1px 12px;
+    font-size: 24px; font-weight: 900; color: #fff;
+    letter-spacing: 1px; line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #shot-text {
+    font-size: 13px; font-weight: 800;
+    color: rgba(255,195,70,0.8); letter-spacing: 1px;
+  }
+
+  #spacer { flex: 1; }
+
+  /* ═══════════════════════ SCORE FLASH ═══════════════════════ */
+  @keyframes scoreFlash {
+    0%   { transform: scale(1.45); opacity: 0.3; }
+    55%  { transform: scale(1.05); }
+    100% { transform: scale(1);   opacity: 1; }
+  }
+  .do-flash { animation: scoreFlash 0.5s cubic-bezier(0.22,1,0.36,1); }
+
+  /* ═══════════════════════ SCORE POPUP ═══════════════════════
+     Positioned absolutely over the bar, aligned to score element.
+     z-index above bar (10) → set to 200.
+  ═══════════════════════════════════════════════════════════ */
+  #score-popup {
+    position: absolute;
+    width: 110px;
+    /* bottom starts inside the bar so the popup rises UP from the score */
+    bottom: 16px;
+    opacity: 0;
+    z-index: 200;
+    pointer-events: none;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+
+  #score-popup.pop {
+    animation: popRise 2.1s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+
+  @keyframes popRise {
+    0%   { opacity: 0;   transform: translateY(0)    scale(0.6); }
+    12%  { opacity: 1;   transform: translateY(-10px) scale(1.1); }
+    20%  { opacity: 1;   transform: translateY(-6px)  scale(1); }
+    72%  { opacity: 1;   transform: translateY(-6px)  scale(1); }
+    100% { opacity: 0;   transform: translateY(-40px) scale(0.85); }
+  }
+
+  #popup-ring {
+    width: 72px; height: 72px; border-radius: 50%;
+    border: 3px solid #fff; overflow: hidden;
+    background: #1a1a06;
+    box-shadow: 0 0 0 5px rgba(255,255,255,0.09), 0 4px 20px rgba(0,0,0,0.7);
+    flex-shrink: 0;
+  }
+
+  #popup-ring img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+  #popup-name {
+    font-size: 15px; font-weight: 900; letter-spacing: 2px;
+    text-transform: uppercase; color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.95);
+    text-align: center; white-space: nowrap;
+  }
+
+  #popup-pts {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    color: rgba(255,255,255,0.65);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+  }
+
+  /* ═══════════════════════ PARTICLE CANVAS ═══════════════════════ */
+  #fx-canvas {
+    position: absolute; top: 0; left: 0;
+    width: 1280px; height: 720px;
+    pointer-events: none; z-index: 150;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="fx-canvas" width="1280" height="720"></canvas>
+
+<!-- Popup: will be repositioned via JS to float over the correct score -->
+<div id="score-popup">
+  <div id="popup-ring"><img id="popup-img" src="" alt=""></div>
+  <span id="popup-name">TEAM</span>
+  <span id="popup-pts">SCORES!</span>
+</div>
+
+<!-- ═══════════ BROADCAST BAR ═══════════ -->
+<div id="bar">
+
+  <div id="logo-block">
+    <img id="league-logo" src="" alt="">
+    <div id="league-placeholder">LEAGUE</div>
+  </div>
+
+  <!-- HOME column -->
+  <div class="team-col" id="home-col">
+    <div class="team-top">
+      <img class="bar-logo" id="bar-logo-home"
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23333'/%3E%3C/svg%3E"
+        alt="home">
+      <div class="team-abr" id="abr-home">HOME</div>
+      <div class="team-score" id="score-home">0</div>
+    </div>
+    <div class="team-bot">
+      <span class="foul-label">FOULS</span>
+      <div class="foul-dots" id="dots-home"></div>
+      <span class="foul-num"  id="cnt-home">0</span>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- AWAY column -->
+  <div class="team-col" id="away-col">
+    <div class="team-top">
+      <div class="team-score" id="score-away">0</div>
+      <div class="team-abr" id="abr-away">AWAY</div>
+      <img class="bar-logo" id="bar-logo-away"
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23333'/%3E%3C/svg%3E"
+        alt="away">
+    </div>
+    <div class="team-bot">
+      <span class="foul-label">FOULS</span>
+      <div class="foul-dots" id="dots-away"></div>
+      <span class="foul-num"  id="cnt-away">0</span>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- Center info -->
+  <div id="center-info">
+    <span id="qtr-text">1ST</span>
+    <span id="time-pill">—:——</span>
+    <span id="shot-text"></span>
+  </div>
+
+  <div id="spacer"></div>
+</div>
+
+<script>
+/* ── constants ── */
+const MAX_FOULS = 5;
+const QTRS = ['1ST','2ND','3RD','4TH','OT','2OT'];
+const $id = id => document.getElementById(id);
+
+const state = {
+  scoreHome:0, scoreAway:0,
+  abrHome:'HOME', abrAway:'AWAY',
+  /* team colors — set by controller after logo color extraction */
+  homeBg:'rgba(255,255,255,0.93)', homeTxt:'#0d0d05', homeScore:'#fff',
+  awayBg:'transparent',            awayTxt:'#f5c518', awayScore:'#f5c518',
+  foulsHome:0, foulsAway:0,
+  quarter:1,
+  logoLeague:'', logoHome:'', logoAway:''
+};
+
+/* ── foul dots ── */
+function buildDots(el, n) {
+  el.innerHTML = '';
+  for (let i = 0; i < MAX_FOULS; i++) {
+    const d = document.createElement('div');
+    d.className = 'fdot' + (i < n ? (n >= MAX_FOULS ? ' danger' : ' lit') : '');
+    el.appendChild(d);
+  }
+}
+
+/* ── apply CSS vars for team colors ── */
+function applyColors(s) {
+  const root = document.documentElement;
+  root.style.setProperty('--home-bg',         s.homeBg    || 'rgba(255,255,255,0.93)');
+  root.style.setProperty('--home-txt',         s.homeTxt   || '#0d0d05');
+  root.style.setProperty('--home-score-color', s.homeScore || '#fff');
+  root.style.setProperty('--away-bg',          s.awayBg    || 'transparent');
+  root.style.setProperty('--away-txt',         s.awayTxt   || '#f5c518');
+  root.style.setProperty('--away-score-color', s.awayScore || '#f5c518');
+}
+
+/* ── full state apply ── */
+function applyState(s, side, pts) {
+  $id('abr-home').textContent   = s.abrHome.toUpperCase();
+  $id('abr-away').textContent   = s.abrAway.toUpperCase();
+  $id('score-home').textContent = s.scoreHome;
+  $id('score-away').textContent = s.scoreAway;
+  $id('qtr-text').textContent   = QTRS[Math.min(s.quarter - 1, QTRS.length - 1)];
+
+  applyColors(s);
+
+  buildDots($id('dots-home'), s.foulsHome);
+  buildDots($id('dots-away'), s.foulsAway);
+  $id('cnt-home').textContent = s.foulsHome;
+  $id('cnt-away').textContent = s.foulsAway;
+
+  if (s.logoLeague) {
+    $id('league-logo').src = s.logoLeague;
+    $id('league-logo').style.display = 'block';
+    $id('league-placeholder').style.display = 'none';
+  }
+  if (s.logoHome) $id('bar-logo-home').src = s.logoHome;
+  if (s.logoAway) $id('bar-logo-away').src = s.logoAway;
+
+  if (side === 'home') {
+    flashEl($id('score-home'));
+    showPopup('home', pts);
+    burstParticles('home');
+  } else if (side === 'away') {
+    flashEl($id('score-away'));
+    showPopup('away', pts);
+    burstParticles('away');
+  }
+}
+
+function flashEl(el) {
+  el.classList.remove('do-flash');
+  void el.offsetWidth;
+  el.classList.add('do-flash');
+}
+
+/* ── popup: appears IN FRONT OF the score number ── */
+let popTimer = null;
+function showPopup(side, pts) {
+  /* Find the SCORE element's bounding rect, center popup on it */
+  /*const scoreEl = side === 'home' ? $id('score-home') : $id('score-away');
+  const rect    = scoreEl.getBoundingClientRect();
+  const popW    = 110;
+  const cx      = rect.left + rect.width / 2;
+  const left    = Math.max(4, Math.min(1280 - popW - 4, cx - popW / 2));
+
+  const popup = $id('score-popup');
+  popup.style.left = left + 'px';
+
+  /* Content 
+  const ringEl  = $id('popup-ring');
+  if (side === 'home') {
+    $id('popup-img').src          = state.logoHome || $id('bar-logo-home').src;
+    $id('popup-name').textContent = state.abrHome.toUpperCase();
+    $id('popup-name').style.color = state.homeTxt || '#fff';
+    ringEl.style.borderColor      = state.homeBg  || '#fff';
+    ringEl.style.boxShadow        = `0 0 0 5px ${state.homeBg}33, 0 4px 22px rgba(0,0,0,0.7)`;
+    popup.style.background        = `${state.homeBg}cc`;
+    popup.style.borderRadius      = '50px';
+    popup.style.padding           = '6px 4px 8px';
+  } else {
+    $id('popup-img').src          = state.logoAway || $id('bar-logo-away').src;
+    $id('popup-name').textContent = state.abrAway.toUpperCase();
+    $id('popup-name').style.color = state.awayTxt || '#f5c518';
+    ringEl.style.borderColor      = state.awayTxt || '#f5c518';
+    ringEl.style.boxShadow        = `0 0 0 5px ${state.awayTxt}33, 0 4px 22px rgba(0,0,0,0.7)`;
+    popup.style.background        = `${state.awayBg === 'transparent' ? '#111' : state.awayBg}cc`;
+    popup.style.borderRadius      = '50px';
+    popup.style.padding           = '6px 4px 8px';
+  }
+
+  $id('popup-pts').textContent = pts ? `+${pts} PTS` : 'SCORES!';
+
+  popup.classList.remove('pop');
+  void popup.offsetWidth;
+  popup.classList.add('pop');
+  clearTimeout(popTimer);
+  popTimer = setTimeout(() => popup.classList.remove('pop'), 2200);*/
+}
+
+/* ── particles ── */
+const canvas = $id('fx-canvas');
+const ctx    = canvas.getContext('2d');
+const parts  = [];
+
+function burstParticles(side) {
+  /*const scoreEl = side === 'home' ? $id('score-home') : $id('score-away');
+  const rect    = scoreEl.getBoundingClientRect();
+  const cx      = rect.left + rect.width / 2;
+  const cy      = rect.top  + rect.height / 2;
+  const color   = side === 'home' ? (state.homeBg || '#fff') : (state.awayTxt || '#f5c518');
+
+  for (let i = 0; i < 30; i++) {
+    const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.3;
+    const spd   = 2 + Math.random() * 5;
+    parts.push({
+      x: cx, y: cy,
+      vx: Math.cos(angle) * spd,
+      vy: Math.sin(angle) * spd - 1,
+      alpha: 1, size: 4 + Math.random() * 9,
+      color, gravity: 0.2,
+      ball: Math.random() > 0.5
+    });
+  }*/
+}
+
+(function loop() {
+  ctx.clearRect(0, 0, 1280, 720);
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const p = parts[i];
+    p.vy += p.gravity; p.x += p.vx; p.y += p.vy; p.alpha -= 0.022;
+    if (p.alpha <= 0) { parts.splice(i, 1); continue; }
+    const r = p.size / 2;
+    ctx.save(); ctx.globalAlpha = p.alpha;
+    if (p.ball) {
+      ctx.shadowColor = p.color; ctx.shadowBlur = 10;
+      ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color; ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = r * 0.2;
+      ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(p.x - r, p.y); ctx.lineTo(p.x + r, p.y); ctx.stroke();
+      ctx.beginPath(); ctx.arc(p.x, p.y, r * 0.55, 0.1, Math.PI - 0.1); ctx.stroke();
+    } else {
+      ctx.shadowColor = p.color; ctx.shadowBlur = 14;
+      ctx.beginPath(); ctx.arc(p.x, p.y, r * 0.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff'; ctx.fill();
+    }
+    ctx.restore();
+  }
+  requestAnimationFrame(loop);
+})();
+
+/* ── BroadcastChannel ── */
+const bc = new BroadcastChannel('bball_scoreboard_v3');
+bc.onmessage = e => {
+  const { type, payload } = e.data;
+  if (type !== 'UPDATE') return;
+  const prevH = state.scoreHome, prevA = state.scoreAway;
+  Object.assign(state, payload);
+  const pts = payload._side === 'home'
+    ? state.scoreHome - prevH
+    : state.scoreAway - prevA;
+  applyState(state, payload._side, pts);
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scoreboard Controller</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,800;0,900;1,800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:    #0b0b04;
+    --surf:  #141408;
+    --surf2: #1c1c0e;
+    --b:     rgba(255,255,255,0.07);
+    --olive: #9c9c14;
+    --txt:   #e4e4c8;
+    --muted: rgba(228,228,200,0.35);
+    --r:     10px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--txt);
+    font-family: 'Barlow Condensed', sans-serif;
+    min-height: 100vh;
+    padding: 16px 14px 40px;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    background-image: radial-gradient(ellipse 80% 22% at 50% 0%, rgba(156,156,20,0.07) 0%, transparent 70%);
+  }
+
+  h1 { font-size: 20px; font-weight: 900; font-style: italic; letter-spacing: 5px; text-transform: uppercase; color: #fff; }
+  .sub { font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; }
+
+  /* ── Preview ── */
+  #preview-wrap { width: 100%; max-width: 740px; border: 1px solid rgba(156,156,20,0.35); border-radius: 6px; overflow: hidden; }
+
+  #pv-bar {
+    background: #191908; display: flex; align-items: stretch; height: 52px;
+    border-bottom: 1px solid rgba(156,156,20,0.22);
+  }
+
+  #pv-logo-block {
+    display: flex; align-items: center; justify-content: center;
+    background: #0d0d05; border-right: 1px solid rgba(255,255,255,0.07);
+    width: 70px; flex-shrink: 0; padding: 5px 8px;
+  }
+  #pv-league-img { height: 30px; max-width: 54px; object-fit: contain; display:none; }
+  #pv-league-txt { font-size: 9px; font-weight:700; letter-spacing:2px; color:rgba(255,255,255,0.2); text-transform:uppercase; }
+
+  .pv-team { display: flex; align-items: center; flex-shrink: 0; }
+  .pv-circle {
+    width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
+    background: #333; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;
+  }
+  #pv-circle-home { margin: 0 4px 0 6px; }
+  #pv-circle-away { margin: 0 6px 0 4px; }
+
+  .pv-abr {
+    font-size: 16px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;
+    padding: 0 10px; display: flex; align-items: center; height: 100%; min-width: 52px;
+  }
+  #pv-abr-home { background: rgba(255,255,255,0.9); color: #111; }
+  #pv-abr-away { }
+
+  .pv-score { font-size: 24px; font-weight: 900; letter-spacing: -1px; padding: 0 12px; display: flex; align-items: center; color: #fff; }
+
+  .pv-sep { width: 2px; background: linear-gradient(to bottom, transparent, rgba(156,156,20,0.5), transparent); align-self: stretch; }
+
+  #pv-center {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 0 14px; gap: 1px; flex-shrink: 0;
+  }
+  #pv-qtr  { font-size: 10px; font-weight:800; letter-spacing:2px; color:rgba(255,255,255,0.55); text-transform:uppercase; }
+  #pv-time {
+    font-size: 17px; font-weight:900; color:#fff;
+    background: #000; border: 1.5px solid rgba(255,255,255,0.4);
+    border-radius:3px; padding: 0 8px; line-height:1.2;
+  }
+
+  #pv-fouls {
+    display: flex; align-items: center; gap: 16px;
+    background: rgba(0,0,0,0.42); height: 20px; padding: 0 10px;
+  }
+  .pv-foul-cell { display:flex; align-items:center; gap:4px; font-size:9px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; }
+  .pv-fdots { display:flex; gap:3px; }
+  .pv-fdot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.14); }
+  .pv-fdot.on  { background:#f5a020; border-color:#f5a020; }
+  .pv-fdot.red { background:#e03030; border-color:#e03030; }
+
+  /* ── Grid ── */
+  #grid {
+    width: 100%; max-width: 740px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+
+  .card {
+    background: var(--surf); border: 1px solid var(--b);
+    border-radius: var(--r); padding: 14px;
+    display: flex; flex-direction: column; gap: 11px;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  }
+  .card.home::before  { background: rgba(255,255,255,0.4); }
+  .card.away::before  { background: var(--olive); }
+  .card.full  { grid-column: 1 / -1; }
+  .card.league::before { background: linear-gradient(90deg,rgba(255,255,255,0.3),var(--olive)); }
+  .card.qtr::before { background: rgba(156,156,20,0.6); }
+
+  .card-title {
+    font-size: 10px; font-weight:700; letter-spacing:3px;
+    text-transform:uppercase; color: var(--muted);
+  }
+
+  label {
+    font-size: 10px; font-weight:600; letter-spacing:1.5px;
+    text-transform:uppercase; color:var(--muted); display:block; margin-bottom:4px;
+  }
+
+  input[type=text] {
+    width:100%; background:var(--surf2); border:1px solid var(--b); border-radius:7px;
+    padding: 8px 10px; color:var(--txt);
+    font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; outline:none;
+    transition: border-color 0.15s;
+  }
+  input[type=text]:focus { border-color: rgba(255,255,255,0.22); }
+
+  .field { display:flex; flex-direction:column; }
+  input[type=file] { display:none; }
+
+  /* ── Logo tile ── */
+  .logo-tile {
+    display:flex; align-items:stretch; gap:10px;
+    background:var(--surf2); border:1px solid var(--b); border-radius:8px; overflow:hidden;
+  }
+
+  /* Color swatch strip on left side of logo tile */
+  .logo-tile-strip { width: 6px; flex-shrink:0; transition: background 0.4s; }
+
+  .logo-tile-inner { display:flex; align-items:center; gap:10px; flex:1; padding: 8px 10px 8px 0; }
+
+  .logo-circle-prev {
+    width:46px; height:46px; border-radius:50%; object-fit:cover;
+    background:#222; border:1.5px solid rgba(255,255,255,0.1); flex-shrink:0;
+  }
+
+  .logo-tile-btns { display:flex; flex-direction:column; gap:5px; flex:1; }
+
+  .upload-lbl {
+    display:block; text-align:center;
+    background:var(--surf); border:1px dashed rgba(255,255,255,0.18); border-radius:6px;
+    padding:6px 8px; font-size:11px; font-weight:600; letter-spacing:1px;
+    color:var(--muted); cursor:pointer; text-transform:uppercase; transition:all 0.14s;
+  }
+  .upload-lbl:hover { border-color:rgba(255,255,255,0.35); color:var(--txt); }
+
+  /* ── Auto-extracted color swatches ── */
+  .auto-colors {
+    display: flex; gap: 8px; align-items: center;
+    background: var(--surf2); border: 1px solid var(--b);
+    border-radius: 8px; padding: 8px 10px;
+  }
+
+  .auto-swatch-wrap {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+
+  .auto-swatch {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.15); cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    flex-shrink: 0;
+  }
+  .auto-swatch:hover { transform: scale(1.12); box-shadow: 0 0 0 3px rgba(255,255,255,0.2); }
+  .auto-swatch.selected { box-shadow: 0 0 0 3px rgba(255,255,255,0.6); }
+
+  .auto-swatch-lbl { font-size: 9px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+
+  .auto-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .auto-info-title { font-size: 10px; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; }
+  .auto-hex { font-size: 12px; font-weight:700; color:rgba(255,255,255,0.5); letter-spacing:1px; }
+
+  .btn-auto-apply {
+    background: transparent; border: 1px solid rgba(156,156,20,0.4); border-radius:6px;
+    padding: 5px 10px; color: rgba(200,200,20,0.8);
+    font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700;
+    letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all 0.12s;
+    white-space: nowrap;
+  }
+  .btn-auto-apply:hover { background:rgba(156,156,20,0.12); border-color:rgba(200,200,20,0.7); color:#d4d420; }
+
+  /* ── Score control ── */
+  .score-ctrl {
+    display:flex; align-items:center; gap:8px;
+    background:var(--surf2); border:1px solid var(--b); border-radius:8px; padding: 8px 10px;
+  }
+  .score-big { font-size:40px; font-weight:900; color:#fff; min-width:48px; text-align:center; line-height:1; flex-shrink:0; }
+  .score-btns { display:flex; flex-direction:column; gap:5px; flex:1; }
+  .pts-row { display:flex; gap:4px; }
+
+  .btn-pts {
+    flex:1; background:var(--surf); border:1px solid var(--b); border-radius:5px;
+    color:var(--txt); font-family:'Barlow Condensed',sans-serif;
+    font-size:14px; font-weight:800; padding:5px 0;
+    cursor:pointer; transition:all 0.12s;
+  }
+  .btn-pts:hover { background:rgba(255,255,255,0.1); color:#fff; }
+  .btn-pts:active { transform:scale(0.92); }
+
+  .btn-minus {
+    width:100%; background:transparent; border:1px solid rgba(255,70,70,0.22); border-radius:5px;
+    color:rgba(255,100,100,0.5); font-family:'Barlow Condensed',sans-serif;
+    font-size:13px; font-weight:800; padding:4px; cursor:pointer; transition:all 0.12s;
+  }
+  .btn-minus:hover { background:rgba(255,60,60,0.1); border-color:rgba(255,80,80,0.5); color:#f88; }
+
+  /* ── Fouls control ── */
+  .fouls-ctrl {
+    display:flex; align-items:center; gap:8px;
+    background:var(--surf2); border:1px solid var(--b); border-radius:8px; padding: 8px 10px;
+  }
+  .foul-big { font-size:34px; font-weight:900; color:#fff; min-width:32px; text-align:center; line-height:1; flex-shrink:0; }
+  .foul-btns { display:flex; flex-direction:column; gap:5px; flex:1; }
+  .btn-foul {
+    width:100%; background:var(--surf); border:1px solid var(--b); border-radius:5px;
+    color:var(--txt); font-family:'Barlow Condensed',sans-serif;
+    font-size:13px; font-weight:800; padding:5px; cursor:pointer; transition:all 0.12s;
+  }
+  .btn-foul:hover { background:rgba(245,160,32,0.15); border-color:rgba(245,160,32,0.45); color:#f5a020; }
+
+  .ctrl-dots { display:flex; gap:4px; align-items:center; justify-content:center; margin-top:4px; }
+  .ctrl-dot {
+    width:10px; height:10px; border-radius:50%;
+    background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); transition:background 0.2s;
+  }
+  .ctrl-dot.on  { background:#f5a020; border-color:#f5a020; box-shadow:0 0 5px rgba(245,160,32,0.8); }
+  .ctrl-dot.red { background:#e03030; border-color:#e03030; box-shadow:0 0 5px rgba(224,48,48,0.9); }
+
+  /* ── Quarter ── */
+  .qtr-row { display:flex; gap:5px; flex-wrap:wrap; }
+  .qtr-btn {
+    flex:1; min-width:44px; background:var(--surf2); border:1px solid var(--b); border-radius:6px;
+    color:var(--muted); font-family:'Barlow Condensed',sans-serif;
+    font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase;
+    padding:8px 5px; cursor:pointer; transition:all 0.12s;
+  }
+  .qtr-btn:hover { background:rgba(255,255,255,0.06); color:#fff; }
+  .qtr-btn.active { background:rgba(156,156,20,0.18); border-color:rgba(156,156,20,0.7); color:#d4d420; }
+
+  /* ── Reset ── */
+  #btn-reset {
+    width:100%; max-width:740px; background:transparent;
+    border:1px solid rgba(255,60,60,0.22); border-radius:8px;
+    color:rgba(255,100,100,0.45); font-family:'Barlow Condensed',sans-serif;
+    font-size:13px; font-weight:800; letter-spacing:3px; text-transform:uppercase;
+    padding:10px; cursor:pointer; transition:all 0.15s;
+  }
+  #btn-reset:hover { background:rgba(255,60,60,0.07); border-color:rgba(255,60,60,0.5); color:#f88; }
+
+  /* ── Toast ── */
+  #toast {
+    position:fixed; bottom:18px; left:50%;
+    transform:translateX(-50%) translateY(14px);
+    background:rgba(156,156,20,0.2); backdrop-filter:blur(10px);
+    border:1px solid rgba(156,156,20,0.5); border-radius:20px;
+    padding:7px 20px; font-size:11px; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase; color:#d4d420;
+    opacity:0; transition:opacity 0.25s, transform 0.25s; pointer-events:none;
+  }
+  #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div style="text-align:center">
+  <h1>🏀 Scoreboard Controller</h1>
+  <p class="sub">ESPN-Style • Auto Team Colors</p>
+</div>
+
+<!-- ══ PREVIEW ══ -->
+<div id="preview-wrap">
+  <div id="pv-bar">
+    <div id="pv-logo-block">
+      <img id="pv-league-img" src="" alt="">
+      <div id="pv-league-txt">LGE</div>
+    </div>
+    <div class="pv-team">
+      <img class="pv-circle" id="pv-circle-home"
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='13' fill='%23333'/%3E%3C/svg%3E" alt="">
+      <div class="pv-abr" id="pv-abr-home">HOME</div>
+      <div class="pv-score" id="pv-score-home">0</div>
+    </div>
+    <div class="pv-sep"></div>
+    <div class="pv-team">
+      <div class="pv-score" id="pv-score-away" style="color:#f5c518">0</div>
+      <div class="pv-abr" id="pv-abr-away" style="color:#f5c518">AWAY</div>
+      <img class="pv-circle" id="pv-circle-away"
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='13' fill='%23333'/%3E%3C/svg%3E" alt="">
+    </div>
+    <div class="pv-sep"></div>
+    <div id="pv-center">
+      <span id="pv-qtr">1ST</span>
+      <span id="pv-time">—:——</span>
+    </div>
+  </div>
+  <div id="pv-fouls">
+    <div class="pv-foul-cell">
+      FOULS <div class="pv-fdots" id="pv-dots-home"></div><span id="pv-cnt-home">0</span>
+    </div>
+    <div style="flex:1"></div>
+    <div class="pv-foul-cell">
+      FOULS <div class="pv-fdots" id="pv-dots-away"></div><span id="pv-cnt-away">0</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GRID ══ -->
+<div id="grid">
+
+  <!-- ─ HOME ─ -->
+  <div class="card home">
+    <span class="card-title" style="color:rgba(255,255,255,0.4)">🏠 Home Team</span>
+
+    <div class="field">
+      <label>Team Logo — colors auto-extracted</label>
+      <div class="logo-tile" id="tile-home">
+        <div class="logo-tile-strip" id="strip-home" style="background:rgba(255,255,255,0.08)"></div>
+        <div class="logo-tile-inner">
+          <img class="logo-circle-prev" id="prev-home"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 46'%3E%3Ccircle cx='23' cy='23' r='22' fill='%23333'/%3E%3C/svg%3E" alt="">
+          <div class="logo-tile-btns">
+            <label for="upload-home" class="upload-lbl">📁 Upload</label>
+            <input type="file" id="upload-home" accept="image/*">
+            <input type="text" id="logo-url-home" placeholder="or paste URL…">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Auto-extracted colors (shown after upload) -->
+    <div class="auto-colors" id="auto-home" style="display:none">
+      <div class="auto-swatch-wrap">
+        <div class="auto-swatch" id="swatch-home-1" title="Primary color — click to swap"></div>
+        <div class="auto-swatch-lbl">Primary</div>
+        <span class="auto-hex" id="hex-home-1">#—</span>
+      </div>
+      <div class="auto-swatch-wrap">
+        <div class="auto-swatch" id="swatch-home-2" title="Secondary color — click to swap"></div>
+        <div class="auto-swatch-lbl">Secondary</div>
+        <span class="auto-hex" id="hex-home-2">#—</span>
+      </div>
+      <div class="auto-info">
+        <span class="auto-info-title">BG → Text</span>
+        <span class="auto-hex" style="font-size:10px;opacity:0.6">Auto-applied</span>
+      </div>
+      <button class="btn-auto-apply" onclick="swapHomeColors()">⇄ Swap</button>
+    </div>
+
+    <div class="field">
+      <label>Abbreviation</label>
+      <input type="text" id="abr-home" maxlength="5" value="HOME" placeholder="e.g. LAL">
+    </div>
+
+    <div class="field">
+      <label>Score</label>
+      <div class="score-ctrl">
+        <div class="score-big" id="disp-home">0</div>
+        <div class="score-btns">
+          <div class="pts-row">
+            <button class="btn-pts" onclick="addScore('home',1)">+1</button>
+            <button class="btn-pts" onclick="addScore('home',2)">+2</button>
+            <button class="btn-pts" onclick="addScore('home',3)">+3</button>
+          </div>
+          <button class="btn-minus" onclick="addScore('home',-1)">Undo −1</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Team Fouls <span style="opacity:0.5">(max 5)</span></label>
+      <div class="fouls-ctrl">
+        <div>
+          <div class="foul-big" id="disp-fouls-home">0</div>
+          <div class="ctrl-dots" id="ctrl-dots-home"></div>
+        </div>
+        <div class="foul-btns">
+          <button class="btn-foul" onclick="addFoul('home',1)">+ Foul</button>
+          <button class="btn-foul" onclick="addFoul('home',-1)">− Foul</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ AWAY ─ -->
+  <div class="card away">
+    <span class="card-title" style="color:rgba(156,156,20,0.8)">✈️ Away Team</span>
+
+    <div class="field">
+      <label>Team Logo — colors auto-extracted</label>
+      <div class="logo-tile" id="tile-away">
+        <div class="logo-tile-strip" id="strip-away" style="background:rgba(156,156,20,0.3)"></div>
+        <div class="logo-tile-inner">
+          <img class="logo-circle-prev" id="prev-away"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 46'%3E%3Ccircle cx='23' cy='23' r='22' fill='%23333'/%3E%3C/svg%3E" alt="">
+          <div class="logo-tile-btns">
+            <label for="upload-away" class="upload-lbl">📁 Upload</label>
+            <input type="file" id="upload-away" accept="image/*">
+            <input type="text" id="logo-url-away" placeholder="or paste URL…">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Auto-extracted colors -->
+    <div class="auto-colors" id="auto-away" style="display:none">
+      <div class="auto-swatch-wrap">
+        <div class="auto-swatch" id="swatch-away-1" title="Primary color"></div>
+        <div class="auto-swatch-lbl">Primary</div>
+        <span class="auto-hex" id="hex-away-1">#—</span>
+      </div>
+      <div class="auto-swatch-wrap">
+        <div class="auto-swatch" id="swatch-away-2" title="Secondary color"></div>
+        <div class="auto-swatch-lbl">Secondary</div>
+        <span class="auto-hex" id="hex-away-2">#—</span>
+      </div>
+      <div class="auto-info">
+        <span class="auto-info-title">BG → Text</span>
+        <span class="auto-hex" style="font-size:10px;opacity:0.6">Auto-applied</span>
+      </div>
+      <button class="btn-auto-apply" onclick="swapAwayColors()">⇄ Swap</button>
+    </div>
+
+    <div class="field">
+      <label>Abbreviation</label>
+      <input type="text" id="abr-away" maxlength="5" value="AWAY" placeholder="e.g. GSW">
+    </div>
+
+    <div class="field">
+      <label>Score</label>
+      <div class="score-ctrl">
+        <div class="score-big" id="disp-away" style="color:#f5c518">0</div>
+        <div class="score-btns">
+          <div class="pts-row">
+            <button class="btn-pts" onclick="addScore('away',1)">+1</button>
+            <button class="btn-pts" onclick="addScore('away',2)">+2</button>
+            <button class="btn-pts" onclick="addScore('away',3)">+3</button>
+          </div>
+          <button class="btn-minus" onclick="addScore('away',-1)">Undo −1</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Team Fouls <span style="opacity:0.5">(max 5)</span></label>
+      <div class="fouls-ctrl">
+        <div>
+          <div class="foul-big" id="disp-fouls-away">0</div>
+          <div class="ctrl-dots" id="ctrl-dots-away"></div>
+        </div>
+        <div class="foul-btns">
+          <button class="btn-foul" onclick="addFoul('away',1)">+ Foul</button>
+          <button class="btn-foul" onclick="addFoul('away',-1)">− Foul</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ LEAGUE LOGO ─ -->
+  <div class="card league full">
+    <span class="card-title">🏆 Championship / League Logo</span>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="background:#0d0d05;border:1px solid var(--b);border-radius:6px;padding:8px;display:flex;align-items:center;justify-content:center;width:64px;height:48px;flex-shrink:0">
+          <img id="prev-league" src="" alt="" style="height:34px;max-width:52px;object-fit:contain;display:none">
+          <span id="prev-league-ph" style="font-size:9px;letter-spacing:1px;color:var(--muted);text-transform:uppercase">LOGO</span>
+        </div>
+        <label for="upload-league" class="upload-lbl" style="width:140px">📁 Upload Logo</label>
+        <input type="file" id="upload-league" accept="image/*">
+      </div>
+      <div class="field" style="flex:1;min-width:180px">
+        <label>Or paste URL</label>
+        <input type="text" id="league-url" placeholder="https://…/logo.png">
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ QUARTER ─ -->
+  <div class="card qtr full">
+    <span class="card-title">Period / Quarter</span>
+    <div class="qtr-row">
+      <button class="qtr-btn active" data-q="1" onclick="setQtr(1)">1st</button>
+      <button class="qtr-btn" data-q="2" onclick="setQtr(2)">2nd</button>
+      <button class="qtr-btn" data-q="3" onclick="setQtr(3)">3rd</button>
+      <button class="qtr-btn" data-q="4" onclick="setQtr(4)">4th</button>
+      <button class="qtr-btn" data-q="5" onclick="setQtr(5)">OT</button>
+      <button class="qtr-btn" data-q="6" onclick="setQtr(6)">2OT</button>
+    </div>
+  </div>
+
+</div>
+
+<button id="btn-reset" onclick="resetAll()">⚠ Reset Scoreboard</button>
+<div id="toast">Updated</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════════════ */
+const MAX_FOULS = 5;
+const QTRS = ['1ST','2ND','3RD','4TH','OT','2OT'];
+const bc = new BroadcastChannel('bball_scoreboard_v3');
+const $id = id => document.getElementById(id);
+
+/* ═══════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════ */
+const S = {
+  scoreHome:0, scoreAway:0,
+  abrHome:'HOME', abrAway:'AWAY',
+  foulsHome:0, foulsAway:0,
+  quarter:1,
+  logoLeague:'', logoHome:'', logoAway:'',
+  /* auto-extracted per-team colors */
+  homeBg:'rgba(255,255,255,0.93)', homeTxt:'#111', homeScore:'#fff',
+  awayBg:'transparent',            awayTxt:'#f5c518', awayScore:'#f5c518'
+};
+
+/* Store raw extracted pairs for swap support */
+const extracted = {
+  home: ['rgba(255,255,255,0.93)', '#111'],
+  away: ['transparent',            '#f5c518']
+};
+
+/* ═══════════════════════════════════════════════
+   COLOR EXTRACTION
+   Samples the image, quantizes into 6-bit buckets,
+   picks the two most distinct dominant colors.
+═══════════════════════════════════════════════ */
+function extractDominantColors(src, callback) {
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    const SIZE = 100;
+    const c = document.createElement('canvas');
+    c.width = c.height = SIZE;
+    const x = c.getContext('2d');
+    x.drawImage(img, 0, 0, SIZE, SIZE);
+    const data = x.getImageData(0, 0, SIZE, SIZE).data;
+
+    /* Bucket: 4-bit per channel (16 levels) */
+    const buckets = {};
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i+3] < 100) continue;             // skip transparent
+      const r = data[i]   >> 4;
+      const g = data[i+1] >> 4;
+      const b = data[i+2] >> 4;
+      const key = (r << 8) | (g << 4) | b;
+      buckets[key] = (buckets[key] || 0) + 1;
+    }
+
+    /* Sort by frequency, expand back to full RGB */
+    const sorted = Object.entries(buckets)
+      .sort((a, b) => b[1] - a[1])
+      .map(([k]) => {
+        const ri = parseInt(k) >> 8 & 0xf;
+        const gi = parseInt(k) >> 4 & 0xf;
+        const bi = parseInt(k) & 0xf;
+        return [ ri * 17, gi * 17, bi * 17 ];
+      });
+
+    const primary = sorted[0] || [255, 255, 255];
+
+    /* Find secondary: must be perceptually far enough */
+    let secondary = null;
+    for (const c of sorted.slice(1)) {
+      if (colorDist(primary, c) > 80) { secondary = c; break; }
+    }
+    if (!secondary) {
+      /* Fallback: try hard for something distinct */
+      for (const c of sorted.slice(1)) {
+        if (colorDist(primary, c) > 40) { secondary = c; break; }
+      }
+    }
+    if (!secondary) secondary = [0, 0, 0];
+
+    /* Prefer vibrant over muted (boost saturation consideration) */
+    const primHex = rgbHex(primary);
+    const secHex  = rgbHex(secondary);
+
+    callback(primHex, secHex);
+  };
+  img.onerror = () => callback('#ffffff', '#000000');
+  img.src = src;
+}
+
+function colorDist(a, b) {
+  return Math.sqrt(
+    (a[0]-b[0])**2 + (a[1]-b[1])**2 + (a[2]-b[2])**2
+  );
+}
+
+function rgbHex(c) {
+  return '#' + c.map(v => Math.min(255, Math.max(0, v))
+    .toString(16).padStart(2,'0')).join('');
+}
+
+/* Relative luminance for contrast check */
+function luminance(hex) {
+  const r = parseInt(hex.slice(1,3),16)/255;
+  const g = parseInt(hex.slice(3,5),16)/255;
+  const b = parseInt(hex.slice(5,7),16)/255;
+  const lin = v => v <= 0.03928 ? v/12.92 : ((v+0.055)/1.055)**2.4;
+  return 0.2126*lin(r) + 0.7152*lin(g) + 0.0722*lin(b);
+}
+
+function contrastRatio(h1, h2) {
+  const l1 = luminance(h1), l2 = luminance(h2);
+  const [mx, mn] = l1 > l2 ? [l1, l2] : [l2, l1];
+  return (mx + 0.05) / (mn + 0.05);
+}
+
+/* If the two colors have low contrast, force text to white or black */
+function ensureContrast(bgHex, txtHex) {
+  if (contrastRatio(bgHex, txtHex) >= 3) return txtHex;
+  return luminance(bgHex) > 0.4 ? '#111111' : '#ffffff';
+}
+
+/* ═══════════════════════════════════════════════
+   APPLY EXTRACTED HOME COLORS
+═══════════════════════════════════════════════ */
+function applyHomeColors(primary, secondary) {
+  extracted.home = [primary, secondary];
+  const txt = ensureContrast(primary, secondary);
+  S.homeBg    = primary;
+  S.homeTxt   = txt;
+  S.homeScore = '#fff';   /* home score stays white (bright bar) */
+
+  /* Update swatch UI */
+  $id('swatch-home-1').style.background = primary;
+  $id('swatch-home-2').style.background = secondary;
+  $id('hex-home-1').textContent = primary.toUpperCase();
+  $id('hex-home-2').textContent = secondary.toUpperCase();
+  $id('strip-home').style.background = primary;
+  $id('auto-home').style.display = 'flex';
+
+  /* Preview bar */
+  $id('pv-abr-home').style.background = primary;
+  $id('pv-abr-home').style.color      = txt;
+
+  push(null);
+}
+
+function swapHomeColors() {
+  const [a, b] = extracted.home;
+  applyHomeColors(b, a);
+}
+
+/* ═══════════════════════════════════════════════
+   APPLY EXTRACTED AWAY COLORS
+═══════════════════════════════════════════════ */
+function applyAwayColors(primary, secondary) {
+  extracted.away = [primary, secondary];
+  const txt = ensureContrast(primary, secondary);
+  S.awayBg    = primary;
+  S.awayTxt   = txt;
+  S.awayScore = secondary;
+
+  $id('swatch-away-1').style.background = primary;
+  $id('swatch-away-2').style.background = secondary;
+  $id('hex-away-1').textContent = primary.toUpperCase();
+  $id('hex-away-2').textContent = secondary.toUpperCase();
+  $id('strip-away').style.background = primary;
+  $id('auto-away').style.display = 'flex';
+
+  /* Preview bar away */
+  $id('pv-abr-away').style.background = primary;
+  $id('pv-abr-away').style.color      = txt;
+  $id('pv-score-away').style.color    = secondary;
+  $id('disp-away').style.color        = secondary;
+
+  push(null);
+}
+
+function swapAwayColors() {
+  const [a, b] = extracted.away;
+  applyAwayColors(b, a);
+}
+
+/* ═══════════════════════════════════════════════
+   PUSH STATE TO SCOREBOARD
+═══════════════════════════════════════════════ */
+function push(side) {
+  S.abrHome = $id('abr-home').value.trim() || 'HOME';
+  S.abrAway = $id('abr-away').value.trim() || 'AWAY';
+  bc.postMessage({ type:'UPDATE', payload:{ ...S, _side: side } });
+  updatePreview();
+  toast();
+}
+
+/* ═══════════════════════════════════════════════
+   PREVIEW UPDATE
+═══════════════════════════════════════════════ */
+function buildPvDots(id, n) {
+  const el = $id(id); el.innerHTML = '';
+  for (let i = 0; i < MAX_FOULS; i++) {
+    const d = document.createElement('div');
+    d.className = 'pv-fdot' + (i < n ? (n >= MAX_FOULS ? ' red' : ' on') : '');
+    el.appendChild(d);
+  }
+}
+
+function buildCtrlDots(id, n) {
+  const el = $id(id); el.innerHTML = '';
+  for (let i = 0; i < MAX_FOULS; i++) {
+    const d = document.createElement('div');
+    d.className = 'ctrl-dot' + (i < n ? (n >= MAX_FOULS ? ' red' : ' on') : '');
+    el.appendChild(d);
+  }
+}
+
+function updatePreview() {
+  $id('pv-abr-home').textContent  = S.abrHome.toUpperCase();
+  $id('pv-abr-away').textContent  = S.abrAway.toUpperCase();
+  $id('pv-score-home').textContent = S.scoreHome;
+  $id('pv-score-away').textContent = S.scoreAway;
+  $id('pv-qtr').textContent = QTRS[Math.min(S.quarter-1, QTRS.length-1)];
+
+  buildPvDots('pv-dots-home', S.foulsHome);
+  buildPvDots('pv-dots-away', S.foulsAway);
+  $id('pv-cnt-home').textContent = S.foulsHome;
+  $id('pv-cnt-away').textContent = S.foulsAway;
+
+  buildCtrlDots('ctrl-dots-home', S.foulsHome);
+  buildCtrlDots('ctrl-dots-away', S.foulsAway);
+  $id('disp-fouls-home').textContent = S.foulsHome;
+  $id('disp-fouls-away').textContent = S.foulsAway;
+
+  if (S.logoLeague) {
+    $id('pv-league-img').src = S.logoLeague;
+    $id('pv-league-img').style.display = 'block';
+    $id('pv-league-txt').style.display = 'none';
+  }
+  if (S.logoHome) $id('pv-circle-home').src = S.logoHome;
+  if (S.logoAway) $id('pv-circle-away').src = S.logoAway;
+}
+
+/* ═══════════════════════════════════════════════
+   SCORE / FOUL / QTR ACTIONS
+═══════════════════════════════════════════════ */
+function addScore(side, pts) {
+  if (side === 'home') {
+    S.scoreHome = Math.max(0, S.scoreHome + pts);
+    $id('disp-home').textContent = S.scoreHome;
+  } else {
+    S.scoreAway = Math.max(0, S.scoreAway + pts);
+    $id('disp-away').textContent = S.scoreAway;
+  }
+  push(pts > 0 ? side : null);
+}
+
+function addFoul(side, delta) {
+  if (side === 'home') S.foulsHome = Math.max(0, Math.min(MAX_FOULS, S.foulsHome + delta));
+  else                  S.foulsAway = Math.max(0, Math.min(MAX_FOULS, S.foulsAway + delta));
+  push(null);
+}
+
+function setQtr(q) {
+  S.quarter = q;
+  document.querySelectorAll('.qtr-btn').forEach(b =>
+    b.classList.toggle('active', parseInt(b.dataset.q) === q));
+  push(null);
+}
+
+function resetAll() {
+  if (!confirm('Reset all scores and fouls to 0?')) return;
+  S.scoreHome = S.scoreAway = S.foulsHome = S.foulsAway = 0;
+  S.quarter = 1;
+  $id('disp-home').textContent = $id('disp-away').textContent = 0;
+  setQtr(1);
+  push(null);
+}
+
+/* ═══════════════════════════════════════════════
+   LIVE INPUT LISTENERS
+═══════════════════════════════════════════════ */
+['abr-home','abr-away'].forEach(id => $id(id).addEventListener('input', () => push(null)));
+
+/* ── File upload helper ── */
+function setupUpload(inputId, onLoad) {
+  $id(inputId).addEventListener('change', function() {
+    const file = this.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => onLoad(e.target.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+/* League logo */
+setupUpload('upload-league', src => {
+  S.logoLeague = src;
+  $id('prev-league').src = src;
+  $id('prev-league').style.display = 'block';
+  $id('prev-league-ph').style.display = 'none';
+  push(null);
+});
+
+$id('league-url').addEventListener('change', function() {
+  if (!this.value) return;
+  S.logoLeague = this.value;
+  $id('prev-league').src = this.value;
+  $id('prev-league').style.display = 'block';
+  $id('prev-league-ph').style.display = 'none';
+  push(null);
+});
+
+/* Home logo — extract colors */
+setupUpload('upload-home', src => {
+  S.logoHome = src;
+  $id('prev-home').src = src;
+  extractDominantColors(src, (p, s) => applyHomeColors(p, s));
+});
+
+$id('logo-url-home').addEventListener('change', function() {
+  if (!this.value) return;
+  S.logoHome = this.value;
+  $id('prev-home').src = this.value;
+  extractDominantColors(this.value, (p, s) => applyHomeColors(p, s));
+});
+
+/* Away logo — extract colors */
+setupUpload('upload-away', src => {
+  S.logoAway = src;
+  $id('prev-away').src = src;
+  extractDominantColors(src, (p, s) => applyAwayColors(p, s));
+});
+
+$id('logo-url-away').addEventListener('change', function() {
+  if (!this.value) return;
+  S.logoAway = this.value;
+  $id('prev-away').src = this.value;
+  extractDominantColors(this.value, (p, s) => applyAwayColors(p, s));
+});
+
+/* ── Toast ── */
+let toastTimer;
+function toast() {
+  const t = $id('toast'); t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1400);
+}
+
+/* ── Init ── */
+updatePreview();
+buildPvDots('pv-dots-home', 0); buildPvDots('pv-dots-away', 0);
+buildCtrlDots('ctrl-dots-home', 0); buildCtrlDots('ctrl-dots-away', 0);
+</script>
+</body>
+</html>
