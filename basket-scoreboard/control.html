@@ -703,13 +703,18 @@ function push(side) {
 /* ═══════════════════════════════════════════════
    PREVIEW UPDATE
 ═══════════════════════════════════════════════ */
+function dotClass(i, n, prefix) {
+  if (i >= n) return prefix;         
+  if (i === 3 && n < MAX_FOULS) return prefix + ' warn';  
+  if (n >= MAX_FOULS) return prefix + ' red';            
+  return prefix + ' on';            
+}
+
 function buildPvDots(id, n) {
   const el = $id(id); el.innerHTML = '';
   for (let i = 0; i < MAX_FOULS; i++) {
-    let cls = 'pv-fdot';
-    if (i < n) cls += n >= MAX_FOULS ? ' red' : (i === 3 ? ' warn' : ' on');
     const d = document.createElement('div');
-    d.className = cls;
+    d.className = dotClass(i, n, 'pv-fdot');
     el.appendChild(d);
   }
 }
@@ -717,10 +722,8 @@ function buildPvDots(id, n) {
 function buildCtrlDots(id, n) {
   const el = $id(id); el.innerHTML = '';
   for (let i = 0; i < MAX_FOULS; i++) {
-    let cls = 'ctrl-dot';
-    if (i < n) cls += n >= MAX_FOULS ? ' red' : (i === 3 ? ' warn' : ' on');
     const d = document.createElement('div');
-    d.className = cls;
+    d.className = dotClass(i, n, 'ctrl-dot');
     el.appendChild(d);
   }
 }
