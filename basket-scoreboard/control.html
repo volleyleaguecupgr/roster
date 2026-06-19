@@ -87,6 +87,8 @@
   .pv-fdot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.14); }
   .pv-fdot.on  { background:#f5a020; border-color:#f5a020; }
   .pv-fdot.red { background:#e03030; border-color:#e03030; }
+  .ctrl-dot.warn { background:#e07040; border-color:#e07040; box-shadow:0 0 5px rgba(220,100,50,0.8); }
+  .pv-fdot.warn  { background:#e07040; border-color:#e07040; }
 
   /* ── Grid ── */
   #grid {
@@ -275,8 +277,7 @@
 <body>
 
 <div style="text-align:center">
-  <h1>🏀 Scoreboard Controller</h1>
-  <p class="sub">ESPN-Style • Auto Team Colors</p>
+  <h1>Scoreboard Controller</h1>
 </div>
 
 <!-- ══ PREVIEW ══ -->
@@ -705,8 +706,10 @@ function push(side) {
 function buildPvDots(id, n) {
   const el = $id(id); el.innerHTML = '';
   for (let i = 0; i < MAX_FOULS; i++) {
+    let cls = 'pv-fdot';
+    if (i < n) cls += n >= MAX_FOULS ? ' red' : (i === 3 ? ' warn' : ' on');
     const d = document.createElement('div');
-    d.className = 'pv-fdot' + (i < n ? (n >= MAX_FOULS ? ' red' : ' on') : '');
+    d.className = cls;
     el.appendChild(d);
   }
 }
@@ -714,8 +717,10 @@ function buildPvDots(id, n) {
 function buildCtrlDots(id, n) {
   const el = $id(id); el.innerHTML = '';
   for (let i = 0; i < MAX_FOULS; i++) {
+    let cls = 'ctrl-dot';
+    if (i < n) cls += n >= MAX_FOULS ? ' red' : (i === 3 ? ' warn' : ' on');
     const d = document.createElement('div');
-    d.className = 'ctrl-dot' + (i < n ? (n >= MAX_FOULS ? ' red' : ' on') : '');
+    d.className = cls;
     el.appendChild(d);
   }
 }
@@ -768,6 +773,8 @@ function addFoul(side, delta) {
 
 function setQtr(q) {
   S.quarter = q;
+  S.foulsHome = 0; 
+  S.foulsAway = 0; 
   document.querySelectorAll('.qtr-btn').forEach(b =>
     b.classList.toggle('active', parseInt(b.dataset.q) === q));
   push(null);
