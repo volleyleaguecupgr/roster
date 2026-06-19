@@ -696,7 +696,7 @@ function push(side) {
   S.abrAway = $id('abr-away').value.trim() || 'AWAY';
   bc.postMessage({ type:'UPDATE', payload:{ ...S, _side: side } });
   updatePreview();
-  toast();
+  // toast();
 }
 
 /* ═══════════════════════════════════════════════
