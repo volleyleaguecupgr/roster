@@ -233,16 +233,7 @@
   .ann .hdrline span{color:var(--muted);font-weight:600}
   .ann-foot{position:absolute;left:0;right:0;bottom:0;height:60px;display:flex;align-items:center;justify-content:center;border-top:1px solid var(--line);color:var(--muted);font-size:20px;font-weight:600}
 
-  /* ---------- fit long names ---------- */
-function fit() {
-  stage.querySelectorAll(".n, .ln, .pb .nm b").forEach(el => {
-    el.style.fontSize = "";
-    let fs = parseFloat(getComputedStyle(el).fontSize), min = fs * 0.62;
-    while (el.scrollWidth > el.clientWidth + 1 && fs > min) { fs -= 1; el.style.fontSize = fs + "px"; }
-  });
-}
-
-/* ---------- motion ---------- */
+  /* ---------- motion ---------- */
   /* in: slab slides → panel opens like a shutter → light glint → header → rows cascade → numbers count up */
   .intro .fx::before{animation:slab .7s var(--out) both}
   .intro .fx .card,.intro .fx .sb,.intro .fx .deck,.intro .fx .pb{animation:shutter .9s var(--ease) .35s backwards}
@@ -293,11 +284,15 @@ function fit() {
 
 <script src="mm-data.js"></script>
 <script>
-/* URL: /md/card/<type>/<gameId>[/home|away[/jersey]] */
+/* URL: cards.html?type=score&id=<gameId>[&side=home|away][&jersey=8]  or  &player=h8 */
 const qs = new URLSearchParams(location.search);
 const parts = location.pathname.split("/").filter(Boolean);
-/* URL: cards.html?type=score&id=<gameId>[&side=home|away][&jersey=8] */
-const TYPE = qs.get("type") || parts[2], GAME = qs.get("id") || parts[3], SIDE = (qs.get("side") || parts[4] || "home").toLowerCase(), JERSEY = qs.get("jersey") || parts[5];
+const TYPE = qs.get("type") || parts[2], GAME = qs.get("id") || parts[3];
+// side: home|away|h|a|1|2 · jersey: 8 or 08 · or player=h8 / a15
+const pq = (qs.get("player") || "").match(/^([ha])(\d+)$/i);
+const SIDE = /^(a|away|v|visitor|2)$/i.test(qs.get("side") || parts[4] || (pq ? pq[1] : "")) ? "away" : "home";
+const JERSEY = qs.get("jersey") || parts[5] || (pq ? pq[2] : "");
+let MISSING = "";
 const POLL = Math.max(3, +qs.get("poll") || 5) * 1000;
 const HOLD = +qs.get("hold") || 0;
 const NEEDS_SEASON = ["rosters", "comparison"].includes(TYPE);
@@ -462,7 +457,7 @@ const CARDS = {
   },
 
   player(m) {
-    const p = (team(SIDE, m).roster || []).find(x => String(x.jersey) === String(JERSEY));
+    const p = findPlayer(m, SIDE, JERSEY);
     return p ? { pos: "lower", html: playerCard(p, SIDE, m) } : null;
   },
 
@@ -530,6 +525,13 @@ const CARDS = {
   },
 };
 
+function findPlayer(m, side, jersey) {
+  const t = team(side, m), j = parseInt(jersey, 10);
+  const p = (t.roster || []).find(x => parseInt(x.jersey, 10) === j);
+  MISSING = p ? "" : `Δεν βρέθηκε ο #${jersey} (${side === "home" ? "γηπεδούχοι" : "φιλοξενούμενοι"}). Νούμερα: ${(t.roster || []).map(x => x.jersey).join(", ") || "κανένα ακόμα (δεν υπάρχει ρόστερ στο GameDay)"}`;
+  return p;
+}
+
 /* best 4 stats: points always, then the three biggest of the rest (ties keep this order) */
 const BAR_STATS = [["pts", "ΠΟΝΤΟΙ"], ["reb", "ΡΙΜΠΑΟΥΝΤ"], ["ast", "ΑΣΙΣΤ"], ["pir", "PIR"], ["stl", "ΚΛΕΨΙΜΑΤΑ"], ["blk", "ΚΟΨΙΜΑΤΑ"]];
 function bestFour(p) {
@@ -539,7 +541,7 @@ function bestFour(p) {
   return [first, ...rest.map((s, i) => [s, i]).sort((a, b) => (p[b[0][0]] ?? 0) - (p[a[0][0]] ?? 0) || a[1] - b[1]).slice(0, 3).map(x => x[0])];
 }
 function playerBar(m, side, jersey) {
-  const t = team(side, m), p = (t.roster || []).find(x => String(x.jersey) === String(jersey));
+  const t = team(side, m), p = findPlayer(m, side, jersey);
   if (!p) return "";
   const [fn, ln] = split(p.name);
   return `<div class="pb ${side}"><div class="pj num">${p.jersey ?? ""}</div>
@@ -640,7 +642,7 @@ async function tick() {
       : TYPE === "referees" ? await MM.officials(m).catch(() => null) : null;
     setColors(m);
     const out = CARDS[TYPE](m, st);
-    if (!out) { if (qs.get("debug")) note("Δεν υπάρχουν ακόμα δεδομένα για αυτή την κάρτα"); return; }
+    if (!out) { if (qs.get("debug")) note(MISSING || "Δεν υπάρχουν ακόμα δεδομένα για αυτή την κάρτα"); return; }
     const html = out.raw ? out.html : `<div class="fx ${out.slab === false ? "noslab" : ""}">${out.html}</div>`;
     if (html !== lastHtml) {
       const inIntro = stage.classList.contains("intro");
