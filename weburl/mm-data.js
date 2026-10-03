@@ -1,4 +1,4 @@
-/* Browser port of app.py's data shaping. Talks to mm.php instead of the local FastAPI server. */
+/* Browser port of app.py's data shaping. Talks to the Cloudflare Worker instead of the local FastAPI server. */
 window.MM = (() => {
   // Replace the URL below with your actual Cloudflare Worker URL:
   const API = () => new URLSearchParams(location.search).get("api") || "https://basket-cards-proxy.terzis-spy.workers.dev/";
@@ -19,6 +19,23 @@ window.MM = (() => {
       m3: g("made3Pointers"), a3: g("attempted3Pointers") };
   };
   const byJersey = (a, b) => ((a.jersey == null) - (b.jersey == null)) || ((+a.jersey || 0) - (+b.jersey || 0));
+
+  /* team fouls in the current period, from the play-by-play.
+     FIBA: overtimes count as an extension of the 4th period. */
+  function teamFouls(g) {
+    const pbp = g.playByPlay || [];
+    if (!pbp.length) return null;
+    let cur = I((g.score || {}).quarter) || Math.max(...pbp.map(e => I(e.period) || 0));
+    if (!cur) return null;
+    const out = { home: 0, away: 0, period: cur };
+    pbp.forEach(e => {
+      if (e.tag !== "FOUL") return;
+      const p = I(e.period);
+      if (p === null || !(cur >= 5 ? p >= 4 : p === cur)) return;
+      if (e.side === "h") out.home++; else if (e.side === "a") out.away++;
+    });
+    return out;
+  }
 
   function summary(g) {
     g = g || {};
@@ -45,7 +62,8 @@ window.MM = (() => {
       clock: mmss(sc.clock), date: info.startsAt || g.startsAt, competition: comp.name || g.competitionName, stadium: info.court,
       home: h, visitor: a,
       quarters: h.periods.map((hs, i) => ({ period: i + 1, home_score: hs, visitor_score: a.periods[i] })).slice(0, Math.min(h.periods.length, a.periods.length)),
-      channel_id: ch.id, org_id: info.orgId || g.orgId, group: info.groupName || g.groupName,
+      team_fouls: teamFouls(g),
+      channel_id: ch.id, org_id: info.orgId || g.orgId, group: info.groupName || g.groupName || info.stageName,
       competition_id: ch.competitionId || g.competitionId,
       competition_logo: comp.logoUrl || ch.logoUrl || g.competitionLogoUrl || info.orgLogoUrl || g.orgLogoUrl,
       season_id: info.seasonId,
@@ -126,9 +144,9 @@ window.MM = (() => {
     const inn = p.person || p.referee || p.user || {};
     const name = p.name || p.full_name || p.fullName || inn.name ||
       [p.first_name || p.firstName || inn.first_name, p.last_name || p.lastName || inn.last_name].filter(Boolean).join(" ");
-    let role = p.role || p.type || p.position || (p.pivot || {}).role;
+    let role = p.role || p.type || (p.pivot || {}).role;
     if (role && typeof role === "object") role = role.name;
-    return name ? { name, role } : null;
+    return name ? { name, role: typeof role === "string" ? role : null } : null;
   };
   async function officials(m) {
     if (!m.date) return null;
