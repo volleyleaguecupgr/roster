@@ -164,5 +164,55 @@ window.MM = (() => {
     return null;
   }
 
-  return { game, standings, officials };
+  /* ---- schedule of one matchday: ch=<channelId> or comp=<name>, group=<name part>, md=<number or name> ---- */
+  const DAY = 86400000;
+  const utc = t => new Date(t).toISOString().replace(/\.\d{3}Z$/, ".000Z");
+  async function channelGames(ch) {
+    const start = Date.now() - 210 * DAY, wins = [];
+    for (let i = 0; i < 15; i++) wins.push([start + i * 30 * DAY, start + (i + 1) * 30 * DAY - 1000]);
+    const lists = await Promise.all(wins.map(([a, b]) =>
+      api({ r: "feed", channel: ch, since: utc(a), until: utc(b) }).catch(() => [])));
+    const seen = new Set(), out = [];
+    lists.forEach(l => (Array.isArray(l) ? l : (l.data || l.items || l.games || l.feed || [])).forEach(it => {
+      const g = it && typeof it.game === "object" ? it.game : it;
+      if (g && g.id && !seen.has(g.id)) { seen.add(g.id); out.push(g); }
+    }));
+    return out;
+  }
+  async function schedule(p) {
+    let ch = p.get("ch"), chInfo = null;
+    if (!ch && p.get("comp")) {
+      const all = await api({ r: "channels" });
+      const list = Array.isArray(all) ? all : (all.data || all.items || all.channels || []);
+      chInfo = list.find(c => norm(c.name).includes(norm(p.get("comp"))));
+      ch = chInfo && chInfo.id;
+    }
+    if (!ch) throw new Error("Λείπει η διοργάνωση (?ch=<id> ή ?comp=<όνομα>)");
+    const games = (await channelGames(ch)).map(g => {
+      const s = summary(g);
+      s.id = g.id;
+      s.matchday = g.matchdayName || (g.matchday || {}).name || g.stageName || "";
+      s.group = s.group || g.stageName || "";
+      return s;
+    });
+    const want = norm(p.get("group") || "");
+    const inGroup = games.filter(g => !want || norm(g.group).includes(want));
+    // matchdays in date order
+    const mds = [];
+    inGroup.slice().sort((a, b) => String(a.date).localeCompare(String(b.date))).forEach(g => { if (!mds.includes(g.matchday)) mds.push(g.matchday); });
+    const md = p.get("md");
+    let pick;
+    if (md && /^\d+$/.test(md)) pick = mds.find(n => parseInt(n, 10) === +md) || mds[+md - 1];
+    else if (md) pick = mds.find(n => norm(n).includes(norm(md)));
+    else {                                                     // no md: the next matchday not yet finished
+      const now = new Date().toISOString();
+      pick = mds.find(n => inGroup.some(g => g.matchday === n && !/complet|final|finish/i.test(g.state || "") && String(g.date) >= now.slice(0, 10))) || mds[mds.length - 1];
+    }
+    const list = inGroup.filter(g => g.matchday === pick).sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    const any = list[0] || games[0] || {};
+    return { competition: (chInfo && chInfo.name) || any.competition || "", competition_logo: any.competition_logo || (chInfo && chInfo.logoUrl),
+      group: (list[0] && list[0].group) || p.get("group") || "", matchday: pick || "", matchdays: mds, games: list };
+  }
+
+  return { game, standings, officials, schedule };
 })();
