@@ -161,7 +161,9 @@
   .deck{position:relative;display:flex;height:50px;margin-top:6px}
   .deck .lg{position:absolute;right:100%;top:0;bottom:0;width:50px;background:#fff;display:grid;place-items:center;clip-path:polygon(12px 0,100% 0,100% 100%,0 100%)}
   .deck .lg img{width:38px;height:38px}
-  .deck .clk{width:var(--clk,200px);background:var(--bg)}
+  .deck .clk{width:var(--clk,200px);background:var(--bg);display:flex;align-items:center;justify-content:center;gap:10px;
+    font-size:22px;font-weight:800;color:var(--muted);font-stretch:75%;white-space:nowrap}
+  .deck .clk b{font-size:30px;font-weight:900;color:var(--text);font-variant-numeric:tabular-nums}
   .deck .shot{width:var(--shot,86px);background:var(--accent);clip-path:polygon(0 0,100% 0,calc(100% - 12px) 100%,0 100%)}
   .sb{display:grid;grid-template-columns:var(--nw,400px) 104px 104px var(--nw,400px);height:70px;
       background:linear-gradient(180deg,var(--bg-2),var(--bg));box-shadow:inset 0 1px 0 var(--edge);
@@ -272,6 +274,23 @@
   @keyframes fromL{from{transform:translateX(-120px);opacity:0}}
   @keyframes fromR{from{transform:translateX(120px);opacity:0}}
 
+  /* ---------- schedule / results of a matchday ---------- */
+  .sch{width:1400px}
+  .sr{display:grid;grid-template-columns:150px 1fr 190px 1fr;align-items:center;gap:18px;height:76px;padding:0 26px;border-bottom:1px solid var(--line)}
+  .sr .sd{font-size:16px;font-weight:800;color:var(--muted);line-height:1.15;text-transform:uppercase}
+  .sr .sd b{display:block;color:var(--text);font-size:22px}
+  .sr .tmx{display:flex;align-items:center;gap:14px;min-width:0}
+  .sr .tmx.h{justify-content:flex-end;text-align:right}
+  .sr .tmx img{width:50px;height:50px;flex:none;filter:drop-shadow(0 3px 8px rgba(0,0,0,.4))}
+  .sr .tmx .n{font-size:26px;font-weight:800;font-stretch:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .sr .tmx.lose .n{color:var(--muted);font-weight:600}
+  .sr .sx{display:flex;justify-content:center;gap:3px}
+  .sr .sx b{min-width:72px;text-align:center;background:#fff;color:var(--bg);font-size:34px;font-weight:900;padding:2px 8px}
+  .sr .sx b.lo{background:#C9D2E0}
+  .sr .sx i{font-style:normal;background:var(--accent);color:var(--on-accent);font-size:28px;font-weight:900;padding:4px 18px;
+    clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+  .sr .sx i.live{background:#E5484D}
+
   /* ---------- referees ---------- */
   .of{display:grid;grid-template-columns:1.2fr 1fr}
   .of > div + div{border-left:1px solid var(--line)}
@@ -292,7 +311,8 @@
 
 <script src="mm-data.js"></script>
 <script>
-/* URL: cards.html?type=score&id=<gameId>[&side=home|away][&jersey=8]  or  &player=h8 */
+/* URL: cards.html?type=score&id=<gameId>[&side=home|away][&jersey=8]  or  &player=h8
+        cards.html?type=schedule&comp=<competition name>|ch=<channelId>&group=<group>&md=<matchday number> */
 const qs = new URLSearchParams(location.search);
 const parts = location.pathname.split("/").filter(Boolean);
 const TYPE = qs.get("type") || parts[2], GAME = qs.get("id") || parts[3];
@@ -305,7 +325,7 @@ let MISSING = "";
 const BOTH = /^both$/i.test(qs.get("side") || "");
 const SWAP = Math.max(5, +qs.get("swap") || 15) * 1000;
 const boxSide = () => (BOTH ? (Math.floor(Date.now() / SWAP) % 2 ? "away" : "home") : SIDE);
-const POLL = Math.max(3, +qs.get("poll") || 5) * 1000;
+const POLL = Math.max(3, +qs.get("poll") || (TYPE === "schedule" ? 30 : 5)) * 1000;
 const HOLD = +qs.get("hold") || 0;
 const NEEDS_SEASON = ["rosters", "comparison"].includes(TYPE);
 const $ = id => document.getElementById(id);
@@ -369,8 +389,12 @@ const CARDS = {
   scoreboard(m) {
     ["clk", "shot", "nw"].forEach(k => qs.get(k) && css.setProperty("--" + k, qs.get(k) + "px"));
     const nm = side => qs.get(side) || (qs.get("names") === "short" ? team(side, m).short : null) || team(side, m).name;
+    // game clock from GameDay (period + time). ?clock=0 leaves the box empty for your own clock
+    const clk = qs.get("clock") === "0" ? "" : isFinal(m) ? "ΤΕΛΙΚΟ"
+      : isUpcoming(m) ? (when(m).t ? `ΤΖΑΜΠΟΛ <b>${when(m).t}</b>` : "")
+      : `${periodNo(m) ? qLabel(periodNo(m)) : ""} <b>${m.clock || ""}</b>`;
     const deck = qs.get("deck") === "0" ? "" :
-      `<div class="deck">${m.competition_logo && qs.get("comp") !== "0" ? `<div class="lg"><img src="${m.competition_logo}" alt=""></div>` : ""}<div class="clk"></div><div class="shot"></div></div>`;
+      `<div class="deck">${m.competition_logo && qs.get("comp") !== "0" ? `<div class="lg"><img src="${m.competition_logo}" alt=""></div>` : ""}<div class="clk">${clk}</div><div class="shot"></div></div>`;
     // ?player=h8 / a15 → stat bar on top of the scoreboard in the same source
     const pm = (qs.get("player") || "").match(/^([ha])(\d+)$/i);
     const bar = pm ? playerBar(m, pm[1].toLowerCase() === "h" ? "home" : "away", pm[2]) : "";
@@ -508,6 +532,27 @@ const CARDS = {
       <div class="s num"><b class="cu">${m.home.score ?? 0}</b><b class="cu">${m.visitor.score ?? 0}</b></div>
       <div class="t away"><img src="${m.visitor.logo || ""}" alt=""><div class="n up">${label("away", m)}</div></div></div>
       <div class="foot"><span class="st up">${stateText(m)}</span>${q.map(x => `<span class="q num rowin"><span>${qLabel(x.period)}</span>${x.home_score}-${x.visitor_score}</span>`).join("")}</div></div>` };
+  },
+
+  /* cards.html?type=schedule&comp=ΕΦΗΒΩΝ&group=1ος&md=3   (or ch=<channelId>; md missing = next matchday) */
+  schedule(d) {
+    const G = d.games || [];
+    if (!G.length) return null;
+    const done = G.every(isFinal), tz = { timeZone: "Europe/Athens" };
+    const rows = G.map(g => {
+      const fin = isFinal(g) && g.home.score != null, hs = g.home.score, as = g.visitor.score;
+      const dt = g.date ? new Date(g.date) : null;
+      const day = dt ? dt.toLocaleDateString("el-GR", { ...tz, weekday: "short", day: "numeric", month: "short" }) : "";
+      const t = dt ? dt.toLocaleTimeString("el-GR", { ...tz, hour: "2-digit", minute: "2-digit", hour12: false }) : "";
+      const live = !fin && !isUpcoming(g);
+      return `<div class="sr rowin"><div class="sd">${day}<b class="num">${t}</b></div>
+        <div class="tmx h ${fin && hs < as ? "lose" : ""}"><div class="n up">${g.home.name || ""}</div><img src="${g.home.logo || ""}" alt=""></div>
+        <div class="sx num">${fin ? `<b class="${hs < as ? "lo" : ""}">${hs}</b><b class="${as < hs ? "lo" : ""}">${as}</b>`
+          : live ? `<i class="live">${g.home.score ?? 0}-${g.visitor.score ?? 0}</i>` : `<i>${t || "–"}</i>`}</div>
+        <div class="tmx ${fin && as < hs ? "lose" : ""}"><img src="${g.visitor.logo || ""}" alt=""><div class="n up">${g.visitor.name || ""}</div></div></div>`;
+    }).join("");
+    const meta = [d.group, d.matchday].filter((x, i, a) => x && a.indexOf(x) === i).join(" · ");
+    return { pos: G.length > 8 ? "center" : "lower", html: `<div class="card sch">${hdr(d, done ? "Αποτελέσματα" : "Πρόγραμμα", meta || d.competition)}${rows}</div>` };
   },
 
   referees(m, st) {
@@ -654,6 +699,17 @@ function flashScores() {
 async function tick() {
   try {
     if (!CARDS[TYPE]) throw new Error(`Άγνωστη κάρτα "${TYPE}". Διαθέσιμες: ${Object.keys(CARDS).join(", ")}`);
+    if (TYPE === "schedule") {                       // not tied to one game
+      const out = CARDS.schedule(await MM.schedule(qs));
+      if (!out) { if (qs.get("debug")) note("Δεν βρέθηκαν αγώνες για αυτή την αγωνιστική"); return; }
+      const html = `<div class="fx">${out.html}</div>`;
+      if (html !== lastHtml) {
+        stage.className = ["lower", "center", "half", "full", "board"].reduce((c, k) => c.replace(k, ""), stage.className).trim();
+        stage.classList.add(out.pos); stage.innerHTML = html; lastHtml = html; fit();
+        if (!shown) playIn();
+      }
+      $("note").hidden = true; return;
+    }
     const m = await MM.game(GAME, NEEDS_SEASON);
     const st = TYPE === "standings" ? await MM.standings(m).catch(() => null)
       : TYPE === "referees" ? await MM.officials(m).catch(() => null) : null;
