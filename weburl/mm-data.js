@@ -179,13 +179,21 @@ window.MM = (() => {
     }));
     return out;
   }
+  // only ΕΚΑΣΘ competitions (name or organisation contains one of these words; ?filter=Α,Β to change)
+  const SCHEDULE_FILTER = ["ΕΚΑΣΘ"];
   async function schedule(p) {
+    const words = (p.get("filter") || SCHEDULE_FILTER.join(",")).split(",").map(w => norm(w.trim())).filter(Boolean);
+    const all = await api({ r: "channels" });
+    const allowed = (Array.isArray(all) ? all : (all.data || all.items || all.channels || []))
+      .filter(c => words.some(w => norm(`${c.name || ""} ${c.orgName || ""}`).includes(w)));
     let ch = p.get("ch"), chInfo = null;
-    if (!ch && p.get("comp")) {
-      const all = await api({ r: "channels" });
-      const list = Array.isArray(all) ? all : (all.data || all.items || all.channels || []);
-      chInfo = list.find(c => norm(c.name).includes(norm(p.get("comp"))));
+    if (ch) {
+      chInfo = allowed.find(c => c.id === ch);
+      if (!chInfo) throw new Error("Αυτή η διοργάνωση δεν είναι της ΕΚΑΣΘ");
+    } else if (p.get("comp")) {
+      chInfo = allowed.find(c => norm(c.name).includes(norm(p.get("comp"))));
       ch = chInfo && chInfo.id;
+      if (!ch) throw new Error(`Δεν βρέθηκε διοργάνωση ΕΚΑΣΘ με "${p.get("comp")}". Διαθέσιμες: ${allowed.map(c => c.name).join(" · ")}`);
     }
     if (!ch) throw new Error("Λείπει η διοργάνωση (?ch=<id> ή ?comp=<όνομα>)");
     const games = (await channelGames(ch)).map(g => {
