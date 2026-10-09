@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>National MatchCenter · Ομάδα</title>
+<link rel="stylesheet" href="assets/style.css?v=1">
+<style>
+  .kp{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:16px 0 4px}
+  .kp div{background:var(--bg-2);box-shadow:inset 0 1px 0 var(--edge);padding:12px 14px}
+  .kp b{display:block;font-size:26px;font-weight:900;font-stretch:75%}
+  .kp span{font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.3px}
+  .sub{color:var(--muted);font-weight:700;margin-top:10px}
+  .tog{display:flex;gap:4px;margin:0 0 10px}
+  .tog button{height:32px;padding:0 14px;border:1px solid var(--line);background:var(--bg-2);color:var(--muted);font:inherit;font-weight:800;cursor:pointer;border-radius:4px}
+  .tog button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .t td.nm a{display:flex;align-items:center;gap:8px}
+  section{margin-top:28px}
+  .pick{margin:18px 0 0;max-width:520px}
+  .pick label{display:block;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.4px;margin-bottom:6px}
+  .pick select{width:100%;max-width:none;height:44px;font-weight:800}
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<main class="wrap">
+  <a class="back" href="teams.html">‹ Όλες οι ομάδες</a>
+  <div class="comphead" id="head"><div class="loading">Φόρτωση ομάδας…</div></div>
+  <div class="pick" id="pick"></div>
+  <div id="body"></div>
+</main>
+<footer>Δεδομένα: Mismatch GameDay</footer>
+<script src="assets/config.js?v=1"></script>
+<script src="assets/common.js?v=1"></script>
+<script>
+header("", "team");
+const $ = id => document.getElementById(id);
+const P = new URLSearchParams(location.search);
+const isYouth = n => /ΕΦΗΒ|ΝΕΑΝΙΔ|ΠΑΙΔ|ΚΟΡΑΣΙΔ/.test(UP(n));
+let KEY = P.get("id") || "", CH = P.get("ch") || "", D = null, MODE = "avg";
+
+const f1 = v => (v == null ? "–" : Number.isInteger(v) ? v : (+v).toFixed(1));
+const sh = (m, a) => `${f1(m)}/${f1(a)}`;
+
+function render() {
+  const c = D.comp, youth = isYouth(c.name), A = c.avg, Tt = c.totals;
+  history.replaceState(null, "", `?id=${encodeURIComponent(KEY)}&ch=${encodeURIComponent(c.ch)}`);
+  $("pick").innerHTML = D.comps.length > 1
+    ? `<label>ΔΙΟΡΓΑΝΩΣΗ</label><select class="in" id="chsel">${D.comps.map(x => `<option value="${esc(x.ch)}" ${x.ch === c.ch ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select>`
+    : "";
+  const done = c.games.filter(g => isFinal(g.state)), next = c.games.filter(g => !isFinal(g.state));
+  const kp = [["ΑΓΩΝΕΣ", c.gp ?? done.length], ["ΝΙΚΕΣ", c.w], ["ΗΤΤΕΣ", c.l], ["ΘΕΣΗ", c.pos ? c.pos + "η" : null],
+    ["ΠΟΝΤΟΙ Μ.Ο.", A && f1(A.pts)], ["ΚΑΤΑ Μ.Ο.", A && f1(A.pa)],
+    ["2Π %", Tt && pct(Tt.m2, Tt.a2) + "%"], ["3Π %", Tt && pct(Tt.m3, Tt.a3) + "%"], ["ΒΟΛΕΣ %", Tt && pct(Tt.m1, Tt.a1) + "%"],
+    ["ΛΑΘΗ Μ.Ο.", A && f1(A.tov)], ["ΦΑΟΥΛ Μ.Ο.", A && f1(A.pf)]].filter(([, v]) => v != null && v !== "");
+  const row = p => { const s = MODE === "avg" ? p.avg : p.tot, u = playerUrl(p.pid), nm = `${photoMini(p.pid)}<span>${esc(p.name)}</span>`;
+    return `<tr><td class="n num">${p.jersey ?? ""}</td><td class="l nm">${u ? `<a href="${u}">${nm}</a>` : nm}</td>
+      <td class="num">${p.gp}</td><td class="num">${f1(s.min)}</td><td class="num b">${f1(s.pts)}</td>
+      <td class="num">${sh(s.m2, s.a2)}</td><td class="num">${sh(s.m3, s.a3)}</td><td class="num">${sh(s.m1, s.a1)}</td>
+      <td class="num">${f1(s.tov)}</td><td class="num">${f1(s.pf)}</td>${youth ? "" : `<td class="num b">${f1(s.pir)}</td>`}</tr>`; };
+  $("body").innerHTML = `
+    <div class="sub up">${esc([c.team, c.stage, c.group].filter(Boolean).join(" · "))} · <a href="competition.html?ch=${encodeURIComponent(c.ch)}">βαθμολογία ›</a></div>
+    ${kp.length ? `<div class="kp">${kp.map(([l, v]) => `<div><b class="num">${esc(v)}</b><span>${l}</span></div>`).join("")}</div>` : ""}
+    ${c.players.length ? `<section><h3 class="sec-h">ΑΘΛΗΤΕΣ</h3>
+      <div class="tog"><button data-m="avg" class="${MODE === "avg" ? "on" : ""}">Μέσος όρος</button><button data-m="tot" class="${MODE === "tot" ? "on" : ""}">Σύνολα</button></div>
+      <div class="tw"><table class="t box"><thead><tr><th>#</th><th class="l">ΠΑΙΚΤΗΣ</th><th>ΑΓ</th><th>ΛΕΠ</th><th>ΠΟΝ</th><th>2Π</th><th>3Π</th><th>ΒΟΛ</th><th>ΛΑΘ</th><th>ΦΑ</th>${youth ? "" : "<th>PIR</th>"}</tr></thead>
+      <tbody>${c.players.map(row).join("")}</tbody></table></div></section>`
+      : `<div class="note" style="margin-top:16px">Τα στατιστικά αθλητών θα εμφανιστούν μετά τον πρώτο αγώνα.</div>`}
+    ${next.length ? `<section><h3 class="sec-h">ΕΠΟΜΕΝΟΙ ΑΓΩΝΕΣ</h3><div class="mdgrid">${next.map(g => gameBox(g, `${shortDate(g.date)} · ${hhmm(g.date)}`)).join("")}</div></section>` : ""}
+    ${done.length ? `<section><h3 class="sec-h">ΑΠΟΤΕΛΕΣΜΑΤΑ</h3><div class="mdgrid">${done.slice().reverse().map(g => gameBox(g, `${g.matchday || ""} · ${shortDate(g.date)}`)).join("")}</div></section>` : ""}
+    <div style="height:50px"></div>`;
+}
+
+async function load() {
+  $("body").innerHTML = `<div class="loading">Φόρτωση…</div>`;
+  try {
+    const q = { ch: CH }; if (KEY) q.id = KEY; else q.name = P.get("name") || "";
+    D = await api("team", q);
+    KEY = D.team.key; CH = D.comp.ch;
+    document.title = `National MatchCenter · ${D.team.name}`;
+    $("head").innerHTML = `${D.team.logo ? `<img src="${esc(D.team.logo)}" alt="">` : ""}<div><h1 class="up">${esc(D.team.name)}</h1><span>${D.comps.length} ${D.comps.length === 1 ? "διοργάνωση" : "διοργανώσεις"}</span></div>`;
+    render();
+  } catch (e) { $("head").innerHTML = `<div class="empty">Η ομάδα δεν βρέθηκε (${esc(e.message)}).</div>`; $("body").innerHTML = ""; }
+}
+$("pick").onchange = e => { if (e.target.id === "chsel") { CH = e.target.value; load(); } };
+$("body").onclick = e => { const m = e.target.dataset.m; if (m && m !== MODE) { MODE = m; render(); } };
+if (!KEY && !P.get("name")) location.href = "teams.html";
+load();
+</script>
+</body>
+</html>

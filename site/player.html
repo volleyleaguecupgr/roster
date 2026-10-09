@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>National MatchCenter · Παίκτης</title>
+<link rel="stylesheet" href="assets/style.css?v=1">
+<style>
+  .ph{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;margin:16px 0 0;padding:26px;
+      background:radial-gradient(500px 240px at 0% 50%,color-mix(in srgb,var(--tc) 35%,transparent),transparent 70%),linear-gradient(180deg,var(--bg-2),var(--bg));
+      box-shadow:inset 0 1px 0 var(--edge);clip-path:polygon(22px 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%,0 22px)}
+  .ph .jersey{filter:drop-shadow(0 10px 22px rgba(0,0,0,.45))}
+  .ph .fn{font-size:18px;font-weight:700;color:var(--muted)}
+  .ph .ln{font-size:44px;font-weight:900;font-stretch:66%;line-height:1}
+  .ph .tm{display:flex;align-items:center;gap:10px;margin-top:10px;font-weight:800}
+  .ph .tm img{width:32px;height:32px}
+  .ph .facts{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;color:var(--muted);font-weight:700;font-size:14px}
+  .ph .facts b{color:var(--text)}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:18px 0}
+  .tile{background:var(--bg-2);box-shadow:inset 0 1px 0 var(--edge);padding:12px 14px}
+  .tile b{display:block;font-size:30px;font-weight:900;font-stretch:72%;line-height:1}
+  .tile span{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.4px}
+  .tile small{display:block;color:var(--muted);font-weight:600;font-size:12px;margin-top:2px}
+  .tile.k b{color:var(--accent-hi)}
+  .log td .opp{display:flex;align-items:center;gap:8px}
+  .log td .opp img{width:22px;height:22px}
+  .wl{display:inline-block;min-width:18px;font-weight:900}
+  .wl.w{color:#22c55e} .wl.l{color:#ef4444}
+  @media (max-width:600px){ .ph{grid-template-columns:1fr;justify-items:start} .ph .ln{font-size:34px} }
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<main class="wrap">
+  <a class="back" id="back" href="javascript:history.back()">‹ Πίσω</a>
+  <div id="head"><div class="loading">Φόρτωση παίκτη…</div></div>
+  <div id="tiles"></div>
+  <div id="log"></div>
+</main>
+<footer>Δεδομένα: Mismatch GameDay · μέσοι όροι από τα box score της σεζόν</footer>
+
+<script src="assets/config.js?v=1"></script>
+<script src="assets/common.js?v=1"></script>
+<script>
+header("", "");
+const $ = id => document.getElementById(id);
+const P = new URLSearchParams(location.search);
+const PID = P.get("id"), GID = P.get("game");
+
+function tile(v, l, sub = "", k = false) {
+  return `<div class="tile ${k ? "k" : ""}"><b class="num">${v}</b><span>${l}</span>${sub ? `<small>${sub}</small>` : ""}</div>`;
+}
+
+api("player", { id: PID, game: GID || "" }).then(d => {
+  const p = d.player || {}, t = d.team || {}, A = d.avg, T = d.totals || {};
+  const color = t.color && !/^#?f{3,6}$/i.test(t.color.replace("#", "")) ? t.color : "var(--accent)";
+  document.documentElement.style.setProperty("--tc", color);
+  document.title = `${p.first} ${p.last} · MatchCenter`;
+  $("head").innerHTML = `<section class="ph">${photoOr(p.id, p.jersey, color, 140)}
+    <div><div class="fn up">${esc(p.first)}</div><div class="ln up">${esc(p.last)}</div>
+      ${t.name ? `<div class="tm">${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ""}<span class="up">${esc(t.name)}</span></div>` : ""}
+      <div class="facts">${p.jersey != null ? `<span>Νούμερο <b>#${esc(p.jersey)}</b></span>` : ""}
+        ${p.age ? `<span>Ηλικία <b>${p.age}</b></span>` : ""}${p.height ? `<span>Ύψος <b>${esc(p.height)}</b></span>` : ""}
+        <span>Αγώνες <b>${d.games}</b></span></div></div></section>`;
+
+  if (!d.games) { $("tiles").innerHTML = `<div class="note">Δεν υπάρχουν ακόμα στατιστικά αυτή τη σεζόν.</div>`; return; }
+  const pc = (m, a) => (a ? Math.round((100 * m) / a) + "%" : "–");
+  const tiles = [
+    tile(A.pts, "ΠΟΝΤΟΙ / ΑΓΩΝΑ", `${T.pts} συνολικά`, true),
+    tile(A.pir, "PIR / ΑΓΩΝΑ", "", true),
+    tile(pc(T.m2, T.a2), "ΔΙΠΟΝΤΑ", `${T.m2}/${T.a2}`),
+    tile(pc(T.m3, T.a3), "ΤΡΙΠΟΝΤΑ", `${T.m3}/${T.a3}`),
+    tile(pc(T.m1, T.a1), "ΒΟΛΕΣ", `${T.m1}/${T.a1}`),
+    tile(A.pf, "ΦΑΟΥΛ / ΑΓΩΝΑ", `${T.pf} συνολικά`),
+  ];
+  // only shown when the competition actually records them
+  [["reb", "ΡΙΜΠΑΟΥΝΤ"], ["ast", "ΑΣΙΣΤ"], ["stl", "ΚΛΕΨΙΜΑΤΑ"], ["blk", "ΚΟΨΙΜΑΤΑ"], ["tov", "ΛΑΘΗ"]]
+    .forEach(([k, l]) => { if (T[k]) tiles.push(tile(A[k], `${l} / ΑΓΩΝΑ`, `${T[k]} συνολικά`)); });
+  $("tiles").innerHTML = `<div class="tiles">${tiles.join("")}</div>`;
+
+  $("log").innerHTML = `<h3 class="sec-h">ΑΓΩΝΕΣ ΣΕΖΟΝ</h3><div class="tw"><table class="t box log"><thead><tr>
+      <th>ΗΜ/ΝΙΑ</th><th class="l">ΑΝΤΙΠΑΛΟΣ</th><th>ΣΚΟΡ</th><th>ΛΕΠ</th><th>ΠΟΝ</th><th>2Π</th><th>3Π</th><th>ΒΟΛ</th><th>ΦΑ</th><th>PIR</th></tr></thead>
+    <tbody>${d.log.map(g => `<tr><td class="num"><a href="game.html?id=${encodeURIComponent(g.game_id)}">${esc(shortDate(g.date))}</a></td>
+      <td class="l"><a class="opp" href="game.html?id=${encodeURIComponent(g.game_id)}">${g.opp_logo ? `<img src="${esc(g.opp_logo)}" alt="">` : ""}<span class="up">${g.home ? "" : "@ "}${esc(g.opp)}</span></a></td>
+      <td class="num">${g.won === null ? "" : `<span class="wl ${g.won ? "w" : "l"}">${g.won ? "Ν" : "Η"}</span>`} ${esc(g.score || "")}</td>
+      <td class="num">${g.min || ""}</td><td class="num b">${g.pts}</td><td class="num">${ma(g.m2, g.a2)}</td><td class="num">${ma(g.m3, g.a3)}</td>
+      <td class="num">${ma(g.m1, g.a1)}</td><td class="num">${g.pf}</td><td class="num b">${g.pir}</td></tr>`).join("")}</tbody></table></div>`;
+}).catch(e => { $("head").innerHTML = `<div class="empty">Ο παίκτης δεν βρέθηκε (${esc(e.message)}).</div>`; });
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>National MatchCenter · MVP αγωνιστικής</title>
+<link rel="stylesheet" href="assets/style.css?v=1">
+<style>
+  .mf{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px;margin:14px 0 18px}
+  .mf label{display:block;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.4px;margin-bottom:6px}
+  .mf select{width:100%;max-width:none}
+  @media (max-width:900px){ .mf{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<main class="wrap">
+  <div class="dayhead"><h1>MVP αγωνιστικής</h1><span class="meta" id="meta"></span></div>
+  <div class="mf">
+    <div><label for="fCh">ΔΙΟΡΓΑΝΩΣΗ</label><select class="in" id="fCh"></select></div>
+    <div><label for="fGr">ΟΜΙΛΟΣ</label><select class="in" id="fGr"></select></div>
+    <div><label for="fMd">ΑΓΩΝΙΣΤΙΚΗ</label><select class="in" id="fMd"></select></div>
+  </div>
+  <div id="list"><div class="loading">Φόρτωση…</div></div>
+</main>
+<footer>Δεδομένα: Mismatch GameDay · Κατάταξη με PIR, μετά πόντους</footer>
+
+<script src="assets/config.js?v=1"></script>
+<script src="assets/common.js?v=1"></script>
+<script>
+header("", "mvp");
+const $ = id => document.getElementById(id);
+const P = new URLSearchParams(location.search);
+const isYouth = n => /ΕΦΗΒ|ΝΕΑΝΙΔ|ΠΑΙΔ|ΚΟΡΑΣΙΔ/.test(UP(n));   // no MVP for youth championships
+let CH = P.get("ch") || "", GR = P.get("group") || "", MD = P.get("md") || "", D = null;
+
+const opt = (v, l, cur) => `<option value="${esc(v)}" ${v === cur ? "selected" : ""}>${esc(l)}</option>`;
+function sync() {
+  const p = new URLSearchParams(); if (CH) p.set("ch", CH); if (GR) p.set("group", GR); if (MD) p.set("md", MD);
+  history.replaceState(null, "", `?${p}`);
+}
+
+async function loadChannels() {
+  const d = await api("channels");
+  const list = (d.channels || []).filter(c => allowComp(c.name) && !isYouth(c.name));
+  if ((!CH || !list.some(c => c.id === CH)) && list.length) CH = list[0].id;
+  $("fCh").innerHTML = list.map(c => opt(c.id, c.name, CH)).join("");
+}
+
+async function loadChannel() {
+  $("list").innerHTML = `<div class="loading">Φόρτωση αγωνιστικών…</div>`;
+  D = await api("channel", { ch: CH });
+  const groups = D.groups || [];
+  if (!groups.some(g => g.name === GR)) GR = groups[0]?.name || "";
+  $("fGr").innerHTML = groups.map(g => opt(g.name, g.name, GR)).join("");
+  fillMatchdays(true);
+}
+
+function fillMatchdays(pickLatest) {
+  const g = (D.groups || []).find(x => x.name === GR);
+  const mds = g ? g.matchdays : [];
+  // latest matchday that has at least one finished or live game
+  if (MD !== "*" && (pickLatest || !mds.some(m => m.name === MD))) {
+    const played = mds.filter(m => m.games.some(x => isFinal(x.state) || isLive(x.state)));
+    MD = (played[played.length - 1] || mds[0] || {}).name || "";
+  }
+  $("fMd").innerHTML = opt("*", "Όλη η φάση / όλες οι αγωνιστικές", MD) +
+    mds.map(m => opt(m.name, `${m.name}${m.games[0]?.date ? " · " + shortDate(m.games[0].date) : ""}`, MD)).join("");
+  loadMvps();
+}
+
+async function loadMvps() {
+  sync();
+  if (!CH || !MD) { $("list").innerHTML = `<div class="empty">Δεν υπάρχουν αγωνιστικές.</div>`; return; }
+  $("list").innerHTML = `<div class="loading">Φόρτωση MVP…</div>`;
+  const want = `${CH}|${GR}|${MD}`;
+  const d = await api("mvps", { ch: CH, group: GR, md: MD });
+  if (want !== `${CH}|${GR}|${MD}`) return;            // user changed selection meanwhile
+  const L = d.mvps || [];
+  $("meta").textContent = `${L.length} από ${d.games} αγώνες`;
+  $("list").innerHTML = mvpList(L);
+}
+
+$("fCh").onchange = e => { CH = e.target.value; GR = ""; MD = ""; loadChannel().catch(err); };
+$("fGr").onchange = e => { GR = e.target.value; fillMatchdays(true); };
+$("fMd").onchange = e => { MD = e.target.value; loadMvps().catch(err); };
+const err = e => { $("list").innerHTML = `<div class="empty">Σφάλμα φόρτωσης (${esc(e.message)}).</div>`; };
+
+loadChannels().then(() => (MD ? loadChannel().then(() => { if (P.get("md")) { MD = P.get("md"); fillMatchdays(false); } }) : loadChannel())).catch(err);
+</script>
+</body>
+</html>

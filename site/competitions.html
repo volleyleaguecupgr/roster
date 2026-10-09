@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>National MatchCenter · Διοργανώσεις</title>
+<link rel="stylesheet" href="assets/style.css?v=1">
+</head>
+<body>
+<header class="top" id="top"></header>
+<main class="wrap">
+  <div class="dayhead"><h1>Διοργανώσεις</h1><span class="meta" id="meta"></span></div>
+  <div class="filters"><input class="in search" id="q" placeholder="Αναζήτηση διοργάνωσης" style="width:320px"></div>
+  <div class="cgrid" id="list"><div class="loading">Φόρτωση…</div></div>
+</main>
+<footer>Δεδομένα: Mismatch GameDay · ΕΟΚ · Ανεπίσημη ιστοσελίδα</footer>
+<script src="assets/config.js?v=1"></script>
+<script src="assets/common.js?v=1"></script>
+<script>
+header("", "comp");
+const $ = id => document.getElementById(id);
+let chans = [];
+function render() {
+  const q = UP($("q").value.trim());
+  const list = chans.filter(c => allowComp(c.name) && (!q || UP(c.name).includes(q)));
+  $("meta").textContent = `${list.length} διοργανώσεις`;
+  $("list").innerHTML = list.map(c => `<a class="ccard" href="competition.html?ch=${encodeURIComponent(c.id)}">
+      ${c.logo ? `<img src="${esc(c.logo)}" alt="">` : ""}<div><b class="up">${esc(c.name)}</b>${c.org && c.org !== c.name ? `<span>${esc(c.org)}</span>` : ""}</div></a>`).join("")
+    || `<div class="empty">Δεν βρέθηκαν διοργανώσεις.</div>`;
+}
+api("channels").then(d => { chans = d.channels || []; render(); })
+  .catch(e => { $("list").innerHTML = `<div class="empty">Σφάλμα φόρτωσης (${esc(e.message)}).</div>`; });
+$("q").oninput = render;
+</script>
+</body>
+</html>

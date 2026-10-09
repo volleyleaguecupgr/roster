@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Αγώνας</title>
+<link rel="stylesheet" href="assets/style.css?v=1">
+</head>
+<body>
+<header class="top" id="top"></header>
+<main class="wrap">
+  <a class="back" id="back" href="index.html">‹ Όλοι οι αγώνες</a>
+  <div id="hero"><div class="loading">Φόρτωση αγώνα…</div></div>
+  <div id="officials"></div>
+  <div id="summary"></div>
+  <nav class="tabs" id="tabs"></nav>
+  <section class="panel" id="panel"></section>
+</main>
+<footer>Δεδομένα: Mismatch GameDay · ΕΟΚ · Ανεπίσημη ιστοσελίδα</footer>
+
+<script src="assets/config.js?v=1"></script>
+<script src="assets/common.js?v=1"></script>
+<script>
+header("", "");
+const $ = id => document.getElementById(id);
+const ID = new URLSearchParams(location.search).get("id");
+let G = null, ST = null, tab = null;
+const tUrl = (name, ch) => `team.html?name=${encodeURIComponent(name)}${ch ? "&ch=" + encodeURIComponent(ch) : ""}`;   // own copy: works even with an older common.js
+const isYouth = n => /ΕΦΗΒ|ΝΕΑΝΙΔ|ΠΑΙΔ|ΚΟΡΑΣΙΔ/.test(UP(n));   // no MVP for youth championships
+
+
+function setColors(g) {
+  const fix = c => (c && !/^#?f{3,6}$/i.test(c.replace("#", "")) ? c : null);
+  document.documentElement.style.setProperty("--home", fix(g.home.color) || "#1D4ED8");
+  document.documentElement.style.setProperty("--away", fix(g.visitor.color) || "#C8102E");
+}
+
+function renderHero(g) {
+  const started = isLive(g.state) || isFinal(g.state);
+  const lbl = isFinal(g.state) ? `<span class="badge fin">ΤΕΛΙΚΟ</span>`
+    : isLive(g.state) ? `<span class="badge live">LIVE${g.period ? " · " + qLabel(g.period) : ""}${g.clock ? " " + g.clock : ""}</span>`
+    : `<span class="badge time">${esc(longDate(g.date))}</span>`;
+  const day = g.date ? new Date(g.date).toLocaleDateString("en-CA", tz) : "";
+  $("back").href = `index.html${day ? "?date=" + day : ""}`;
+  document.title = `${g.home.name} – ${g.visitor.name}`;
+  $("hero").innerHTML = `<div class="hero">
+    <div class="meta">${g.competition_logo ? `<img src="${esc(g.competition_logo)}" alt="">` : ""}<b class="up">${g.channel_id ? `<a href="competition.html?ch=${encodeURIComponent(g.channel_id)}${g.group ? "&group=" + encodeURIComponent(g.group) : ""}">${esc(g.competition || "")}</a>` : esc(g.competition || "")}</b>
+      <span>${esc([g.group, g.matchday].filter(Boolean).join(" · "))}</span><span style="margin-left:auto">${esc(g.stadium || "")}</span></div>
+    <div class="row">
+      <a href="${tUrl(g.home.name, g.channel_id)}" class="ht"><img src="${esc(g.home.logo || "")}" alt=""><div class="n up">${esc(g.home.name)}</div></a>
+      <div class="sc">${started
+        ? `<div class="big num"><b>${g.home.score ?? 0}</b><b>${g.visitor.score ?? 0}</b></div>`
+        : `<div class="when num">${hhmm(g.date)}</div>`}<div class="lbl">${lbl}</div></div>
+      <a href="${tUrl(g.visitor.name, g.channel_id)}" class="ht"><img src="${esc(g.visitor.logo || "")}" alt=""><div class="n up">${esc(g.visitor.name)}</div></a>
+    </div>
+    ${g.quarters.length ? `<div class="qs num">${g.quarters.map(q => `<div><span>${qLabel(q.period)}</span>${q.home}-${q.away}</div>`).join("")}</div>` : ""}
+    ${g.mvp && !g.youth && !isYouth(g.competition) ? `<${g.mvp.pid ? `a href="${playerUrl(g.mvp.pid, ID)}"` : "div"} class="mvp"><i>MVP</i>#${esc(g.mvp.jersey ?? "")} ${esc(g.mvp.name)} · ${g.mvp.pts} πόντοι · ${g.mvp.pir} PIR</${g.mvp.pid ? "a" : "div"}>` : ""}
+  </div>`;
+}
+
+function renderSummary(g) {
+  const s = g.summary;
+  if (!s) { $("summary").innerHTML = ""; return; }
+  const paras = s.text.split(/\n+/).filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("");
+  $("summary").innerHTML = `<section class="summary clamp" id="sumbox"><h3 class="sec-h">ΣΥΝΟΨΗ ΑΓΩΝΑ</h3>
+    ${s.title ? `<h2>${esc(s.title)}</h2>` : ""}<div class="txt">${paras}</div>
+    <button class="btn more" id="sumMore">Περισσότερα</button></section>`;
+  $("sumMore").onclick = () => { const b = $("sumbox"); b.classList.toggle("clamp"); $("sumMore").textContent = b.classList.contains("clamp") ? "Περισσότερα" : "Λιγότερα"; };
+}
+
+/* ---------- officials (from basket.gr) ---------- */
+async function loadOfficials() {
+  try {
+    const o = await api("officials", { id: ID });
+    if (!o.found) return;
+    const ord = ["Α'", "Β'", "Γ'"];
+    const refs = (o.referees || []).map((p, i) => `<span><em>${ord[(p.position || i + 1) - 1] || ""}</em>${esc(p.name)}</span>`);
+    const rest = [...(o.judges || []).map(p => [p.role || "Κριτής", p.name]),
+                  ...(o.commissioners || []).map(p => [p.role || "Κομισάριος", p.name]),
+                  ...(o.referee_coaches || []).map(p => [p.role || "Παρατηρητής", p.name])]
+                  .map(([r, n]) => `<span><em>${esc(r)}</em>${esc(n)}</span>`);
+    if (!refs.length && !rest.length) return;
+    $("officials").innerHTML = `<section class="officials">
+      ${refs.length ? `<div><b>ΔΙΑΙΤΗΤΕΣ</b>${refs.join("")}</div>` : ""}
+      ${rest.length ? `<div><b>ΚΡΙΤΕΣ &amp; ΤΕΧΝΙΚΟΙ ΕΚΠΡΟΣΩΠΟΙ</b>${rest.join("")}</div>` : ""}</section>`;
+  } catch { /* officials are optional */ }
+}
+
+/* ---------- play-by-play ---------- */
+const FOUL = { SHOOTING: "σε προσπάθεια", DEFENSIVE: "αμυντικό", OFFENSIVE: "επιθετικό", DISRUPTIVE: "αντιαθλητικό", TECHNICAL: "τεχνικό", UNSPORTSMANLIKE: "αντιαθλητικό" };
+function evText(e) {
+  const who = e.pl ? `<b>${e.n != null ? "#" + e.n + " " : ""}${esc(shortName(e.pl))}</b>` : "";
+  switch (e.t) {
+    case "2PT": return `${who} δίποντο${e.ast ? ` <i>(ασίστ ${esc(shortName(e.ast))})</i>` : ""}`;
+    case "3PT": return `${who} τρίποντο${e.ast ? ` <i>(ασίστ ${esc(shortName(e.ast))})</i>` : ""}`;
+    case "FT": return `${who} εύστοχη βολή`;
+    case "MISS": return `${who} άστοχ${e.shot === "FT" ? "η βολή" : e.shot === "3PT" ? "ο τρίποντο" : "ο δίποντο"}`;
+    case "REB": return `${who || "Ομάδα:"} ${e.reb === "OFFENSIVE" ? "επιθετικό" : "αμυντικό"} ριμπάουντ`;
+    case "FOUL": return `${who} φάουλ ${FOUL[e.foul] || ""}${e.on ? ` σε ${esc(shortName(e.on))}` : ""}`;
+    case "STL": return `${who} κλέψιμο`;
+    case "BLK": return `${who} κόψιμο`;
+    case "TO": return `${who} λάθος`;
+    case "SUB": return `Αλλαγή: ↑ ${who}${e.out ? ` ↓ ${esc(shortName(e.out))}` : ""}`;
+    case "TIMEOUT": return `Τάιμ άουτ`;
+    case "TIP": return `Τζάμπολ`;
+    default: return `${who} ${esc(e.t || "")}`;
+  }
+}
+function playByPlay(g) {
+  const E = g.pbp || [];
+  if (!E.length) return `<div class="note">Η ροή του αγώνα θα εμφανιστεί με την έναρξη.</div>`;
+  const byP = new Map();
+  [...E].reverse().forEach(e => { const k = e.p || 0; if (!byP.has(k)) byP.set(k, []); byP.get(k).push(e); });
+  return `<div class="pbp">${[...byP.entries()].map(([p, list]) => `
+    <div class="pbp-p">${p <= 4 ? p + "η περίοδος" : "Παράταση " + (p - 4)}</div>
+    ${list.map(e => {
+      const score = ["2PT", "3PT", "FT"].includes(e.t) && e.sc, cls = score ? "sc" : e.t === "SUB" ? "sub" : "";
+      const txt = evText(e);
+      return `<div class="ev ${cls}">
+        <div class="h">${e.s === "h" ? txt : ""}</div>
+        <div class="mid"><span class="clk num">${esc(e.c || "")}</span>${score ? `<span class="res num">${esc(e.sc).replace("–", "-")}</span>` : ""}</div>
+        <div class="a">${e.s === "a" ? txt : ""}</div></div>`;
+    }).join("")}`).join("")}</div>`;
+}
+
+/* ---------- panels ---------- */
+function teamStats(g) {
+  const H = g.home.totals, A = g.visitor.totals;
+  if (!H || !A) return `<div class="note">Τα στατιστικά θα εμφανιστούν με την έναρξη του αγώνα.</div>`;
+  const shot = (l, m, a) => [l, pct(H[m], H[a]), pct(A[m], A[a]), `${ma(H[m], H[a])}<em>${pct(H[m], H[a])}%</em>`, `<em>${pct(A[m], A[a])}%</em>${ma(A[m], A[a])}`, false, true];
+  const rows = [
+    ["Πόντοι", H.pts, A.pts], shot("Δίποντα", "m2", "a2"), shot("Τρίποντα", "m3", "a3"), shot("Βολές", "m1", "a1"),
+    ["Ριμπάουντ", H.reb, A.reb], ["Επιθετικά ριμπάουντ", H.oreb, A.oreb], ["Αμυντικά ριμπάουντ", H.dreb, A.dreb],
+    ["Ασίστ", H.ast, A.ast], ["Κλεψίματα", H.stl, A.stl], ["Κοψίματα", H.blk, A.blk],
+    ["Λάθη", H.tov, A.tov, null, null, true], ["Φάουλ", H.pf, A.pf, null, null, true], ["PIR", H.pir, A.pir],
+  ];
+  return `<div class="cmp"><div class="h"><div><img src="${esc(g.home.logo || "")}" alt=""><span class="up">${esc(g.home.name)}</span></div>
+    <div><img src="${esc(g.visitor.logo || "")}" alt=""><span class="up">${esc(g.visitor.name)}</span></div></div>` +
+    rows.filter(([l, hv, av]) => l === "Πόντοι" || hv || av).map(([l, hv, av, hd, ad, low, abs]) => {
+      const max = abs ? 100 : Math.max(hv, av, 1), hl = low ? hv < av : hv > av, al = low ? av < hv : av > hv;
+      return `<div class="cr"><div class="v num ${hl ? "lead" : ""}">${hd ?? hv}</div>
+        <div class="m"><b>${UP(l)}</b><div class="bars"><span class="l"><i style="width:${Math.max(hv, 0) / max * 100}%"></i></span>
+        <span class="r"><i style="width:${Math.max(av, 0) / max * 100}%"></i></span></div></div>
+        <div class="v a num ${al ? "lead" : ""}">${ad ?? av}</div></div>`;
+    }).join("") + `</div>`;
+}
+
+const star = pid => { const s = G.star_pid; return pid != null && s != null && String(pid) === String(s)
+  ? ` <span title="Παίκτης του αγώνα" style="color:#F5B800">★</span>` : ""; };
+function boxScore(t) {
+  const P = t.players || [];
+  if (!P.length) return `<div class="note">Το box score θα εμφανιστεί με την έναρξη του αγώνα.</div>`;
+  const top = Math.max(...P.map(p => p.pts));
+  const T = t.totals;
+  // full name on desktop, "Α. ΕΠΩΝΥΜΟ" on phones
+  const nm = p => { const u = playerUrl(p.pid, ID), t = `${photoMini(p.pid)}<span class="full">${esc(p.name ?? "")}</span><span class="short">${esc(shortName(p.name ?? ""))}</span>${star(p.pid)}`;
+    return u ? `<a href="${u}">${t}</a>` : t; };
+  const row = (p, cls = "") => `<tr class="${cls} ${p.starter ? "st" : ""}"><td class="n num">${p.jersey ?? ""}</td><td class="l nm">${cls ? esc(p.name) : nm(p)}</td>
+    <td class="num">${p.min || ""}</td><td class="num b ${p.pts === top && top > 0 && !cls ? "hi" : ""}">${p.pts}</td>
+    <td class="num">${ma(p.m2, p.a2)}</td><td class="num">${ma(p.m3, p.a3)}</td><td class="num">${ma(p.m1, p.a1)}</td>
+    <td class="num">${p.tov}</td><td class="num">${p.pf}</td><td class="num b">${p.pir}</td></tr>`;
+  return `<div class="tw"><div class="teamhead"><img src="${esc(t.logo || "")}" alt=""><span class="up">${esc(t.name)}</span>
+    ${t.score != null ? `<span class="s num">${t.score}</span>` : ""}</div>
+    <table class="t box"><thead><tr><th>#</th><th class="l">ΠΑΙΚΤΗΣ</th><th>ΛΕΠ</th><th>ΠΟΝ</th><th>2Π</th><th>3Π</th><th>ΒΟΛ</th>
+    <th>ΛΑΘ</th><th>ΦΑ</th><th>PIR</th></tr></thead>
+    <tbody>${P.map(p => row(p)).join("")}${T ? row({ ...T, jersey: "", name: "ΣΥΝΟΛΟ", min: "" }, "tot") : ""}</tbody></table></div>`;
+}
+
+function standings() {
+  if (!ST) return `<div class="loading">Φόρτωση βαθμολογίας…</div>`;
+  return `${ST.group ? `<h3 class="sec-h">ΒΑΘΜΟΛΟΓΙΑ · ${esc(UP(ST.group))}</h3>` : ""}` +
+    standingsTable(ST.rows, [G.home.name, G.visitor.name], ST.source === "computed" ? "Υπολογισμένη από τα αποτελέσματα (νίκη 2, ήττα 1)." : "");
+}
+
+const TABS = [
+  ["stats", "Στατιστικά ομάδων", () => teamStats(G)],
+  ["home", () => G.home.name, () => boxScore(G.home)],
+  ["away", () => G.visitor.name, () => boxScore(G.visitor)],
+  ["pbp", "Ροή αγώνα", () => playByPlay(G)],
+  ["standings", "Βαθμολογία", standings],
+];
+
+function renderTabs() {
+  $("tabs").innerHTML = TABS.map(([k, l]) => `<button data-k="${k}" class="${k === tab ? "on" : ""}">${esc(typeof l === "function" ? l() : l)}</button>`).join("");
+  $("panel").innerHTML = TABS.find(t => t[0] === tab)[2]();
+}
+$("tabs").onclick = e => {
+  const k = e.target.dataset.k; if (!k) return;
+  tab = k; history.replaceState(null, "", `?id=${ID}&tab=${k}`); renderTabs();
+};
+
+async function load() {
+  try {
+    G = await api("game", { id: ID });
+    setColors(G); renderHero(G); renderSummary(G);
+    if (!tab) tab = new URLSearchParams(location.search).get("tab") || (G.home.totals ? "stats" : "standings");
+    renderTabs();
+  } catch (e) {
+    $("hero").innerHTML = `<div class="empty">Ο αγώνας δεν βρέθηκε (${esc(e.message)}).</div>`;
+  }
+}
+async function loadStandings() {
+  try { ST = await api("standings", { id: ID }); } catch { ST = { rows: [] }; }
+  if (G) renderTabs();
+}
+
+if (!ID) location.href = "index.html";
+load().then(() => { loadStandings(); loadOfficials(); });
+setInterval(() => { if (G && isLive(G.state)) load(); }, Math.max(10, (S.refreshSeconds || 30) / 2) * 1000);
+</script>
+</body>
+</html>
