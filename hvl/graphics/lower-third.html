@@ -1,0 +1,74 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Player lower third</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* ?side=home|away&num=5  (or ?pid=)   ?info=auto|stats|bio   ?hold=8 (auto hide after N s)
+     Without num/pid it follows the operator's choice from control.html */
+  #lt { position: absolute; left: 150px; bottom: 90px; display: grid; grid-template-columns: 220px auto; column-gap: 0; align-items: end; }
+  .ph { width: 220px; height: 260px; border-radius: 28px 28px 28px 28px; overflow: hidden; position: relative; z-index: 2;
+        background: linear-gradient(180deg, var(--blue-600), var(--navy-900)); box-shadow: inset 0 0 0 4px #fff, var(--shadow); }
+  .ph img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; }
+  .ph.nophoto { display: grid; place-items: center; font-weight: 900; font-size: 84px; }
+  .ph .tlogo { position: absolute; right: 10px; bottom: 10px; width: 64px; height: 64px; }
+  .ph .tlogo .logo { width: 64px; height: 64px; }
+  .ph .tlogo .logo.fallback { font-size: 16px; }
+  .info { display: flex; flex-direction: column; gap: 10px; margin-left: -34px; padding-bottom: 6px; }
+  .info > * { padding-left: 58px !important; }
+  .namerow { height: 104px; border-radius: 0 999px 999px 0; display: flex; align-items: center; gap: 22px; padding-right: 48px;
+             background: var(--g-row); box-shadow: inset 0 0 0 var(--line) #fff; min-width: 760px; }
+  .num { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; background: var(--red-600); font-weight: 900; font-size: 44px; box-shadow: inset 0 0 0 3px #fff; flex: none; }
+  .nm { display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+  .nm .last { font-weight: 900; font-size: 58px; text-transform: uppercase; letter-spacing: .3px; }
+  .nm .first { font-weight: 500; font-size: 40px; }
+  .sub { display: flex; gap: 10px; align-items: center; }
+  .tagp { height: 54px; padding: 0 30px; border-radius: 0 999px 999px 0; background: linear-gradient(90deg, var(--red-500), var(--red-700) 70%, rgba(140,15,34,.0)); font-weight: 800; font-size: 26px; text-transform: uppercase; white-space: nowrap; display: flex; align-items: center; }
+  .chip { height: 54px; border-radius: 999px; padding: 0 22px; display: flex; align-items: baseline; gap: 10px; background: var(--navy-900); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .chip b { font-size: 32px; font-weight: 900; line-height: 54px; } .chip span { font-size: 20px; font-weight: 700; text-transform: uppercase; color: var(--muted); }
+  .chip.hi { background: var(--g-win); } .chip.hi span { color: #fff; }
+  .sub.chips { padding-left: 58px; }
+  #lt.hide { opacity: 0; transform: translateX(-60px); transition: all .4s ease-in; }
+  #lt { transition: all .5s cubic-bezier(.2,.8,.2,1); }
+</style>
+</head><body>
+<div id="stage"><div id="lt" class="hide"></div></div>
+<script>
+const LT = HVL.$('#lt');
+const INFO = HVL.get('info', 'auto');
+let shownKey = '', hideTimer;
+HVL.poll('match', 4, (d) => {
+  const sel = HVL.get('num') || HVL.get('pid')
+    ? { side: HVL.side(d), num: HVL.get('num'), pid: HVL.get('pid'), show: true }
+    : (d.state?.lowerThird || { show: false });
+  if (!d.match || !sel.show) { LT.classList.add('hide'); shownKey = ''; return; }
+  const team = sel.side === 'away' ? d.away : d.home;
+  const p = (team.players || []).find((x) => (sel.pid && x.playerId == sel.pid) || (sel.num != null && sel.num !== '' && x.number == sel.num));
+  if (!p) { LT.classList.add('hide'); return HVL.msg(`player #${sel.num || sel.pid} not found in ${team.short}`); }
+  const st = p.stats;
+  const useStats = INFO === 'stats' || (INFO === 'auto' && st && st.played && d.match.status !== 'upcoming');
+  const chips = useStats
+    ? [[st.pts, HVL.t('pts'), true], [st.att, 'ATT'], [st.blk, 'BLK'], [st.ace, 'ACE'], ...(st.attTot ? [[Math.round(st.att / st.attTot * 100) + '%', 'KILL']] : [])]
+    : [[p.height ? p.height + '' : null, 'CM'], [p.born, HVL.lang === 'el' ? 'ΓΕΝ.' : 'BORN']].filter((c) => c[0]);
+  const key = `${team.id}:${p.playerId || p.number}`;
+  LT.innerHTML = `
+    <div class="ph ${p.photo ? '' : 'nophoto'}" data-init="${HVL.esc((p.last || p.name || '?')[0])}">${p.photo ? `<img src="${HVL.esc(p.photo)}" alt="" onerror="const b=this.parentNode;b.classList.add('nophoto');this.replaceWith(b.dataset.init)">` : HVL.esc((p.last || '?')[0])}<div class="tlogo">${HVL.logo(team)}</div></div>
+    <div class="info">
+      <div class="namerow"><div class="num">${p.number ?? ''}</div>
+        <div class="nm fit"><span class="last">${HVL.esc(p.last || p.name)}</span><span class="first">${HVL.esc(p.first || '')}</span></div></div>
+      <div class="sub"><div class="tagp">${HVL.esc(team.short)}${p.position ? ' · ' + HVL.esc(p.position.label) : ''}</div></div>
+      ${chips.length ? `<div class="sub chips">${chips.map(([v, l, hi]) => `<div class="chip ${hi ? 'hi' : ''}"><b>${v ?? 0}</b><span>${l}</span></div>`).join('')}</div>` : ''}
+    </div>`;
+  HVL.fit(LT);
+  if (key !== shownKey) {
+    shownKey = key;
+    LT.classList.add('hide'); void LT.offsetWidth; LT.classList.remove('hide');
+    clearTimeout(hideTimer);
+    const hold = +HVL.get('hold', 0);
+    if (hold) hideTimer = setTimeout(() => LT.classList.add('hide'), hold * 1000);
+  }
+});
+</script>
+</body></html>

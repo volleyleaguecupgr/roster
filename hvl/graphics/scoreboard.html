@@ -1,0 +1,67 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scoreboard</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* ?pos=tl|tr|bl|br  ?names=short|code|long  ?partials=1 */
+  #sb { position: absolute; left: 60px; top: 50px; display: flex; flex-direction: column; gap: 8px; }
+  #sb.tr { left: auto; right: 60px; } #sb.bl { top: auto; bottom: 60px; } #sb.br { left: auto; right: 60px; top: auto; bottom: 60px; }
+  .head { display: flex; gap: 8px; align-items: center; height: 38px; }
+  .head .tag { height: 38px; padding: 0 20px; background: linear-gradient(90deg, var(--red-500), var(--red-700)); font-weight: 800; font-size: 20px; text-transform: uppercase; }
+  .head .comp { height: 38px; padding: 0 20px 0 18px; background: var(--g-comp); font-weight: 700; font-size: 18px; text-transform: uppercase; white-space: nowrap; }
+  .team { height: 66px; display: grid; grid-template-columns: 66px 300px 26px auto 76px 96px; align-items: center; border-radius: 999px;
+          background: var(--g-row-dark); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .team .logo { width: 66px; height: 66px; }
+  .team .logo.fallback { font-size: 18px; }
+  .team .nm { padding-left: 16px; font-weight: 800; font-size: 32px; text-transform: uppercase; }
+  .serve { width: 16px; height: 16px; border-radius: 50%; background: #ffd400; box-shadow: 0 0 10px #ffd400; justify-self: center; opacity: 0; transition: opacity .3s; }
+  .serve.on { opacity: 1; }
+  .parts { display: flex; gap: 4px; padding-right: 8px; }
+  .parts span { width: 44px; text-align: center; font-weight: 600; font-size: 24px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .parts span.w { color: #fff; font-weight: 800; }
+  .sets { height: 66px; width: 76px; display: grid; place-items: center; font-weight: 800; font-size: 36px; background: var(--g-win); box-shadow: inset 0 0 0 var(--line) #fff; border-radius: 999px; }
+  .pts { height: 66px; width: 96px; display: grid; place-items: center; font-weight: 900; font-size: 42px; border-radius: 999px;
+         background: #fff; color: var(--navy-900); font-variant-numeric: tabular-nums; }
+  .pts.lead { background: linear-gradient(90deg, #fff, #dfe3ff); }
+  .flash { animation: flash .6s ease; }
+</style>
+</head><body>
+<div id="stage"><div id="sb"></div></div>
+<script>
+const SB = HVL.$('#sb');
+const pos = HVL.get('pos', 'tl'); if (pos !== 'tl') SB.classList.add(pos);
+const NAMES = HVL.get('names', 'short');
+const showParts = HVL.get('partials', '0') === '1';
+let prev = {};
+HVL.poll('match', 3, (d, first) => {
+  if (!d.match) { SB.innerHTML = ''; return HVL.msg(d.message); }
+  const m = d.match, s = HVL.scoreState(d);
+  const label = m.status === 'finished' ? HVL.t('final') : m.status === 'upcoming' ? (HVL.dateLong(m.iso).time || '') : `${HVL.t('set')} ${s.set}`;
+  const nm = (t) => NAMES === 'code' ? t.code : NAMES === 'long' ? t.name : HVL.teamName(t);
+  const finishedSets = (s.sets || []).filter((x, i) => Math.max(x.h, x.a) >= (i === 4 ? 15 : 25) && Math.abs(x.h - x.a) >= 2);
+  const parts = (side) => showParts ? `<div class="parts">${finishedSets.map((x) => `<span class="${(side === 'h' ? x.h > x.a : x.a > x.h) ? 'w' : ''}">${x[side]}</span>`).join('')}</div>` : '<div></div>';
+  const live = m.status === 'live' || s.manual;
+  const row = (t, side) => `
+    <div class="team">
+      ${HVL.logo(t)}<div class="nm fit">${HVL.esc(nm(t))}</div>
+      <div class="serve ${s.serve === side ? 'on' : ''}"></div>
+      ${parts(side === 'home' ? 'h' : 'a')}
+      <div class="sets" data-k="${side}s">${side === 'home' ? s.setsH : s.setsA}</div>
+      <div class="pts ${live && (side === 'home' ? s.h > s.a : s.a > s.h) ? 'lead' : ''}" data-k="${side}p">${live ? (side === 'home' ? s.h : s.a) : ''}</div>
+    </div>`;
+  SB.innerHTML = `
+    <div class="head"><div class="pill tag">${live && !s.manual ? '<span class="live-dot" style="margin-right:10px"></span>' : ''}${HVL.esc(label)}</div><div class="pill comp">${HVL.esc(d.league.name)}</div></div>
+    ${row(d.home, 'home')}${row(d.away, 'away')}`;
+  // grid width: hide parts column when unused
+  SB.querySelectorAll('.team').forEach((el) => { if (!showParts) el.style.gridTemplateColumns = '66px 300px 26px 0 76px 96px'; });
+  // flash changed numbers
+  const now = { hs: s.setsH, as: s.setsA, hp: s.h, ap: s.a };
+  if (!first) for (const k in now) if (prev[k] !== now[k]) SB.querySelector(`[data-k="${k[0] === 'h' ? 'home' : 'away'}${k[1]}"]`)?.classList.add('flash');
+  prev = now;
+  HVL.animate(SB, first);
+});
+</script>
+</body></html>

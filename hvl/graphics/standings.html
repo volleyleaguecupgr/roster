@@ -1,0 +1,39 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Standings</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* Highlights the teams of the selected match. ?highlight=0 to turn off, ?rows=12 */
+  #box { position: absolute; left: 50%; top: 70px; width: 1300px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; margin-bottom: 14px; }
+  .hd, .rw { width: 1300px; display: grid; grid-template-columns: 70px 66px 1fr repeat(4, 100px) 130px; align-items: center; }
+  .hd { height: 40px; font-size: 20px; font-weight: 800; color: var(--muted); text-transform: uppercase; text-align: center; }
+  .rw { height: 64px; margin-top: 10px; border-radius: 999px; background: var(--g-row-dark); box-shadow: inset 0 0 0 var(--line) #fff; text-align: center; font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .rw.hl { background: var(--g-row); }
+  .rw .rk { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--navy-900); box-shadow: inset 0 0 0 var(--line) #fff; font-weight: 900; }
+  .rw.hl .rk { background: var(--red-600); }
+  .rw .logo { width: 54px; height: 54px; justify-self: center; box-shadow: none; } .rw .logo.fallback { font-size: 14px; }
+  .rw .tn { text-align: left; padding-left: 16px; font-weight: 800; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .rw .pts { height: 64px; border-radius: 999px; display: grid; place-items: center; background: var(--g-win); box-shadow: inset 0 0 0 var(--line) #fff; font-weight: 900; font-size: 34px; }
+</style>
+</head><body>
+<div id="stage"><div id="box"></div></div>
+<script>
+const MAX = +HVL.get('rows', 12);
+HVL.poll(HVL.team && HVL.get('highlight') !== '0' ? 'match' : 'standings', 60, (d, first) => {
+  const box = HVL.$('#box');
+  const table = d.standings || [];
+  const hl = new Set([d.home?.id, d.away?.id].filter(Boolean));
+  box.innerHTML = `
+    <div class="pill title-pill">${HVL.esc(HVL.get('title') || HVL.t('standings'))}</div>
+    <div class="pill comp-pill">${HVL.esc(d.league?.name || '')}</div>
+    <div class="hd"><div></div><div></div><div></div><div>${HVL.t('played')}</div><div>${HVL.t('won')}</div><div>${HVL.t('lost')}</div><div>${HVL.t('sets')}</div><div>${HVL.t('pts')}</div></div>
+    ${table.slice(0, MAX).map((r) => `<div class="rw ${hl.has(r.teamId) ? 'hl' : ''}"><div class="rk">${r.rank}</div>${HVL.logo(r)}<div class="tn fit">${HVL.esc(r.short || r.name)}</div>
+      <div>${r.played}</div><div>${r.won}</div><div>${r.lost}</div><div>${r.setsW ?? ''}:${r.setsL ?? ''}</div><div class="pts">${r.rankPts}</div></div>`).join('')}`;
+  HVL.animate(box, first);
+});
+</script>
+</body></html>

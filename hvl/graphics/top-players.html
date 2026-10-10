@@ -1,0 +1,50 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Top scorers of the match</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* ?n=3 players per team   ?by=pts|att|blk|ace */
+  #box { position: absolute; left: 50%; top: 110px; width: 1640px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; width: 1640px; margin-top: 26px; }
+  .col { display: flex; flex-direction: column; gap: 18px; }
+  .th { height: 92px; border-radius: 999px; display: flex; align-items: center; gap: 20px; padding: 0 10px; box-shadow: inset 0 0 0 4px #fff; background: rgba(8,12,58,.55); }
+  .th .logo { width: 76px; height: 76px; } .th .logo.fallback { font-size: 22px; }
+  .th b { font-size: 40px; font-weight: 900; text-transform: uppercase; }
+  .pl { height: 150px; border-radius: 999px; display: grid; grid-template-columns: 150px 1fr 150px; align-items: center; background: var(--g-row); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .pl .photo { width: 150px; height: 150px; border-radius: 50%; overflow: hidden; background: var(--navy-900); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .pl .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+  .pl .photo.nophoto { display: grid; place-items: center; font-size: 54px; font-weight: 900; }
+  .pl .mid { padding-left: 26px; min-width: 0; }
+  .pl .mid .nm { font-size: 38px; white-space: nowrap; overflow: hidden; } .pl .mid .nm b { font-weight: 900; text-transform: uppercase; } .pl .mid .nm span { font-weight: 500; }
+  .pl .mid .br { margin-top: 6px; font-size: 22px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+  .pl .big { width: 150px; height: 150px; border-radius: 50%; display: grid; place-items: center; align-content: center; background: var(--g-win); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .pl .big b { font-size: 60px; font-weight: 900; line-height: 1; } .pl .big span { font-size: 20px; font-weight: 800; text-transform: uppercase; }
+</style>
+</head><body>
+<div id="stage"><div id="box"></div></div>
+<script>
+const N = +HVL.get('n', 3), BY = HVL.get('by', 'pts');
+const LAB = { pts: HVL.t('pts'), att: 'ATT', blk: 'BLK', ace: 'ACE' };
+HVL.poll('match', 15, (d, first) => {
+  const box = HVL.$('#box');
+  if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
+  const col = (t) => {
+    const top = (t.players || []).filter((p) => p.stats).sort((a, b) => (b.stats[BY] || 0) - (a.stats[BY] || 0) || (b.stats.pts - a.stats.pts)).slice(0, N);
+    return `<div class="col anim"><div class="th">${HVL.logo(t)}<b class="fit">${HVL.esc(t.short)}</b></div>
+      ${top.map((p) => `<div class="pl">${HVL.photo(p)}
+        <div class="mid"><div class="nm fit"><b>${HVL.esc(p.last || p.name)}</b> <span>${HVL.esc(p.first || '')}</span></div>
+        <div class="br">#${p.number ?? ''} · ${p.stats.att} att · ${p.stats.blk} blk · ${p.stats.ace} ace</div></div>
+        <div class="big"><b>${p.stats[BY] ?? 0}</b><span>${LAB[BY]}</span></div></div>`).join('') || '<div class="pl"><div></div><div class="mid">–</div></div>'}</div>`;
+  };
+  box.innerHTML = `<div class="pill title-pill">${HVL.esc(HVL.get('title') || HVL.t('top'))}</div>
+    <div class="pill comp-pill">${HVL.esc(d.league.name)}</div>
+    <div class="cols">${col(d.home)}${col(d.away)}</div>`;
+  HVL.animate(box, first);
+  box.querySelectorAll('.col').forEach((c) => HVL.animate(c, first));
+});
+</script>
+</body></html>

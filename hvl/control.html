@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HVL Operator Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="js/config.js"></script>
+<style>
+  :root { --bg: #070a2e; --card: #0f1554; --line: #26308f; --mut: #a9b0e6; --acc: #2a33f0; --red: #e5332a; --ok: #16a34a; }
+  * { box-sizing: border-box; } body { margin: 0; font-family: Commissioner, system-ui, sans-serif; background: var(--bg); color: #fff; }
+  header { padding: 16px 22px; background: linear-gradient(90deg, var(--red), #8c0f22 40%, var(--bg)); display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  header h1 { margin: 0; font-size: 22px; margin-right: auto; }
+  input, select, button, textarea { font: inherit; padding: 9px 11px; border-radius: 10px; border: 1px solid var(--line); background: #0a0f40; color: #fff; }
+  button { background: var(--acc); border: 0; font-weight: 800; cursor: pointer; } button.red { background: var(--red); } button.ok { background: var(--ok); } button.ghost { background: transparent; border: 1px solid var(--line); }
+  main { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; padding: 18px 22px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  h2 { margin: 0 0 12px; font-size: 16px; text-transform: uppercase; color: var(--mut); letter-spacing: .5px; display: flex; justify-content: space-between; align-items: center; }
+  .sc { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .tm { background: #0a0f40; border-radius: 14px; padding: 12px; text-align: center; border: 2px solid transparent; } .tm.serve { border-color: #ffd400; }
+  .tm h3 { margin: 0 0 8px; font-size: 20px; text-transform: uppercase; }
+  .big { font-size: 84px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; } .sets { font-size: 26px; color: var(--mut); margin: 6px 0 10px; }
+  .row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; } .row button { min-width: 64px; font-size: 18px; }
+  .big-btn { font-size: 26px !important; padding: 16px 0 !important; width: 100%; }
+  .bar { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; align-items: center; }
+  .note { font-size: 13px; color: var(--mut); margin-top: 8px; } .note kbd { background: #222a7a; padding: 1px 6px; border-radius: 5px; }
+  .pl { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; max-height: 360px; overflow: auto; margin-top: 10px; }
+  .pl button { text-align: left; background: #0a0f40; border: 1px solid var(--line); font-weight: 600; padding: 8px 10px; } .pl button b { display: inline-block; width: 34px; }
+  .pl button.on { background: var(--red); }
+  textarea { width: 100%; min-height: 70px; } input.full { width: 100%; margin-bottom: 8px; }
+  .toggle { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+  #st { font-size: 13px; color: var(--mut); }
+</style>
+</head><body>
+<header>
+  <h1>Operator Panel</h1>
+  <input id="api" placeholder="Worker URL" size="34"><select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option><option value="greekcup">Greek Cup</option></select>
+  <select id="team"></select><input id="token" type="password" placeholder="Admin token" size="12"><button id="load">Connect</button>
+</header>
+<div style="padding:8px 22px" id="st"></div>
+<main>
+  <section>
+    <h2>Scoreboard <label class="toggle"><input type="checkbox" id="manual"> Manual override</label></h2>
+    <div class="sc">
+      <div class="tm" id="tmH"><h3 id="nH">Home</h3><div class="big" id="pH">0</div><div class="sets">Sets <b id="sH">0</b></div>
+        <div class="row"><button class="big-btn" onclick="pt('h',1)">+1 Point</button></div><div class="row" style="margin-top:8px"><button class="ghost" onclick="pt('h',-1)">−1</button><button class="ghost" onclick="setAdj('h',1)">Set +</button><button class="ghost" onclick="setAdj('h',-1)">Set −</button><button class="ghost" onclick="serve('home')">Serve</button></div></div>
+      <div class="tm" id="tmA"><h3 id="nA">Away</h3><div class="big" id="pA">0</div><div class="sets">Sets <b id="sA">0</b></div>
+        <div class="row"><button class="big-btn" onclick="pt('a',1)">+1 Point</button></div><div class="row" style="margin-top:8px"><button class="ghost" onclick="pt('a',-1)">−1</button><button class="ghost" onclick="setAdj('a',1)">Set +</button><button class="ghost" onclick="setAdj('a',-1)">Set −</button><button class="ghost" onclick="serve('away')">Serve</button></div></div>
+    </div>
+    <div class="bar"><button class="red" onclick="endSet()">End set → save partial</button><button class="ghost" onclick="syncFromLive()">Copy from live data</button><button class="ghost" onclick="resetScore()">Reset</button></div>
+    <div class="note">Manual mode is for when HVL live data lags. Keys: <kbd>Q</kbd>/<kbd>P</kbd> point home/away · <kbd>A</kbd>/<kbd>L</kbd> undo · <kbd>S</kbd> end set. Turning manual off returns the scoreboard to HVL data.</div>
+  </section>
+  <section>
+    <h2>Lower third <span><button class="ok" onclick="lt(true)">Show</button> <button class="red" onclick="lt(false)">Hide</button></span></h2>
+    <div class="row" style="justify-content:flex-start"><button class="ghost" id="sideH" onclick="pickSide('home')">Home</button><button class="ghost" id="sideA" onclick="pickSide('away')">Away</button></div>
+    <div class="pl" id="players"></div>
+    <div class="note">Click a player, then Show. Lower-third pages without <kbd>num=</kbd> follow this panel.</div>
+  </section>
+  <section style="grid-column: 1 / -1">
+    <h2>Announcement <span><button class="ok" onclick="ann(true)">Show</button> <button class="red" onclick="ann(false)">Hide</button></span></h2>
+    <input class="full" id="aT" placeholder="Title (e.g. TIMEOUT, MVP, WELCOME)"><textarea id="aX" placeholder="Text"></textarea>
+    <div class="bar"><button class="ghost" onclick="preset('Timeout','')">Timeout</button><button class="ghost" onclick="preset('Technical timeout','')">Technical timeout</button><button class="ghost" onclick="preset('Video challenge','')">Video challenge</button><button class="ghost" onclick="preset('MVP','')">MVP</button></div>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const C = window.HVL_CONFIG || {};
+const saved = JSON.parse(localStorage.getItem('hvl-ctl') || '{}');
+$('api').value = saved.api || C.api || ''; $('league').value = saved.league || C.league || 'hvl'; $('token').value = saved.token || '';
+let data = null, state = {}, side = 'home', sel = null;
+const S = () => (state.score ||= { manual: false, setsH: 0, setsA: 0, h: 0, a: 0, sets: [], serve: null });
+const api = () => $('api').value.trim().replace(/\/$/, '');
+const q = () => `team=${encodeURIComponent($('team').value)}`;
+async function post(patch) {
+  Object.assign(state, patch);
+  draw();
+  const r = await fetch(`${api()}/api/${$('league').value}/state?${q()}`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + $('token').value }, body: JSON.stringify(patch) });
+  const j = await r.json(); $('st').textContent = r.ok ? `Saved ${new Date().toLocaleTimeString()}` : '⚠ ' + (j.error || r.status);
+}
+async function connect() {
+  localStorage.setItem('hvl-ctl', JSON.stringify({ api: api(), league: $('league').value, token: $('token').value, team: $('team').value || saved.team }));
+  if (!$('team').options.length || $('team').dataset.league !== $('league').value) {
+    const teams = await (await fetch(`${api()}/api/${$('league').value}/teams`)).json();
+    $('team').innerHTML = teams.map((t) => `<option value="${t.id}">${t.name}</option>`).join(''); $('team').dataset.league = $('league').value;
+    if (saved.team) $('team').value = saved.team;
+  }
+  data = await (await fetch(`${api()}/api/${$('league').value}/match?${q()}`)).json();
+  state = data.state || {};
+  $('st').textContent = data.match ? `${data.home.name} – ${data.away.name} · ${data.match.status} · ${data.league.name}` : (data.message || data.error);
+  draw(); players();
+}
+function draw() {
+  const s = S();
+  $('manual').checked = !!s.manual;
+  $('nH').textContent = data?.home?.short || 'Home'; $('nA').textContent = data?.away?.short || 'Away';
+  $('pH').textContent = s.h; $('pA').textContent = s.a; $('sH').textContent = s.setsH; $('sA').textContent = s.setsA;
+  $('tmH').classList.toggle('serve', s.serve === 'home'); $('tmA').classList.toggle('serve', s.serve === 'away');
+}
+function players() {
+  const t = side === 'home' ? data?.home : data?.away;
+  $('sideH').classList.toggle('red', side === 'home'); $('sideA').classList.toggle('red', side === 'away');
+  $('players').innerHTML = (t?.players || []).map((p) => `<button data-n="${p.number}" class="${sel && sel.side === side && sel.num == p.number ? 'on' : ''}" onclick="choose(${p.number})"><b>${p.number ?? ''}</b>${p.last || p.name} ${p.first ? p.first[0] + '.' : ''}</button>`).join('');
+}
+function pickSide(s) { side = s; players(); }
+function choose(n) { sel = { side, num: n }; players(); }
+function lt(show) { post({ lowerThird: { ...(sel || state.lowerThird || {}), show } }); }
+function ann(show) { post({ announcement: { title: $('aT').value, text: $('aX').value, show } }); }
+function preset(t, x) { $('aT').value = t; $('aX').value = x; }
+function pt(k, d) { const s = S(); s.manual = true; s[k] = Math.max(0, s[k] + d); if (d > 0) s.serve = k === 'h' ? 'home' : 'away'; post({ score: s }); }
+function setAdj(k, d) { const s = S(); s.manual = true; const key = k === 'h' ? 'setsH' : 'setsA'; s[key] = Math.max(0, s[key] + d); post({ score: s }); }
+function serve(w) { const s = S(); s.serve = w; post({ score: s }); }
+function endSet() { const s = S(); if (s.h === s.a) return; s.manual = true; s.sets = [...(s.sets || []), { h: s.h, a: s.a }]; s.h > s.a ? s.setsH++ : s.setsA++; s.h = 0; s.a = 0; post({ score: s }); }
+function resetScore() { if (confirm('Reset manual score?')) post({ score: { manual: $('manual').checked, setsH: 0, setsA: 0, h: 0, a: 0, sets: [], serve: null } }); }
+function syncFromLive() { const m = data?.match; if (!m) return; const c = m.current || { h: 0, a: 0 }; post({ score: { ...S(), setsH: m.setsHome, setsA: m.setsAway, h: c.h, a: c.a, sets: (m.sets || []).filter((x, i) => !(m.current && i === m.sets.length - 1)) } }); }
+$('manual').onchange = (e) => { const s = S(); s.manual = e.target.checked; post({ score: s }); };
+$('load').onclick = () => connect().catch((e) => ($('st').textContent = '⚠ ' + e.message));
+$('team').onchange = () => { saved.team = $('team').value; connect(); };
+addEventListener('keydown', (e) => {
+  if (/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+  const k = e.key.toLowerCase();
+  if (k === 'q') pt('h', 1); if (k === 'p') pt('a', 1); if (k === 'a') pt('h', -1); if (k === 'l') pt('a', -1); if (k === 's') endSet();
+});
+if (api()) connect().catch((e) => ($('st').textContent = '⚠ ' + e.message));
+</script>
+</body></html>

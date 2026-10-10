@@ -1,0 +1,52 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team statistics</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  #box { position: absolute; left: 50%; top: 150px; width: 1040px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .title-pill { width: 812px; }
+  .comp-pill { width: 812px; margin-top: 12px; }
+  .teams-capsule { width: 1040px; margin-top: 20px; }
+  .stat-row { width: 812px; margin-top: 22px; }
+  .venue-pill { width: 812px; margin-top: 34px; }
+  .tag-pill { margin-top: 14px; }
+</style>
+</head><body>
+<div id="stage"><div id="box"></div></div>
+<script>
+// ?rows=att,blk,ace,opp,srvErr,attPct   ?title=Custom
+const ROWS = HVL.get('rows', 'att,blk,ace,opp').split(',');
+const VAL = { att: (t) => t.att, blk: (t) => t.blk, ace: (t) => t.ace, opp: (t) => t.oppErrors, srvErr: (t) => t.srvErr, attPct: (t) => t.attPct == null ? '–' : t.attPct + '%' };
+const LOWER_WINS = { srvErr: true };
+HVL.poll('match', 10, (d, first) => {
+  const box = HVL.$('#box');
+  if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
+  const m = d.match, h = d.home, a = d.away, s = HVL.scoreState(d);
+  const done = m.sets.filter((x) => Math.max(x.h, x.a) >= (m.sets.indexOf(x) === 4 ? 15 : 25) && Math.abs(x.h - x.a) >= 2).length;
+  const title = HVL.get('title') || (m.status === 'live'
+    ? `${HVL.t('stats')} – ${HVL.lang === 'el' ? HVL.t('after') + ' ' + HVL.ord(done) + ' ' + HVL.t('set') : 'after ' + HVL.ord(done) + ' set'}`
+    : `${HVL.t('match')} ${HVL.t('stats')}`);
+  const dt = HVL.dateLong(m.iso);
+  box.innerHTML = `
+    <div class="pill title-pill"><span>${HVL.get('title') ? HVL.esc(title) : title}</span></div>
+    <div class="pill comp-pill">${HVL.esc(d.league.name)}</div>
+    <div class="teams-capsule">
+      ${HVL.logo(h)}<div class="name fit">${HVL.esc(HVL.teamName(h))}</div>
+      <div class="score">${s.setsH} – ${s.setsA}</div>
+      <div class="name right fit">${HVL.esc(HVL.teamName(a))}</div>${HVL.logo(a)}
+    </div>
+    ${ROWS.filter((k) => VAL[k]).map((k) => {
+      const hv = VAL[k](h.totals || {}), av = VAL[k](a.totals || {});
+      const hn = parseFloat(hv), an = parseFloat(av);
+      const hw = LOWER_WINS[k] ? hn < an : hn > an, aw = LOWER_WINS[k] ? an < hn : an > hn;
+      return `<div class="stat-row"><div class="val ${hw ? 'win' : ''}">${hv ?? '–'}</div><div class="label">${HVL.t(k)}</div><div class="val ${aw ? 'win' : ''}">${av ?? '–'}</div></div>`;
+    }).join('')}
+    <div class="pill venue-pill">${HVL.esc([dt.date, m.venue].filter(Boolean).join(' – '))}</div>
+    ${m.round || m.phase ? `<div class="pill tag-pill">${HVL.esc(m.round || m.phase)}</div>` : ''}`;
+  HVL.animate(box, first);
+});
+</script>
+</body></html>

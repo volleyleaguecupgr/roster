@@ -1,0 +1,46 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Season leaders</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* ?cat=0..7 (category index from HVL home page)   ?cycle=10 rotates categories every N s */
+  #box { position: absolute; left: 50%; top: 110px; width: 1200px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; margin-bottom: 10px; }
+  .rw { width: 1200px; height: 120px; margin-top: 18px; border-radius: 999px; display: grid; grid-template-columns: 120px 120px 1fr 200px; align-items: center; background: var(--g-row); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .rw .rk { width: 120px; height: 120px; border-radius: 50%; display: grid; place-items: center; background: var(--navy-900); box-shadow: inset 0 0 0 var(--line) #fff; font-size: 50px; font-weight: 900; }
+  .rw:first-of-type .rk { background: var(--red-600); }
+  .rw .photo { width: 110px; height: 110px; border-radius: 50%; overflow: hidden; justify-self: center; background: var(--navy-900); }
+  .rw .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; } .rw .photo.nophoto { display: grid; place-items: center; font-size: 40px; font-weight: 900; }
+  .rw .nm { padding-left: 18px; font-size: 40px; font-weight: 800; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .rw .nm small { display: block; font-size: 22px; color: var(--muted); font-weight: 700; }
+  .rw .v { height: 120px; border-radius: 999px; display: grid; place-items: center; align-content: center; background: var(--g-win); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .rw .v b { font-size: 50px; font-weight: 900; line-height: 1; } .rw .v span { font-size: 18px; font-weight: 700; color: var(--muted); }
+</style>
+</head><body>
+<div id="stage"><div id="box"></div></div>
+<script>
+let idx = +HVL.get('cat', 0), data = null;
+const cycle = +HVL.get('cycle', 0);
+function draw(first) {
+  const box = HVL.$('#box');
+  const cats = data?.leaders || [];
+  if (!cats.length) { box.innerHTML = ''; return HVL.msg('no leaders found'); }
+  const c = cats[idx % cats.length];
+  const teamName = (id) => (data.teams || []).find((t) => t.id === id)?.short || '';
+  box.innerHTML = `<div class="pill title-pill">${HVL.esc(HVL.get('title') || c.title)}</div>
+    <div class="pill comp-pill">${HVL.esc(data.league?.name || '')} · ${HVL.t('leaders')}</div>
+    ${c.players.map((p, i) => `<div class="rw"><div class="rk">${i + 1}</div>${HVL.photo(p)}<div class="nm fit">${HVL.esc(p.name)}<small>${HVL.esc(teamName(p.teamId))}</small></div>
+      <div class="v"><b>${HVL.esc(p.value)}</b>${p.detail ? `<span>${HVL.esc(p.detail)}</span>` : ''}</div></div>`).join('')}`;
+  HVL.animate(box, first);
+}
+HVL.poll('leaders', 300, async (d, first) => {
+  data = d;
+  try { if (!HVL.demo) data.teams = await (await fetch(HVL.url('teams'))).json(); } catch { /* names optional */ }
+  draw(first);
+});
+if (cycle) setInterval(() => { idx++; draw(true); }, cycle * 1000);
+</script>
+</body></html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HVL Broadcast Graphics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="js/config.js"></script>
+<style>
+  :root { --bg: #070a2e; --card: #0f1554; --line: #26308f; --txt: #fff; --mut: #a9b0e6; --acc: #2a33f0; --red: #e5332a; }
+  * { box-sizing: border-box; } body { margin: 0; font-family: Commissioner, system-ui, sans-serif; background: var(--bg); color: var(--txt); }
+  header { padding: 22px 28px; background: linear-gradient(90deg, var(--red), #8c0f22 40%, var(--bg)); }
+  header h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: .3px; } header p { margin: 4px 0 0; color: #ffd9d6; font-size: 14px; }
+  main { padding: 22px 28px; max-width: 1500px; }
+  .cfg { display: grid; grid-template-columns: 2fr 1fr 1.4fr 1fr .7fr auto; gap: 12px; align-items: end; background: var(--card); padding: 16px; border-radius: 16px; border: 1px solid var(--line); }
+  label { display: block; font-size: 12px; color: var(--mut); font-weight: 600; text-transform: uppercase; margin-bottom: 6px; }
+  input, select, button { font: inherit; font-size: 15px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: #0a0f40; color: #fff; width: 100%; }
+  button { background: var(--acc); border: 0; font-weight: 700; cursor: pointer; width: auto; } button.ghost { background: transparent; border: 1px solid var(--line); }
+  .status { margin: 12px 0 4px; font-size: 14px; color: var(--mut); min-height: 20px; } .status b { color: #fff; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 18px; margin-top: 16px; }
+  .g { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  .pv { position: relative; aspect-ratio: 16/9; background: radial-gradient(ellipse at 50% 35%, #1b2380, #050826); overflow: hidden; }
+  .pv iframe { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; border: 0; transform-origin: 0 0; pointer-events: none; }
+  .meta { padding: 12px 14px; } .meta h3 { margin: 0 0 4px; font-size: 17px; } .meta p { margin: 0 0 10px; font-size: 13px; color: var(--mut); }
+  .url { display: flex; gap: 8px; } .url input { font-size: 12px; font-family: ui-monospace, monospace; padding: 8px; }
+  .url button { padding: 8px 12px; font-size: 13px; }
+  .extra { font-size: 12px; color: var(--mut); margin-top: 6px; font-family: ui-monospace, monospace; }
+  a { color: #9fb0ff; }
+  @media (max-width: 900px) { .cfg { grid-template-columns: 1fr 1fr; } }
+</style>
+</head><body>
+<header><h1>HVL Broadcast Graphics</h1><p>Live data from hvl-web.dataproject.com · CEV-style overlays for OBS / vMix (1920×1080, transparent) · <a href="control.html" style="color:#fff">Operator panel →</a></p></header>
+<main>
+  <div class="cfg">
+    <div><label>Worker API URL (empty = demo data)</label><input id="api" placeholder="https://hvl-broadcast.you.workers.dev"></div>
+    <div><label>League</label><select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option><option value="greekcup">Greek Cup</option></select></div>
+    <div><label>Team</label><select id="team"><option value="">— load teams —</option></select></div>
+    <div><label>Match</label><select id="mode"><option value="auto">Auto (live › today › last)</option><option value="live">Live</option><option value="last">Last played</option><option value="next">Next</option></select></div>
+    <div><label>Language</label><select id="lang"><option value="en">EN</option><option value="el">ΕΛ</option></select></div>
+    <div><button id="go">Load</button></div>
+  </div>
+  <div class="status" id="status"></div>
+  <div class="grid" id="grid"></div>
+</main>
+<script>
+const G = [
+  ['scoreboard', 'Scoreboard bug', 'Live sets & points, top-left. Polls every 3 s.', 'pos=tl|tr|bl|br · partials=1 · names=short|code|long'],
+  ['stats', 'Team statistics', 'Winner attacks, blocks, aces, opponent errors (like the CEV set-stats card).', 'rows=att,blk,ace,opp,srvErr,attPct · title='],
+  ['result', 'Result / set scores', 'Live or final result with every set.', 'title='],
+  ['lower-third', 'Player lower third', 'Photo, number, name, position + match stats. Without num it follows the operator panel.', 'side=home|away · num=5 · info=auto|stats|bio · hold=8'],
+  ['roster', 'Team roster', 'Numbers, names, positions, head coach.', 'side=home|away · photos=1 · starters=1'],
+  ['top-players', 'Top scorers', 'Top 3 per team for the match.', 'n=3 · by=pts|att|blk|ace'],
+  ['next-match', 'Match announcement', 'Upcoming match: logos, date, time, venue, standings.', 'mode=next (default)'],
+  ['standings', 'Standings', 'League table, highlights the two teams.', 'rows=12 · highlight=0'],
+  ['leaders', 'Season leaders', 'Best scorer / server / blocker… from HVL.', 'cat=0..7 · cycle=10'],
+  ['announcement', 'Announcement', 'Any text. Without text= it follows the operator panel.', 'title=&text= · style=center|lower'],
+];
+const $ = (id) => document.getElementById(id);
+const st = JSON.parse(localStorage.getItem('hvl-ui') || '{}');
+const C = window.HVL_CONFIG || {};
+$('api').value = st.api ?? C.api ?? ''; $('league').value = st.league || C.league || 'hvl'; $('mode').value = st.mode || 'auto'; $('lang').value = st.lang || C.lang || 'en';
+const base = location.href.replace(/[^/]*$/, '');
+function params(extra = {}) {
+  const p = new URLSearchParams();
+  const api = $('api').value.trim(); if (api && api !== (C.api || '')) p.set('api', api);
+  p.set('league', $('league').value); if ($('team').value) p.set('team', $('team').value);
+  if ($('mode').value !== 'auto') p.set('mode', $('mode').value); if ($('lang').value !== 'en') p.set('lang', $('lang').value);
+  if (!api) p.set('demo', '1');
+  for (const k in extra) p.set(k, extra[k]);
+  return p.toString();
+}
+function render() {
+  localStorage.setItem('hvl-ui', JSON.stringify({ api: $('api').value.trim(), league: $('league').value, team: $('team').value, mode: $('mode').value, lang: $('lang').value }));
+  $('grid').innerHTML = G.map(([f, t, d, x]) => {
+    const prev = f === 'lower-third' ? { num: '5', side: 'home' } : f === 'announcement' ? { title: 'Announcement', text: 'Your message here' } : {};
+    const url = `${base}graphics/${f}.html?${params()}`;
+    return `<div class="g"><div class="pv"><iframe loading="lazy" src="graphics/${f}.html?${params({ ...prev, noanim: 1 })}"></iframe></div>
+      <div class="meta"><h3>${t}</h3><p>${d}</p><div class="url"><input readonly value="${url}"><button onclick="navigator.clipboard.writeText(this.previousElementSibling.value);this.textContent='✓'">Copy</button><button class="ghost" onclick="open(this.parentNode.firstChild.value)">Open</button></div>
+      <div class="extra">${x}</div></div></div>`;
+  }).join('');
+  requestAnimationFrame(scale);
+}
+function scale() { document.querySelectorAll('.pv').forEach((pv) => { pv.firstChild.style.transform = `scale(${pv.clientWidth / 1920})`; }); }
+addEventListener('resize', scale);
+async function loadTeams() {
+  const api = $('api').value.trim().replace(/\/$/, '');
+  if (!api) { $('team').innerHTML = '<option value="">Demo (Kifisias vs Panathinaikos)</option>'; $('status').innerHTML = 'Demo mode – enter your Worker URL to use live HVL data.'; return render(); }
+  $('status').textContent = 'Loading teams…';
+  try {
+    const teams = await (await fetch(`${api}/api/${$('league').value}/teams`)).json();
+    if (teams.error) throw new Error(teams.error);
+    $('team').innerHTML = '<option value="">— any team —</option>' + teams.map((t) => `<option value="${t.id}">${t.name}</option>`).join('');
+    if (st.team && teams.some((t) => String(t.id) === String(st.team))) $('team').value = st.team;
+    await showMatch();
+  } catch (e) { $('status').textContent = '⚠ ' + e.message; }
+  render();
+}
+async function showMatch() {
+  const api = $('api').value.trim().replace(/\/$/, ''); if (!api || !$('team').value) { $('status').textContent = ''; return; }
+  try {
+    const d = await (await fetch(`${api}/api/${$('league').value}/match?team=${$('team').value}&mode=${$('mode').value}`)).json();
+    $('status').innerHTML = d.match ? `<b>${d.home.name} – ${d.away.name}</b> · ${d.match.date} ${d.match.time} · ${d.match.status.toUpperCase()} · ${d.match.setsHome}-${d.match.setsAway} · ${d.league.name}${d.warnings?.length ? ' · ⚠ ' + d.warnings.join(', ') : ''}` : (d.message || d.error);
+  } catch (e) { $('status').textContent = '⚠ ' + e.message; }
+}
+$('go').onclick = loadTeams; $('league').onchange = loadTeams;
+$('team').onchange = () => { showMatch(); render(); }; $('mode').onchange = () => { showMatch(); render(); }; $('lang').onchange = render;
+loadTeams();
+</script>
+</body></html>

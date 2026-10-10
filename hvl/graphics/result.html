@@ -1,0 +1,45 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Result & set scores</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  #box { position: absolute; left: 50%; top: 150px; width: 1040px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .title-pill, .comp-pill, .stat-row, .venue-pill { width: 812px; }
+  .comp-pill { margin-top: 12px; } .teams-capsule { width: 1040px; margin-top: 20px; }
+  .stat-row { margin-top: 18px; height: 80px; } .stat-row .val { height: 80px; font-size: 42px; } .stat-row .label { font-size: 36px; }
+  .stat-row.cur { background: linear-gradient(90deg, var(--red-600), var(--navy-800) 46%, var(--navy-800) 54%, var(--red-600)); }
+  .stat-row .label small { font-size: 24px; font-weight: 600; color: var(--muted); margin-left: 12px; }
+  .venue-pill { margin-top: 30px; } .tag-pill { margin-top: 14px; }
+</style>
+</head><body>
+<div id="stage"><div id="box"></div></div>
+<script>
+HVL.poll('match', 5, (d, first) => {
+  const box = HVL.$('#box');
+  if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
+  const m = d.match, s = HVL.scoreState(d), h = d.home, a = d.away;
+  const title = HVL.get('title') || (m.status === 'finished' ? HVL.t('final') : m.status === 'live' ? `<span class="live-dot" style="margin-right:18px"></span>${HVL.t('live')}` : HVL.t('next'));
+  const dt = HVL.dateLong(m.iso);
+  const sets = s.sets || [];
+  box.innerHTML = `
+    <div class="pill title-pill">${title}</div>
+    <div class="pill comp-pill">${HVL.esc(d.league.name)}</div>
+    <div class="teams-capsule">${HVL.logo(h)}<div class="name fit">${HVL.esc(h.short)}</div>
+      <div class="score">${m.status === 'upcoming' ? HVL.t('vs') : `${s.setsH} – ${s.setsA}`}</div>
+      <div class="name right fit">${HVL.esc(a.short)}</div>${HVL.logo(a)}</div>
+    ${sets.map((x, i) => {
+      const fin = Math.max(x.h, x.a) >= (i === 4 ? 15 : 25) && Math.abs(x.h - x.a) >= 2;
+      return `<div class="stat-row ${fin ? '' : 'cur'}"><div class="val ${fin && x.h > x.a ? 'win' : ''}">${x.h}</div>
+        <div class="label">${HVL.lang === 'el' ? HVL.ord(i + 1) + ' ' + HVL.t('set') : HVL.ord(i + 1) + ' set'}</div>
+        <div class="val ${fin && x.a > x.h ? 'win' : ''}">${x.a}</div></div>`;
+    }).join('')}
+    ${m.status === 'upcoming' ? `<div class="stat-row"><div class="val"></div><div class="label">${dt.time}</div><div class="val"></div></div>` : ''}
+    <div class="pill venue-pill">${HVL.esc([dt.date, m.venue].filter(Boolean).join(' – '))}</div>
+    ${m.round ? `<div class="pill tag-pill">${HVL.esc(m.round)}</div>` : ''}`;
+  HVL.animate(box, first);
+});
+</script>
+</body></html>

@@ -1,0 +1,129 @@
+/* CEV / EuroVolley-style broadcast graphics. 1920×1080 stage, transparent by default (OBS / vMix). */
+@import url('https://fonts.googleapis.com/css2?family=Commissioner:wght@500;600;700;800;900&display=swap');
+
+:root {
+  --navy-950: #050826;
+  --navy-900: #080c3a;
+  --navy-800: #0c1152;
+  --navy-700: #111872;
+  --blue-700: #1219a8;
+  --blue-600: #1b22cc;
+  --blue-500: #2a33f0;
+  --red-700: #8c0f22;
+  --red-600: #d42a26;
+  --red-500: #f03a2e;
+  --white: #ffffff;
+  --ink: #ffffff;
+  --muted: rgba(255, 255, 255, .72);
+  --line: 3px;
+  --font: 'Commissioner', 'Segoe UI', Arial, sans-serif;
+
+  --g-row: linear-gradient(90deg, var(--blue-600) 0%, var(--navy-800) 46%, var(--navy-800) 54%, var(--blue-700) 100%);
+  --g-row-dark: linear-gradient(90deg, var(--navy-800) 0%, var(--navy-900) 100%);
+  --g-title: linear-gradient(90deg, rgba(140, 15, 34, 0) 0%, var(--red-700) 22%, var(--red-600) 62%, var(--red-500) 100%);
+  --g-comp: linear-gradient(90deg, var(--blue-500) 0%, var(--blue-700) 38%, rgba(18, 25, 168, 0) 100%);
+  --g-venue: linear-gradient(90deg, var(--red-500) 0%, var(--red-700) 38%, rgba(12, 17, 82, .9) 70%, rgba(12, 17, 82, 0) 100%);
+  --g-tag: linear-gradient(90deg, rgba(12, 17, 82, 0) 0%, var(--navy-800) 30%, var(--red-700) 75%, var(--red-500) 100%);
+  --g-win: linear-gradient(90deg, var(--blue-500), var(--blue-700));
+  --shadow: 0 10px 40px rgba(0, 0, 0, .45);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; background: transparent; overflow: hidden; }
+body { font-family: var(--font); color: var(--ink); -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+
+/* Stage scales to the window; OBS at 1920×1080 = 1:1 */
+#stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+
+/* Preview background (?bg=1) – dim arena look like the reference frame */
+body.bg { background: radial-gradient(ellipse at 50% 35%, #1b2380 0%, #0b1050 45%, #050826 100%); }
+body.bg::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; opacity: .35;
+  background:
+    linear-gradient(115deg, transparent 0 60%, rgba(30, 160, 200, .25) 60% 100%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .03) 0 2px, transparent 2px 6px);
+}
+body.dim #stage::before { content: ''; position: absolute; inset: 0; background: rgba(5, 8, 38, .55); }
+
+/* ---------- primitives ---------- */
+.pill { border-radius: 999px; display: flex; align-items: center; }
+.outline { box-shadow: inset 0 0 0 var(--line) var(--white); }
+.upper { text-transform: uppercase; }
+.title-pill {
+  height: 78px; padding: 0 56px; justify-content: center;
+  background: var(--g-title); font-weight: 800; font-size: 50px; letter-spacing: .5px;
+  text-transform: uppercase; white-space: nowrap;
+}
+.comp-pill {
+  height: 44px; padding: 0 28px; background: var(--g-comp);
+  font-weight: 800; font-size: 26px; text-transform: uppercase; letter-spacing: .3px; white-space: nowrap;
+}
+.venue-pill {
+  height: 56px; padding: 0 40px; justify-content: center; background: var(--g-venue);
+  font-weight: 600; font-size: 28px; text-transform: uppercase; white-space: nowrap;
+}
+.tag-pill {
+  height: 52px; padding: 0 30px; justify-content: center; background: var(--g-tag);
+  font-weight: 800; font-size: 28px; text-transform: uppercase; white-space: nowrap;
+}
+
+/* Circular logo badge */
+.logo {
+  width: 104px; height: 104px; border-radius: 50%; background: #fff; overflow: hidden; flex: none;
+  display: grid; place-items: center; box-shadow: 0 0 0 4px rgba(255, 255, 255, .15), 0 6px 18px rgba(0, 0, 0, .35);
+}
+.logo img { width: 84%; height: 84%; object-fit: contain; }
+.logo.fallback { background: var(--blue-600); color: #fff; font-weight: 900; font-size: 30px; }
+
+/* Team capsule: [logo] NAME   25 – 13   NAME [logo] */
+.teams-capsule {
+  height: 136px; border-radius: 999px; padding: 0 16px; display: grid;
+  grid-template-columns: 104px 1fr auto 1fr 104px; align-items: center; column-gap: 22px;
+  box-shadow: inset 0 0 0 4px var(--white); background: rgba(8, 12, 58, .55);
+}
+.teams-capsule .name { font-weight: 800; font-size: 46px; text-transform: uppercase; white-space: nowrap; overflow: hidden; min-width: 0; }
+.teams-capsule .name.right { text-align: right; }
+.teams-capsule .score { font-weight: 800; font-size: 72px; letter-spacing: -1px; padding: 0 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Stat row: (16)  WINNER ATTACKS  (4) */
+.stat-row {
+  height: 92px; border-radius: 999px; display: grid; grid-template-columns: 124px 1fr 124px; align-items: center;
+  background: var(--g-row); box-shadow: inset 0 0 0 var(--line) var(--white);
+}
+.stat-row .label { text-align: center; font-weight: 600; font-size: 44px; text-transform: uppercase; white-space: nowrap; }
+.val {
+  height: 92px; border-radius: 999px; display: grid; place-items: center; font-weight: 800; font-size: 46px;
+  box-shadow: inset 0 0 0 var(--line) var(--white); background: var(--navy-900); font-variant-numeric: tabular-nums;
+}
+.val.win { background: var(--g-win); }
+
+/* ---------- animation ---------- */
+.anim > * { opacity: 0; transform: translateY(18px) scaleX(.96); }
+.anim.in > * { animation: pillIn .55s cubic-bezier(.2, .8, .2, 1) forwards; }
+.anim.in > *:nth-child(2) { animation-delay: .06s; } .anim.in > *:nth-child(3) { animation-delay: .12s; }
+.anim.in > *:nth-child(4) { animation-delay: .18s; } .anim.in > *:nth-child(5) { animation-delay: .24s; }
+.anim.in > *:nth-child(6) { animation-delay: .30s; } .anim.in > *:nth-child(7) { animation-delay: .36s; }
+.anim.in > *:nth-child(8) { animation-delay: .42s; } .anim.in > *:nth-child(9) { animation-delay: .48s; }
+.anim.in > *:nth-child(10) { animation-delay: .54s; } .anim.in > *:nth-child(n+11) { animation-delay: .6s; }
+.anim.out > * { animation: pillOut .35s ease-in forwards; }
+@keyframes pillIn { to { opacity: 1; transform: none; } }
+@keyframes pillOut { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-12px); } }
+.anim.settled > *, .noanim .anim > * { opacity: 1 !important; transform: none !important; animation: none !important; }
+
+.flash { animation: flash .6s ease; }
+@keyframes flash { 0% { filter: brightness(2.2); } 100% { filter: none; } }
+
+/* ---------- branding corner (like "EXPERIENCE VOLLEYBALL") ---------- */
+.brand { position: absolute; right: 70px; top: 56px; display: flex; align-items: center; gap: 16px; }
+.brand img { height: 74px; }
+.brand .t1 { font-size: 20px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; }
+.brand .t2 { font-size: 32px; font-weight: 800; }
+
+/* status / errors (hidden on air unless ?debug=1) */
+#msg { position: absolute; left: 20px; bottom: 16px; font: 600 16px var(--font); color: #fff; background: rgba(200, 0, 0, .8); padding: 6px 12px; border-radius: 8px; display: none; }
+body.debug #msg { display: block; }
+.live-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--red-500); box-shadow: 0 0 0 0 rgba(240, 58, 46, .7); animation: pulse 1.4s infinite; display: inline-block; }
+@keyframes pulse { 70% { box-shadow: 0 0 0 14px rgba(240, 58, 46, 0); } 100% { box-shadow: 0 0 0 0 rgba(240, 58, 46, 0); } }
+
+.ord { text-transform: none; }
+.fit { white-space: nowrap; overflow: hidden; text-overflow: clip; }

@@ -1,0 +1,55 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team roster</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* ?side=home|away (default: the team in ?team)   ?photos=1 photo cards   ?starters=1 only players who started */
+  #box { position: absolute; left: 50%; top: 70px; width: 1500px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .title-pill { width: 900px; }
+  .head { margin-top: 18px; height: 120px; width: 1100px; border-radius: 999px; display: flex; align-items: center; gap: 26px; padding: 0 12px;
+          box-shadow: inset 0 0 0 4px #fff; background: rgba(8,12,58,.55); }
+  .head .logo { width: 96px; height: 96px; }
+  .head .tn { font-weight: 900; font-size: 52px; text-transform: uppercase; flex: 1; }
+  .head .cm { font-weight: 700; font-size: 22px; text-transform: uppercase; color: var(--muted); padding-right: 40px; text-align: right; }
+  .head .cm b { display: block; color: #fff; font-size: 30px; }
+  .grid { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; width: 1500px; }
+  .pr { height: 68px; border-radius: 999px; display: grid; grid-template-columns: 68px 1fr auto; align-items: center; background: var(--g-row); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .pr .n { width: 68px; height: 68px; border-radius: 50%; display: grid; place-items: center; background: var(--navy-900); box-shadow: inset 0 0 0 var(--line) #fff; font-weight: 900; font-size: 32px; }
+  .pr.lib .n { background: var(--red-600); }
+  .pr .pn { padding-left: 22px; font-size: 32px; white-space: nowrap; overflow: hidden; } .pr .pn b { font-weight: 800; text-transform: uppercase; } .pr .pn span { font-weight: 500; }
+  .pr .ps { padding: 0 28px; font-weight: 800; font-size: 24px; color: var(--muted); }
+  /* photo cards */
+  .cards { margin-top: 26px; display: grid; grid-template-columns: repeat(7, 190px); gap: 20px; }
+  .card { height: 300px; border-radius: 24px; overflow: hidden; position: relative; background: linear-gradient(180deg, var(--blue-600), var(--navy-900)); box-shadow: inset 0 0 0 3px #fff; }
+  .card .photo { position: absolute; inset: 0; } .card .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+  .card .photo.nophoto { display: grid; place-items: center; font-size: 70px; font-weight: 900; }
+  .card .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 12px 12px; background: linear-gradient(180deg, transparent, rgba(5,8,38,.95)); text-align: center; }
+  .card .cap b { display: block; font-size: 22px; font-weight: 900; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .card .cap span { font-size: 16px; font-weight: 600; color: var(--muted); }
+  .card .no { position: absolute; top: 10px; left: 10px; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: var(--red-600); font-weight: 900; font-size: 24px; box-shadow: inset 0 0 0 2px #fff; }
+</style>
+</head><body>
+<div id="stage"><div id="box"></div></div>
+<script>
+const PHOTOS = HVL.get('photos') === '1';
+HVL.poll('match', 30, (d, first) => {
+  const box = HVL.$('#box');
+  if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
+  const t = HVL.side(d) === 'away' ? d.away : d.home;
+  let pl = (t.players || []).filter((p) => p.name);
+  if (HVL.get('starters') === '1') pl = pl.filter((p) => p.starter || p.position?.code === 'L');
+  const coach = t.coach?.name ? `<div class="cm">${HVL.t('coach')}<b>${HVL.esc(t.coach.name)}</b></div>` : '';
+  box.innerHTML = `
+    <div class="pill title-pill">${HVL.esc(HVL.get('title') || HVL.t('roster'))}</div>
+    <div class="head">${HVL.logo(t)}<div class="tn fit">${HVL.esc(t.name)}</div>${coach}</div>
+    ${PHOTOS
+      ? `<div class="cards">${pl.slice(0, 14).map((p) => `<div class="card">${HVL.photo(p)}<div class="no">${p.number ?? ''}</div><div class="cap"><b>${HVL.esc(p.last || p.name)}</b><span>${HVL.esc(p.first || '')}${p.position ? ' · ' + p.position.code : ''}</span></div></div>`).join('')}</div>`
+      : `<div class="grid anim">${pl.slice(0, 20).map((p) => `<div class="pr ${p.position?.code === 'L' ? 'lib' : ''}"><div class="n">${p.number ?? ''}</div><div class="pn fit"><b>${HVL.esc(p.last || p.name)}</b> <span>${HVL.esc(p.first || '')}</span></div><div class="ps">${p.position?.code || ''}${p.height ? ' · ' + p.height : ''}</div></div>`).join('')}</div>`}`;
+  HVL.animate(box, first);
+  const g = box.querySelector('.grid,.cards'); if (g) HVL.animate(g, first);
+});
+</script>
+</body></html>
