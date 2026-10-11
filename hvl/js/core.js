@@ -113,7 +113,7 @@
         if (sig !== last) { last = sig; render(d, first); first = false; }
         HVL.msg('');
       } catch (e) { HVL.msg('⚠ ' + e.message); }
-      setTimeout(tick, every);
+      if (get('once') !== '1') setTimeout(tick, every);
     };
     tick();
   };

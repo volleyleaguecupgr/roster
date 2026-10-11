@@ -121,7 +121,7 @@ body.dim #stage::before { content: ''; position: absolute; inset: 0; background:
 
 /* status / errors (hidden on air unless ?debug=1) */
 #msg { position: absolute; left: 20px; bottom: 16px; font: 600 16px var(--font); color: #fff; background: rgba(200, 0, 0, .8); padding: 6px 12px; border-radius: 8px; display: none; }
-body.debug #msg { display: block; }
+body.debug #msg:not(:empty) { display: block; }
 .live-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--red-500); box-shadow: 0 0 0 0 rgba(240, 58, 46, .7); animation: pulse 1.4s infinite; display: inline-block; }
 @keyframes pulse { 70% { box-shadow: 0 0 0 14px rgba(240, 58, 46, 0); } 100% { box-shadow: 0 0 0 0 rgba(240, 58, 46, 0); } }
 

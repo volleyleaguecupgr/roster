@@ -73,12 +73,17 @@ function render() {
   $('grid').innerHTML = G.map(([f, t, d, x]) => {
     const prev = f === 'lower-third' ? { num: '5', side: 'home' } : f === 'announcement' ? { title: 'Announcement', text: 'Your message here' } : {};
     const url = `${base}graphics/${f}.html?${params()}`;
-    return `<div class="g"><div class="pv"><iframe loading="lazy" src="graphics/${f}.html?${params({ ...prev, noanim: 1 })}"></iframe></div>
+    return `<div class="g"><div class="pv"><iframe data-src="graphics/${f}.html?${params({ ...prev, noanim: 1, once: 1, debug: 1 })}"></iframe></div>
       <div class="meta"><h3>${t}</h3><p>${d}</p><div class="url"><input readonly value="${url}"><button onclick="navigator.clipboard.writeText(this.previousElementSibling.value);this.textContent='✓'">Copy</button><button class="ghost" onclick="open(this.parentNode.firstChild.value)">Open</button></div>
       <div class="extra">${x}</div></div></div>`;
   }).join('');
   requestAnimationFrame(scale);
+  // previews load one after another and fetch once (no polling); the copied URLs still poll live
+  const frames = [...document.querySelectorAll('.pv iframe')];
+  const run = ++loadRun;
+  (function next(i) { if (i >= frames.length || run !== loadRun) return; frames[i].onload = () => setTimeout(() => next(i + 1), 150); frames[i].src = frames[i].dataset.src; })(0);
 }
+let loadRun = 0;
 function scale() { document.querySelectorAll('.pv').forEach((pv) => { pv.firstChild.style.transform = `scale(${pv.clientWidth / 1920})`; }); }
 addEventListener('resize', scale);
 async function loadTeams() {
