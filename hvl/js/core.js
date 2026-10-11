@@ -8,6 +8,14 @@
   const CFG = window.HVL_CONFIG || {};
   const get = (k, d) => (P.has(k) ? P.get(k) : d);
 
+  // Theme: novi (default) | cev.  Loaded synchronously so there is no flash of the other style.
+  const THEME = get('theme', CFG.theme || 'novi');
+  if (THEME && THEME !== 'cev') {
+    document.documentElement.classList.add(THEME);
+    const src = (document.currentScript && document.currentScript.src) || '';
+    document.write(`<link rel="stylesheet" href="${src.replace(/js\/core\.js.*$/, `css/${THEME}.css`)}">`);
+  }
+
   const HVL = (window.HVL = {
     P, get,
     api: (get('api', CFG.api || '') || '').replace(/\/$/, ''),
@@ -79,9 +87,45 @@
     });
   };
   /** Animate pills in on first render; later data updates swap content without replaying. */
+  /** Count numbers up from 0 on first appearance */
+  HVL.countUp = (root) => {
+    if (document.body.classList.contains('noanim')) return;
+    root.querySelectorAll('.val, .pts, .big b, .chip b, .v b').forEach((el) => {
+      const m = el.textContent.trim().match(/^(\d+)(%?)$/);
+      if (!m || +m[1] < 2) return;
+      const to = +m[1], sfx = m[2], dur = 750, t0 = performance.now() + 280;
+      el.textContent = '0' + sfx;
+      const step = (t) => {
+        const k = Math.min(1, Math.max(0, (t - t0) / dur));
+        el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + sfx;
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  };
+  /** Slanted bars sweeping across an element (novi theme entry motion) */
+  const BAR_W = [6, 6, 34, 10, 120, 6, 190, 10, 6, 70, 6, 6, 14, 40];
+  HVL.sweep = (el, { dur = .85, gap = 46 } = {}) => {
+    if (!el || document.body.classList.contains('noanim')) return;
+    el.querySelector(':scope > .nv-bars')?.remove();
+    const w = el.offsetWidth + 300;
+    const wrap = document.createElement('div');
+    wrap.className = 'nv-bars';
+    wrap.style.inset = getComputedStyle(el).position === 'static' ? '0' : '-40px -120px';
+    let x = 0;
+    wrap.innerHTML = BAR_W.map((bw, i) => {
+      const off = x; x += bw + gap;
+      return `<i style="left:0;width:${bw}px;--from:${-off - bw - 60}px;--to:${w + 400 - off}px;--d:${(i * 0.025).toFixed(3)}s;--t:${dur}s"></i>`;
+    }).join('');
+    el.appendChild(wrap);
+    requestAnimationFrame(() => wrap.classList.add('go'));
+    setTimeout(() => wrap.remove(), (dur + BAR_W.length * 0.025 + .2) * 1000);
+  };
   HVL.animate = (el, first = true) => {
     if (!el) return;
     HVL.fit(el);
+    if (first) HVL.countUp(el);
+    if (first && THEME === 'novi' && el.id === 'box') HVL.sweep(el);
     el.classList.add('anim');
     if (!first) { el.classList.add('settled'); return; }
     el.classList.remove('in', 'settled');

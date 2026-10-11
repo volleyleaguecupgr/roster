@@ -1,0 +1,58 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stinger transition</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* Full-screen slanted-bar transition. In OBS: Browser Source, or record it once as a video for a Stinger transition.
+     The screen is fully covered at ~50% (≈0.8 s) – use that as the transition point.
+     ?loop=3 replays every 3 s · ?dur=1.6 · ?color=99f5fd · ?logo=URL shows a logo at the cut point */
+  #stage { overflow: hidden; }
+  .band { position: absolute; left: 0; height: calc(100% / 3 + 2px); display: flex; align-items: stretch; will-change: transform; }
+  .band i { flex: none; background: var(--c); transform: skewX(-4deg); }
+  .band i.slab { background: var(--c); }
+  .band i.gap { background: transparent; }
+  #logo { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; z-index: 5; }
+  #logo img { max-width: 520px; max-height: 300px; }
+</style>
+</head><body>
+<div id="stage"></div>
+<script>
+const C = '#' + HVL.get('color', '99f5fd');
+const DUR = +HVL.get('dur', 1.6), LOOP = +HVL.get('loop', 0);
+const st = document.getElementById('stage');
+st.style.setProperty('--c', C);
+// thin → thick → solid slab (slate + aqua) → thick → thin, like the reference
+const lead = [6, 40, 8, 40, 10, 40, 14, 40, 40, 30, 110, 26, 200, 18];
+const SLAB = 2400;
+function band(top, delay) {
+  const el = document.createElement('div');
+  el.className = 'band'; el.style.top = top;
+  let html = '', w = 0;
+  const add = (px, cls) => { html += `<i class="${cls}" style="width:${px}px"></i>`; w += px; };
+  lead.forEach((px, i) => add(px, i % 2 ? 'gap' : ''));
+  const L = w;                       // width before the slab
+  add(SLAB, 'slab');
+  [...lead].reverse().forEach((px, i) => add(px, i % 2 ? '' : 'gap'));
+  el.innerHTML = html;
+  // fast in → hold (screen fully covered 42–58 %) → fast out
+  const ease = 'cubic-bezier(.6,0,.4,1)';
+  el.animate([
+    { transform: `translateX(1920px)`, easing: ease },
+    { transform: `translateX(${-L - 40}px)`, offset: .42 },
+    { transform: `translateX(${-L - (SLAB - 1920) + 40}px)`, offset: .58, easing: ease },
+    { transform: `translateX(${-w}px)` },
+  ], { duration: DUR * 1000, delay: delay * 1000, fill: 'both' });
+  return el;
+}
+function run() {
+  st.innerHTML = HVL.get('logo') ? `<div id="logo"><img src="${HVL.esc(HVL.get('logo'))}"></div>` : '';
+  [['0%', .06], ['33.33%', 0], ['66.66%', .1]].forEach(([t, d]) => st.appendChild(band(t, d)));
+  const lg = document.getElementById('logo');
+  if (lg) lg.animate([{ opacity: 0 }, { opacity: 1, offset: .4 }, { opacity: 1, offset: .6 }, { opacity: 0 }], { duration: DUR * 1000, fill: 'both' });
+}
+document.addEventListener('DOMContentLoaded', () => { run(); if (LOOP) setInterval(run, LOOP * 1000); });
+</script>
+</body></html>

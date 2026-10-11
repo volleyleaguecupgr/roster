@@ -1,0 +1,172 @@
+/* NOVI theme – sharp edges, slate #242C3B + aqua #99F5FD (Novibet reference), wipe / slanted-bar motion.
+   Loaded on top of cev.css when theme=novi (default). Edit the tokens below to retune the colors. */
+@import url('https://fonts.googleapis.com/css2?family=Saira:wght@500;600;700;800;900&display=swap');
+
+html.novi {
+  /* Palette taken from the Novibet reference: slate + aqua */
+  --nv-bg-0: #171c27;
+  --nv-bg-1: #1d2431;
+  --nv-bg-2: #242c3b;   /* brand slate */
+  --nv-bg-3: #2f394b;
+  --nv-aqua: #99f5fd;   /* brand aqua */
+  --nv-aqua-2: #62dbe8;
+  --nv-ink: #242c3b;    /* text on aqua */
+  --nv-brand: linear-gradient(100deg, var(--nv-aqua) 0%, #b9f9fe 100%);
+  --nv-hot: var(--nv-aqua);
+  --cut: 14px;
+  --corner: 18px;
+
+  --navy-950: var(--nv-bg-0); --navy-900: var(--nv-bg-1); --navy-800: var(--nv-bg-2); --navy-700: var(--nv-bg-3);
+  --blue-700: var(--nv-bg-3); --blue-600: var(--nv-aqua); --blue-500: var(--nv-aqua);
+  --red-700: var(--nv-aqua-2); --red-600: var(--nv-aqua); --red-500: var(--nv-aqua);
+  --muted: rgba(255, 255, 255, .62);
+  --g-row: linear-gradient(100deg, rgba(36, 44, 59, .97) 0%, rgba(29, 36, 49, .97) 100%);
+  --g-row-dark: linear-gradient(100deg, rgba(36, 44, 59, .97), rgba(23, 28, 39, .97));
+  --g-title: var(--nv-brand);
+  --g-comp: linear-gradient(100deg, var(--nv-aqua) 0 30px, var(--nv-bg-3) 30px 100%);
+  --g-venue: var(--nv-bg-3);
+  --g-tag: var(--nv-bg-3);
+  --g-win: var(--nv-brand);
+  --font: 'Saira', 'Segoe UI', Arial, sans-serif;
+}
+html.novi body { font-family: var(--font); }
+html.novi body.bg { background: radial-gradient(ellipse at 30% 20%, #3a4560 0%, #242c3b 50%, #171c27 100%); }
+
+/* ---------- sharp geometry ---------- */
+.novi #stage * { border-radius: 0 !important; }
+.novi #stage .live-dot, .novi #stage .serve { border-radius: 50% !important; }
+.novi #stage :is(.pill, .stat-row, .val, .teams-capsule, .chip, .tagp, .namerow, .num, .sets, .pts, .team, .pr, .pr .n, .rw, .rw .rk, .rw .v, .th, .pl, .pl .big, .side .nm, .when, .when .t, .txt, .mid .v, .head .tag, .head .comp, .hd) {
+  clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
+  box-shadow: none !important;
+}
+/* tiles: cut top-left + bottom-right corners */
+.novi #stage :is(.logo, .photo, .ph, .card, .roster .head, #box > .head) {
+  clip-path: polygon(var(--corner) 0, 100% 0, 100% calc(100% - var(--corner)), calc(100% - var(--corner)) 100%, 0 100%, 0 var(--corner));
+  box-shadow: none !important;
+}
+.novi #stage .logo { background: #fff; }
+.novi #stage .logo.fallback { background: var(--nv-brand); }
+
+/* panels with a gradient hairline on the bottom edge */
+.novi #stage :is(.stat-row, .rw, .pr, .pl, .team, .th, .namerow, .txt) {
+  background: var(--nv-brand) left bottom / 100% 3px no-repeat, var(--g-row);
+}
+.novi #stage .rw.hl, .novi #stage .stat-row.cur { background: var(--nv-brand) left bottom / 100% 3px no-repeat, linear-gradient(100deg, rgba(153, 245, 253, .28), rgba(36, 44, 59, .97) 55%); }
+.novi #stage .teams-capsule {
+  background: var(--nv-brand) left top / 100% 3px no-repeat, var(--nv-brand) left bottom / 100% 3px no-repeat, linear-gradient(100deg, rgba(29, 36, 49, .97), rgba(47, 57, 75, .97));
+  --cut: 36px; padding: 0 44px;
+}
+.novi #stage .val { background: var(--nv-bg-3); }
+.novi #stage .val.win, .novi #stage .sets, .novi #stage .pl .big, .novi #stage .rw .v, .novi #stage .rw .pts, .novi #stage .when .t { background: var(--nv-brand); }
+.novi #stage .pts { background: #fff; color: var(--nv-bg-1); }
+.novi #stage .pts.lead { background: var(--nv-aqua); }
+.novi #stage .num, .novi #stage .rw:first-of-type .rk, .novi #stage .rw.hl .rk, .novi #stage .pr.lib .n, .novi #stage .card .no, .novi #stage .mid .v { background: var(--nv-hot); }
+.novi #stage .rw .rk, .novi #stage .pr .n { background: var(--nv-bg-1); }
+.novi #stage .title-pill { position: relative; overflow: hidden; letter-spacing: 1px; font-style: italic; }
+.novi #stage .title-pill > * , .novi #stage .title-pill { font-style: italic; }
+.novi #stage .comp-pill { padding-left: 48px; letter-spacing: .6px; }
+.novi #stage .venue-pill, .novi #stage .tagp, .novi #stage .head .tag { background: var(--nv-hot); }
+.novi #stage .tag-pill { background: transparent; border-bottom: 3px solid var(--nv-aqua); clip-path: none; height: 44px; letter-spacing: 1.5px; }
+.novi #stage .chip { background: var(--nv-bg-3); padding: 0 26px; }
+.novi #stage .chip.hi { background: var(--nv-brand); }
+.novi #stage .ph { background: var(--nv-brand); padding: 4px; }
+.novi #stage .ph img { clip-path: polygon(calc(var(--corner) - 3px) 0, 100% 0, 100% calc(100% - var(--corner) + 3px), calc(100% - var(--corner) + 3px) 100%, 0 100%, 0 calc(var(--corner) - 3px)); }
+.novi #stage .ph.nophoto { background: var(--nv-brand); }
+.novi #stage .namerow { min-width: 780px; }
+.novi #stage .info > * { padding-left: 64px !important; }
+.novi #stage .side .logo { box-shadow: none; filter: drop-shadow(0 0 40px rgba(153, 245, 253, .35)); }
+.novi #stage .card { background: linear-gradient(180deg, var(--nv-bg-3), var(--nv-bg-1)); }
+.novi #stage .roster-head, .novi #stage #box > .head { background: var(--nv-brand) left bottom / 100% 3px no-repeat, linear-gradient(100deg, rgba(29, 36, 49, .97), rgba(47, 57, 75, .97)); }
+.novi #stage .head .comp { background: var(--g-comp); padding-left: 44px; }
+.novi #stage .hd { clip-path: none; }
+.novi #stage .live-dot { background: var(--nv-ink); box-shadow: none; }
+
+/* full-screen cards sit on a slanted backplate */
+.novi #stage #box::before {
+  content: ''; position: absolute; z-index: -1; inset: -36px -110px;
+  background:
+    var(--nv-brand) left top / 100% 4px no-repeat,
+    linear-gradient(100deg, rgba(23, 28, 39, .86), rgba(36, 44, 59, .86));
+  clip-path: polygon(70px 0, 100% 0, calc(100% - 70px) 100%, 0 100%);
+}
+.novi body.noplate #stage #box::before { display: none; }
+
+/* ---------- motion ---------- */
+.novi #stage .anim > * { --d: 0s; }
+.novi #stage .anim > *:nth-child(2) { --d: .07s; } .novi #stage .anim > *:nth-child(3) { --d: .14s; }
+.novi #stage .anim > *:nth-child(4) { --d: .21s; } .novi #stage .anim > *:nth-child(5) { --d: .28s; }
+.novi #stage .anim > *:nth-child(6) { --d: .35s; } .novi #stage .anim > *:nth-child(7) { --d: .42s; }
+.novi #stage .anim > *:nth-child(8) { --d: .49s; } .novi #stage .anim > *:nth-child(9) { --d: .56s; }
+.novi #stage .anim > *:nth-child(10) { --d: .63s; } .novi #stage .anim > *:nth-child(11) { --d: .70s; }
+.novi #stage .anim > *:nth-child(n+12) { --d: .77s; }
+
+.novi #stage .anim > * { opacity: 0; transform: translateX(-90px) skewX(-10deg); }
+.novi #stage .anim.in > * { animation: nvIn .65s cubic-bezier(.16, 1, .3, 1) var(--d) both; }
+@keyframes nvIn { 0% { opacity: 0; transform: translateX(-90px) skewX(-10deg); } 60% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+
+/* gradient wipe that reveals each bar */
+.novi #stage .anim > :is(.pill, .stat-row, .teams-capsule, .rw, .pr, .pl, .th, .team, .txt, .when, .card, .head) { position: relative; }
+.novi #stage .anim.in > :is(.pill, .stat-row, .teams-capsule, .rw, .pr, .pl, .th, .team, .txt, .when, .card, .head)::after {
+  content: ''; position: absolute; inset: 0; z-index: 5; pointer-events: none;
+  background: var(--nv-brand); transform-origin: 100% 50%;
+  animation: nvWipe .6s cubic-bezier(.7, 0, .2, 1) calc(var(--d) + .1s) both;
+}
+@keyframes nvWipe { 0% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+
+/* backplate slides in first */
+.novi #stage #box.anim.in::before { animation: nvPlate .55s cubic-bezier(.16, 1, .3, 1) both; transform-origin: 0 50%; }
+@keyframes nvPlate { 0% { transform: scaleX(0) skewX(-12deg); opacity: 0; } 100% { transform: none; opacity: 1; } }
+
+/* light sweep across title bars, every few seconds */
+.novi #stage .title-pill::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: -40%; width: 30%; z-index: 4; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .7), transparent);
+  transform: skewX(-20deg); animation: nvShine 5.5s ease-in-out 1.4s infinite;
+}
+@keyframes nvShine { 0%, 70% { left: -40%; } 100% { left: 130%; } }
+
+/* winning value glows softly */
+.novi #stage .val.win { animation: nvPulse 2.8s ease-in-out 1.2s infinite; }
+@keyframes nvPulse { 0%, 100% { filter: none; } 50% { filter: brightness(1.22) saturate(1.15); } }
+
+/* score change */
+.novi #stage .flash { animation: nvFlash .7s cubic-bezier(.2, .9, .2, 1); }
+@keyframes nvFlash { 0% { transform: scale(1.25) skewX(-8deg); filter: brightness(2); } 100% { transform: none; filter: none; } }
+
+/* lower third: name bar slides, chips follow */
+.novi #stage #lt { transition: none; }
+.novi #stage #lt.hide { opacity: 0; transform: none; }
+.novi #stage #lt:not(.hide) .ph { animation: nvIn .6s cubic-bezier(.16, 1, .3, 1) both; }
+.novi #stage #lt:not(.hide) .info > * { animation: nvIn .6s cubic-bezier(.16, 1, .3, 1) both; }
+.novi #stage #lt:not(.hide) .info > :nth-child(2) { animation-delay: .12s; }
+.novi #stage #lt:not(.hide) .info > :nth-child(3) { animation-delay: .22s; }
+.novi #stage #lt:not(.hide) .namerow { position: relative; }
+.novi #stage #lt:not(.hide) .namerow::after {
+  content: ''; position: absolute; inset: 0; background: var(--nv-brand); transform-origin: 100% 50%; z-index: 5;
+  animation: nvWipe .6s cubic-bezier(.7, 0, .2, 1) .12s both;
+}
+
+/* settled / noanim */
+.novi #stage .anim.settled > *, .novi.noanim-root #stage .anim > *, .noanim #stage .anim > * { opacity: 1 !important; transform: none !important; animation: none !important; }
+.novi #stage .anim.settled > *::after, .noanim #stage .anim > *::after, .noanim #stage #lt .namerow::after { display: none !important; }
+.noanim #stage #box::before { animation: none !important; }
+
+/* dark text on every aqua surface */
+.novi #stage :is(.title-pill, .val.win, .sets, .pl .big, .rw .v, .rw .pts, .when .t, .num, .chip.hi, .tagp, .head .tag, .mid .v, .card .no,
+  .rw:first-of-type .rk, .rw.hl .rk, .pr.lib .n, .logo.fallback, .ph.nophoto, .pts.lead) { color: var(--nv-ink); }
+.novi #stage :is(.pl .big, .rw .v, .chip.hi) span { color: var(--nv-ink); opacity: .75; }
+.novi #stage .venue-pill { background: var(--nv-bg-3); border-bottom: 3px solid var(--nv-aqua); }
+.novi #stage .comp-pill { color: #fff; }
+.novi #stage .ph { background: var(--nv-aqua); }
+.novi #stage .logo.fallback { background: var(--nv-aqua); }
+.novi #stage .parts span.w { color: var(--nv-aqua); }
+
+/* ---------- slanted bars sweep (the reference motion) ---------- */
+.nv-bars { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+.nv-bars i { position: absolute; top: -10%; height: 120%; background: var(--nv-aqua); transform: skewX(-6deg) translateX(-140%); }
+.nv-bars.go i { animation: nvBar var(--t, .9s) cubic-bezier(.7, 0, .25, 1) var(--d, 0s) both; }
+@keyframes nvBar { 0% { transform: skewX(-6deg) translateX(var(--from, -2200px)); } 100% { transform: skewX(-6deg) translateX(var(--to, 2400px)); } }
+.nv-bars.full { background: transparent; }
+.novi #stage .anim > .nv-bars { opacity: 1 !important; transform: none !important; animation: none !important; }
+.novi #stage #box > .nv-bars { clip-path: polygon(70px 0, 100% 0, calc(100% - 70px) 100%, 0 100%); }
+.novi #stage .when { background: var(--g-row); }

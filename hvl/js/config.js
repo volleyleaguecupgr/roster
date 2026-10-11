@@ -4,4 +4,5 @@ window.HVL_CONFIG = {
   league: 'hvl',    // hvl | cup | supercup | greekcup | <competition id>
   team: '',         // default team, e.g. 'kifisia'
   lang: 'en',       // en | el
+  theme: 'novi',    // novi (sharp, gradient) | cev (rounded, EuroVolley)
 };
