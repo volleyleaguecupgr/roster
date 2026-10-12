@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Posts</title>
+<style>
+  @font-face{font-family:"MCDisplay";src:url("assets/fonts/noto-sans-display-greek-wdth-normal.woff2") format("woff2-variations");
+    font-weight:100 900;font-stretch:62.5% 100%;unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF}
+  @font-face{font-family:"MCDisplay";src:url("assets/fonts/noto-sans-display-latin-wdth-normal.woff2") format("woff2-variations");
+    font-weight:100 900;font-stretch:62.5% 100%;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC,U+2122,U+2212}
+  :root{--accent:#1D4ED8;--bg:#0A1220;--bg-2:#111C30;--edge:rgba(255,255,255,.16);--muted:#9FB0CC;--font:"MCDisplay",Arial,sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;background:#05080f;color:#fff;font-family:var(--font)}
+  .ui{display:flex;flex-wrap:wrap;gap:8px;align-items:end;padding:14px;background:#0d1626;position:sticky;top:0;z-index:5}
+  .ui label{display:flex;flex-direction:column;gap:4px;font-size:11px;font-weight:800;color:var(--muted)}
+  .ui select,.ui input{height:34px;padding:0 8px;background:#18263f;color:#fff;border:1px solid #2a3a58;border-radius:4px;font:inherit;font-size:14px}
+  .ui button{height:34px;padding:0 16px;border:0;border-radius:4px;background:var(--accent);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+  .ui .msg{color:var(--muted);font-size:13px;align-self:center}
+  .wrap{display:flex;justify-content:center;padding:20px}
+  .scaler{transform-origin:top center}
+
+  /* ---------- the poster ---------- */
+  #poster{position:relative;width:1080px;height:1350px;overflow:hidden;color:#fff;font-family:var(--font);background:#0b1a5c}
+  #poster .bgimg{position:absolute;inset:0;background:url("assets/post-bg.png?v=2") center/cover no-repeat;filter:hue-rotate(var(--hue,0deg)) saturate(var(--sat,1)) brightness(var(--bri,1))}
+  #poster.sq{height:1080px}
+  #poster::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,12,30,.15),rgba(6,12,30,.45))}
+  .ps{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;padding:56px 56px 44px}
+  .ph{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+  .ph .lgs{display:flex;gap:14px}
+  .ph .lg{width:104px;height:104px;background:#fff;border-radius:6px;padding:7px;object-fit:contain}
+  .ph .comp{font-size:24px;font-weight:800;letter-spacing:1px;opacity:.9}
+  .ph h1{margin:0;font-size:72px;font-weight:900;font-stretch:70%;line-height:1;letter-spacing:1px}
+  .ph .tags{display:flex;gap:6px}
+  .ph .tags span{background:var(--accent);padding:6px 16px;font-size:20px;font-weight:900;letter-spacing:.6px;
+    clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+  .ph .tags span.alt{background:#fff;color:var(--bg)}
+  .grid{flex:1;display:grid;grid-template-columns:1fr 1fr;align-content:center;gap:var(--gap,22px) 26px;margin-top:30px}
+  .grid.one{grid-template-columns:1fr;padding:0 120px}
+
+  /* box = MatchCenter style: dark gradient, cut corners, glass edge */
+  .bx{position:relative;display:grid;grid-template-columns:1fr 150px 1fr;align-items:center;height:var(--bh,190px);padding:0 14px;
+    background:linear-gradient(180deg,rgba(17,28,48,.96),rgba(10,18,32,.96));box-shadow:inset 0 1px 0 var(--edge);
+    clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+  .bx::before{content:"";position:absolute;left:0;top:18px;bottom:0;width:5px;background:var(--accent)}
+  .bx .tm{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;min-width:0}
+  .bx .tm img{width:var(--lg,84px);height:var(--lg,84px);object-fit:contain;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}
+  .bx .tm span{display:block;font-size:var(--fs,17px);font-weight:800;font-stretch:72%;line-height:1.08;max-width:100%;
+    overflow-wrap:anywhere;text-transform:uppercase}
+  .bx .mid{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+  .bx .mid .t{font-size:44px;font-weight:900;font-stretch:72%;line-height:1}
+  .bx .mid .sc{display:flex;gap:3px}
+  .bx .mid .sc b{background:#fff;color:var(--bg);font-size:36px;font-weight:900;padding:2px 10px;line-height:1.1}
+  .bx .mid .d{background:var(--accent);font-size:14px;font-weight:900;padding:3px 10px;letter-spacing:.5px}
+  .bx .mid .c{display:flex;align-items:flex-start;justify-content:center;gap:4px;font-size:12px;font-weight:700;color:#D6E0F0;
+    line-height:1.15;max-width:150px;text-transform:uppercase}
+  .bx .mid .c svg{flex:none;width:13px;height:13px;margin-top:1px;fill:var(--accent);filter:brightness(1.6)}
+  .bx .mid .c span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .pf{display:flex;justify-content:center;margin-top:24px}
+  .pf span{background:rgba(10,18,32,.85);border:2px solid var(--accent);padding:10px 26px;font-size:22px;font-weight:900;letter-spacing:.8px}
+</style>
+</head>
+<body>
+<div class="ui">
+  <label>ΔΙΟΡΓΑΝΩΣΗ<select id="fCh"></select></label>
+  <label>ΟΜΙΛΟΣ<select id="fGr"></select></label>
+  <label>ΑΓΩΝΙΣΤΙΚΗ<select id="fMd"></select></label>
+  <label>ΜΕΓΕΘΟΣ<select id="fSz"><option value="pt">1080×1350</option><option value="sq">1080×1080</option></select></label>
+  <label>ΤΙΤΛΟΣ<input id="fTi" value="ΠΡΟΓΡΑΜΜΑ ΑΓΩΝΙΣΤΙΚΗΣ" style="width:240px"></label>
+  <label>ΧΡΩΜΑ<input id="fCo" type="color" style="width:60px;padding:2px"></label>
+  <label>ΠΟΙΟΤΗΤΑ<select id="fQ"><option value="1">1× (1080)</option><option value="2" selected>2× (2160)</option><option value="3">3× (3240)</option></select></label>
+  <label>ΣΚΟΡ<select id="fSc"><option value="1">αν έχει τελειώσει</option><option value="0">πάντα ώρα</option></select></label>
+  <button id="dl">Λήψη PNG</button><span class="msg" id="msg"></span>
+</div>
+<div class="wrap"><div class="scaler" id="scaler"><div id="poster"></div></div></div>
+
+<script src="assets/config.js?v=1"></script>
+<script src="assets/common.js?v=1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+let CH = "", GR = "", MD = "", D = null, CHS = [];
+const px = u => (u ? apiUrl("img", { u }) : "");   // same-origin logos → exportable PNG
+const COURT = {};
+const PIN = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>`;
+const court = c => (c ? `${PIN}<span>${esc(c)}</span>` : "");
+/* the court is only in the full game response: fetch it for the boxes that lack it */
+async function fillCourts(games) {
+  await Promise.all(games.filter(g => !g.stadium && !(g.id in COURT)).map(async g => {
+    try { COURT[g.id] = (await api("game", { id: g.id })).stadium || ""; } catch { COURT[g.id] = ""; }
+    const el = document.querySelector(`#poster .c[data-id="${CSS.escape(g.id)}"]`);
+    if (el) el.innerHTML = court(COURT[g.id]);
+  }));
+}
+const opt = (v, l, cur) => `<option value="${esc(v)}" ${v === cur ? "selected" : ""}>${esc(l)}</option>`;
+
+async function init() {
+  CHS = ((await api("channels")).channels || []);
+  CH = CHS[0]?.id || "";
+  $("fCh").innerHTML = CHS.map(c => opt(c.id, c.name, CH)).join("");
+  await loadCh();
+}
+async function loadCh() {
+  $("msg").textContent = "Φόρτωση…";
+  D = await api("channel", { ch: CH });
+  GR = (D.groups || [])[0]?.name || "";
+  $("fGr").innerHTML = (D.groups || []).map(g => opt(g.name, g.name, GR)).join("");
+  pickMd(); $("msg").textContent = "";
+}
+function pickMd() {
+  const mds = ((D.groups || []).find(g => g.name === GR) || {}).matchdays || [];
+  const today = new Date().toISOString().slice(0, 10);
+  const next = mds.find(m => m.games.some(x => (x.date || "").slice(0, 10) >= today));
+  MD = (next || mds[mds.length - 1] || {}).name || "";
+  $("fMd").innerHTML = mds.map(m => opt(m.name, m.name, MD)).join("");
+  render();
+}
+
+function render() {
+  const ch = CHS.find(c => c.id === CH) || {};
+  const md = ((D.groups || []).find(g => g.name === GR)?.matchdays || []).find(m => m.name === MD);
+  const games = (md?.games || []).slice().sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+  const sq = $("fSz").value === "sq", n = games.length;
+  const one = n <= 4, rows = one ? n : Math.ceil(n / 2);
+  const avail = (sq ? 1080 : 1350) - 56 - 44 - 270 - 70;         // space left for boxes
+  const bh = Math.max(120, Math.min(210, Math.floor((avail - (rows - 1) * 18) / Math.max(rows, 1))));
+  const lg = Math.round(bh * 0.44), fs = bh < 150 ? 14 : 17;
+  const showScore = $("fSc").value === "1";
+  const logo = games.find(g => g.competition_logo)?.competition_logo || ch.logo;
+  const P = $("poster");
+  P.className = sq ? "sq" : "";
+  applyColor();
+  P.innerHTML = `<div class="bgimg"></div><div class="ps">
+    <div class="ph"><div class="lgs"><img class="lg" src="assets/ekasth-logo.png" alt=""></div>
+      <div class="comp">${esc(UP(ch.name || ""))}</div>
+      <h1>${esc(UP($("fTi").value))}</h1>
+      <div class="tags">${MD && MD !== "—" ? `<span>${esc(UP(MD))}</span>` : ""}${GR && GR !== MD && GR !== "Όλοι οι αγώνες" ? `<span class="alt">${esc(UP(GR))}</span>` : ""}</div></div>
+    <div class="grid ${one ? "one" : ""}" style="--bh:${bh}px;--lg:${lg}px;--fs:${fs}px;--gap:18px">
+      ${games.map(g => {
+        const done = showScore && isFinal(g.state) && g.home.score != null;
+        const dt = g.date ? new Date(g.date) : null;
+        const day = dt ? UP(dt.toLocaleDateString("el-GR", { ...tz, weekday: "short", day: "numeric", month: "short" })) : "";
+        return `<div class="bx">
+          <div class="tm"><img src="${px(g.home.logo)}" alt=""><span>${esc(g.home.name)}</span></div>
+          <div class="mid">${done ? `<div class="sc num"><b>${g.home.score}</b><b>${g.away.score}</b></div>` : `<div class="t num">${hhmm(g.date)}</div>`}
+            <div class="d">${esc(day)}</div><div class="c" data-id="${esc(g.id)}">${court(COURT[g.id] ?? g.stadium)}</div></div>
+          <div class="tm"><img src="${px(g.away.logo)}" alt=""><span>${esc(g.away.name)}</span></div></div>`;
+      }).join("") || `<div style="text-align:center;font-size:28px">Δεν υπάρχουν αγώνες</div>`}
+    </div>
+    </div>`;
+  fitNames();
+  fillCourts(games);
+  const s = Math.min(1, (innerWidth - 40) / 1080);
+  $("scaler").style.transform = `scale(${s})`;
+  $("scaler").style.height = `${(sq ? 1080 : 1350) * s}px`;
+}
+
+/* each championship gets its own colour (saved in this browser; change it with the picker) */
+const PALETTE = ["#1D4ED8", "#B91C1C", "#047857", "#6D28D9", "#C2410C", "#0E7490", "#BE185D", "#A16207", "#334155", "#15803D"];
+const hueOf = hex => { const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; if (!d) return 0;
+  const h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return (h * 60 + 360) % 360; };
+const colorOf = ch => localStorage.getItem("postcolor:" + ch) || PALETTE[Math.max(0, CHS.findIndex(c => c.id === ch)) % PALETTE.length];
+function applyColor() {
+  const c = colorOf(CH), P = $("poster");
+  $("fCo").value = c;
+  const grey = hueOf(c) === 0 && /^#(\w\w)\1\1$/i.test(c);
+  P.style.setProperty("--hue", `${hueOf(c) - hueOf("#1D4ED8")}deg`);        // background image is blue
+  P.style.setProperty("--sat", grey ? 0 : 1);
+  P.style.setProperty("--accent", c);
+}
+$("fCo").addEventListener("input", e => { localStorage.setItem("postcolor:" + CH, e.target.value); applyColor(); });
+
+/* shrink long team names until they fit their box (max 3 lines) */
+function fitNames() {
+  document.querySelectorAll("#poster .bx .tm span").forEach(el => {
+    el.style.fontSize = "";
+    let fs = parseFloat(getComputedStyle(el).fontSize);
+    while ((el.scrollHeight > fs * 1.08 * 3 + 1 || el.scrollWidth > el.clientWidth + 1) && fs > 9) { fs -= 0.5; el.style.fontSize = fs + "px"; }
+  });
+}
+
+$("fCh").onchange = e => { CH = e.target.value; loadCh(); };
+$("fGr").onchange = e => { GR = e.target.value; pickMd(); };
+$("fMd").onchange = e => { MD = e.target.value; render(); };
+["fSz", "fTi", "fSc"].forEach(id => $(id).addEventListener("input", render));
+addEventListener("resize", render);
+$("dl").onclick = async () => {
+  $("msg").textContent = "Δημιουργία…";
+  try {
+    // capture exactly what is on screen: same fonts (local), all images loaded, no preview scaling
+    await document.fonts.ready;
+    const P = $("poster");
+    await Promise.all([...P.querySelectorAll("img")].map(i => i.complete ? null : new Promise(r => { i.onload = i.onerror = r; })));
+    const fontEmbedCSS = await htmlToImage.getFontEmbedCSS(P);
+    const opts = { pixelRatio: +$("fQ").value || 2, includeQueryParams: true, quality: 1, width: 1080, height: P.offsetHeight, fontEmbedCSS, style: { transform: "none", margin: "0" } };
+    await htmlToImage.toPng(P, opts);                     // first pass warms the image cache (Safari/Chrome quirk)
+    const url = await htmlToImage.toPng(P, opts);
+    const a = document.createElement("a");
+    a.href = url; a.download = `${UP(GR || "post")}-${UP(MD || "")}.png`.replace(/\s+/g, "_"); a.click();
+    $("msg").textContent = "";
+  } catch (e) { $("msg").textContent = "Σφάλμα: " + e.message; }
+};
+init().catch(e => { $("msg").textContent = "Σφάλμα: " + e.message; });
+</script>
+</body>
+</html>

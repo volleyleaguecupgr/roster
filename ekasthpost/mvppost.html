@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>MVP Post</title>
+<style>
+  @font-face{font-family:"MCDisplay";src:url("assets/fonts/noto-sans-display-greek-wdth-normal.woff2") format("woff2-variations");
+    font-weight:100 900;font-stretch:62.5% 100%;unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF}
+  @font-face{font-family:"MCDisplay";src:url("assets/fonts/noto-sans-display-latin-wdth-normal.woff2") format("woff2-variations");
+    font-weight:100 900;font-stretch:62.5% 100%;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC,U+2122,U+2212}
+  :root{--accent:#1D4ED8;--bg:#0A1220;--edge:rgba(255,255,255,.16);--muted:#9FB0CC;--font:"MCDisplay",Arial,sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;background:#05080f;color:#fff;font-family:var(--font)}
+  .ui{display:flex;flex-wrap:wrap;gap:8px;align-items:end;padding:14px;background:#0d1626;position:sticky;top:0;z-index:5}
+  .ui label{display:flex;flex-direction:column;gap:4px;font-size:11px;font-weight:800;color:var(--muted)}
+  .ui select,.ui input{height:34px;padding:0 8px;background:#18263f;color:#fff;border:1px solid #2a3a58;border-radius:4px;font:inherit;font-size:14px}
+  .ui button{height:34px;padding:0 16px;border:0;border-radius:4px;background:var(--accent);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+  .ui .msg{color:var(--muted);font-size:13px;align-self:center}
+  .wrap{display:flex;justify-content:center;padding:20px}
+  .scaler{transform-origin:top center}
+
+  /* ---------- the poster ---------- */
+  #poster{position:relative;width:1080px;height:1350px;overflow:hidden;color:#fff;font-family:var(--font);background:#0b1a5c}
+  #poster.sq{height:1080px}
+  #poster .bgimg{position:absolute;inset:0;background:url("assets/post-bg.png?v=2") center/cover no-repeat;filter:hue-rotate(var(--hue,0deg)) saturate(var(--sat,1)) brightness(var(--bri,1))}
+  #poster::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(6,12,30,.15),rgba(6,12,30,.55))}
+  .ps{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;padding:44px 52px 40px}
+  .ph{display:flex;align-items:center;gap:20px}
+  .ph .lg{width:96px;height:96px;background:#fff;border-radius:6px;padding:7px;object-fit:contain;flex:none}
+  .ph .tx{min-width:0}
+  .ph .comp{font-size:22px;font-weight:800;letter-spacing:1px;opacity:.9}
+  .ph h1{margin:2px 0 6px;font-size:66px;font-weight:900;font-stretch:68%;line-height:1;letter-spacing:1px}
+  .ph .tags{display:flex;gap:6px}
+  .ph .tags span{background:var(--accent);padding:5px 14px;font-size:19px;font-weight:900;letter-spacing:.6px;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+  .ph .tags span.alt{background:#fff;color:var(--bg)}
+
+  /* #1 — front and centre */
+  .hero{position:relative;display:grid;grid-template-columns:var(--ph,330px) 1fr;gap:30px;align-items:center;margin-top:var(--hm,26px);padding:var(--hp,26px) 30px;
+    background:linear-gradient(120deg,color-mix(in srgb,var(--accent) 55%,rgba(10,18,32,.95)),rgba(10,18,32,.96) 70%);
+    box-shadow:inset 0 1px 0 var(--edge);clip-path:polygon(26px 0,100% 0,100% calc(100% - 26px),calc(100% - 26px) 100%,0 100%,0 26px)}
+  .hero .pic{width:var(--ph,330px);height:var(--ph,330px);display:grid;place-items:center;background:rgba(255,255,255,.07);overflow:hidden;
+    clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+  .hero .pic img{width:100%;height:100%;object-fit:cover;object-position:50% 15%}
+  .hero .crown{position:absolute;top:22px;right:30px;font-size:22px;font-weight:900;letter-spacing:1px;background:#fff;color:var(--bg);padding:6px 16px}
+  .hero .nm small{display:block;font-size:30px;font-weight:700;font-stretch:75%;opacity:.85;line-height:1.1}
+  .hero .nm b{display:block;font-size:var(--hn,74px);font-weight:900;font-stretch:66%;line-height:.95;overflow-wrap:anywhere}
+  .hero .tm{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:24px;font-weight:800;font-stretch:75%}
+  .hero .tm img{width:52px;height:52px;object-fit:contain;flex:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
+  .hero .st{display:flex;gap:10px;margin-top:20px}
+  .hero .st div{min-width:150px;padding:8px 18px 10px;background:rgba(5,8,15,.55);box-shadow:inset 0 1px 0 var(--edge)}
+  .hero .st b{display:block;font-size:var(--hs,76px);font-weight:900;font-stretch:66%;line-height:1}
+  .hero .st span{font-size:17px;font-weight:900;letter-spacing:1px;color:var(--muted)}
+  .hero .st div.k{background:#fff;color:var(--bg)} .hero .st div.k span{color:var(--accent)}
+  .hero .vs{margin-top:12px;font-size:17px;font-weight:700;color:#D6E0F0;font-stretch:80%}
+
+  /* the rest */
+  .rest{flex:1;display:grid;grid-template-columns:repeat(var(--cols,2),1fr);align-content:center;gap:14px 16px;margin-top:22px}
+  .bx{position:relative;display:grid;grid-template-columns:var(--bp,92px) 1fr auto;align-items:center;gap:14px;height:var(--bh,118px);padding:0 16px 0 12px;
+    background:linear-gradient(180deg,rgba(17,28,48,.96),rgba(10,18,32,.96));box-shadow:inset 0 1px 0 var(--edge);
+    clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+  .bx::before{content:"";position:absolute;left:0;top:14px;bottom:0;width:5px;background:var(--accent)}
+  .bx .rk{position:absolute;left:14px;top:8px;z-index:1;font-size:15px;font-weight:900;background:var(--accent);padding:1px 7px}
+  .bx .pic{width:var(--bp,92px);height:var(--bp,92px);display:grid;place-items:center;background:rgba(255,255,255,.06);overflow:hidden}
+  .bx .pic img{width:100%;height:100%;object-fit:cover;object-position:50% 15%}
+  .bx .who{min-width:0}
+  .bx .who small{display:block;font-size:14px;font-weight:700;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bx .who b{display:block;font-size:var(--bn,26px);font-weight:900;font-stretch:68%;line-height:1.02;white-space:nowrap;overflow:hidden}
+  .bx .who .t{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:14px;font-weight:800;font-stretch:78%;min-width:0}
+  .bx .who .t img{width:26px;height:26px;object-fit:contain;flex:none}
+  .bx .who .t span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bx .nums{display:flex;gap:6px}
+  .bx .nums div{width:64px;text-align:center;padding:4px 0;background:rgba(5,8,15,.5)}
+  .bx .nums div.k{background:#fff;color:var(--bg)}
+  .bx .nums b{display:block;font-size:var(--bs,34px);font-weight:900;font-stretch:66%;line-height:1}
+  .bx .nums span{font-size:11px;font-weight:900;letter-spacing:.6px;opacity:.75}
+  .empty{flex:1;display:grid;place-items:center;font-size:30px;font-weight:800}
+</style>
+</head>
+<body>
+<div class="ui">
+  <label>ΔΙΟΡΓΑΝΩΣΗ<select id="fCh"></select></label>
+  <label>ΟΜΙΛΟΣ<select id="fGr"></select></label>
+  <label>ΑΓΩΝΙΣΤΙΚΗ<select id="fMd"></select></label>
+  <label>ΜΕΓΕΘΟΣ<select id="fSz"><option value="pt">1080×1350</option><option value="sq">1080×1080</option></select></label>
+  <label>ΑΘΛΗΤΕΣ<select id="fN"><option value="7">1 + 6</option><option value="9" selected>1 + 8</option><option value="11">1 + 10</option><option value="13">1 + 12</option><option value="99">όλοι</option></select></label>
+  <label>ΤΙΤΛΟΣ<input id="fTi" value="MVP ΑΓΩΝΙΣΤΙΚΗΣ" style="width:220px"></label>
+  <label>ΧΡΩΜΑ<input id="fCo" type="color" style="width:60px;padding:2px"></label>
+  <label>ΠΟΙΟΤΗΤΑ<select id="fQ"><option value="1">1× (1080)</option><option value="2" selected>2× (2160)</option><option value="3">3× (3240)</option></select></label>
+  <button id="dl">Λήψη PNG</button><span class="msg" id="msg"></span>
+</div>
+<div class="wrap"><div class="scaler" id="scaler"><div id="poster"></div></div></div>
+
+<script src="assets/config.js?v=1"></script>
+<script src="assets/common.js?v=1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const isYouth = n => /ΕΦΗΒ|ΝΕΑΝΙΔ|ΠΑΙΔ|ΚΟΡΑΣΙΔ/.test(UP(n));      // no MVP for youth championships
+let CH = "", GR = "", MD = "", D = null, CHS = [], L = [], PH = {};
+const px = u => (u ? apiUrl("img", { u }) : "");   // same-origin logos → exportable PNG
+const opt = (v, l, cur) => `<option value="${esc(v)}" ${v === cur ? "selected" : ""}>${esc(l)}</option>`;
+
+async function init() {
+  CHS = ((await api("channels")).channels || []).filter(c => !isYouth(c.name));
+  CH = CHS[0]?.id || "";
+  $("fCh").innerHTML = CHS.map(c => opt(c.id, c.name, CH)).join("");
+  PH = await photoList();
+  await loadCh();
+}
+async function loadCh() {
+  $("msg").textContent = "Φόρτωση…";
+  D = await api("channel", { ch: CH });
+  GR = (D.groups || [])[0]?.name || "";
+  $("fGr").innerHTML = (D.groups || []).map(g => opt(g.name, g.name, GR)).join("");
+  await pickMd();
+}
+async function pickMd() {
+  const mds = ((D.groups || []).find(g => g.name === GR) || {}).matchdays || [];
+  const played = mds.filter(m => m.games.some(x => isFinal(x.state)));     // latest matchday with results
+  MD = (played[played.length - 1] || mds[0] || {}).name || "";
+  $("fMd").innerHTML = mds.map(m => opt(m.name, m.name, MD)).join("");
+  await loadMvps();
+}
+async function loadMvps() {
+  $("msg").textContent = "Φόρτωση MVP…";
+  const want = `${CH}|${GR}|${MD}`;
+  const d = MD ? await api("mvps", { ch: CH, group: GR, md: MD }) : { mvps: [] };
+  if (want !== `${CH}|${GR}|${MD}`) return;
+  L = d.mvps || [];
+  $("msg").textContent = "";
+  render();
+}
+
+/* photo if the player has one in assets/players, otherwise a jersey with his number */
+const pic = (r, size) => PH[r.pid] ? `<img src="assets/players/${esc(PH[r.pid])}" alt="">`
+  : jerseySvg(r.jersey, getComputedStyle($("poster")).getPropertyValue("--accent").trim() || "#1D4ED8", size);
+const split = n => { const p = String(n || "").trim().split(/\s+/), last = p.pop() || ""; return [p.join(" "), last]; };
+const teamOf = r => (r.side === "away" ? r.away : r.home);
+const oppOf = r => (r.side === "away" ? r.home : r.away);
+
+function render() {
+  const ch = CHS.find(c => c.id === CH) || {};
+  const sq = $("fSz").value === "sq", H = sq ? 1080 : 1350;
+  const P = $("poster");
+  P.className = sq ? "sq" : "";
+  applyColor();
+  const top = L[0], rest = L.slice(1, +$("fN").value);
+  // sizes: the hero shrinks on the square format / with many boxes, the boxes fill the space that is left
+  const cols = rest.length > 12 ? 3 : 2, rows = Math.ceil(rest.length / cols);
+  const heroPh = sq ? (rows > 2 ? 190 : 240) : (rows > 5 ? 260 : 320);
+  const avail = H - 44 - 40 - 140 - (heroPh + 52) - 22;
+  const bh = rows ? Math.max(78, Math.min(132, Math.floor((avail - (rows - 1) * 14) / rows))) : 0;
+  const box = r => { const [f, l] = split(r.player), t = teamOf(r);
+    return `<div class="bx"><span class="rk">${r.rank}</span><div class="pic">${pic(r, Math.round(bh * 0.72))}</div>
+      <div class="who"><small>${esc(UP(f))}</small><b>${esc(UP(l))}</b>
+        <div class="t">${t.logo ? `<img src="${px(t.logo)}" alt="">` : ""}<span>${esc(UP(t.name))}</span></div></div>
+      <div class="nums"><div class="k"><b>${r.pir}</b><span>PIR</span></div><div><b>${r.pts}</b><span>ΠΟΝ</span></div></div></div>`; };
+  let heroHtml = "";
+  if (top) {
+    const [f, l] = split(top.player), t = teamOf(top), o = oppOf(top);
+    const sc = top.home.score != null ? `${top.home.score}-${top.away.score}` : "";
+    heroHtml = `<div class="hero" style="--ph:${heroPh}px;--hn:${sq ? 60 : 74}px;--hs:${sq ? 56 : 76}px;--hm:${sq ? 16 : 26}px;--hp:${sq ? 18 : 26}px">
+      <span class="crown">MVP</span>
+      <div class="pic">${pic(top, Math.round(heroPh * 0.8))}</div>
+      <div><div class="nm"><small>${esc(UP(f))}</small><b>${esc(UP(l))}</b></div>
+        <div class="tm">${t.logo ? `<img src="${px(t.logo)}" alt="">` : ""}<span>${esc(UP(t.name))}</span></div>
+        <div class="st"><div class="k"><b>${top.pir}</b><span>PIR</span></div><div><b>${top.pts}</b><span>ΠΟΝΤΟΙ</span></div></div>
+        ${o.name ? `<div class="vs">vs ${esc(UP(o.name))}${sc ? ` · ${sc}` : ""}</div>` : ""}</div></div>`;
+  }
+  P.innerHTML = `<div class="bgimg"></div><div class="ps">
+    <div class="ph"><img class="lg" src="assets/ekasth-logo.png" alt="">
+      <div class="tx"><div class="comp">${esc(UP(ch.name || ""))}</div><h1>${esc(UP($("fTi").value))}</h1>
+        <div class="tags">${MD && MD !== "—" ? `<span>${esc(UP(MD))}</span>` : ""}${GR && GR !== MD && GR !== "Όλοι οι αγώνες" ? `<span class="alt">${esc(UP(GR))}</span>` : ""}</div></div></div>
+    ${top ? heroHtml + `<div class="rest" style="--cols:${cols};--bh:${bh}px;--bp:${Math.round(bh - 22)}px;--bn:${bh < 100 ? 21 : 26}px;--bs:${bh < 100 ? 28 : 34}px">${rest.map(box).join("")}</div>`
+      : `<div class="empty">Δεν υπάρχουν ακόμα MVP</div>`}
+  </div>`;
+  fit(H);
+  const s = Math.min(1, (innerWidth - 40) / 1080);
+  $("scaler").style.transform = `scale(${s})`;
+  $("scaler").style.height = `${H * s}px`;
+}
+
+/* make everything fit: shrink long names, then shrink the boxes until the poster has no overflow */
+function fit(H) {
+  const shrink = (el, min) => { el.style.fontSize = ""; let f = parseFloat(getComputedStyle(el).fontSize);
+    while (el.scrollWidth > el.clientWidth + 1 && f > min) { f -= 1; el.style.fontSize = f + "px"; } };
+  document.querySelectorAll("#poster .hero .nm b").forEach(el => shrink(el, 34));
+  const R = document.querySelector("#poster .rest"), ps = document.querySelector("#poster .ps");
+  if (R) {
+    let bh = parseFloat(R.style.getPropertyValue("--bh")) || 110;
+    const apply = () => { R.style.setProperty("--bh", bh + "px"); R.style.setProperty("--bp", (bh - 22) + "px");
+      R.style.setProperty("--bn", (bh < 100 ? 21 : 26) + "px"); R.style.setProperty("--bs", (bh < 100 ? 28 : 34) + "px"); };
+    apply();
+    while (ps.scrollHeight > H + 1 && bh > 56) { bh -= 4; apply(); }
+  }
+  document.querySelectorAll("#poster .bx .who b").forEach(el => shrink(el, 14));
+}
+
+/* same colours as posts.html (saved per championship in this browser) */
+const PALETTE = ["#1D4ED8", "#B91C1C", "#047857", "#6D28D9", "#C2410C", "#0E7490", "#BE185D", "#A16207", "#334155", "#15803D"];
+const hueOf = hex => { const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; if (!d) return 0;
+  const h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return (h * 60 + 360) % 360; };
+const colorOf = ch => localStorage.getItem("postcolor:" + ch) || PALETTE[Math.max(0, CHS.findIndex(c => c.id === ch)) % PALETTE.length];
+function applyColor() {
+  const c = colorOf(CH), P = $("poster");
+  $("fCo").value = c;
+  const grey = hueOf(c) === 0 && /^#(\w\w)\1\1$/i.test(c);
+  P.style.setProperty("--hue", `${hueOf(c) - hueOf("#1D4ED8")}deg`);
+  P.style.setProperty("--sat", grey ? 0 : 1);
+  P.style.setProperty("--accent", c);
+}
+$("fCo").addEventListener("input", e => { localStorage.setItem("postcolor:" + CH, e.target.value); render(); });
+
+$("fCh").onchange = e => { CH = e.target.value; loadCh().catch(err); };
+$("fGr").onchange = e => { GR = e.target.value; pickMd().catch(err); };
+$("fMd").onchange = e => { MD = e.target.value; loadMvps().catch(err); };
+["fSz", "fTi", "fN"].forEach(id => $(id).addEventListener("input", render));
+addEventListener("resize", render);
+const err = e => { $("msg").textContent = "Σφάλμα: " + e.message; };
+$("dl").onclick = async () => {
+  $("msg").textContent = "Δημιουργία…";
+  try {
+    await document.fonts.ready;
+    const P = $("poster");
+    await Promise.all([...P.querySelectorAll("img")].map(i => i.complete ? null : new Promise(r => { i.onload = i.onerror = r; })));
+    const fontEmbedCSS = await htmlToImage.getFontEmbedCSS(P);
+    const opts = { pixelRatio: +$("fQ").value || 2, includeQueryParams: true, quality: 1, width: 1080, height: P.offsetHeight, fontEmbedCSS, style: { transform: "none", margin: "0" } };
+    await htmlToImage.toPng(P, opts);                     // first pass warms the image cache
+    const url = await htmlToImage.toPng(P, opts);
+    const a = document.createElement("a");
+    a.href = url; a.download = `MVP-${UP(GR || "")}-${UP(MD || "")}.png`.replace(/\s+/g, "_"); a.click();
+    $("msg").textContent = "";
+  } catch (e) { err(e); }
+};
+init().catch(err);
+</script>
+</body>
+</html>
