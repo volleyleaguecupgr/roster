@@ -1,0 +1,71 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Starting six</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* Lineup: control.html (Starting six) > HVL box score (start zones of ?set=1) */
+  #box { position: absolute; left: 50%; top: 60px; width: 1840px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; }
+  .teams-capsule { width: 1040px; margin-top: 18px; }
+  .court { position: relative; width: 1840px; height: 610px; margin-top: 26px; }
+  .court .lines { position: absolute; left: 230px; right: 230px; top: 0; bottom: 0; border: 3px solid rgba(255,255,255,.45); }
+  .court .lines::before, .court .lines::after { content: ''; position: absolute; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,.45); }
+  .court .lines::before { left: calc(33.3% - 1px); } .court .lines::after { right: calc(33.3% - 1px); }
+  .court .net { position: absolute; left: 50%; top: -10px; bottom: -10px; width: 0; border-left: 5px dashed rgba(255,255,255,.7); transform: translateX(-50%); }
+  .pr { position: absolute; width: 400px; height: 64px; display: grid; grid-template-columns: 82px 1fr; align-items: center; border-radius: 999px;
+        background: var(--g-row); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .pr .n { height: 64px; display: grid; place-items: center; font-weight: 900; font-size: 34px; border-radius: 999px; background: var(--navy-900); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .pr .pn { text-align: center; font-weight: 800; font-size: 30px; text-transform: uppercase; white-space: nowrap; overflow: hidden; padding: 0 18px; }
+  #stage .court > .pr { position: absolute !important; }
+  .pr.lib .n { background: var(--red-600); }
+  .pr.lib::after { content: 'L'; position: absolute; right: -44px; top: 50%; transform: translateY(-50%); font-weight: 900; font-size: 28px; color: var(--red-500); }
+  .empty { margin-top: 60px; font-size: 36px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+</style>
+</head><body>
+<div id="stage"><div id="box"></div></div>
+<script>
+const SET = Math.max(1, +HVL.get('set', 1));
+// x positions (px inside .court) of the 4 columns; y of the 3 rows (+ libero row)
+const X = [235, 700, 1140, 1605], Y = [80, 270, 460], YL = 575;
+// left team: back col (5,6,1) | front col (4,3,2) · right team: front col (2,3,4) | back col (1,6,5)
+const LEFT = { 5: [0, 0], 6: [0, 1], 1: [0, 2], 4: [1, 0], 3: [1, 1], 2: [1, 2] };
+const RIGHT = { 2: [2, 0], 3: [2, 1], 4: [2, 2], 1: [3, 0], 6: [3, 1], 5: [3, 2] };
+function lineup(team, manual) {
+  const byNum = (n) => (team.players || []).find((p) => String(p.number) === String(n));
+  if (manual && [1, 2, 3, 4, 5, 6].some((z) => manual[z])) {
+    const zones = {};
+    for (const z of [1, 2, 3, 4, 5, 6]) if (manual[z]) zones[z] = byNum(manual[z]) || { number: manual[z], name: '' };
+    return { zones, libero: manual.L ? byNum(manual.L) || { number: manual.L } : null };
+  }
+  const zones = {};
+  for (const p of team.players || []) { const z = (p.zones || [])[SET - 1]; if (/^[1-6]$/.test(z || '')) zones[z] = p; }
+  const libero = (team.players || []).find((p) => p.libero && (p.zones?.[SET - 1] || p.stats?.recTot > 0)) || (team.players || []).find((p) => p.libero && p.stats?.played) || null;
+  return { zones, libero };
+}
+const nm = (p) => p ? (p.first ? `${p.first[0]}. ${p.last}` : (p.last || p.name || '')) : '';
+const chip = (p, x, y, lib) => `<div class="pr ${lib ? 'lib' : ''}" style="left:${x - 200}px;top:${y - 32}px"><div class="n">${p?.number ?? ''}</div><div class="pn fit">${HVL.esc(nm(p))}</div></div>`;
+HVL.poll('match', 15, (d, first) => {
+  const box = HVL.$('#box');
+  if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
+  const man = d.state?.lineup || {};
+  const L = lineup(d.home, man.home), R = lineup(d.away, man.away);
+  const has = Object.keys(L.zones).length + Object.keys(R.zones).length > 0;
+  const chips = [];
+  for (const [z, [c, r]] of Object.entries(LEFT)) if (L.zones[z]) chips.push(chip(L.zones[z], X[c], Y[r]));
+  for (const [z, [c, r]] of Object.entries(RIGHT)) if (R.zones[z]) chips.push(chip(R.zones[z], X[c], Y[r]));
+  if (L.libero) chips.push(chip(L.libero, X[0], YL, true));
+  if (R.libero) chips.push(chip(R.libero, X[3], YL, true));
+  box.innerHTML = `
+    <div class="pill title-pill">${HVL.esc(HVL.get('title') || (HVL.lang === 'el' ? 'Αρχική εξάδα' : 'Starting six'))}${SET > 1 ? ` · ${HVL.lang === 'el' ? 'Σετ' : 'Set'} ${SET}` : ''}</div>
+    <div class="pill comp-pill">${HVL.esc(d.league.name)}</div>
+    <div class="teams-capsule">${HVL.logo(d.home)}<div class="name fit">${HVL.esc(d.home.short)}</div><div class="score">${HVL.t('vs').toUpperCase()}</div><div class="name right fit">${HVL.esc(d.away.short)}</div>${HVL.logo(d.away)}</div>
+    ${has ? `<div class="court anim"><div class="lines"><div class="net"></div></div>${chips.join('')}</div>`
+          : `<div class="empty">${HVL.lang === 'el' ? 'Η σύνθεση δεν είναι ακόμη διαθέσιμη' : 'Lineup not available yet'}</div>`}`;
+  HVL.animate(box, first);
+  const c = box.querySelector('.court'); if (c) HVL.animate(c, first);
+});
+</script>
+</body></html>

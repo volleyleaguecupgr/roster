@@ -86,7 +86,8 @@ html.novi body.bg { background: radial-gradient(ellipse at 30% 20%, #3a4560 0%, 
   content: ''; position: absolute; z-index: -1; inset: -36px -110px;
   background:
     var(--nv-brand) left top / 100% 4px no-repeat,
-    linear-gradient(100deg, rgba(23, 28, 39, .86), rgba(36, 44, 59, .86));
+    var(--nv-brand) left bottom / 100% 4px no-repeat,
+    #0c1323 var(--nv-card-img, url('../img/bg-novi.jpg')) center / cover no-repeat;
   clip-path: polygon(70px 0, 100% 0, calc(100% - 70px) 100%, 0 100%);
 }
 .novi body.noplate #stage #box::before { display: none; }
@@ -170,3 +171,50 @@ html.novi body.bg { background: radial-gradient(ellipse at 30% 20%, #3a4560 0%, 
 .novi #stage .anim > .nv-bars { opacity: 1 !important; transform: none !important; animation: none !important; }
 .novi #stage #box > .nv-bars { clip-path: polygon(70px 0, 100% 0, calc(100% - 70px) 100%, 0 100%); }
 .novi #stage .when { background: var(--g-row); }
+
+/* ---------- full-frame background (your swoosh artwork) ---------- */
+.novi #stage .nv-bg {
+  position: absolute; inset: 0; background: #0c1323 url('../img/bg-novi.jpg') center / cover no-repeat;
+  animation: nvBgIn 1s cubic-bezier(.16, 1, .3, 1) both, nvDrift 26s 1s ease-in-out infinite alternate;
+  transform-origin: 60% 40%;
+}
+@keyframes nvBgIn { 0% { opacity: 0; transform: scale(1.12); } 100% { opacity: 1; transform: none; } }
+@keyframes nvDrift { 0% { transform: none; } 100% { transform: scale(1.05) translate(-12px, 8px); } }
+/* swoosh glow travelling along the corners */
+.novi #stage .nv-bg::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; opacity: .55;
+  background:
+    radial-gradient(420px 220px at var(--gx, 85%) var(--gy, 4%), rgba(153, 245, 253, .22), transparent 70%),
+    radial-gradient(420px 220px at calc(100% - var(--gx, 85%)) calc(100% - var(--gy, 4%)), rgba(153, 245, 253, .18), transparent 70%);
+  animation: nvGlow 9s ease-in-out infinite alternate;
+}
+@property --gx { syntax: '<percentage>'; inherits: false; initial-value: 85%; }
+@property --gy { syntax: '<percentage>'; inherits: false; initial-value: 4%; }
+@keyframes nvGlow { 0% { --gx: 62%; --gy: 2%; } 100% { --gx: 98%; --gy: 26%; } }
+.novi body.fullbg #stage #box::before { display: none; }
+.novi body.fullbg #stage #box > .nv-bars { clip-path: none; }
+html.novi body.bg { background: radial-gradient(ellipse at 50% 30%, #6b7a8f 0%, #3f4a5c 55%, #262d39 100%); }
+.noanim #stage .nv-bg, .noanim #stage .nv-bg::after { animation: none !important; }
+
+/* card panel: the swoosh artwork drifts slowly inside the slanted card */
+.novi #stage #box::before { background-size: 100% 4px, 100% 4px, 108% 112%; background-position: left top, left bottom, 30% 40%; }
+.novi #stage #box.anim.in::before { animation: nvPlate .55s cubic-bezier(.16, 1, .3, 1) both, nvCardDrift 22s .6s ease-in-out infinite alternate; }
+@keyframes nvCardDrift { 0% { background-position: left top, left bottom, 30% 40%; } 100% { background-position: left top, left bottom, 70% 60%; } }
+.novi #stage #box.anim.settled::before { animation: nvCardDrift 22s ease-in-out infinite alternate; }
+
+/* ---------- new cards ---------- */
+.novi #stage :is(.ref, .cmp, .meet, .frm i, .coach .cn, .coach .cr, .stf) { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); box-shadow: none !important; }
+.novi #stage :is(.ref, .meet, .cmp) { background: var(--nv-brand) left bottom / 100% 3px no-repeat, var(--g-row); }
+.novi #stage .ref .rl { color: var(--nv-aqua); border-right-color: rgba(153, 245, 253, .4); }
+.novi #stage .frm i.w { background: var(--nv-aqua); color: var(--nv-ink); }
+.novi #stage .frm i.l { background: var(--nv-bg-3); }
+.novi #stage .ph2 { clip-path: polygon(var(--corner) 0, 100% 0, 100% calc(100% - var(--corner)), calc(100% - var(--corner)) 100%, 0 100%, 0 var(--corner)); box-shadow: none !important; background: var(--nv-aqua); padding: 4px; }
+.novi #stage .pos { background: var(--nv-aqua); color: var(--nv-ink); clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); }
+.novi #stage .big-score b { color: var(--nv-aqua); }
+.novi #stage .meet.win-a .sa, .novi #stage .meet.win-b .sb { color: var(--nv-aqua); }
+.novi #stage .anim > :is(.ref, .meet, .cmp, .stf) { position: relative; }
+.novi #stage .anim.in > :is(.ref, .meet, .cmp, .stf)::after { content: ''; position: absolute; inset: 0; z-index: 5; pointer-events: none; background: var(--nv-brand); transform-origin: 100% 50%; animation: nvWipe .6s cubic-bezier(.7, 0, .2, 1) calc(var(--d) + .1s) both; }
+.novi #stage :is(.cmp .n, .meet .sc) { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); box-shadow: none !important; background: var(--nv-bg-3); }
+.novi #stage .cmp .n { background: var(--nv-aqua); color: var(--nv-ink); }
+.novi #stage .meet .sc span.w { color: var(--nv-aqua); }
+.novi #stage .rw .v.live { background: #ff5a6b; color: #fff; }

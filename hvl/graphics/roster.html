@@ -6,7 +6,7 @@
 <script src="../js/config.js"></script>
 <script src="../js/core.js"></script>
 <style>
-  /* ?side=home|away (default: the team in ?team)   ?photos=1 photo cards   ?starters=1 only players who started */
+  /* ?side=home|away (default: the team in ?team)   ?photos=1 photo cards   ?starters=1 only players who started   ?staff=0 hide coaches row */
   #box { position: absolute; left: 50%; top: 70px; width: 1500px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
   .title-pill { width: 900px; }
   .head { margin-top: 18px; height: 120px; width: 1100px; border-radius: 999px; display: flex; align-items: center; gap: 26px; padding: 0 12px;
@@ -30,6 +30,10 @@
   .card .cap b { display: block; font-size: 22px; font-weight: 900; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
   .card .cap span { font-size: 16px; font-weight: 600; color: var(--muted); }
   .card .no { position: absolute; top: 10px; left: 10px; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: var(--red-600); font-weight: 900; font-size: 24px; box-shadow: inset 0 0 0 2px #fff; }
+  .staff { display: flex; gap: 18px; margin-top: 24px; justify-content: center; flex-wrap: wrap; width: 1500px; }
+  .stf { height: 62px; display: flex; align-items: center; gap: 16px; padding: 0 34px 0 30px; border-radius: 999px; background: var(--g-row-dark); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .stf span { font-size: 20px; font-weight: 800; text-transform: uppercase; color: var(--red-500); white-space: nowrap; }
+  .stf b { font-size: 28px; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
 </style>
 </head><body>
 <div id="stage"><div id="box"></div></div>
@@ -48,8 +52,13 @@ HVL.poll('match', 30, (d, first) => {
     ${PHOTOS
       ? `<div class="cards">${pl.slice(0, 14).map((p) => `<div class="card">${HVL.photo(p)}<div class="no">${p.number ?? ''}</div><div class="cap"><b>${HVL.esc(p.last || p.name)}</b><span>${HVL.esc(p.first || '')}${p.position ? ' · ' + p.position.code : ''}</span></div></div>`).join('')}</div>`
       : `<div class="grid anim">${pl.slice(0, 20).map((p) => `<div class="pr ${p.position?.code === 'L' ? 'lib' : ''}"><div class="n">${p.number ?? ''}</div><div class="pn fit"><b>${HVL.esc(p.last || p.name)}</b> <span>${HVL.esc(p.first || '')}</span></div><div class="ps">${p.position?.code || ''}${p.height ? ' · ' + p.height : ''}</div></div>`).join('')}</div>`}`;
+  const coaches = (t.staff || []).filter((x) => /coach|προπον/i.test(x.role || '')).slice(0, 4);
+  if (HVL.get('staff') !== '0' && coaches.length) {
+    box.querySelector('.head .cm')?.remove();
+    box.insertAdjacentHTML('beforeend', `<div class="staff anim">${coaches.map((c) => `<div class="stf"><span>${HVL.esc(c.role)}</span><b>${HVL.esc(c.name)}</b></div>`).join('')}</div>`);
+  }
   HVL.animate(box, first);
-  const g = box.querySelector('.grid,.cards'); if (g) HVL.animate(g, first);
+  box.querySelectorAll('.grid,.cards,.staff').forEach((g) => HVL.animate(g, first));
 });
 </script>
 </body></html>

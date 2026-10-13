@@ -1,0 +1,57 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team comparison</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* Pre-match: standings + form of both teams.  ?rows=rank,pts,won,lost,sets,ratio,wins30,form */
+  #box { position: absolute; left: 50%; top: 60px; width: 1300px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; }
+  .teams-capsule { width: 1040px; margin-top: 18px; }
+  .stat-row { width: 900px; margin-top: 12px; height: 74px; grid-template-columns: 160px 1fr 160px; } .stat-row .val { height: 74px; font-size: 38px; } .stat-row .label { font-size: 32px; }
+  .frow { width: 1100px; margin-top: 18px; display: grid; grid-template-columns: 1fr 260px 1fr; align-items: center; }
+  .frow .label { text-align: center; font-weight: 600; font-size: 34px; text-transform: uppercase; }
+  .frm { display: flex; gap: 10px; } .frm.r { justify-content: flex-end; }
+  .frm i { font-style: normal; width: 62px; height: 62px; display: grid; place-items: center; border-radius: 50%; font-weight: 900; font-size: 28px; box-shadow: inset 0 0 0 var(--line) #fff; }
+  .frm i.w { background: var(--g-win); } .frm i.l { background: var(--navy-900); color: var(--muted); }
+</style>
+</head><body>
+<div id="stage"><div id="box"></div></div>
+<script>
+const ROWS = HVL.get('rows', 'rank,pts,won,lost,sets,ratio,form').split(',');
+const EL = HVL.lang === 'el';
+const DEF = {
+  rank: [EL ? 'Θέση' : 'Ranking', (s) => s?.rank, true, (v) => v ? HVL.ord(v) : '–'],
+  pts: [EL ? 'Βαθμοί' : 'Points', (s) => s?.rankPts],
+  played: [EL ? 'Αγώνες' : 'Matches', (s) => s?.played],
+  won: [EL ? 'Νίκες' : 'Wins', (s) => s?.won],
+  lost: [EL ? 'Ήττες' : 'Losses', (s) => s?.lost, true],
+  sets: [EL ? 'Σετ' : 'Sets', (s) => s ? s.setsW - s.setsL : null, false, (v, s) => s ? `${s.setsW}:${s.setsL}` : '–'],
+  ratio: [EL ? 'Λόγος σετ' : 'Set ratio', (s) => s?.setRatio, false, (v) => v == null ? '–' : (+v).toFixed(2)],
+  points: [EL ? 'Λόγος πόντων' : 'Point ratio', (s) => s?.ptsRatio, false, (v) => v == null ? '–' : (+v).toFixed(3)],
+  wins30: [EL ? 'Νίκες 3-0/3-1' : '3-0 / 3-1 wins', (s) => s ? (s.r30 || 0) + (s.r31 || 0) : null],
+};
+const frm = (f = [], right) => `<div class="frm ${right ? 'r' : ''}">${(right ? [...f].reverse() : f).slice(0, 5).map((x) => `<i class="${x.win ? 'w' : 'l'}" title="${HVL.esc(x.score + ' ' + (x.opp?.short || ''))}">${x.win ? (EL ? 'Ν' : 'W') : (EL ? 'Η' : 'L')}</i>`).join('')}</div>`;
+HVL.poll('match', 60, (d, first) => {
+  const box = HVL.$('#box');
+  if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
+  const A = d.home.standing, B = d.away.standing;
+  box.innerHTML = `
+    <div class="pill title-pill">${HVL.esc(HVL.get('title') || (EL ? 'Σύγκριση ομάδων' : 'Team comparison'))}</div>
+    <div class="pill comp-pill">${HVL.esc(d.league.name)}</div>
+    <div class="teams-capsule">${HVL.logo(d.home)}<div class="name fit">${HVL.esc(d.home.short)}</div><div class="score">VS</div><div class="name right fit">${HVL.esc(d.away.short)}</div>${HVL.logo(d.away)}</div>
+    ${ROWS.map((k) => {
+      if (k === 'form') return `<div class="frow">${frm(d.home.form)}<div class="label">${EL ? 'Φόρμα' : 'Last 5'}</div>${frm(d.away.form, true)}</div>`;
+      const def = DEF[k]; if (!def) return '';
+      const [label, get, lowerWins, fmt] = def;
+      const a = get(A), b = get(B);
+      const f = fmt || ((v) => v ?? '–');
+      const aw = a != null && b != null && (lowerWins ? a < b : a > b), bw = a != null && b != null && (lowerWins ? b < a : b > a);
+      return `<div class="stat-row"><div class="val ${aw ? 'win' : ''}"><span>${f(a, A)}</span></div><div class="label">${HVL.esc(label)}</div><div class="val ${bw ? 'win' : ''}"><span>${f(b, B)}</span></div></div>`;
+    }).join('')}`;
+  HVL.animate(box, first);
+});
+</script>
+</body></html>

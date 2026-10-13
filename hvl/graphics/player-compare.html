@@ -1,0 +1,70 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Player comparison</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* Default: top scorer of each team.  ?h=5&a=8 jersey numbers  ·  ?by=pts|att|blk|ace  ·  ?pos=OP (best at a position)
+     control.html "Compare" overrides when set. */
+  #box { position: absolute; left: 50%; top: 50px; width: 1500px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; }
+  .teams-capsule { width: 1040px; margin-top: 18px; }
+  .duel { position: relative; width: 1460px; margin-top: 18px; display: grid; grid-template-columns: 170px 1fr 170px; align-items: center; column-gap: 20px; }
+  .ph2 { width: 170px; height: 200px; border-radius: 50%; overflow: hidden; background: var(--navy-800); box-shadow: inset 0 0 0 4px #fff; }
+  .ph2 img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+  .ph2.nophoto { display: grid; place-items: center; font-size: 70px; font-weight: 900; }
+  .cmp { height: 84px; display: grid; grid-template-columns: 110px 1fr 110px 1fr 110px; align-items: center; border-radius: 999px; background: var(--g-row-dark); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .cmp .n { height: 84px; display: grid; place-items: center; font-weight: 900; font-size: 40px; border-radius: 999px; background: var(--navy-900); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .cmp .nm { text-align: center; font-weight: 900; font-size: 40px; text-transform: uppercase; white-space: nowrap; overflow: hidden; padding: 0 10px; }
+  .cmp .vs { text-align: center; font-weight: 900; font-size: 38px; }
+  .poss { display: flex; justify-content: space-between; margin-top: 10px; }
+  .pos { height: 46px; padding: 0 40px; display: flex; align-items: center; border-radius: 999px; background: linear-gradient(90deg, var(--red-500), var(--red-700)); font-weight: 800; font-size: 24px; text-transform: uppercase; }
+  .stat-row { width: 812px; margin-top: 12px; height: 72px; } .stat-row .val { height: 72px; font-size: 38px; } .stat-row .label { font-size: 34px; }
+</style>
+</head><body>
+<div id="stage"><div id="box"></div></div>
+<script>
+const BY = HVL.get('by', 'pts');
+function pick(team, num, pos) {
+  const pl = (team.players || []).filter((p) => p.name || p.last);
+  if (num) return pl.find((p) => String(p.number) === String(num)) || null;
+  let c = pl.filter((p) => p.stats);
+  if (pos) c = c.filter((p) => p.position?.code === pos.toUpperCase());
+  if (!c.length) c = pos ? pl.filter((p) => p.position?.code === pos.toUpperCase()) : pl;
+  return c.sort((a, b) => (b.stats?.[BY] || 0) - (a.stats?.[BY] || 0) || (b.stats?.pts || 0) - (a.stats?.pts || 0))[0] || null;
+}
+const short = (p) => p ? (p.first ? `${p.first[0]}. ${p.last}` : p.last || p.name) : '–';
+const photo = (p) => `<div class="ph2 ${p?.photo ? '' : 'nophoto'}" data-i="${HVL.esc((p?.last || '?')[0])}">${p?.photo ? `<img src="${HVL.esc(p.photo)}" onerror="this.parentNode.classList.add('nophoto');this.replaceWith(this.parentNode.dataset.i)">` : HVL.esc((p?.last || '?')[0])}</div>`;
+const pct = (s) => s && s.attTot ? Math.round((s.att / s.attTot) * 100) : null;
+HVL.poll('match', 10, (d, first) => {
+  const box = HVL.$('#box');
+  if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
+  const st = d.state?.compare || {};
+  const ph = pick(d.home, HVL.get('h') || st.h, HVL.get('pos') || st.pos), pa = pick(d.away, HVL.get('a') || st.a, HVL.get('pos') || st.pos);
+  const sh = ph?.stats || {}, sa = pa?.stats || {};
+  const rows = [
+    ['% ' + (HVL.lang === 'el' ? 'Επίθεση' : 'Attack'), pct(sh), pct(sa), '%'],
+    [HVL.lang === 'el' ? 'Επιθέσεις' : 'Attacks', sh.att, sa.att],
+    [HVL.t('blk'), sh.blk, sa.blk],
+    [HVL.t('ace'), sh.ace, sa.ace],
+    [HVL.lang === 'el' ? 'Πόντοι' : 'Points', sh.pts, sa.pts],
+  ];
+  const s = HVL.scoreState(d);
+  box.innerHTML = `
+    <div class="pill title-pill">${HVL.esc(HVL.get('title') || (HVL.lang === 'el' ? 'Σύγκριση παικτών' : 'Player comparison'))}</div>
+    <div class="pill comp-pill">${HVL.esc(d.league.name)}</div>
+    <div class="teams-capsule">${HVL.logo(d.home)}<div class="name fit">${HVL.esc(d.home.short)}</div><div class="score">${d.match.status === 'upcoming' ? 'VS' : `${s.setsH} – ${s.setsA}`}</div><div class="name right fit">${HVL.esc(d.away.short)}</div>${HVL.logo(d.away)}</div>
+    <div class="duel">${photo(ph)}
+      <div><div class="cmp"><div class="n">${ph?.number ?? ''}</div><div class="nm fit">${HVL.esc(short(ph))}</div><div class="vs">VS</div><div class="nm fit">${HVL.esc(short(pa))}</div><div class="n">${pa?.number ?? ''}</div></div>
+      <div class="poss"><div class="pos">${HVL.esc(ph?.position?.label || '')}</div><div class="pos">${HVL.esc(pa?.position?.label || '')}</div></div></div>
+      ${photo(pa)}</div>
+    ${rows.map(([l, a, b, u = '']) => {
+      const an = +a || 0, bn = +b || 0;
+      return `<div class="stat-row"><div class="val ${an > bn ? 'win' : ''}">${a == null ? '–' : a + u}</div><div class="label">${HVL.esc(l)}</div><div class="val ${bn > an ? 'win' : ''}">${b == null ? '–' : b + u}</div></div>`;
+    }).join('')}`;
+  HVL.animate(box, first);
+});
+</script>
+</body></html>

@@ -33,6 +33,17 @@
     if (get('dim') === '1') document.body.classList.add('dim');
     if (get('debug') === '1') document.body.classList.add('debug');
     if (get('noanim') === '1') document.body.classList.add('noanim');
+    // novi: full-frame background behind full-screen cards (?full=0 keeps them transparent over video)
+    // only the game announcement (next-match) is full-frame by default; other cards use the artwork as their panel
+    if (get('bgimg')) document.getElementById('stage')?.style.setProperty('--nv-card-img', `url("${get('bgimg').replace(/"/g, '')}")`);
+    const fullDefault = /next-match/.test(location.pathname) ? '1' : '0';
+    if (THEME === 'novi' && document.getElementById('box') && get('full', fullDefault) === '1') {
+      document.body.classList.add('fullbg');
+      const bg = document.createElement('div');
+      bg.className = 'nv-bg';
+      if (get('bgimg')) bg.style.backgroundImage = `url("${get('bgimg').replace(/"/g, '')}")`;
+      document.getElementById('stage').prepend(bg);
+    }
     fit();
     if (!document.getElementById('msg')) document.body.insertAdjacentHTML('beforeend', '<div id="msg"></div>');
   });
@@ -139,7 +150,7 @@
     return `${HVL.api}/api/${encodeURIComponent(HVL.league)}/${path}?${q}`;
   };
   HVL.load = async (path = 'match', extra = {}) => {
-    if (HVL.demo) return HVL.DEMO(path);
+    if (HVL.demo) return HVL.DEMO(path, extra);
     const q = { ...(path === 'match' ? { mode: HVL.mode, ...(HVL.mid ? { mid: HVL.mid } : {}) } : {}), ...extra };
     const r = await fetch(HVL.url(path, q), { cache: 'no-store' });
     const j = await r.json();
@@ -189,7 +200,7 @@
   });
   const P5 = (c, l) => ({ code: c, label: l });
   const S = P5('S', 'Setter'), OP = P5('OP', 'Opposite'), OH = P5('OH', 'Outside hitter'), MB = P5('MB', 'Middle blocker'), LI = P5('L', 'Libero');
-  HVL.DEMO = (path) => {
+  HVL.DEMO = (path, extra = {}) => {
     const home = { id: 205, name: 'AOP KIFISIAS', short: 'KIFISIAS', code: 'KIF', logo: `${IMG}/TeamLogo/200/200/TeamLogo_205.jpg` };
     const away = { id: 201, name: 'PANATHINAIKOS A.O.', short: 'PANATHINAIKOS', code: 'PAO', logo: `${IMG}/TeamLogo/200/200/TeamLogo_201.jpg` };
     home.players = [
@@ -211,6 +222,15 @@
       mkP(201, 5550, 15, 'MOUCHLIAS', 'Dimitris', OH, 198, 1997, [10, 8, 0, 2, 22]),
       mkP(201, 5551, 1, 'ANDREOPOULOS', 'Menelaos', LI, 183, 1995, [0, 0, 0, 0, 0]),
     ];
+    // starting zones (set 1) + libero
+    const z = (team, nums) => team.players.forEach((p) => { const i = nums.indexOf(p.number); p.zones = [i >= 0 ? String(i + 1) : '', '', '', '', '']; p.starter = i >= 0; if (p.position?.code === 'L') p.libero = true; });
+    z(home, [2, 4, 9, 5, 1, 12]); z(away, [10, 6, 11, 8, 15, 3]);
+    const cph = (team, id) => `${IMG}/TeamCoach/400/500/TeamCoach_${team}_${id}.jpg`;
+    home.staff = [{ id: 1, name: 'ZALMAS Nikos', role: 'Head Coach', photo: cph(205, 1) }, { id: 2, name: 'KRETSIS Nikos', role: 'Assistant Coach', photo: cph(205, 2) }];
+    away.staff = [{ id: 3, name: 'ANDREOPOULOS Kostas', role: 'Head Coach', photo: cph(201, 3) }, { id: 4, name: 'TSIAKIRIS Giorgos', role: 'Assistant Coach', photo: cph(201, 4) }];
+    const F = (arr) => arr.map(([w, sc, oc]) => ({ win: w, score: sc, opp: { short: oc, code: oc.slice(0, 3) } }));
+    home.form = F([[1, '3-1', 'OFI'], [0, '1-3', 'PAOK'], [1, '3-2', 'MILON'], [0, '0-3', 'OLYMPIAKOS'], [1, '3-0', 'IRAKLIS']]);
+    away.form = F([[1, '3-0', 'PAOK'], [1, '3-1', 'OLYMPIAKOS'], [1, '3-0', 'FLOISVOS'], [0, '2-3', 'MILON'], [1, '3-1', 'OFI']]);
     home.coach = { name: 'ZALMAS Nikos', role: 'Head Coach' };
     away.coach = { name: 'ANDREOPOULOS Kostas', role: 'Head Coach' };
     home.totals = { points: 95, att: 38, blk: 10, ace: 4, oppErrors: 21, srvErr: 14, attPct: 45, attTot: 84, hasBox: true };
@@ -228,6 +248,7 @@
       focusTeam: 205,
       match: {
         mid: 1, status: st, date: '18/10/2026', time: '18:00', iso: '2026-10-18T15:00:00Z', venue: 'Kleisto Gymnastirio Kifisias', round: 'Game Day 2', phase: 'Regular season',
+        referees: ['PAPADOPOULOS Nikos', 'GEORGIOU Kostas'],
         sets, setsHome: 1, setsAway: st === 'finished' ? 3 : 2, current: st === 'live' ? { set: 4, h: 16, a: 14 } : null,
       },
       home, away, standings, state: {},
@@ -240,6 +261,22 @@
       ],
     };
     if (path === 'state') return {};
+    if (path === 'round') {
+      const T = Object.fromEntries(standings.map((r) => [r.short, { id: r.teamId, name: r.name, short: r.short, code: r.code, logo: r.logo }]));
+      const prev = /prev|last/.test(extra.which || HVL.get('which', 'current'));
+      const games = [['PAOK', 'OFI', 3, 0], ['OLYMPIAKOS', 'MILON', 3, 2], ['KIFISIAS', 'PANATHINAIKOS', 1, 3], ['FLOISVOS', "KALAMATA '80", 1, 3], ['IRAKLIS', 'FOINIKAS SIROU', 2, 3]];
+      const days = ['17/10/2026', '17/10/2026', '18/10/2026', '18/10/2026', '19/10/2026'], hrs = ['17:00', '19:30', '18:00', '18:00', '20:00'];
+      return { league: d.league, round: { label: prev ? 'Game Day 1' : 'Game Day 2', phase: 'Regular season', matches: games.map(([h, a, sh, sa], i) => {
+        const [dd, mm, yy] = days[i].split('/');
+        return { mid: 10 + i, date: days[i], time: hrs[i], iso: `${yy}-${mm}-${dd}T${hrs[i]}:00+03:00`, venue: 'Hall', home: T[h], away: T[a], status: prev ? 'finished' : i < 2 ? 'finished' : i === 2 ? 'live' : 'upcoming', setsHome: prev || i < 3 ? sh : 0, setsAway: prev || i < 3 ? sa : 0, partials: [] };
+      }) } };
+    }
+    if (path === 'h2h') {
+      const ms = [['VOLLEY LEAGUE 2025-26', '07/03/2026', 1, 3, 1], ['LEAGUE CUP 2025-26', '14/01/2026', 3, 2, 0], ['VOLLEY LEAGUE 2025-26', '22/11/2025', 0, 3, 0], ['VOLLEY LEAGUE 2024-25', '15/03/2025', 2, 3, 1], ['VOLLEY LEAGUE 2024-25', '30/11/2024', 3, 1, 0], ['SUPER CUP 2024', '05/10/2024', 0, 3, 1]];
+      const meetings = ms.map(([comp, date, a, b, aHome]) => ({ comp, date, iso: date.split('/').reverse().join('-'), setsA: a, setsB: b, aHome: !!aHome }));
+      const winsA = meetings.filter((m) => m.setsA > m.setsB).length;
+      return { league: d.league, a: { ...home, players: undefined }, b: { ...away, players: undefined }, total: 14, winsA: 5, winsB: 9, setsA: 24, setsB: 33, meetings };
+    }
     return d;
   };
 })();
