@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<title>Referees Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cards.css">
+</head>
+<body data-pos="bc">
+<div class="stage">
+  <div class="card" id="card"><div class="inner">
+    <div class="logo" id="logoBox"><img id="logo" alt=""></div>
+    <div class="panel">
+      <div class="head"><span class="h" id="h"></span><span class="t" id="t"></span></div>
+      <div class="people" id="people"></div>
+      <div class="foot" id="s" hidden></div>
+    </div>
+  </div></div>
+</div>
+<script src="cards.js"></script>
+<script>
+initCard('refs', {
+  h: 'ΔΙΑΙΤΗΣΙΑ', pos: 'bc',
+  p1: 'Όνομα Επώνυμο', r1: 'Α΄ Διαιτητής',
+  p2: 'Όνομα Επώνυμο', r2: 'Β΄ Διαιτητής',
+  p3: 'Όνομα Επώνυμο', r3: 'Γ΄ Διαιτητής'
+});
+</script>
+</body>
+</html>

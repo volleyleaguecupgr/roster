@@ -1,0 +1,60 @@
+:root{
+  --c1:#0B3A5E;   /* panel (navy)        */
+  --c2:#4EC1EA;   /* accent (light blue) */
+  --c3:#FFFFFF;   /* text                */
+  --scale:1;
+  --cut:30px;
+  --bw:6px;
+}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transparent;
+  font-family:'Fira Sans Condensed','Roboto Condensed',Arial Narrow,sans-serif}
+
+/* ---------- position ---------- */
+.stage{position:absolute;transform:scale(var(--scale));
+  filter:drop-shadow(0 14px 28px rgba(0,0,0,.45));
+  transition:opacity .45s ease, translate .45s ease}
+body[data-pos=bl] .stage{left:90px;bottom:80px;transform-origin:left bottom}
+body[data-pos=br] .stage{right:90px;bottom:80px;transform-origin:right bottom}
+body[data-pos=bc] .stage{left:50%;bottom:80px;transform:translateX(-50%) scale(var(--scale));transform-origin:center bottom}
+body[data-pos=tl] .stage{left:90px;top:70px;transform-origin:left top}
+body[data-pos=tr] .stage{right:90px;top:70px;transform-origin:right top}
+body[data-pos=c]  .stage{left:50%;top:50%;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center}
+body.out .stage{opacity:0;translate:-50px 0}
+
+/* ---------- card (shield-style chamfered frame, like the logo) ---------- */
+.card{background:var(--c2);padding:var(--bw);
+  clip-path:polygon(var(--cut) 0,calc(100% - var(--cut)) 0,100% var(--cut),100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,var(--cut) 100%,0 calc(100% - var(--cut)),0 var(--cut));
+  animation:cardIn .65s cubic-bezier(.2,.9,.25,1) both}
+.inner{display:flex;background:var(--c1);
+  clip-path:polygon(calc(var(--cut) - 3px) 0,calc(100% - var(--cut) + 3px) 0,100% calc(var(--cut) - 3px),100% calc(100% - var(--cut) + 3px),
+    calc(100% - var(--cut) + 3px) 100%,calc(var(--cut) - 3px) 100%,0 calc(100% - var(--cut) + 3px),0 calc(var(--cut) - 3px))}
+
+.logo{width:200px;flex:none;display:flex;align-items:center;justify-content:center;
+  padding:18px 18px 18px 26px;border-right:var(--bw) solid var(--c2)}
+.logo[hidden]{display:none}
+.logo img{max-width:100%;max-height:200px;object-fit:contain}
+
+.panel{display:flex;flex-direction:column;min-width:640px}
+.head{display:flex;justify-content:space-between;align-items:center;gap:40px;
+  background:var(--c2);color:var(--c1);padding:10px 46px 10px 30px;
+  text-transform:uppercase;letter-spacing:.06em}
+.head .h{font-weight:900;font-size:32px}
+.head .t{font-weight:700;font-size:21px;opacity:.85}
+
+.people{flex:1;display:grid;gap:22px 60px;padding:24px 56px 24px 30px;align-content:center}
+.person{animation:fadeUp .5s ease both;animation-delay:calc(.35s + var(--i,0) * .12s)}
+.person .name{color:var(--c3);font-weight:800;font-size:46px;line-height:1;text-transform:uppercase;white-space:nowrap}
+.person .role{display:flex;align-items:center;gap:10px;margin-top:9px;color:var(--c2);
+  font-weight:600;font-size:22px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.person .role::before{content:"";width:22px;height:5px;background:var(--c2);
+  clip-path:polygon(0 0,100% 0,calc(100% - 5px) 100%,0 100%)}
+.person .role:empty{display:none}
+
+.foot{background:rgba(0,0,0,.28);color:var(--c3);font-weight:600;font-size:22px;
+  padding:9px 46px 9px 30px;letter-spacing:.06em;text-transform:uppercase}
+.foot[hidden]{display:none}
+
+@keyframes cardIn{from{opacity:0;transform:translateX(-70px) scaleX(.85)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+body.noanim .card,body.noanim .person{animation:none}
