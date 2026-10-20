@@ -7,21 +7,25 @@
 <script src="../js/core.js"></script>
 <style>
   /* Full-screen slanted-bar transition. In OBS: Browser Source, or record it once as a video for a Stinger transition.
-     The screen is fully covered at ~50% (≈0.8 s) – use that as the transition point.
-     ?loop=3 replays every 3 s · ?dur=1.6 · ?color=99f5fd · ?logo=URL shows a logo at the cut point */
+     Screen fully covered 33–67 % of the run (≈0.6–1.2 s with the default 1.8 s) – cut at 50 %.
+     The league logo pops up while covered: logos/league.png (hvl) · logos/leaguecup.png (cup) · logos/supercup.png (supercup)
+     ?logo=URL or ?logo=0 (none) · ?loop=3 replays every 3 s · ?dur=1.8 · ?color=99f5fd */
   #stage { overflow: hidden; }
   .band { position: absolute; left: 0; height: calc(100% / 3 + 2px); display: flex; align-items: stretch; will-change: transform; }
   .band i { flex: none; background: var(--c); transform: skewX(-4deg); }
   .band i.slab { background: var(--c); }
   .band i.gap { background: transparent; }
-  #logo { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; z-index: 5; }
-  #logo img { max-width: 520px; max-height: 300px; }
+  #logo { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; z-index: 5; pointer-events: none; }
+  #logo img { max-width: 640px; max-height: 420px; filter: drop-shadow(0 12px 40px rgba(36, 44, 59, .35)); }
 </style>
 </head><body>
 <div id="stage"></div>
 <script>
 const C = '#' + HVL.get('color', '99f5fd');
-const DUR = +HVL.get('dur', 1.6), LOOP = +HVL.get('loop', 0);
+const DUR = +HVL.get('dur', 1.8), LOOP = +HVL.get('loop', 0);
+const LOGOS = { hvl: 'league', cup: 'leaguecup', supercup: 'supercup' };
+const LOGO = HVL.get('logo') === '0' ? '' : HVL.get('logo') || (LOGOS[String(HVL.league).toLowerCase()] ? `../logos/${LOGOS[String(HVL.league).toLowerCase()]}.png` : '');
+const SKEW_PAD = 120;   // slanted edges stick out of each bar – travel this much further so nothing is left on screen
 const st = document.getElementById('stage');
 st.style.setProperty('--c', C);
 // thin → thick → solid slab (slate + aqua) → thick → thin, like the reference
@@ -37,21 +41,31 @@ function band(top, delay) {
   add(SLAB, 'slab');
   [...lead].reverse().forEach((px, i) => add(px, i % 2 ? '' : 'gap'));
   el.innerHTML = html;
-  // fast in → hold (screen fully covered 42–58 %) → fast out
+  // fast in → hold (screen fully covered 33–67 %) → fast out, ending completely off-screen to the left
   const ease = 'cubic-bezier(.6,0,.4,1)';
-  el.animate([
-    { transform: `translateX(1920px)`, easing: ease },
-    { transform: `translateX(${-L - 40}px)`, offset: .42 },
-    { transform: `translateX(${-L - (SLAB - 1920) + 40}px)`, offset: .58, easing: ease },
-    { transform: `translateX(${-w}px)` },
+  const a = el.animate([
+    { transform: `translateX(${1920 + SKEW_PAD}px)`, easing: ease },
+    { transform: `translateX(${-L - 40}px)`, offset: .33 },
+    { transform: `translateX(${-L - (SLAB - 1920) + 40}px)`, offset: .67, easing: ease },
+    { transform: `translateX(${-w - SKEW_PAD}px)` },
   ], { duration: DUR * 1000, delay: delay * 1000, fill: 'both' });
+  a.onfinish = () => el.remove();
   return el;
 }
 function run() {
-  st.innerHTML = HVL.get('logo') ? `<div id="logo"><img src="${HVL.esc(HVL.get('logo'))}"></div>` : '';
+  st.innerHTML = LOGO ? `<div id="logo"><img src="${HVL.esc(LOGO)}" alt="" onerror="this.parentNode.remove()"></div>` : '';
   [['0%', .06], ['33.33%', 0], ['66.66%', .1]].forEach(([t, d]) => st.appendChild(band(t, d)));
   const lg = document.getElementById('logo');
-  if (lg) lg.animate([{ opacity: 0 }, { opacity: 1, offset: .4 }, { opacity: 1, offset: .6 }, { opacity: 0 }], { duration: DUR * 1000, fill: 'both' });
+  // pops in once the screen is covered, leaves before the bars move out
+  if (lg) lg.animate([
+    { opacity: 0, transform: 'scale(.4) rotate(-6deg)' },
+    { opacity: 0, transform: 'scale(.4) rotate(-6deg)', offset: .37 },
+    { opacity: 1, transform: 'scale(1.12) rotate(1deg)', offset: .45, easing: 'cubic-bezier(.3,1.4,.5,1)' },
+    { opacity: 1, transform: 'scale(1)', offset: .5 },
+    { opacity: 1, transform: 'scale(1.03)', offset: .6 },
+    { opacity: 0, transform: 'scale(.85)', offset: .66 },
+    { opacity: 0, transform: 'scale(.85)' },
+  ], { duration: DUR * 1000, fill: 'both' }).onfinish = () => lg.remove();
 }
 document.addEventListener('DOMContentLoaded', () => { run(); if (LOOP) setInterval(run, LOOP * 1000); });
 </script>

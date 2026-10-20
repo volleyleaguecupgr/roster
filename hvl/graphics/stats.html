@@ -17,16 +17,27 @@
 </head><body>
 <div id="stage"><div id="box"></div></div>
 <script>
-// ?rows=att,blk,ace,opp,srvErr,attPct   ?title=Custom
+// ?rows=att,blk,ace,opp,srvErr,attPct   ?title=Custom   ?set=1..5|last  (one set, like CEV "Statistics – 1st set")
 const ROWS = HVL.get('rows', 'att,blk,ace,opp').split(',');
 const VAL = { att: (t) => t.att, blk: (t) => t.blk, ace: (t) => t.ace, opp: (t) => t.oppErrors, srvErr: (t) => t.srvErr, attPct: (t) => t.attPct == null ? '–' : t.attPct + '%' };
 const LOWER_WINS = { srvErr: true };
+const SETP = HVL.get('set');
 HVL.poll('match', 10, (d, first) => {
   const box = HVL.$('#box');
   if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
-  const m = d.match, h = d.home, a = d.away, s = HVL.scoreState(d);
+  const m = d.match;
+  let h = d.home, a = d.away, s = HVL.scoreState(d), setNo = 0;
+  if (SETP) {
+    const fin = m.sets.filter((x, i) => Math.max(x.h, x.a) >= (i === 4 ? 15 : 25) && Math.abs(x.h - x.a) >= 2).length;
+    setNo = SETP === 'last' ? fin : Math.max(1, +SETP);
+    const st = (m.setStats || [])[setNo - 1], sc = m.sets[setNo - 1];
+    if (!st || !sc) { box.innerHTML = ''; return HVL.msg(`set ${setNo} stats not available yet`); }
+    const T = (t, pts) => ({ ...t, oppErrors: Math.max(0, pts - (t.att || 0) - (t.blk || 0) - (t.ace || 0)), attPct: t.attTot ? Math.round(t.att / t.attTot * 100) : null });
+    h = { ...h, totals: T(st.h || {}, sc.h) }; a = { ...a, totals: T(st.a || {}, sc.a) };
+    s = { ...s, setsH: sc.h, setsA: sc.a };
+  }
   const done = m.sets.filter((x) => Math.max(x.h, x.a) >= (m.sets.indexOf(x) === 4 ? 15 : 25) && Math.abs(x.h - x.a) >= 2).length;
-  const title = HVL.get('title') || (m.status === 'live'
+  const title = HVL.get('title') || (setNo ? `${HVL.t('stats')} – ${HVL.lang === 'el' ? HVL.ord(setNo) + ' ' + HVL.t('set') : HVL.ord(setNo) + ' set'}` : m.status === 'live'
     ? `${HVL.t('stats')} – ${HVL.lang === 'el' ? HVL.t('after') + ' ' + HVL.ord(done) + ' ' + HVL.t('set') : 'after ' + HVL.ord(done) + ' set'}`
     : `${HVL.t('match')} ${HVL.t('stats')}`);
   const dt = HVL.dateLong(m.iso);
@@ -47,6 +58,6 @@ HVL.poll('match', 10, (d, first) => {
     <div class="pill venue-pill">${HVL.esc([dt.date, m.venue].filter(Boolean).join(' – '))}</div>
     ${m.round || m.phase ? `<div class="pill tag-pill">${HVL.esc(m.round || m.phase)}</div>` : ''}`;
   HVL.animate(box, first);
-});
+}, SETP ? { sets: 1 } : undefined);
 </script>
 </body></html>

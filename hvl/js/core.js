@@ -135,6 +135,7 @@
   HVL.animate = (el, first = true) => {
     if (!el) return;
     HVL.fit(el);
+    if (document.fonts?.ready) document.fonts.ready.then(() => HVL.fit(el));
     if (first) HVL.countUp(el);
     if (first && THEME === 'novi' && el.id === 'box') HVL.sweep(el);
     el.classList.add('anim');
@@ -249,6 +250,7 @@
       match: {
         mid: 1, status: st, date: '18/10/2026', time: '18:00', iso: '2026-10-18T15:00:00Z', venue: 'Kleisto Gymnastirio Kifisias', round: 'Game Day 2', phase: 'Regular season',
         referees: ['PAPADOPOULOS Nikos', 'GEORGIOU Kostas'],
+        setStats: sets.map((x, i) => ({ h: { att: 12 + i, blk: 2 + (i % 2), ace: 1, attTot: 26, srvErr: 3 }, a: { att: 11 + (i % 3), blk: 3, ace: i % 2 ? 2 : 0, attTot: 27, srvErr: 4 } })),
         sets, setsHome: 1, setsAway: st === 'finished' ? 3 : 2, current: st === 'live' ? { set: 4, h: 16, a: 14 } : null,
       },
       home, away, standings, state: {},
