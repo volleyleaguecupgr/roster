@@ -65,7 +65,7 @@
   .n2 .nmw.h span { text-align: right; } .n2 .nmw.l span { color: rgba(255,255,255,.55); }
   .row .lo, .n2 .lo { width: calc(var(--rh) * .84); height: calc(var(--rh) * .84); }
   .n2 .mid { padding: 4px 6px; }
-  .mid .tvl { display: block; height: calc(var(--rh) * .36); max-width: 96%; margin-top: 4px; object-fit: contain; }
+  .mid .tvl { display: block; height: calc(var(--rh) * .34); max-width: 92%; margin-top: 4px; object-fit: contain; }
   .mid.vs, .mb .sc.vs { display: flex !important; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   .mid.vs > span, .mb .sc.vs > span { line-height: 1; }
   .mid.vs small, .mb .sc.vs small { margin-top: 6px !important; text-align: center; }
@@ -462,9 +462,31 @@ function render() {
       }).join('') || '<div class="empty">Δεν υπάρχουν αγώνες</div>'}
     </div>` + footer();
   }
+  post.querySelectorAll('img.tvl, .tv img, img.tvL').forEach(trimLogo);
   const fitAll = () => { HVL.fit(post); fitUni2(post); };
   fitAll(); if (document.fonts?.ready) document.fonts.ready.then(fitAll);
   scale();
+}
+/** channel logos often carry big empty margins → crop them to their visible content so they fill their box */
+function trimLogo(im) {
+  if (im.dataset.trimmed) return;
+  const run = () => {
+    if (im.dataset.trimmed || !im.naturalWidth) return;
+    im.dataset.trimmed = '1';
+    try {
+      const w = im.naturalWidth, h = im.naturalHeight, c = document.createElement('canvas'); c.width = w; c.height = h;
+      const x = c.getContext('2d'); x.drawImage(im, 0, 0); const d = x.getImageData(0, 0, w, h).data;
+      const bg = [d[0], d[1], d[2], d[3]];   // top-left pixel = background (transparent or solid)
+      const isBg = (i) => d[i + 3] < 20 || (bg[3] > 200 && Math.abs(d[i] - bg[0]) + Math.abs(d[i + 1] - bg[1]) + Math.abs(d[i + 2] - bg[2]) < 40);
+      let x0 = w, y0 = h, x1 = -1, y1 = -1;
+      for (let y = 0; y < h; y++) for (let xx = 0; xx < w; xx++) if (!isBg((y * w + xx) * 4)) { if (xx < x0) x0 = xx; if (xx > x1) x1 = xx; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      if (x1 < 0 || (x1 - x0 > w * .97 && y1 - y0 > h * .97)) return;   // nothing to crop
+      const pad = 2, cw = x1 - x0 + 1 + pad * 2, ch = y1 - y0 + 1 + pad * 2, o = document.createElement('canvas'); o.width = cw; o.height = ch;
+      o.getContext('2d').drawImage(c, x0 - pad, y0 - pad, cw, ch, 0, 0, cw, ch);
+      im.src = o.toDataURL('image/png');
+    } catch { /* cross-origin image: leave as is */ }
+  };
+  if (im.complete) run(); else im.addEventListener('load', run, { once: true });
 }
 /** team names in "rows" layout: max 2 lines, never cut, and every name gets the same (smallest needed) size */
 function fitUni2(root) {
@@ -552,6 +574,7 @@ function renderMatch(post, fmt, comp) {
       ${stack(G.whenY, G.whenH, story ? 30 : 18)}
     </div>`;
   }
+  post.querySelectorAll('img.tvL').forEach(trimLogo);
   HVL.fit(post); fitBox(post);
   if (document.fonts?.ready) document.fonts.ready.then(() => { HVL.fit(post); fitBox(post); });
   scale();
