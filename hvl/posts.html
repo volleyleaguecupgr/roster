@@ -55,7 +55,7 @@
   .mb.wtv { grid-template-columns: minmax(0, 1fr) var(--tvW) var(--scW); }
   .g.wtv { grid-template-columns: var(--dateW) var(--logoW) minmax(0, 1fr) var(--midW) minmax(0, 1fr) var(--logoW) var(--tvW); }
   .tv { height: 100%; display: grid; place-items: center; padding: 0 10px; }
-  .tv img { max-width: 100%; max-height: 62%; object-fit: contain; }
+  .tv img { max-width: 100%; max-height: 85%; object-fit: contain; }
   .mb .sc.vs small, .row .mid.vs small { display: block; margin-top: 4px; font-size: calc(var(--rh) * .15); font-weight: 800; letter-spacing: .5px; color: var(--aqua); opacity: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; padding: 0 6px; }
   /* narrow formats, "rows" layout: home name | home logo | time+court+TV | away logo | away name (names may wrap to 2 lines, all the same size) */
   .n2 { grid-template-columns: minmax(0, 1fr) var(--logoW) var(--scW) var(--logoW) minmax(0, 1fr); height: var(--rh); }
@@ -65,7 +65,7 @@
   .n2 .nmw.h span { text-align: right; } .n2 .nmw.l span { color: rgba(255,255,255,.55); }
   .row .lo, .n2 .lo { width: calc(var(--rh) * .84); height: calc(var(--rh) * .84); }
   .n2 .mid { padding: 4px 6px; }
-  .mid .tvl { display: block; height: calc(var(--rh) * .2); max-width: 90%; margin-top: 5px; object-fit: contain; }
+  .mid .tvl { display: block; height: calc(var(--rh) * .28); max-width: 90%; margin-top: 5px; object-fit: contain; }
   .mid.vs, .mb .sc.vs { display: flex !important; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   .mid.vs > span, .mb .sc.vs > span { line-height: 1; }
   .mid.vs small, .mb .sc.vs small { margin-top: 6px !important; text-align: center; }
@@ -114,7 +114,7 @@
               font-weight: 900; font-size: calc(var(--whenH) * .38); text-transform: uppercase; white-space: nowrap; --cut: 26px; }
   .when2 .t { height: calc(var(--whenH) * .82); padding: 0 56px; display: grid; place-items: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-size: calc(var(--whenH) * .5); --cut: 22px; }
   .lgTL { position: absolute; z-index: 6; width: auto; object-fit: contain; }
-  .tvL { position: absolute; left: 50%; transform: translateX(-50%); z-index: 6; width: auto; max-width: 340px; object-fit: contain; }
+  .tvL { position: absolute; left: 50%; transform: translateX(-50%); z-index: 6; width: auto; max-width: 500px; object-fit: contain; }
   .venue { position: absolute; z-index: 6; left: 50%; transform: translateX(-50%); width: var(--whenW); text-align: center; font-weight: 800; font-size: calc(var(--whenH) * .3); text-transform: uppercase; color: rgba(255,255,255,.85); white-space: nowrap; overflow: hidden; }
   .venue b { color: var(--aqua); }
 
@@ -473,7 +473,7 @@ function renderMatch(post, fmt, comp) {
     const vt = top + wh + 10 + wh * .82 + gap, tvTop = vt + (m.venue ? wh * .42 + 14 : 0);
     return `<div class="when2" style="top:${top}px;--whenH:${wh}px"><div class="d par">${HVL.esc(date)}</div><div class="t par">${HVL.esc(time)}</div></div>
       ${m.venue ? `<div class="venue" style="top:${vt}px;--whenH:${wh}px;--whenW:${W - 120}px">${HVL.esc(caps(m.venue))}</div>` : ''}
-      <img class="tvL" src="${tvLogo(m.tv)}" style="top:${tvTop}px;height:${Math.round(wh * .62)}px" onerror="this.remove()">`;
+      <img class="tvL" src="${tvLogo(m.tv)}" style="top:${tvTop}px;height:${Math.round(wh * .65)}px" onerror="this.remove()">`;
   };
   if ($('style').value === 'boxes') {
     const box = wide ? 250 : story ? 380 : sq ? 250 : 340;
