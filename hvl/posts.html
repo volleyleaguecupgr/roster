@@ -55,7 +55,7 @@
   .mb.wtv { grid-template-columns: minmax(0, 1fr) var(--tvW) var(--scW); }
   .g.wtv { grid-template-columns: var(--dateW) var(--logoW) minmax(0, 1fr) var(--midW) minmax(0, 1fr) var(--logoW) var(--tvW); }
   .tv { height: 100%; display: grid; place-items: center; padding: 0 10px; }
-  .tv img { max-width: 100%; max-height: 62%; object-fit: contain; }
+  .tv img { max-width: 100%; max-height: 92%; object-fit: contain; }
   .mb .sc.vs small, .row .mid.vs small { display: block; margin-top: 4px; font-size: calc(var(--rh) * .15); font-weight: 800; letter-spacing: .5px; color: var(--aqua); opacity: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; padding: 0 6px; }
   /* narrow formats, "rows" layout: home name | home logo | time+court+TV | away logo | away name (names may wrap to 2 lines, all the same size) */
   .n2 { grid-template-columns: minmax(0, 1fr) var(--logoW) var(--scW) var(--logoW) minmax(0, 1fr); height: var(--rh); }
@@ -65,7 +65,7 @@
   .n2 .nmw.h span { text-align: right; } .n2 .nmw.l span { color: rgba(255,255,255,.55); }
   .row .lo, .n2 .lo { width: calc(var(--rh) * .84); height: calc(var(--rh) * .84); }
   .n2 .mid { padding: 4px 6px; }
-  .mid .tvl { display: block; height: calc(var(--rh) * .2); max-width: 90%; margin-top: 5px; object-fit: contain; }
+  .mid .tvl { display: block; height: calc(var(--rh) * .36); max-width: 96%; margin-top: 4px; object-fit: contain; }
   .mid.vs, .mb .sc.vs { display: flex !important; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   .mid.vs > span, .mb .sc.vs > span { line-height: 1; }
   .mid.vs small, .mb .sc.vs small { margin-top: 6px !important; text-align: center; }
@@ -191,6 +191,8 @@
   .sch .dh::after { content: ''; flex: 1; height: 2px; margin-bottom: .45em; background: linear-gradient(90deg, rgba(153,245,253,.8), transparent); }
   .sch .mid.vs { background: linear-gradient(180deg, #3a475f, #222a39); box-shadow: inset 0 4px 0 var(--aqua); }
   .sch .mid.vs > span { font-size: calc(var(--rh) * .34); letter-spacing: 1px; }
+  .sch .n2 .mid.vs > span { font-size: calc(var(--rh) * .28); }
+  .sch .n2 .mid.vs small { margin-top: 2px !important; }
   .sch .mid:not(.vs):not(.live) { box-shadow: inset 0 4px 0 #fff; }
   .sch .n2 .nmw span { letter-spacing: .4px; }
   /* standings on 1080-wide posts: narrower table, bigger logos + names */
@@ -425,8 +427,8 @@ function render() {
     const stack = narrow && $('lay').value === 'stack', rowsN = narrow && !stack;
     const L = layout(fmt, stack ? ms.length * 1.3 + days * .45 : narrow ? ms.length + days * .45 : ms.length); applyVars(post, L);
     const sched = type === 'schedule';
-    post.style.setProperty('--scW', Math.round(rowsN ? Math.min(L.rh * 1.7, 190) : Math.min(L.rh * (sched ? 1.6 : 1.25), sched ? 200 : 150)) + 'px');
-    post.style.setProperty('--tvW', Math.round(Math.min(L.rh * (narrow ? .95 : 1.25), 150)) + 'px');
+    post.style.setProperty('--scW', Math.round(rowsN ? Math.min(L.rh * 1.9, 210) : Math.min(L.rh * (sched ? 1.6 : 1.25), sched ? 200 : 150)) + 'px');
+    post.style.setProperty('--tvW', Math.round(Math.min(L.rh * (narrow ? .95 : 2.1), 260)) + 'px');
     const tvCell = (m) => (sched ? `<div class="tv"><img src="${tvLogo(m.tv)}" onerror="this.remove()"></div>` : '');
     const court = (m) => (m.venue ? `<small>${HVL.esc(caps(m.venue))}</small>` : '');
     const title = type === 'results' ? 'ΑΠΟΤΕΛΕΣΜΑΤΑ' : 'ΠΡΟΓΡΑΜΜΑ';
