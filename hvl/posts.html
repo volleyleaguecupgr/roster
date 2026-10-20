@@ -108,7 +108,14 @@
   .when { position: absolute; left: 50%; transform: translateX(-50%); display: grid; grid-template-columns: 1fr auto; width: var(--whenW); height: var(--whenH); background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(29,36,49,.97)); box-shadow: inset 0 -4px 0 var(--aqua); --cut: 26px; }
   .when .d { display: grid; place-items: center; font-weight: 900; font-size: calc(var(--whenH) * .36); text-transform: uppercase; white-space: nowrap; padding: 0 30px; overflow: hidden; }
   .when .t { display: grid; place-items: center; padding: 0 46px; background: var(--aqua); color: var(--ink); font-weight: 900; font-size: calc(var(--whenH) * .5); }
-  .venue { position: absolute; left: 50%; transform: translateX(-50%); width: var(--whenW); text-align: center; font-weight: 800; font-size: calc(var(--whenH) * .3); text-transform: uppercase; color: rgba(255,255,255,.85); white-space: nowrap; overflow: hidden; }
+  /* boxes style: day box with the time box centred under it */
+  .when2 { position: absolute; left: 50%; transform: translateX(-50%); width: max-content; z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .when2 .d { height: var(--whenH); padding: 0 70px; display: grid; place-items: center; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(29,36,49,.97)); box-shadow: inset 0 -4px 0 var(--aqua);
+              font-weight: 900; font-size: calc(var(--whenH) * .38); text-transform: uppercase; white-space: nowrap; --cut: 26px; }
+  .when2 .t { height: calc(var(--whenH) * .82); padding: 0 56px; display: grid; place-items: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-size: calc(var(--whenH) * .5); --cut: 22px; }
+  .lgTL { position: absolute; z-index: 6; width: auto; object-fit: contain; }
+  .tvL { position: absolute; left: 50%; transform: translateX(-50%); z-index: 6; width: auto; max-width: 340px; object-fit: contain; }
+  .venue { position: absolute; z-index: 6; left: 50%; transform: translateX(-50%); width: var(--whenW); text-align: center; font-weight: 800; font-size: calc(var(--whenH) * .3); text-transform: uppercase; color: rgba(255,255,255,.85); white-space: nowrap; overflow: hidden; }
   .venue b { color: var(--aqua); }
 
   /* ---------- match announcement: player photos (reference style) ---------- */
@@ -165,6 +172,7 @@
   .pv2 .nm2 .tn2 { font-size: 1em; width: 100%; white-space: nowrap; overflow: hidden; font-weight: 900; font-style: italic; color: var(--aqua); text-transform: uppercase; line-height: 1.05; }
   .pv2 .bigvs2 { position: absolute; left: 50%; transform: translateX(-50%); z-index: 4; font-weight: 900; font-style: italic; line-height: .8; letter-spacing: -4px; color: #fff;
                  text-shadow: 0 0 40px rgba(153,245,253,.6), 0 10px 40px rgba(0,0,0,.7); }
+  .pv2 .hdr { z-index: 6; }
   .pv2 .lg2 { position: absolute; left: 50%; transform: translateX(-50%); z-index: 5; }
   .pv2 .strip { position: absolute; left: 50%; transform: translateX(-50%); z-index: 5; height: 50px; padding: 0 46px; display: grid; place-items: center; white-space: nowrap; background: var(--slate2); border-bottom: 3px solid var(--aqua); font-weight: 800; font-size: 22px; letter-spacing: 1.5px; text-transform: uppercase; }
   .pv2 .d2 { position: absolute; left: 50%; transform: translateX(-50%); z-index: 5; height: var(--whenH); display: flex; align-items: stretch; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(29,36,49,.97)); box-shadow: inset 0 -4px 0 var(--aqua); --cut: 24px; }
@@ -296,8 +304,8 @@ function applyVars(node, L) {
 }
 const bars = () => ''; const _unusedBars = () => `<div class="bars" style="--barsH:${Math.round(CUR.hdrH)}px">${[[0, 6], [26, 6], [50, 18], [90, 6], [118, 46], [182, 8]].map(([x, w]) => `<i style="left:${x}px;width:${w}px"></i>`).join('')}</div>`;
 
-function header(title, sub) {
-  const lf = LOGO_FILE[$('league').value];
+function header(title, sub, noLogo) {
+  const lf = noLogo ? '' : LOGO_FILE[$('league').value];
   return `<div class="hdr"><div class="lg">${lf ? `<img src="logos/${lf}.png" onerror="this.remove()">` : ''}</div>
     <div class="tt par">${HVL.esc(title)}</div><div class="st par">${HVL.esc(sub)}</div></div>`;
 }
@@ -459,29 +467,38 @@ function renderMatch(post, fmt, comp) {
   const tile = (t, cls) => `<div class="${cls}" data-i="${HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3))}">${logoImg(t)}</div>`;
   const wide = fmt === 'wide', story = fmt === 'story', sq = fmt === 'square';
   const vars = (o) => Object.entries(o).forEach(([k, v]) => post.style.setProperty(k, typeof v === 'number' ? v + 'px' : v));
+  // shared: league logo top-left; day box with the time box under it, court below, TV channel logo under the court
+  const lgTL = (x, y, h) => (lf ? `<img class="lgTL" src="logos/${lf}.png" style="left:${x}px;top:${y}px;height:${h}px" onerror="this.remove()">` : '');
+  const stack = (top, wh, gap) => {
+    const vt = top + wh + 10 + wh * .82 + gap, tvTop = vt + (m.venue ? wh * .42 + 14 : 0);
+    return `<div class="when2" style="top:${top}px;--whenH:${wh}px"><div class="d par">${HVL.esc(date)}</div><div class="t par">${HVL.esc(time)}</div></div>
+      ${m.venue ? `<div class="venue" style="top:${vt}px;--whenH:${wh}px;--whenW:${W - 120}px">${HVL.esc(caps(m.venue))}</div>` : ''}
+      <img class="tvL" src="${tvLogo(m.tv)}" style="top:${tvTop}px;height:${Math.round(wh * .62)}px" onerror="this.remove()">`;
+  };
   if ($('style').value === 'boxes') {
-    const box = wide ? 240 : story ? 360 : sq ? 230 : 300;
-    vars({ '--padT': story ? 150 : wide ? 36 : 50, '--logoH': story ? 210 : sq ? 110 : wide ? 110 : 150, '--ttH': story ? 120 : 96, '--ftH': story ? 120 : 84, '--box': box, '--vsW': wide ? 260 : 190,
-           '--sideP': wide ? 160 : 50, '--whenW': wide ? 1100 : W - 120, '--whenH': story ? 120 : sq ? 84 : 100 });
-    const hdrH = (story ? 150 : wide ? 36 : 50) + (story ? 210 : sq || wide ? 110 : 150) + 18 + (story ? 120 : 96) + 12 + (story ? 60 : 48);
+    const box = wide ? 250 : story ? 380 : sq ? 250 : 340;
+    vars({ '--padT': story ? 150 : wide ? 36 : 50, '--logoH': 0, '--ttH': story ? 120 : 96, '--ftH': story ? 120 : 84, '--box': box, '--vsW': wide ? 260 : 190,
+           '--sideP': wide ? 160 : 50, '--whenW': wide ? 1100 : W - 120, '--whenH': story ? 120 : sq || wide ? 84 : 100 });
+    const hdrH = (story ? 150 : wide ? 36 : 50) + 18 + (story ? 120 : 96) + 12 + (story ? 60 : 48);
     const mxTop = hdrH + (story ? 120 : sq ? 20 : wide ? 30 : 50), mxH = box * 1.62 + box * .1;
-    post.innerHTML = bars() + header('ΗΜΕΡΑ ΑΓΩΝΑ', sub) + `
+    const whenTop = mxTop + mxH + (story ? 110 : sq ? 20 : wide ? 24 : 40), whenH = story ? 120 : sq || wide ? 84 : 100;
+    post.innerHTML = bars() + header(roundEl(m.round) || 'ΗΜΕΡΑ ΑΓΩΝΑ', comp, true) + lgTL(story ? 40 : 30, story ? 60 : 26, story ? 170 : wide ? 120 : sq ? 110 : 130) + `
       <div class="mx" style="top:${mxTop}px">
         <div class="side">${tile(d.home, 'box')}<div class="tname par"><span class="fit uni">${HVL.esc(el(d.home))}</span></div></div>
         <div class="vs par">VS</div>
         <div class="side">${tile(d.away, 'box')}<div class="tname par"><span class="fit uni">${HVL.esc(el(d.away))}</span></div></div>
       </div>
-      <div class="when par" style="top:${mxTop + mxH + (story ? 110 : sq ? 24 : wide ? 30 : 60)}px"><div class="d">${HVL.esc(date)}</div><div class="t">${HVL.esc(time)}</div></div>
-      ${m.venue ? `<div class="venue" style="top:${mxTop + mxH + (story ? 110 : sq ? 24 : wide ? 30 : 60) + (story ? 150 : sq ? 96 : 116)}px"><b>⬤</b> ${HVL.esc(caps(m.venue))}</div>` : ''}` + footer();
+      ${stack(whenTop, whenH, story ? 40 : 26)}` + footer();
   } else {
     // reference style: match photos inside sharp slanted panels bounded by long oblique lines, big VS between,
     // team logo at the foot of each panel, full team name underneath (single line, same size for both)
-    const G = wide ? { pw: 560, ph: 600, py: 250, cxL: 590, cxR: 1330, tl: 130, nameY: 925, nameH: 90, nameW: 700, nameFs: 62, dateY: 96, dateH: 72, venueY: 182, vsTop: 380, vsSize: 300, lgH: 100, lgTop: 28, stripY: 28 }
-      : story ? { pw: 500, ph: 860, py: 400, cxL: 290, cxR: 790, tl: 160, nameY: 1340, nameH: 120, nameW: 492, nameFs: 64, dateY: 1600, dateH: 100, venueY: 1716, vsTop: 720, vsSize: 260, lgH: 150, lgTop: 90, stripY: 286 }
-      : sq ? { pw: 500, ph: 560, py: 84, cxL: 290, cxR: 790, tl: 110, nameY: 708, nameH: 78, nameW: 492, nameFs: 44, dateY: 902, dateH: 64, venueY: 980, vsTop: 270, vsSize: 200, lgH: 0, lgTop: 0, stripY: 22 }
-      : { pw: 500, ph: 760, py: 96, cxL: 290, cxR: 790, tl: 130, nameY: 924, nameH: 96, nameW: 492, nameFs: 54, dateY: 1154, dateH: 80, venueY: 1250, vsTop: 400, vsSize: 230, lgH: 0, lgTop: 0, stripY: 26 };
+    // tt*: round title pill + competition bar at the top centre; when*: day/time stack
+    const G = wide ? { pw: 560, ph: 600, py: 250, cxL: 590, cxR: 1330, tl: 130, nameY: 925, nameH: 90, nameW: 700, nameFs: 62, ttY: 22, ttH: 70, whenY: 560, whenH: 70, vsTop: 290, vsSize: 220, lg: [36, 26, 110] }
+      : story ? { pw: 500, ph: 860, py: 310, cxL: 290, cxR: 790, tl: 160, nameY: 1240, nameH: 120, nameW: 492, nameFs: 64, ttY: 90, ttH: 92, whenY: 1430, whenH: 100, vsTop: 630, vsSize: 260, lg: [36, 40, 140] }
+      : sq ? { pw: 500, ph: 520, py: 124, cxL: 290, cxR: 790, tl: 104, nameY: 680, nameH: 72, nameW: 492, nameFs: 42, ttY: 16, ttH: 58, whenY: 790, whenH: 60, vsTop: 290, vsSize: 190, lg: [22, 16, 86] }
+      : { pw: 500, ph: 720, py: 142, cxL: 290, cxR: 790, tl: 126, nameY: 904, nameH: 92, nameW: 492, nameFs: 52, ttY: 20, ttH: 66, whenY: 1040, whenH: 76, vsTop: 430, vsSize: 230, lg: [28, 20, 104] };
     const SLANT = .24, off = Math.round(G.ph * SLANT), ang = Math.atan2(off, G.ph) * 180 / Math.PI;
-    vars({ '--whenH': G.dateH, '--off': off });
+    vars({ '--whenH': G.whenH, '--off': off, '--ttH': G.ttH });
     const initials = (t) => HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3));
     const edge = (x1, y1, x2, y2, ext) => {   // long line along a panel edge, extended beyond both ends
       const len = Math.hypot(x2 - x1, y2 - y1) * ext, cx = (x1 + x2) / 2, cy = (y1 + y2) / 2;
@@ -499,12 +516,11 @@ function renderMatch(post, fmt, comp) {
     };
     const streaks = [-.05, .2, .5, .78, 1.0].map((x) => `<i class="edge faint" style="left:${Math.round(W * x)}px;top:${-H * .1}px;height:${H * 1.2}px;transform:rotate(${ang}deg)"></i>`).join('');
     post.innerHTML = `<div class="pv2">${streaks}
-      ${lf && G.lgH ? `<img class="lg2" src="logos/${lf}.png" style="top:${G.lgTop}px;height:${G.lgH}px" onerror="this.remove()">` : ''}
-      <div class="strip par" style="top:${G.stripY}px">${HVL.esc(sub)}</div>
+      ${lgTL(...G.lg)}
+      <div class="hdr" style="top:${G.ttY}px"><div class="tt par" style="margin-top:0">${HVL.esc(roundEl(m.round) || 'ΗΜΕΡΑ ΑΓΩΝΑ')}</div><div class="st par" style="margin-top:8px">${HVL.esc(comp)}</div></div>
       ${panel('h', d.home, G.cxL)}${panel('a', d.away, G.cxR)}
       <div class="bigvs2" style="top:${G.vsTop}px;font-size:${G.vsSize}px">VS</div>
-      <div class="d2 par" style="top:${G.dateY}px"><span>${HVL.esc(date)}</span><span class="t">${HVL.esc(time)}</span></div>
-      ${m.venue ? `<div class="v2" style="top:${G.venueY}px"><b>⬤</b> ${HVL.esc(caps(m.venue))}</div>` : ''}
+      ${stack(G.whenY, G.whenH, story ? 30 : 18)}
     </div>`;
   }
   HVL.fit(post); fitBox(post);
