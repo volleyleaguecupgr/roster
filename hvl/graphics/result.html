@@ -27,9 +27,9 @@ HVL.poll('match', 5, (d, first) => {
   box.innerHTML = `
     <div class="pill title-pill">${title}</div>
     <div class="pill comp-pill">${HVL.esc(d.league.name)}</div>
-    <div class="teams-capsule">${HVL.logo(h)}<div class="name fit">${HVL.esc(h.short)}</div>
+    <div class="teams-capsule">${HVL.logo(h)}<div class="name fit uni">${HVL.esc(h.short)}</div>
       <div class="score">${m.status === 'upcoming' ? HVL.t('vs') : `${s.setsH} – ${s.setsA}`}</div>
-      <div class="name right fit">${HVL.esc(a.short)}</div>${HVL.logo(a)}</div>
+      <div class="name right fit uni">${HVL.esc(a.short)}</div>${HVL.logo(a)}</div>
     ${sets.map((x, i) => {
       const fin = Math.max(x.h, x.a) >= (i === 4 ? 15 : 25) && Math.abs(x.h - x.a) >= 2;
       return `<div class="stat-row ${fin ? '' : 'cur'}"><div class="val ${fin && x.h > x.a ? 'win' : ''}">${x.h}</div>

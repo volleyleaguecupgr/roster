@@ -55,7 +55,7 @@ HVL.poll('match', 10, (d, first) => {
   box.innerHTML = `
     <div class="pill title-pill">${HVL.esc(HVL.get('title') || (HVL.lang === 'el' ? 'Σύγκριση παικτών' : 'Player comparison'))}</div>
     <div class="pill comp-pill">${HVL.esc(d.league.name)}</div>
-    <div class="teams-capsule">${HVL.logo(d.home)}<div class="name fit">${HVL.esc(d.home.short)}</div><div class="score">${d.match.status === 'upcoming' ? 'VS' : `${s.setsH} – ${s.setsA}`}</div><div class="name right fit">${HVL.esc(d.away.short)}</div>${HVL.logo(d.away)}</div>
+    <div class="teams-capsule">${HVL.logo(d.home)}<div class="name fit uni">${HVL.esc(d.home.short)}</div><div class="score">${d.match.status === 'upcoming' ? 'VS' : `${s.setsH} – ${s.setsA}`}</div><div class="name right fit uni">${HVL.esc(d.away.short)}</div>${HVL.logo(d.away)}</div>
     <div class="duel">${photo(ph)}
       <div><div class="cmp"><div class="n">${ph?.number ?? ''}</div><div class="nm fit">${HVL.esc(short(ph))}</div><div class="vs">VS</div><div class="nm fit">${HVL.esc(short(pa))}</div><div class="n">${pa?.number ?? ''}</div></div>
       <div class="poss"><div class="pos">${HVL.esc(ph?.position?.label || '')}</div><div class="pos">${HVL.esc(pa?.position?.label || '')}</div></div></div>

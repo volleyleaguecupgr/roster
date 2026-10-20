@@ -26,6 +26,8 @@
 <div id="stage"><div id="box"></div></div>
 <script>
 if (!HVL.P.has('mode')) HVL.mode = 'next';
+// static card (no entrance animation) unless ?anim=1
+if (HVL.get('anim') !== '1') document.body.classList.add('noanim');
 HVL.poll('match', 60, (d, first) => {
   const box = HVL.$('#box');
   if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }

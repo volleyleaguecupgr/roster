@@ -101,8 +101,13 @@
       const min = fs * 0.36;
       while ((el.scrollWidth > el.clientWidth + 1) && fs > min) { fs -= 1; el.style.fontSize = fs + 'px'; }
     });
+    // .uni: every team name in the same graphic gets the same (smallest needed) size – one line, no overlap
+    const uni = [...root.querySelectorAll('.fit.uni')];
+    if (uni.length > 1) {
+      const m = Math.min(...uni.map((e) => parseFloat(getComputedStyle(e).fontSize)));
+      uni.forEach((e) => { e.style.fontSize = m + 'px'; });
+    }
   };
-  /** Animate pills in on first render; later data updates swap content without replaying. */
   /** Count numbers up from 0 on first appearance */
   HVL.countUp = (root) => {
     if (document.body.classList.contains('noanim')) return;
@@ -120,7 +125,7 @@
     });
   };
   /** Slanted bars sweeping across an element (novi theme entry motion) */
-  const BAR_W = [6, 6, 34, 10, 120, 6, 190, 10, 6, 70, 6, 6, 14, 40];
+  const BAR_W = [6, 34, 10, 120, 6, 190, 10, 70, 6, 14];
   HVL.sweep = (el, { dur = .85, gap = 46 } = {}) => {
     if (!el || document.body.classList.contains('noanim')) return;
     el.querySelector(':scope > .nv-bars')?.remove();
@@ -142,7 +147,8 @@
     HVL.fit(el);
     if (document.fonts?.ready) document.fonts.ready.then(() => HVL.fit(el));
     if (first) HVL.countUp(el);
-    if (first && THEME === 'novi' && el.id === 'box') HVL.sweep(el);
+    // slanted-bar sweep only on final score + team stats (or ?sweep=1); every other card slides in like the referees boxes
+    if (first && THEME === 'novi' && el.id === 'box' && (get('sweep') === '1' || (get('sweep') !== '0' && /\/(result|stats)\.html/.test(location.pathname)))) HVL.sweep(el);
     el.classList.add('anim');
     if (!first) { el.classList.add('settled'); return; }
     el.classList.remove('in', 'settled');

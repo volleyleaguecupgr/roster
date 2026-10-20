@@ -31,7 +31,7 @@ HVL.poll(HVL.team && HVL.get('highlight') !== '0' ? 'match' : 'standings', 60, (
     <div class="pill title-pill">${HVL.esc(HVL.get('title') || HVL.t('standings'))}</div>
     <div class="pill comp-pill">${HVL.esc(d.league?.name || '')}</div>
     <div class="hd"><div></div><div></div><div></div><div>${HVL.t('played')}</div><div>${HVL.t('won')}</div><div>${HVL.t('lost')}</div><div>${HVL.t('sets')}</div><div>${HVL.t('pts')}</div></div>
-    ${table.slice(0, MAX).map((r) => `<div class="rw ${hl.has(r.teamId) ? 'hl' : ''}"><div class="rk">${r.rank}</div>${HVL.logo(r)}<div class="tn fit">${HVL.esc(r.short || r.name)}</div>
+    ${table.slice(0, MAX).map((r) => `<div class="rw ${hl.has(r.teamId) ? 'hl' : ''}"><div class="rk">${r.rank}</div>${HVL.logo(r)}<div class="tn fit uni">${HVL.esc(r.short || r.name)}</div>
       <div>${r.played}</div><div>${r.won}</div><div>${r.lost}</div><div>${r.setsW ?? ''}:${r.setsL ?? ''}</div><div class="pts">${r.rankPts}</div></div>`).join('')}`;
   HVL.animate(box, first);
 });

@@ -37,14 +37,28 @@
   .row { height: var(--rh); display: grid; align-items: center; background: linear-gradient(100deg, rgba(36,44,59,.96), rgba(29,36,49,.96));
          box-shadow: inset 0 -3px 0 var(--aqua); font-weight: 800; }
   .row.hl { background: linear-gradient(100deg, rgba(153,245,253,.28), rgba(36,44,59,.96) 55%); }
-  .g { grid-template-columns: var(--dateW) var(--logoW) 1fr var(--midW) 1fr var(--logoW); }
+  .g { grid-template-columns: var(--dateW) var(--logoW) minmax(0, 1fr) var(--midW) minmax(0, 1fr) var(--logoW); }
+  .g.nd { grid-template-columns: var(--logoW) minmax(0, 1fr) var(--midW) minmax(0, 1fr) var(--logoW); }
+  /* narrow formats: stacked match blocks (home line / away line), every name on one line, same size */
+  .mb { height: calc(var(--rh) * 1.3); display: grid; grid-template-columns: minmax(0, 1fr) var(--scW); background: linear-gradient(100deg, rgba(36,44,59,.96), rgba(29,36,49,.96)); box-shadow: inset 0 -3px 0 var(--aqua); }
+  .mb.hl { background: linear-gradient(100deg, rgba(153,245,253,.28), rgba(36,44,59,.96) 55%); }
+  .mb .lns { display: grid; grid-template-rows: 1fr 1fr; padding: 6px 0 6px calc(var(--cut) + 6px); min-width: 0; }
+  .mb .ln { display: grid; grid-template-columns: calc(var(--rh) * .62) minmax(0, 1fr); align-items: center; gap: 16px; min-width: 0; }
+  .mb .ln .lo { width: calc(var(--rh) * .5); height: calc(var(--rh) * .5); font-size: calc(var(--rh) * .14); justify-self: start; }
+  .mb .ln .tn { padding: 0; text-align: left; font-size: calc(var(--rh) * .33); font-weight: 800; }
+  .mb .sc { display: grid; grid-template-rows: 1fr 1fr; }
+  .mb .sc b { display: grid; place-items: center; font-weight: 900; font-size: calc(var(--rh) * .4); background: var(--slate2); }
+  .mb .sc b.w { background: var(--aqua); color: var(--ink); }
+  .mb .sc.vs, .mb .sc.live { display: grid; place-items: center; align-content: center; background: var(--slate2); font-weight: 900; font-size: calc(var(--rh) * .34); }
+  .mb .sc.live { background: #ff5a6b; } .mb .sc.live small { font-size: calc(var(--rh) * .14); letter-spacing: 1px; }
+  .dh { height: calc(var(--rh) * .42); display: flex; align-items: flex-end; padding-left: 8px; color: var(--aqua); font-weight: 900; font-size: calc(var(--rh) * .24); letter-spacing: 1.5px; text-transform: uppercase; }
   .row .dt { padding-left: calc(var(--cut) + 14px); line-height: 1.05; white-space: nowrap; color: var(--aqua); font-size: calc(var(--rh) * .24); text-transform: uppercase; }
   .row .dt small { display: block; color: #fff; font-size: calc(var(--rh) * .22); }
-  .row .lo { height: calc(var(--rh) * .66); width: calc(var(--rh) * .66); justify-self: center; background: #fff; display: grid; place-items: center; overflow: hidden;
+  .lo { height: calc(var(--rh) * .66); width: calc(var(--rh) * .66); justify-self: center; background: #fff; display: grid; place-items: center; overflow: hidden;
              clip-path: polygon(14% 0, 100% 0, 100% 86%, 86% 100%, 0 100%, 0 14%); color: var(--ink); font-weight: 900; font-size: calc(var(--rh) * .17); }
-  .row .lo img { width: 84%; height: 84%; object-fit: contain; }
+  .lo img { width: 84%; height: 84%; object-fit: contain; }
   .row .tn { padding: 0 calc(var(--rh) * .16); font-size: calc(var(--rh) * .3); white-space: nowrap; overflow: hidden; text-transform: uppercase; }
-  .row .tn.h { text-align: right; } .row .tn.l { color: rgba(255,255,255,.55); }
+  .row .tn.h { text-align: right; } .tn.l { color: rgba(255,255,255,.55); }
   .row .mid { height: 100%; display: grid; place-items: center; align-content: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-size: calc(var(--rh) * .4); }
   .row .mid.vs { background: var(--slate2); color: #fff; font-size: calc(var(--rh) * .3); }
   .row .mid.live { background: #ff5a6b; color: #fff; }
@@ -64,8 +78,8 @@
   .m-only, .p-only { display: none !important; } body.t-match .m-only { display: flex !important; } body.t-match.s-players .p-only { display: flex !important; } body.t-match .r-only { display: none !important; }
 
   /* ---------- match announcement: logo boxes ---------- */
-  .mx { position: absolute; left: 0; right: 0; display: grid; grid-template-columns: 1fr var(--vsW) 1fr; align-items: start; padding: 0 var(--sideP); }
-  .mx .side { display: flex; flex-direction: column; align-items: center; gap: calc(var(--box) * .1); }
+  .mx { position: absolute; left: 0; right: 0; display: grid; grid-template-columns: minmax(0, 1fr) var(--vsW) minmax(0, 1fr); align-items: start; padding: 0 var(--sideP); }
+  .mx .side { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: calc(var(--box) * .1); }
   .mx .box { width: var(--box); height: var(--box); background: #fff; display: grid; place-items: center; color: var(--ink); font-weight: 900; font-size: calc(var(--box) * .2);
              clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%); filter: drop-shadow(0 0 40px rgba(153,245,253,.35)); }
   .mx .box img { width: 82%; height: 82%; object-fit: contain; }
@@ -107,6 +121,39 @@
   .pv .top { position: absolute; top: var(--padT); left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 4; }
   .pv .top img { height: var(--logoH); }
   .pv .top .st { height: calc(var(--ttH) * .55); padding: 0 46px; display: grid; place-items: center; background: var(--slate2); border-bottom: 3px solid var(--aqua); font-weight: 800; font-size: calc(var(--ttH) * .28); letter-spacing: 1.5px; text-transform: uppercase; }
+  .mx .tname span { display: block; width: 100%; white-space: nowrap; overflow: hidden; }
+  /* photo panels (players style) */
+  .pv2 { position: absolute; inset: 0; overflow: hidden; }
+  /* glowing light beams along the panel sides (white core + aqua bloom, fading at both ends) */
+  .pv2 .edge { position: absolute; width: 4px; transform-origin: 50% 50%; z-index: 3;
+               background: linear-gradient(180deg, transparent 0%, rgba(153,245,253,.55) 18%, #fff 42%, #fff 58%, rgba(153,245,253,.55) 82%, transparent 100%);
+               box-shadow: 0 0 6px 1px rgba(255,255,255,.9), 0 0 22px 6px rgba(153,245,253,.75), 0 0 60px 18px rgba(153,245,253,.35); }
+  .pv2 .edge::before { content: ''; position: absolute; left: 50%; top: 20%; width: 46px; height: 60%; transform: translateX(-50%);
+               background: radial-gradient(ellipse at center, rgba(153,245,253,.35), transparent 70%); filter: blur(8px); }
+  .pv2 .edge::after { content: ''; position: absolute; left: 50%; top: 32%; width: 16px; height: 36%; transform: translateX(-50%);
+               background: radial-gradient(ellipse at center, rgba(255,255,255,.95), rgba(153,245,253,.5) 40%, transparent 72%); filter: blur(2px); }
+  .pv2 .edge.faint { width: 2px; opacity: .25; box-shadow: 0 0 12px 3px rgba(153,245,253,.4); z-index: 0; }
+  .pv2 .edge.faint::before, .pv2 .edge.faint::after { display: none; }
+  .pv2 .pp { position: absolute; z-index: 2; clip-path: polygon(var(--off) 0, 100% 0, calc(100% - var(--off)) 100%, 0 100%); }
+  .pv2 .ppi { position: absolute; inset: 0; background: linear-gradient(180deg, #2f394b, #171c27); overflow: hidden; display: grid; place-items: center; }
+  .pv2 .ppi .photo { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
+  .pv2 .ppi::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,19,35,.25), transparent 30%, transparent 70%, rgba(12,19,35,.55)); pointer-events: none; }
+  .pv2 .ppi .ghost2 { width: 55%; opacity: .16; }
+  .pv2 .tlogo2 { position: absolute; z-index: 5; background: #fff; display: grid; place-items: center; color: var(--ink); font-weight: 900; font-size: 26px;
+                 clip-path: polygon(12% 0, 100% 0, 100% 88%, 88% 100%, 0 100%, 0 12%); filter: drop-shadow(0 8px 20px rgba(0,0,0,.5)); }
+  .pv2 .tlogo2 img { width: 82%; height: 82%; object-fit: contain; }
+  .pv2 .nm2 { position: absolute; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; text-align: center; }
+  .pv2 .nm2 small { font-weight: 800; font-size: 18px; font-style: normal; letter-spacing: 3px; color: rgba(255,255,255,.7); margin-bottom: 4px; }
+  .pv2 .nm2 .tn2 { font-size: 1em; width: 100%; white-space: nowrap; overflow: hidden; font-weight: 900; font-style: italic; color: var(--aqua); text-transform: uppercase; line-height: 1.05; }
+  .pv2 .bigvs2 { position: absolute; left: 50%; transform: translateX(-50%); z-index: 4; font-weight: 900; font-style: italic; line-height: .8; letter-spacing: -4px; color: #fff;
+                 text-shadow: 0 0 40px rgba(153,245,253,.6), 0 10px 40px rgba(0,0,0,.7); }
+  .pv2 .lg2 { position: absolute; left: 50%; transform: translateX(-50%); z-index: 5; }
+  .pv2 .strip { position: absolute; left: 50%; transform: translateX(-50%); z-index: 5; height: 50px; padding: 0 46px; display: grid; place-items: center; white-space: nowrap; background: var(--slate2); border-bottom: 3px solid var(--aqua); font-weight: 800; font-size: 22px; letter-spacing: 1.5px; text-transform: uppercase; }
+  .pv2 .d2 { position: absolute; left: 50%; transform: translateX(-50%); z-index: 5; height: var(--whenH); display: flex; align-items: stretch; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(29,36,49,.97)); box-shadow: inset 0 -4px 0 var(--aqua); --cut: 24px; }
+  .pv2 .d2 span { display: grid; place-items: center; padding: 0 34px; font-weight: 900; font-size: calc(var(--whenH) * .38); text-transform: uppercase; white-space: nowrap; }
+  .pv2 .d2 span.t { background: var(--aqua); color: var(--ink); font-size: calc(var(--whenH) * .48); }
+  .pv2 .v2 { position: absolute; left: 0; right: 0; text-align: center; z-index: 5; font-weight: 800; font-size: calc(var(--whenH) * .3); color: rgba(255,255,255,.85); text-transform: uppercase; white-space: nowrap; }
+  .pv2 .v2 b { color: var(--aqua); }
   .empty { position: absolute; inset: 0; display: grid; place-items: center; font-size: 44px; font-weight: 800; color: rgba(255,255,255,.6); }
 </style>
 </head><body>
@@ -159,7 +206,7 @@ function layout(fmt, n) {
   L.listTop = L.hdrH + (fmt === 'story' ? 70 : 36);
   const avail = H - L.listTop - L.ftH - (fmt === 'story' ? 70 : 40);
   L.rh = Math.max(56, Math.min(fmt === 'story' ? 170 : 130, (avail - L.gap * (n - 1)) / Math.max(1, n)));
-  L.listW = wide ? 1560 : W - 80;
+  L.listW = wide ? 1560 : W - 64;
   return L;
 }
 let CUR = { hdrH: 300 };
@@ -204,26 +251,39 @@ function render() {
     post.innerHTML = bars() + header('ΒΑΘΜΟΛΟΓΙΑ', comp) + `<div class="list" style="top:${L.listTop}px;width:${L.listW}px">
       <div class="row s sh"><div></div><div></div><div></div><div class="n">ΑΓ</div><div class="n">Ν</div><div class="n">Η</div><div class="n">ΣΕΤ</div><div class="pts">ΒΑΘ</div></div>
       ${rows.map((r) => { const t = { id: r.teamId, name: r.name, short: r.short, logo: r.logo };
-        return `<div class="row s par ${isFocus(t) ? 'hl' : ''} ${r.rank === 1 ? 'top' : ''}"><div class="rk">${r.rank}</div>${logo(t)}<div class="tn fit">${HVL.esc(el(t))}</div>
+        return `<div class="row s par ${isFocus(t) ? 'hl' : ''} ${r.rank === 1 ? 'top' : ''}"><div class="rk">${r.rank}</div>${logo(t)}<div class="tn fit uni">${HVL.esc(el(t))}</div>
           <div class="n">${r.played ?? ''}</div><div class="n">${r.won ?? ''}</div><div class="n">${r.lost ?? ''}</div><div class="n">${r.setsW ?? ''}:${r.setsL ?? ''}</div><div class="pts">${r.rankPts ?? ''}</div></div>`; }).join('')}
     </div>` + footer();
   } else {
     const r = DATA.round;
     const ms = (r?.matches || []).slice(0, 8);
-    const L = layout(fmt, ms.length); applyVars(post, L);
-    const done = ms.length && ms.every((m) => m.status === 'finished');
+    const narrow = FMT[fmt][0] < 1500;
+    const dayKey = (m) => dayEl(m.iso)[0];
+    const days = narrow ? new Set(ms.map(dayKey)).size : 0;
+    const L = layout(fmt, narrow ? ms.length * 1.3 + days * .45 : ms.length); applyVars(post, L);
+    post.style.setProperty('--scW', Math.round(Math.min(L.rh * 1.25, 150)) + 'px');
     const title = type === 'results' ? 'ΑΠΟΤΕΛΕΣΜΑΤΑ' : 'ΠΡΟΓΡΑΜΜΑ';
-    const short = L.W < 1500;
+    let lastDay = '';
     post.innerHTML = bars() + header(title, [roundEl(r?.label), comp].filter(Boolean).join(' · ')) + `<div class="list" style="top:${L.listTop}px;width:${L.listW}px">
       ${ms.map((m) => {
         const [day, time] = dayEl(m.iso), fin = m.status === 'finished', live = m.status === 'live';
         const hw = fin && m.setsHome > m.setsAway, aw = fin && m.setsAway > m.setsHome;
-        const showScore = type === 'results' ? (fin || live) : (fin || live);
+        const showScore = fin || live;
         const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome}-${m.setsAway}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ''}</div>` : `<div class="mid vs">${HVL.esc(time)}</div>`;
-        return `<div class="row g par ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="dt">${HVL.esc(day)}${showScore ? `<small>${HVL.esc(time)}</small>` : ''}</div>
-          ${logo(m.home)}<div class="tn h fit ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home))}</div>
+        const dh = narrow && day !== lastDay ? `<div class="dh">${HVL.esc(caps(new Intl.DateTimeFormat('el-GR', { timeZone: 'Europe/Athens', weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(m.iso))))}${showScore ? ' · ' + HVL.esc(time) : ''}</div>` : '';
+        lastDay = day;
+        if (narrow) {
+          const sc = live ? `<div class="sc live"><span>${m.setsHome}-${m.setsAway}</span><small>ΖΩΝΤΑΝΑ</small></div>`
+            : fin ? `<div class="sc"><b class="${hw ? 'w' : ''}">${m.setsHome}</b><b class="${aw ? 'w' : ''}">${m.setsAway}</b></div>`
+            : `<div class="sc vs">${HVL.esc(time)}</div>`;
+          return `${dh}<div class="mb par ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="lns">
+            <div class="ln">${logo(m.home)}<div class="tn fit uni ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home))}</div></div>
+            <div class="ln">${logo(m.away)}<div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div></div></div>${sc}</div>`;
+        }
+        return `${dh}<div class="row g par ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="dt">${HVL.esc(day)}${showScore ? `<small>${HVL.esc(time)}</small>` : ''}</div>
+          ${logo(m.home)}<div class="tn h fit uni ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home))}</div>
           ${mid}
-          <div class="tn fit ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div>${logo(m.away)}</div>`;
+          <div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div>${logo(m.away)}</div>`;
       }).join('') || '<div class="empty">Δεν υπάρχουν αγώνες</div>'}
     </div>` + footer();
   }
@@ -258,33 +318,43 @@ function renderMatch(post, fmt, comp) {
     const mxTop = hdrH + (story ? 120 : sq ? 20 : wide ? 30 : 50), mxH = box * 1.62 + box * .1;
     post.innerHTML = bars() + header('ΗΜΕΡΑ ΑΓΩΝΑ', sub) + `
       <div class="mx" style="top:${mxTop}px">
-        <div class="side">${tile(d.home, 'box')}<div class="tname par fit2">${HVL.esc(el(d.home))}</div></div>
+        <div class="side">${tile(d.home, 'box')}<div class="tname par"><span class="fit uni">${HVL.esc(el(d.home))}</span></div></div>
         <div class="vs par">VS</div>
-        <div class="side">${tile(d.away, 'box')}<div class="tname par fit2">${HVL.esc(el(d.away))}</div></div>
+        <div class="side">${tile(d.away, 'box')}<div class="tname par"><span class="fit uni">${HVL.esc(el(d.away))}</span></div></div>
       </div>
       <div class="when par" style="top:${mxTop + mxH + (story ? 110 : sq ? 24 : wide ? 30 : 60)}px"><div class="d">${HVL.esc(date)}</div><div class="t">${HVL.esc(time)}</div></div>
       ${m.venue ? `<div class="venue" style="top:${mxTop + mxH + (story ? 110 : sq ? 24 : wide ? 30 : 60) + (story ? 150 : sq ? 96 : 116)}px"><b>⬤</b> ${HVL.esc(caps(m.venue))}</div>` : ''}` + footer();
   } else {
-    // reference style: two uploaded player photos, big VS, light streaks, team names + logo under each photo
-    // geometry per format (px). Portrait: photo → logo tile → team name stacked per side, info bar at the bottom.
-    const P = wide ? { phW: 620, phH: 900, phB: 0, tl: 150, tlB: 200, tbW: 400, tbH: 360, tbTop: 330, tbFs: 92, vsSize: 520, vsTop: 230, infoB: 46, center: false }
-      : story ? { phW: 560, phH: 900, phB: 720, tl: 160, tlB: 640, tbW: 500, tbH: 210, tbTop: 1300, tbFs: 64, vsSize: 400, vsTop: 600, infoB: 120, center: true }
-      : sq ? { phW: 500, phH: 520, phB: 420, tl: 110, tlB: 360, tbW: 470, tbH: 110, tbTop: 735, tbFs: 44, vsSize: 300, vsTop: 250, infoB: 20, center: true }
-      : { phW: 540, phH: 720, phB: 450, tl: 130, tlB: 380, tbW: 490, tbH: 130, tbTop: 990, tbFs: 52, vsSize: 360, vsTop: 330, infoB: 30, center: true };
-    vars({ '--padT': story ? 120 : wide ? 40 : 34, '--logoH': story ? 170 : wide ? 110 : sq ? 80 : 110, '--ttH': story ? 110 : 90, '--whenH': story ? 100 : wide ? 80 : sq ? 64 : 80,
-           ...Object.fromEntries(Object.entries(P).filter(([k]) => k !== 'center').map(([k, v]) => ['--' + k, v])) });
-    const sideX = (left) => wide ? (left ? 430 : W - 430 - P.phW) : (left ? W / 2 - P.phW + 30 : W / 2 - 30);
-    const cx = (left) => sideX(left) + P.phW / 2;
-    const tbX = (left) => P.center ? Math.max(20, Math.min(W - 20 - P.tbW, cx(left) - P.tbW / 2)) : wide ? (left ? 70 : W - 70 - P.tbW) : (left ? 40 : W - 40 - P.tbW);
-    const player = (k, t, left) => `<div class="player" style="left:${sideX(left)}px">${PHOTOS[k] ? `<img class="ph" src="${PHOTOS[k]}">` : t.logo ? `<img class="ghost" src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.remove()">` : ''}</div>
-      <div class="tlogo" style="left:${cx(left) - P.tl / 2}px" data-i="${HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3))}">${t.logo ? `<img src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.parentNode.textContent=this.parentNode.dataset.i">` : HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3))}</div>
-      <div class="tblock ${P.center ? 'c' : left ? '' : 'r'}" style="left:${tbX(left)}px"><small>${left ? 'ΓΗΠΕΔΟΥΧΟΣ' : 'ΦΙΛΟΞΕΝΟΥΜΕΝΟΣ'}</small><div class="tn2 fit2">${HVL.esc(el(t))}</div></div>`;
-    const streaks = [[.30, 0], [.36, 1], [.58, 0], [.66, 1], [.72, 0], [.12, 1], [.86, 0]].map(([x, w]) => `<i class="streak ${w ? 'w' : ''}" style="left:${Math.round(W * x)}px"></i>`).join('');
-    post.innerHTML = `<div class="pv">${streaks}
-      <div class="top">${lf ? `<img src="logos/${lf}.png" onerror="this.remove()">` : ''}<div class="st par">${HVL.esc(sub)}</div></div>
-      <div class="bigvs">VS</div>
-      ${player('h', d.home, true)}${player('a', d.away, false)}
-      <div class="info"><div class="d par"><span>${HVL.esc(date)}</span><span class="t">${HVL.esc(time)}</span></div>${m.venue ? `<div class="v"><b>⬤</b> ${HVL.esc(caps(m.venue))}</div>` : ''}</div>
+    // reference style: match photos inside sharp slanted panels bounded by long oblique lines, big VS between,
+    // team logo at the foot of each panel, full team name underneath (single line, same size for both)
+    const G = wide ? { pw: 560, ph: 600, py: 250, cxL: 590, cxR: 1330, tl: 130, nameY: 925, nameH: 90, nameW: 700, nameFs: 62, dateY: 96, dateH: 72, venueY: 182, vsTop: 380, vsSize: 300, lgH: 100, lgTop: 28, stripY: 28 }
+      : story ? { pw: 500, ph: 860, py: 400, cxL: 290, cxR: 790, tl: 160, nameY: 1340, nameH: 120, nameW: 492, nameFs: 64, dateY: 1600, dateH: 100, venueY: 1716, vsTop: 720, vsSize: 260, lgH: 150, lgTop: 90, stripY: 286 }
+      : sq ? { pw: 500, ph: 560, py: 84, cxL: 290, cxR: 790, tl: 110, nameY: 708, nameH: 78, nameW: 492, nameFs: 44, dateY: 902, dateH: 64, venueY: 980, vsTop: 270, vsSize: 200, lgH: 0, lgTop: 0, stripY: 22 }
+      : { pw: 500, ph: 760, py: 96, cxL: 290, cxR: 790, tl: 130, nameY: 924, nameH: 96, nameW: 492, nameFs: 54, dateY: 1154, dateH: 80, venueY: 1250, vsTop: 400, vsSize: 230, lgH: 0, lgTop: 0, stripY: 26 };
+    const SLANT = .24, off = Math.round(G.ph * SLANT), ang = Math.atan2(off, G.ph) * 180 / Math.PI;
+    vars({ '--whenH': G.dateH, '--off': off });
+    const initials = (t) => HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3));
+    const edge = (x1, y1, x2, y2, ext) => {   // long line along a panel edge, extended beyond both ends
+      const len = Math.hypot(x2 - x1, y2 - y1) * ext, cx = (x1 + x2) / 2, cy = (y1 + y2) / 2;
+      return `<i class="edge" style="left:${cx - 2}px;top:${cy - len / 2}px;height:${len}px;transform:rotate(${ang}deg)"></i>`;
+    };
+    const panel = (k, t, cx) => {
+      const x = cx - G.pw / 2, y = G.py;
+      const inner = PHOTOS[k] ? `<img class="photo" src="${PHOTOS[k]}">` : t.logo ? `<img class="ghost2" src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.remove()">` : '';
+      return `<div class="pp" style="left:${x}px;top:${y}px;width:${G.pw}px;height:${G.ph}px"><div class="ppi">${inner}</div></div>
+        ${edge(x + off, y, x, y + G.ph, 1.7)}${edge(x + G.pw, y, x + G.pw - off, y + G.ph, 1.7)}
+        <div class="tlogo2" style="left:${cx - off / 2 - G.tl / 2}px;top:${y + G.ph - G.tl * .62}px;width:${G.tl}px;height:${G.tl}px" data-i="${initials(t)}">${t.logo ? `<img src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.parentNode.textContent=this.parentNode.dataset.i">` : initials(t)}</div>
+        <div class="nm2" style="left:${wide ? cx - off / 2 - G.nameW / 2 : k === 'h' ? 24 : W / 2 + 12}px;top:${G.nameY}px;width:${wide ? G.nameW : W / 2 - 36}px;height:${G.nameH}px;font-size:${G.nameFs}px">
+          <small>${k === 'h' ? 'ΓΗΠΕΔΟΥΧΟΣ' : 'ΦΙΛΟΞΕΝΟΥΜΕΝΟΣ'}</small><div class="tn2 fit uni">${HVL.esc(el(t))}</div></div>`;
+    };
+    const streaks = [-.05, .2, .5, .78, 1.0].map((x) => `<i class="edge faint" style="left:${Math.round(W * x)}px;top:${-H * .1}px;height:${H * 1.2}px;transform:rotate(${ang}deg)"></i>`).join('');
+    post.innerHTML = `<div class="pv2">${streaks}
+      ${lf && G.lgH ? `<img class="lg2" src="logos/${lf}.png" style="top:${G.lgTop}px;height:${G.lgH}px" onerror="this.remove()">` : ''}
+      <div class="strip par" style="top:${G.stripY}px">${HVL.esc(sub)}</div>
+      ${panel('h', d.home, G.cxL)}${panel('a', d.away, G.cxR)}
+      <div class="bigvs2" style="top:${G.vsTop}px;font-size:${G.vsSize}px">VS</div>
+      <div class="d2 par" style="top:${G.dateY}px"><span>${HVL.esc(date)}</span><span class="t">${HVL.esc(time)}</span></div>
+      ${m.venue ? `<div class="v2" style="top:${G.venueY}px"><b>⬤</b> ${HVL.esc(caps(m.venue))}</div>` : ''}
     </div>`;
   }
   HVL.fit(post); fitBox(post);

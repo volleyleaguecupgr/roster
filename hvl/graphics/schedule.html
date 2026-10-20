@@ -51,9 +51,9 @@ HVL.poll('round', RESULTS ? 120 : 30, (d, first) => {
         : `<div class="v vs">${HVL.esc(m.time || 'vs')}</div>`;
       return `<div class="rw ${isFocus(m) ? 'hl' : ''}">
         <div class="dt">${dd ? `${+dd} ${mon(+mm - 1)}` : ''}</div>
-        ${HVL.logo(m.home)}<div class="tn h fit ${done ? (hw ? 'w' : 'l') : ''}">${HVL.esc(m.home.short)}</div>
+        ${HVL.logo(m.home)}<div class="tn h fit uni ${done ? (hw ? 'w' : 'l') : ''}">${HVL.esc(m.home.short)}</div>
         ${mid}
-        <div class="tn fit ${done ? (aw ? 'w' : 'l') : ''}">${HVL.esc(m.away.short)}</div>${HVL.logo(m.away)}
+        <div class="tn fit uni ${done ? (aw ? 'w' : 'l') : ''}">${HVL.esc(m.away.short)}</div>${HVL.logo(m.away)}
       </div>`;
     }).join('')}
     <div class="pill tag-pill">${HVL.esc([r.phase && !/regular/i.test(r.phase) ? r.phase : '', r.label].filter(Boolean).join(' · '))}</div>`;

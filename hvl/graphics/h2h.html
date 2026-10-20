@@ -38,14 +38,14 @@ HVL.poll('h2h', 600, (d, first) => {
     const hName = m.aHome ? A.short : B.short, aName = m.aHome ? B.short : A.short;
     const hs = m.aHome ? m.setsA : m.setsB, as = m.aHome ? m.setsB : m.setsA;
     return `<div class="meet"><div class="dt">${HVL.esc(m.date || '')}</div><div class="cp fit">${HVL.esc(m.comp || '')}${m.round ? ' · ' + HVL.esc(m.round) : ''}</div>
-      <div class="ta fit ${hs < as ? 'l' : ''}">${HVL.esc(hName)}</div>
+      <div class="ta fit uni ${hs < as ? 'l' : ''}">${HVL.esc(hName)}</div>
       <div class="sc"><div><span class="${hs > as ? 'w' : ''}">${hs}</span>–<span class="${as > hs ? 'w' : ''}">${as}</span></div></div>
-      <div class="tb fit ${as < hs ? 'l' : ''}">${HVL.esc(aName)}</div></div>`;
+      <div class="tb fit uni ${as < hs ? 'l' : ''}">${HVL.esc(aName)}</div></div>`;
   }).join('');
   box.innerHTML = `
     <div class="pill title-pill">${HVL.esc(HVL.get('title') || (EL ? 'Ιστορία αναμετρήσεων' : 'Head to head'))}</div>
     <div class="pill comp-pill">${HVL.esc(d.league?.name || '')}</div>
-    <div class="teams-capsule">${HVL.logo(A)}<div class="name fit">${HVL.esc(A.short)}</div><div class="score">${d.winsA} – ${d.winsB}</div><div class="name right fit">${HVL.esc(B.short)}</div>${HVL.logo(B)}</div>
+    <div class="teams-capsule">${HVL.logo(A)}<div class="name fit uni">${HVL.esc(A.short)}</div><div class="score">${d.winsA} – ${d.winsB}</div><div class="name right fit uni">${HVL.esc(B.short)}</div>${HVL.logo(B)}</div>
     <div class="sub"><b>${d.total}</b> ${EL ? 'αγώνες' : 'matches'} · ${EL ? 'σετ' : 'sets'} <b>${d.setsA}–${d.setsB}</b>${d.seasonsScanned ? ` · ${EL ? 'τελευταίες διοργανώσεις' : 'last'} ${Math.ceil(d.seasonsScanned / 3)} ${EL ? 'σεζόν' : 'seasons'}` : ''}</div>
     ${rows || `<div class="none">${EL ? 'Δεν υπάρχουν προηγούμενες αναμετρήσεις' : 'No previous meetings found'}</div>`}`;
   HVL.animate(box, first);
