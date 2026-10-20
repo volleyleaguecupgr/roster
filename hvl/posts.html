@@ -51,6 +51,12 @@
   .mb .sc b.w { background: var(--aqua); color: var(--ink); }
   .mb .sc.vs, .mb .sc.live { display: grid; place-items: center; align-content: center; background: var(--slate2); font-weight: 900; font-size: calc(var(--rh) * .34); }
   .mb .sc.live { background: #ff5a6b; } .mb .sc.live small { font-size: calc(var(--rh) * .14); letter-spacing: 1px; }
+  /* schedule: TV logo column + court name */
+  .mb.wtv { grid-template-columns: minmax(0, 1fr) var(--tvW) var(--scW); }
+  .g.wtv { grid-template-columns: var(--dateW) var(--logoW) minmax(0, 1fr) var(--midW) minmax(0, 1fr) var(--logoW) var(--tvW); }
+  .tv { height: 100%; display: grid; place-items: center; padding: 0 10px; }
+  .tv img { max-width: 100%; max-height: 62%; object-fit: contain; }
+  .mb .sc.vs small, .row .mid.vs small { display: block; margin-top: 4px; font-size: calc(var(--rh) * .15); font-weight: 800; letter-spacing: .5px; color: var(--aqua); opacity: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; padding: 0 6px; }
   .dh { height: calc(var(--rh) * .42); display: flex; align-items: flex-end; padding-left: 8px; color: var(--aqua); font-weight: 900; font-size: calc(var(--rh) * .24); letter-spacing: 1.5px; text-transform: uppercase; }
   .row .dt { padding-left: calc(var(--cut) + 14px); line-height: 1.05; white-space: nowrap; color: var(--aqua); font-size: calc(var(--rh) * .24); text-transform: uppercase; }
   .row .dt small { display: block; color: #fff; font-size: calc(var(--rh) * .22); }
@@ -193,8 +199,63 @@ const dayEl = (iso) => {
   const d = new Date(iso), f = (o) => new Intl.DateTimeFormat('el-GR', { timeZone: 'Europe/Athens', ...o }).format(d);
   return [caps(`${f({ weekday: 'short' })} ${f({ day: 'numeric' })}/${f({ month: 'numeric' })}`), f({ hour: '2-digit', minute: '2-digit', hour12: false })];
 };
+// ---------- local logos (logos/<slug>.png) + fallback schedule (data/schedule.txt) ----------
+const SLUGS = [['aris', /ΑΡΗΣ|ARIS/], ['rethimno', /ΡΕΘΥΜΝ|RETHIMN/], ['floisvos', /ΦΛΟΙΣΒ|FLOISV/], ['foinikas', /ΦΟΙΝΙΚ|FOINIK/],
+  ['kalamata', /ΚΑΛΑΜΑΤ|KALAMAT/], ['kifisia', /ΚΗΦΙΣ|KIFIS/], ['milon', /ΜΙΛΩΝ|MILON/], ['olympiakos', /ΟΛΥΜΠΙΑΚ|OLYMPIA/],
+  ['panathinaikos', /ΠΑΝΑΘΗΝ|PANATHIN/], ['panionios', /ΠΑΝΙΩΝ|PANIONI/], ['paok', /^ΠΑΟΚ|^PAOK/], ['ofi', /^ΟΦΗ|^OFI/]];
+const slugOf = (t) => { for (const n of [t?.name, t?.short, t?.orig]) { const k = key(n); if (!k) continue; const s = SLUGS.find(([, re]) => re.test(k)); if (s) return s[0]; } return ''; };
+// full Greek name (js/teams-el.js) for a slug
+const NAME_BY_SLUG = {};
+for (const v of Object.values(window.HVL_TEAMS_EL || {})) { const n = typeof v === 'string' ? v : v.name; const sl = slugOf({ name: n }); if (sl && !NAME_BY_SLUG[sl]) NAME_BY_SLUG[sl] = n; }
+const tvLogo = (tv) => `logos/${/ΕΡΤ|ERT/i.test(tv || '') ? 'ert' : 'esaptv'}.png`;
+function athensISO(d, mo, y, h, mi) {
+  const g = Date.UTC(y, mo - 1, d, h, mi);
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Athens', hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }).formatToParts(new Date(g)).map((x) => [x.type, +x.value]));
+  const off = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute) - g;
+  return new Date(g - off).toISOString();
+}
+/** "1η αγωνιστική" headers, then "23/10/2026 – 19:30 (Γήπεδο) (ΕΡΤ-2): Γηπεδούχος - Φιλοξενούμενος" */
+function parseScheduleTxt(txt) {
+  const rounds = []; let cur = null;
+  for (const raw of String(txt).split(/\r?\n/)) {
+    const line = raw.trim(); if (!line) continue;
+    const rh = line.match(/^(\d+)\s*(?:η|ος)?\s*αγωνιστικ/i);
+    if (rh) { cur = { n: +rh[1], label: `Game Day ${+rh[1]}`, matches: [] }; rounds.push(cur); continue; }
+    const m = line.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s*[–-]\s*(\d{1,2})[:.](\d{2})\s*((?:\([^)]*\)\s*)*):\s*(.+?)\s+[-–]\s+(.+)$/);
+    if (!m || !cur) continue;
+    const par = [...m[6].matchAll(/\(([^)]*)\)/g)].map((x) => x[1].trim());
+    const team = (n) => { const sl = slugOf({ name: n }); return { name: NAME_BY_SLUG[sl] || caps(n), short: NAME_BY_SLUG[sl] || caps(n), slug: sl, logo: null }; };
+    const iso = athensISO(+m[1], +m[2], +m[3], +m[4], +m[5]);
+    cur.matches.push({ iso, date: `${m[1].padStart(2, '0')}/${m[2].padStart(2, '0')}/${m[3]}`, time: `${m[4].padStart(2, '0')}:${m[5]}`,
+      venue: par[0] || '', tv: par.slice(1).join(' '), home: team(m[7]), away: team(m[8]), setsHome: null, setsAway: null,
+      status: Date.parse(iso) > Date.now() - 3 * 3600e3 ? 'upcoming' : 'finished', fromFile: true });
+  }
+  return rounds.filter((r) => r.matches.length);
+}
+let FILE_ROUNDS = null;
+async function fileRounds() {
+  if (FILE_ROUNDS) return FILE_ROUNDS;
+  try { const r = await fetch('data/schedule.txt', { cache: 'no-store' }); FILE_ROUNDS = r.ok ? parseScheduleTxt(await r.text()) : []; } catch { FILE_ROUNDS = []; }
+  return FILE_ROUNDS;
+}
+function pickFileRound(rs, which, n) {
+  if (!rs.length) return null;
+  let i = n ? rs.findIndex((r) => r.n === n) : -1;
+  if (i < 0) {
+    const now = Date.now() - 14 * 3600e3;
+    let cur = rs.findIndex((r) => r.matches.some((x) => Date.parse(x.iso) > now)); if (cur < 0) cur = rs.length - 1;
+    if (which === 'last') { i = rs.map((r) => r.matches.every((x) => Date.parse(x.iso) < now)).lastIndexOf(true); if (i < 0) i = 0; }
+    else i = cur + (which === 'prev' ? -1 : which === 'next' ? 1 : 0);
+  }
+  return rs[Math.max(0, Math.min(rs.length - 1, i))];
+}
+const sameMatch = (a, b) => a.home && b.home && slugOf(a.home) && slugOf(a.home) === slugOf(b.home) && slugOf(a.away) === slugOf(b.away);
 const img = (url) => (url && HVL.api ? `${HVL.api}/img?url=${encodeURIComponent(url)}` : url);
-const logo = (t) => `<div class="lo" data-i="${HVL.esc(el(t, true).slice(0, 3))}">${t?.logo ? `<img src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.parentNode.textContent=this.parentNode.dataset.i">` : HVL.esc(el(t, true).slice(0, 3))}</div>`;
+const logoImg = (t) => { const sl = t?.slug || slugOf(t), remote = t?.logo ? img(t.logo) : ''; const src = sl ? `logos/${sl}.png` : remote; if (!src) return '';
+  return `<img src="${HVL.esc(src)}" ${sl ? `data-alt="${HVL.esc(remote)}"` : 'crossorigin="anonymous"'} onerror="if(this.dataset.alt){this.crossOrigin='anonymous';this.src=this.dataset.alt;this.dataset.alt=''}else{this.parentNode.textContent=this.parentNode.dataset.i}">`; };
+const logo = (t) => { const i = HVL.esc(el(t, true).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3)), sl = t?.slug || slugOf(t), remote = t?.logo ? img(t.logo) : '';
+  const src = sl ? `logos/${sl}.png` : remote; if (!src) return `<div class="lo" data-i="${i}">${i}</div>`;
+  return `<div class="lo" data-i="${i}"><img src="${HVL.esc(src)}" ${sl ? `data-alt="${HVL.esc(remote)}"` : 'crossorigin="anonymous"'} onerror="if(this.dataset.alt){this.crossOrigin='anonymous';this.src=this.dataset.alt;this.dataset.alt=''}else{this.parentNode.textContent=this.parentNode.dataset.i}"></div>`; };
 const isFocus = (t) => { const q = $('team').value.trim(); if (!q) return false; const k = key(q); return String(t?.id) === q || key(t?.name).includes(k) || key(t?.short).includes(k) || key(el(t)).includes(k); };
 
 // ---------- layout ----------
@@ -237,6 +298,18 @@ async function load() {
     DATA = $('type').value === 'standings' ? await HVL.load('standings') : $('type').value === 'match' ? await HVL.load('match') : await HVL.load('round', { which: $('which').value });
     $('msg').textContent = HVL.demo ? 'Demo δεδομένα (δεν έχει οριστεί Worker URL)' : '';
   } catch (e) { $('msg').textContent = '⚠ ' + e.message; DATA = null; }
+  if ($('type').value === 'schedule' && $('league').value === 'hvl') {
+    // fewer than 6 matches from HVL → use data/schedule.txt; otherwise just add court + TV from the file
+    const rs = await fileRounds(), api = DATA?.round?.matches || [];
+    const fr = pickFileRound(rs, $('which').value, 0);
+    if (fr && api.length < 6) {
+      const ms = fr.matches.map((f) => { const a = api.find((x) => sameMatch(x, f)); return a ? { ...a, venue: f.venue, tv: f.tv, home: { ...a.home, slug: f.home.slug }, away: { ...a.away, slug: f.away.slug } } : f; });
+      DATA = { ...(DATA || {}), round: { label: fr.label, matches: ms } };
+      $('msg').textContent = `Πρόγραμμα από data/schedule.txt (${api.length} αγώνες από HVL)`;
+    } else if (fr) {
+      DATA.round.matches = api.map((a) => { const f = rs.flatMap((r) => r.matches).find((x) => sameMatch(a, x)); return f ? { ...a, venue: f.venue, tv: f.tv } : a; });
+    }
+  }
   render();
 }
 function render() {
@@ -261,7 +334,11 @@ function render() {
     const dayKey = (m) => dayEl(m.iso)[0];
     const days = narrow ? new Set(ms.map(dayKey)).size : 0;
     const L = layout(fmt, narrow ? ms.length * 1.3 + days * .45 : ms.length); applyVars(post, L);
-    post.style.setProperty('--scW', Math.round(Math.min(L.rh * 1.25, 150)) + 'px');
+    const sched = type === 'schedule';
+    post.style.setProperty('--scW', Math.round(Math.min(L.rh * (sched ? 1.6 : 1.25), sched ? 200 : 150)) + 'px');
+    post.style.setProperty('--tvW', Math.round(Math.min(L.rh * (narrow ? .95 : 1.25), 150)) + 'px');
+    const tvCell = (m) => (sched ? `<div class="tv"><img src="${tvLogo(m.tv)}" onerror="this.remove()"></div>` : '');
+    const court = (m) => (m.venue ? `<small>${HVL.esc(caps(m.venue))}</small>` : '');
     const title = type === 'results' ? 'ΑΠΟΤΕΛΕΣΜΑΤΑ' : 'ΠΡΟΓΡΑΜΜΑ';
     let lastDay = '';
     post.innerHTML = bars() + header(title, [roundEl(r?.label), comp].filter(Boolean).join(' · ')) + `<div class="list" style="top:${L.listTop}px;width:${L.listW}px">
@@ -269,21 +346,21 @@ function render() {
         const [day, time] = dayEl(m.iso), fin = m.status === 'finished', live = m.status === 'live';
         const hw = fin && m.setsHome > m.setsAway, aw = fin && m.setsAway > m.setsHome;
         const showScore = fin || live;
-        const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome}-${m.setsAway}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ''}</div>` : `<div class="mid vs">${HVL.esc(time)}</div>`;
+        const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome}-${m.setsAway}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ''}</div>` : `<div class="mid vs"><span>${HVL.esc(time)}</span>${court(m)}</div>`;
         const dh = narrow && day !== lastDay ? `<div class="dh">${HVL.esc(caps(new Intl.DateTimeFormat('el-GR', { timeZone: 'Europe/Athens', weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(m.iso))))}${showScore ? ' · ' + HVL.esc(time) : ''}</div>` : '';
         lastDay = day;
         if (narrow) {
           const sc = live ? `<div class="sc live"><span>${m.setsHome}-${m.setsAway}</span><small>ΖΩΝΤΑΝΑ</small></div>`
             : fin ? `<div class="sc"><b class="${hw ? 'w' : ''}">${m.setsHome}</b><b class="${aw ? 'w' : ''}">${m.setsAway}</b></div>`
-            : `<div class="sc vs">${HVL.esc(time)}</div>`;
-          return `${dh}<div class="mb par ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="lns">
+            : `<div class="sc vs"><span>${HVL.esc(time)}</span>${court(m)}</div>`;
+          return `${dh}<div class="mb par ${sched ? 'wtv' : ''} ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="lns">
             <div class="ln">${logo(m.home)}<div class="tn fit uni ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home))}</div></div>
-            <div class="ln">${logo(m.away)}<div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div></div></div>${sc}</div>`;
+            <div class="ln">${logo(m.away)}<div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div></div></div>${tvCell(m)}${sc}</div>`;
         }
-        return `${dh}<div class="row g par ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="dt">${HVL.esc(day)}${showScore ? `<small>${HVL.esc(time)}</small>` : ''}</div>
+        return `${dh}<div class="row g par ${sched ? 'wtv' : ''} ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="dt">${HVL.esc(day)}${showScore ? `<small>${HVL.esc(time)}</small>` : ''}</div>
           ${logo(m.home)}<div class="tn h fit uni ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home))}</div>
           ${mid}
-          <div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div>${logo(m.away)}</div>`;
+          <div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div>${logo(m.away)}${tvCell(m)}</div>`;
       }).join('') || '<div class="empty">Δεν υπάρχουν αγώνες</div>'}
     </div>` + footer();
   }
@@ -307,7 +384,7 @@ function renderMatch(post, fmt, comp) {
   const date = caps(`${f({ weekday: 'long' })} ${f({ day: 'numeric' })} ${f({ month: 'long' })}`), time = f({ hour: '2-digit', minute: '2-digit', hour12: false });
   const sub = [m.round, comp].filter(Boolean).join(' · ');
   const lf = LOGO_FILE[$('league').value];
-  const tile = (t, cls) => `<div class="${cls}" data-i="${HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3))}">${t.logo ? `<img src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.parentNode.textContent=this.parentNode.dataset.i">` : ''}</div>`;
+  const tile = (t, cls) => `<div class="${cls}" data-i="${HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3))}">${logoImg(t)}</div>`;
   const wide = fmt === 'wide', story = fmt === 'story', sq = fmt === 'square';
   const vars = (o) => Object.entries(o).forEach(([k, v]) => post.style.setProperty(k, typeof v === 'number' ? v + 'px' : v));
   if ($('style').value === 'boxes') {
@@ -343,7 +420,7 @@ function renderMatch(post, fmt, comp) {
       const inner = PHOTOS[k] ? `<img class="photo" src="${PHOTOS[k]}">` : t.logo ? `<img class="ghost2" src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.remove()">` : '';
       return `<div class="pp" style="left:${x}px;top:${y}px;width:${G.pw}px;height:${G.ph}px"><div class="ppi">${inner}</div></div>
         ${edge(x + off, y, x, y + G.ph, 1.7)}${edge(x + G.pw, y, x + G.pw - off, y + G.ph, 1.7)}
-        <div class="tlogo2" style="left:${cx - off / 2 - G.tl / 2}px;top:${y + G.ph - G.tl * .62}px;width:${G.tl}px;height:${G.tl}px" data-i="${initials(t)}">${t.logo ? `<img src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.parentNode.textContent=this.parentNode.dataset.i">` : initials(t)}</div>
+        <div class="tlogo2" style="left:${cx - off / 2 - G.tl / 2}px;top:${y + G.ph - G.tl * .62}px;width:${G.tl}px;height:${G.tl}px" data-i="${initials(t)}">${logoImg(t) || initials(t)}</div>
         <div class="nm2" style="left:${wide ? cx - off / 2 - G.nameW / 2 : k === 'h' ? 24 : W / 2 + 12}px;top:${G.nameY}px;width:${wide ? G.nameW : W / 2 - 36}px;height:${G.nameH}px;font-size:${G.nameFs}px">
           <small>${k === 'h' ? 'ΓΗΠΕΔΟΥΧΟΣ' : 'ΦΙΛΟΞΕΝΟΥΜΕΝΟΣ'}</small><div class="tn2 fit uni">${HVL.esc(el(t))}</div></div>`;
     };
