@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="el"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HVL Posts</title>
+<link rel="stylesheet" href="css/cev.css">
+<script src="js/config.js"></script>
+<script src="js/core.js"></script>
+<script src="js/teams-el.js"></script>
+<script src="js/vendor/html-to-image.js"></script>
+<style>
+  /* Social posts: schedule / results / standings in 1080×1350, 1080×1080, 1080×1920, 1920×1080. Greek labels + js/teams-el.js names.
+     URL: posts.html?type=results&fmt=post&which=prev&league=hvl&team=paok&footer=#volleyleague */
+  html, body { overflow: auto; background: #10141d; }
+  body { font-family: var(--font, 'Saira', sans-serif); color: #fff; }
+  .ui { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; gap: 10px; align-items: end; padding: 14px 18px; background: #0b0f17; border-bottom: 1px solid #2a3346; }
+  .ui label { display: flex; flex-direction: column; gap: 4px; font: 600 12px system-ui, sans-serif; color: #9aa6bd; text-transform: uppercase; }
+  .ui select, .ui input, .ui button { font: 15px system-ui, sans-serif; padding: 8px 10px; border-radius: 8px; border: 1px solid #2a3346; background: #151b27; color: #fff; }
+  .ui button { background: #99f5fd; color: #242c3b; font-weight: 800; border: 0; cursor: pointer; }
+  .ui button.ghost { background: transparent; color: #99f5fd; border: 1px solid #99f5fd; }
+  .ui .msg { font: 13px system-ui, sans-serif; color: #9aa6bd; align-self: center; }
+  .wrap { padding: 24px; display: flex; justify-content: center; }
+  .scaler { transform-origin: 0 0; }
+
+  /* ---------- the post ---------- */
+  #post { position: relative; overflow: hidden; background: #0c1323 url('img/bg-novi.jpg') center / cover no-repeat; color: #fff;
+          font-family: var(--font, 'Saira', sans-serif); --aqua: #99f5fd; --ink: #242c3b; --slate: #242c3b; --slate2: #2f394b; --cut: 18px; }
+  #post * { box-sizing: border-box; }
+  .par { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); }
+  .hdr { position: absolute; left: 0; right: 0; top: 0; display: flex; flex-direction: column; align-items: center; }
+  .hdr .lg { height: var(--logoH); margin-top: var(--padT); }
+  .hdr .lg img { height: 100%; width: auto; object-fit: contain; }
+  .hdr .tt { margin-top: 18px; padding: 0 70px; height: var(--ttH); display: grid; place-items: center; background: linear-gradient(100deg, #99f5fd, #c4fbff);
+             color: var(--ink); font-weight: 900; font-style: italic; font-size: calc(var(--ttH) * .62); letter-spacing: 1px; text-transform: uppercase; --cut: 24px; }
+  .hdr .st { margin-top: 12px; height: calc(var(--ttH) * .5); padding: 0 50px; display: grid; place-items: center; background: var(--slate2); border-bottom: 3px solid var(--aqua);
+             font-weight: 800; font-size: calc(var(--ttH) * .27); letter-spacing: 1.5px; text-transform: uppercase; }
+  .list { position: absolute; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: var(--gap); }
+  .row { height: var(--rh); display: grid; align-items: center; background: linear-gradient(100deg, rgba(36,44,59,.96), rgba(29,36,49,.96));
+         box-shadow: inset 0 -3px 0 var(--aqua); font-weight: 800; }
+  .row.hl { background: linear-gradient(100deg, rgba(153,245,253,.28), rgba(36,44,59,.96) 55%); }
+  .g { grid-template-columns: var(--dateW) var(--logoW) 1fr var(--midW) 1fr var(--logoW); }
+  .row .dt { padding-left: calc(var(--cut) + 14px); line-height: 1.05; white-space: nowrap; color: var(--aqua); font-size: calc(var(--rh) * .24); text-transform: uppercase; }
+  .row .dt small { display: block; color: #fff; font-size: calc(var(--rh) * .22); }
+  .row .lo { height: calc(var(--rh) * .66); width: calc(var(--rh) * .66); justify-self: center; background: #fff; display: grid; place-items: center; overflow: hidden;
+             clip-path: polygon(14% 0, 100% 0, 100% 86%, 86% 100%, 0 100%, 0 14%); color: var(--ink); font-weight: 900; font-size: calc(var(--rh) * .17); }
+  .row .lo img { width: 84%; height: 84%; object-fit: contain; }
+  .row .tn { padding: 0 calc(var(--rh) * .16); font-size: calc(var(--rh) * .3); white-space: nowrap; overflow: hidden; text-transform: uppercase; }
+  .row .tn.h { text-align: right; } .row .tn.l { color: rgba(255,255,255,.55); }
+  .row .mid { height: 100%; display: grid; place-items: center; align-content: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-size: calc(var(--rh) * .4); }
+  .row .mid.vs { background: var(--slate2); color: #fff; font-size: calc(var(--rh) * .3); }
+  .row .mid.live { background: #ff5a6b; color: #fff; }
+  .row .mid small { font-size: calc(var(--rh) * .15); font-weight: 800; letter-spacing: 1px; line-height: 1; opacity: .8; }
+  .s { grid-template-columns: var(--rkW) var(--logoW) 1fr repeat(3, var(--numW)) var(--setW) var(--ptsW); }
+  .s .rk { height: 100%; display: grid; place-items: center; background: var(--slate2); font-size: calc(var(--rh) * .38); font-weight: 900; }
+  .s.hl .rk, .s.top .rk { background: var(--aqua); color: var(--ink); }
+  .s .n { text-align: center; font-size: calc(var(--rh) * .32); font-weight: 700; }
+  .s .pts { height: 100%; display: grid; place-items: center; background: var(--aqua); color: var(--ink); font-size: calc(var(--rh) * .4); font-weight: 900; }
+  .sh { height: calc(var(--rh) * .5); background: none; box-shadow: none; font-size: calc(var(--rh) * .22); color: var(--aqua); text-transform: uppercase; letter-spacing: 1px; }
+  .sh .n, .sh .pts { background: none; color: var(--aqua); font-size: calc(var(--rh) * .22); }
+  .ftr { position: absolute; left: 0; right: 0; bottom: 0; height: var(--ftH); display: flex; align-items: center; justify-content: center; gap: 22px;
+         background: linear-gradient(100deg, rgba(36,44,59,.92), rgba(23,28,39,.92)); border-top: 4px solid var(--aqua); font-weight: 800; font-size: calc(var(--ftH) * .32); letter-spacing: 1px; text-transform: uppercase; }
+  .ftr b { color: var(--aqua); }
+  .bars { position: absolute; top: 0; right: 0; width: 220px; height: var(--barsH); pointer-events: none; opacity: .9; overflow: hidden; }
+  .bars i { position: absolute; top: -5%; height: 110%; background: var(--aqua); transform: skewX(-8deg); }
+  .empty { position: absolute; inset: 0; display: grid; place-items: center; font-size: 44px; font-weight: 800; color: rgba(255,255,255,.6); }
+</style>
+</head><body>
+<div class="ui">
+  <label>Τύπος<select id="type"><option value="results">Αποτελέσματα</option><option value="schedule">Πρόγραμμα</option><option value="standings">Βαθμολογία</option></select></label>
+  <label>Διάσταση<select id="fmt"><option value="post">Instagram post 1080×1350</option><option value="square">Τετράγωνο 1080×1080</option><option value="story">Story 1080×1920</option><option value="wide">Wide 1920×1080</option></select></label>
+  <label>Αγωνιστική<select id="which"><option value="prev">Προηγούμενη</option><option value="current">Τρέχουσα</option><option value="next">Επόμενη</option><option value="last">Τελευταία ολοκληρωμένη</option></select></label>
+  <label>Διοργάνωση<select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option></select></label>
+  <label>Ομάδα (έμφαση)<input id="team" size="10" placeholder="π.χ. paok"></label>
+  <label>Footer<input id="footer" size="18" placeholder="#volleyleague"></label>
+  <button id="dl">Λήψη PNG</button><button id="dlall" class="ghost">Όλες οι διαστάσεις</button>
+  <span class="msg" id="msg"></span>
+</div>
+<div class="wrap"><div class="scaler" id="scaler"><div id="post"></div></div></div>
+<script>
+const FMT = { post: [1080, 1350], square: [1080, 1080], story: [1080, 1920], wide: [1920, 1080] };
+const LOGO_FILE = { hvl: 'league', cup: 'leaguecup', supercup: 'supercup' };
+const $ = (id) => document.getElementById(id);
+const P = new URLSearchParams(location.search);
+for (const k of ['type', 'fmt', 'which', 'league', 'team', 'footer']) if (P.has(k)) $(k).value = P.get(k);
+if (!P.has('league') && HVL.league) $('league').value = HVL.league;
+if (!P.has('team') && HVL.team) $('team').value = HVL.team;
+
+// ---------- Greek helpers ----------
+const caps = (s) => String(s || '').normalize('NFD').replace(/[̀-́͂]/g, '').normalize('NFC').toUpperCase();
+const key = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase().replace(/[^A-Z0-9Α-Ω]/g, '');
+const MAP = {};
+for (const [k, v] of Object.entries(window.HVL_TEAMS_EL || {})) MAP[/^\d+$/.test(k) ? k : key(k)] = typeof v === 'string' ? { name: v, short: v } : v;
+const el = (t, short) => { const m = MAP[String(t?.id)] || MAP[key(t?.name)] || MAP[key(t?.short)]; return m ? (short ? m.short || m.name : m.name) : (t?.short || t?.name || ''); };
+const roundEl = (r) => { const m = String(r || '').match(/(?:game ?day|round|αγωνιστική)\s*(\d+)/i); return m ? `${m[1]}η ΑΓΩΝΙΣΤΙΚΗ` : caps(r); };
+const dayEl = (iso) => {
+  if (!iso) return ['', ''];
+  const d = new Date(iso), f = (o) => new Intl.DateTimeFormat('el-GR', { timeZone: 'Europe/Athens', ...o }).format(d);
+  return [caps(`${f({ weekday: 'short' })} ${f({ day: 'numeric' })}/${f({ month: 'numeric' })}`), f({ hour: '2-digit', minute: '2-digit', hour12: false })];
+};
+const img = (url) => (url && HVL.api ? `${HVL.api}/img?url=${encodeURIComponent(url)}` : url);
+const logo = (t) => `<div class="lo" data-i="${HVL.esc(el(t, true).slice(0, 3))}">${t?.logo ? `<img src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.parentNode.textContent=this.parentNode.dataset.i">` : HVL.esc(el(t, true).slice(0, 3))}</div>`;
+const isFocus = (t) => { const q = $('team').value.trim(); if (!q) return false; const k = key(q); return String(t?.id) === q || key(t?.name).includes(k) || key(t?.short).includes(k) || key(el(t)).includes(k); };
+
+// ---------- layout ----------
+function layout(fmt, n) {
+  const [W, H] = FMT[fmt];
+  const wide = fmt === 'wide';
+  const L = { W, H, padT: wide ? 40 : fmt === 'story' ? 150 : 56, logoH: wide ? 120 : fmt === 'story' ? 220 : fmt === 'square' ? 120 : 150, ttH: wide ? 84 : fmt === 'story' ? 120 : 96, ftH: fmt === 'story' ? 120 : 84, gap: fmt === 'story' ? 18 : 12 };
+  L.hdrH = L.padT + L.logoH + 18 + L.ttH + 12 + L.ttH * .5;
+  L.listTop = L.hdrH + (fmt === 'story' ? 70 : 36);
+  const avail = H - L.listTop - L.ftH - (fmt === 'story' ? 70 : 40);
+  L.rh = Math.max(56, Math.min(fmt === 'story' ? 170 : 130, (avail - L.gap * (n - 1)) / Math.max(1, n)));
+  L.listW = wide ? 1560 : W - 80;
+  return L;
+}
+let CUR = { hdrH: 300 };
+function applyVars(node, L) {
+  CUR = L;
+  const v = { '--padT': L.padT, '--logoH': L.logoH, '--ttH': L.ttH, '--ftH': L.ftH, '--gap': L.gap, '--rh': L.rh,
+    '--dateW': Math.round(L.W > 1500 ? L.rh * 1.9 : Math.max(150, Math.min(L.rh * 1.45, 190))), '--logoW': Math.round(L.rh * .82), '--midW': Math.round(Math.min(L.rh * 1.35, 175)),
+    '--rkW': Math.round(L.rh * .9), '--numW': Math.round(L.rh * (L.W > 1500 ? 1.15 : .8)), '--setW': Math.round(L.rh * (L.W > 1500 ? 1.7 : 1.35)), '--ptsW': Math.round(L.rh * 1.15) };
+  for (const [k, x] of Object.entries(v)) node.style.setProperty(k, x + 'px');
+  node.style.width = L.W + 'px'; node.style.height = L.H + 'px';
+}
+const bars = () => `<div class="bars" style="--barsH:${Math.round(CUR.hdrH)}px">${[[0, 6], [26, 6], [50, 18], [90, 6], [118, 46], [182, 8]].map(([x, w]) => `<i style="left:${x}px;width:${w}px"></i>`).join('')}</div>`;
+
+function header(title, sub) {
+  const lf = LOGO_FILE[$('league').value];
+  return `<div class="hdr"><div class="lg">${lf ? `<img src="logos/${lf}.png" onerror="this.remove()">` : ''}</div>
+    <div class="tt par">${HVL.esc(title)}</div><div class="st par">${HVL.esc(sub)}</div></div>`;
+}
+function footer() { const f = $('footer').value.trim(); return `<div class="ftr">${f ? `<b>${HVL.esc(f)}</b>` : ''}<span>${HVL.esc(window.HVL_COMPETITIONS_EL?.[$('league').value] || '')}</span></div>`; }
+
+// ---------- render ----------
+let DATA = null;
+async function load() {
+  $('msg').textContent = 'Φόρτωση…';
+  HVL.league = $('league').value; HVL.team = $('team').value.trim();
+  try {
+    DATA = $('type').value === 'standings' ? await HVL.load('standings') : await HVL.load('round', { which: $('which').value });
+    $('msg').textContent = HVL.demo ? 'Demo δεδομένα (δεν έχει οριστεί Worker URL)' : '';
+  } catch (e) { $('msg').textContent = '⚠ ' + e.message; DATA = null; }
+  render();
+}
+function render() {
+  const type = $('type').value, fmt = $('fmt').value, post = $('post');
+  const comp = window.HVL_COMPETITIONS_EL?.[$('league').value] || DATA?.league?.name || '';
+  if (!DATA) { post.innerHTML = '<div class="empty">—</div>'; return scale(); }
+  if (type === 'standings') {
+    const rows = (DATA.standings || []).slice(0, 14);
+    const L = layout(fmt, rows.length + .5); applyVars(post, L);
+    post.innerHTML = bars() + header('ΒΑΘΜΟΛΟΓΙΑ', comp) + `<div class="list" style="top:${L.listTop}px;width:${L.listW}px">
+      <div class="row s sh"><div></div><div></div><div></div><div class="n">ΑΓ</div><div class="n">Ν</div><div class="n">Η</div><div class="n">ΣΕΤ</div><div class="pts">ΒΑΘ</div></div>
+      ${rows.map((r) => { const t = { id: r.teamId, name: r.name, short: r.short, logo: r.logo };
+        return `<div class="row s par ${isFocus(t) ? 'hl' : ''} ${r.rank === 1 ? 'top' : ''}"><div class="rk">${r.rank}</div>${logo(t)}<div class="tn fit">${HVL.esc(el(t))}</div>
+          <div class="n">${r.played ?? ''}</div><div class="n">${r.won ?? ''}</div><div class="n">${r.lost ?? ''}</div><div class="n">${r.setsW ?? ''}:${r.setsL ?? ''}</div><div class="pts">${r.rankPts ?? ''}</div></div>`; }).join('')}
+    </div>` + footer();
+  } else {
+    const r = DATA.round;
+    const ms = (r?.matches || []).slice(0, 8);
+    const L = layout(fmt, ms.length); applyVars(post, L);
+    const done = ms.length && ms.every((m) => m.status === 'finished');
+    const title = type === 'results' ? 'ΑΠΟΤΕΛΕΣΜΑΤΑ' : 'ΠΡΟΓΡΑΜΜΑ';
+    const short = L.W < 1500;
+    post.innerHTML = bars() + header(title, [roundEl(r?.label), comp].filter(Boolean).join(' · ')) + `<div class="list" style="top:${L.listTop}px;width:${L.listW}px">
+      ${ms.map((m) => {
+        const [day, time] = dayEl(m.iso), fin = m.status === 'finished', live = m.status === 'live';
+        const hw = fin && m.setsHome > m.setsAway, aw = fin && m.setsAway > m.setsHome;
+        const showScore = type === 'results' ? (fin || live) : (fin || live);
+        const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome}-${m.setsAway}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ''}</div>` : `<div class="mid vs">${HVL.esc(time)}</div>`;
+        return `<div class="row g par ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="dt">${HVL.esc(day)}${showScore ? `<small>${HVL.esc(time)}</small>` : ''}</div>
+          ${logo(m.home)}<div class="tn h fit ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home, short && el(m.home).length > 10))}</div>
+          ${mid}
+          <div class="tn fit ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away, short && el(m.away).length > 10))}</div>${logo(m.away)}</div>`;
+      }).join('') || '<div class="empty">Δεν υπάρχουν αγώνες</div>'}
+    </div>` + footer();
+  }
+  HVL.fit(post);
+  if (document.fonts?.ready) document.fonts.ready.then(() => HVL.fit(post));
+  scale();
+}
+function scale() {
+  const [W, H] = FMT[$('fmt').value];
+  const k = Math.min((innerWidth - 48) / W, (innerHeight - 140) / H, 1);
+  const sc = $('scaler'); sc.style.transform = `scale(${k})`; sc.style.width = W + 'px'; sc.style.height = H * k + 'px';
+}
+addEventListener('resize', scale);
+async function download(fmt) {
+  const prev = $('fmt').value; $('fmt').value = fmt; render();
+  await document.fonts?.ready; await new Promise((r) => setTimeout(r, 300));
+  const [W, H] = FMT[fmt];
+  try {
+    const url = await htmlToImage.toPng($('post'), { width: W, height: H, pixelRatio: 1, cacheBust: true, style: { transform: 'none' } });
+    const a = document.createElement('a'); a.href = url; a.download = `${$('type').value}-${$('which').value}-${fmt}.png`; a.click();
+  } catch (e) { $('msg').textContent = '⚠ PNG: ' + (e.message || e) + ' (logos need the Worker /img proxy)'; }
+  $('fmt').value = prev; render();
+}
+$('dl').onclick = () => download($('fmt').value);
+$('dlall').onclick = async () => { for (const f of Object.keys(FMT)) await download(f); };
+['type', 'which', 'league'].forEach((k) => ($(k).onchange = () => { $('which').disabled = $('type').value === 'standings'; load(); }));
+['fmt'].forEach((k) => ($(k).onchange = render));
+['team', 'footer'].forEach((k) => ($(k).oninput = render));
+$('which').disabled = $('type').value === 'standings';
+document.addEventListener('DOMContentLoaded', load);
+</script>
+</body></html>

@@ -7,9 +7,9 @@
 <script src="../js/core.js"></script>
 <style>
   /* Full-screen slanted-bar transition. In OBS: Browser Source, or record it once as a video for a Stinger transition.
-     Screen fully covered 33–67 % of the run (≈0.6–1.2 s with the default 1.8 s) – cut at 50 %.
+     Screen fully covered 28–74 % of the run (≈0.7–1.85 s with the default 2.5 s) – cut at 50 % (1.25 s).
      The league logo pops up while covered: logos/league.png (hvl) · logos/leaguecup.png (cup) · logos/supercup.png (supercup)
-     ?logo=URL or ?logo=0 (none) · ?loop=3 replays every 3 s · ?dur=1.8 · ?color=99f5fd */
+     ?logo=URL or ?logo=0 (none) · ?loop=4 replays every 4 s · ?dur=2.5 · ?color=99f5fd */
   #stage { overflow: hidden; }
   .band { position: absolute; left: 0; height: calc(100% / 3 + 2px); display: flex; align-items: stretch; will-change: transform; }
   .band i { flex: none; background: var(--c); transform: skewX(-4deg); }
@@ -22,7 +22,7 @@
 <div id="stage"></div>
 <script>
 const C = '#' + HVL.get('color', '99f5fd');
-const DUR = +HVL.get('dur', 1.8), LOOP = +HVL.get('loop', 0);
+const DUR = +HVL.get('dur', 2.5), LOOP = +HVL.get('loop', 0);
 const LOGOS = { hvl: 'league', cup: 'leaguecup', supercup: 'supercup' };
 const LOGO = HVL.get('logo') === '0' ? '' : HVL.get('logo') || (LOGOS[String(HVL.league).toLowerCase()] ? `../logos/${LOGOS[String(HVL.league).toLowerCase()]}.png` : '');
 const SKEW_PAD = 120;   // slanted edges stick out of each bar – travel this much further so nothing is left on screen
@@ -41,12 +41,12 @@ function band(top, delay) {
   add(SLAB, 'slab');
   [...lead].reverse().forEach((px, i) => add(px, i % 2 ? '' : 'gap'));
   el.innerHTML = html;
-  // fast in → hold (screen fully covered 33–67 %) → fast out, ending completely off-screen to the left
+  // fast in → hold (screen fully covered 28–74 %) → fast out, ending completely off-screen to the left
   const ease = 'cubic-bezier(.6,0,.4,1)';
   const a = el.animate([
     { transform: `translateX(${1920 + SKEW_PAD}px)`, easing: ease },
-    { transform: `translateX(${-L - 40}px)`, offset: .33 },
-    { transform: `translateX(${-L - (SLAB - 1920) + 40}px)`, offset: .67, easing: ease },
+    { transform: `translateX(${-L - 40}px)`, offset: .28 },
+    { transform: `translateX(${-L - (SLAB - 1920) + 40}px)`, offset: .74, easing: ease },
     { transform: `translateX(${-w - SKEW_PAD}px)` },
   ], { duration: DUR * 1000, delay: delay * 1000, fill: 'both' });
   a.onfinish = () => el.remove();
@@ -59,11 +59,11 @@ function run() {
   // pops in once the screen is covered, leaves before the bars move out
   if (lg) lg.animate([
     { opacity: 0, transform: 'scale(.4) rotate(-6deg)' },
-    { opacity: 0, transform: 'scale(.4) rotate(-6deg)', offset: .37 },
-    { opacity: 1, transform: 'scale(1.12) rotate(1deg)', offset: .45, easing: 'cubic-bezier(.3,1.4,.5,1)' },
-    { opacity: 1, transform: 'scale(1)', offset: .5 },
-    { opacity: 1, transform: 'scale(1.03)', offset: .6 },
-    { opacity: 0, transform: 'scale(.85)', offset: .66 },
+    { opacity: 0, transform: 'scale(.4) rotate(-6deg)', offset: .31 },
+    { opacity: 1, transform: 'scale(1.12) rotate(1deg)', offset: .37, easing: 'cubic-bezier(.3,1.4,.5,1)' },
+    { opacity: 1, transform: 'scale(1)', offset: .41 },
+    { opacity: 1, transform: 'scale(1.04)', offset: .67 },
+    { opacity: 0, transform: 'scale(.85)', offset: .72 },
     { opacity: 0, transform: 'scale(.85)' },
   ], { duration: DUR * 1000, fill: 'both' }).onfinish = () => lg.remove();
 }

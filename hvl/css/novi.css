@@ -1,5 +1,6 @@
 /* NOVI theme – sharp edges, slate #242C3B + aqua #99F5FD (Novibet reference), wipe / slanted-bar motion.
    Loaded on top of cev.css when theme=novi (default). Edit the tokens below to retune the colors. */
+@import url('fonts.css');
 @import url('https://fonts.googleapis.com/css2?family=Saira:wght@500;600;700;800;900&display=swap');
 
 html.novi {
@@ -27,7 +28,7 @@ html.novi {
   --g-venue: var(--nv-bg-3);
   --g-tag: var(--nv-bg-3);
   --g-win: var(--nv-brand);
-  --font: 'Saira', 'Segoe UI', Arial, sans-serif;
+  --font: 'Averta', 'Saira', 'Segoe UI', Arial, sans-serif;
 }
 html.novi body { font-family: var(--font); }
 html.novi body.bg { background: radial-gradient(ellipse at 30% 20%, #3a4560 0%, #242c3b 50%, #171c27 100%); }

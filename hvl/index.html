@@ -28,7 +28,7 @@
   @media (max-width: 900px) { .cfg { grid-template-columns: 1fr 1fr; } }
 </style>
 </head><body>
-<header><h1>HVL Broadcast Graphics</h1><p>Live data from hvl-web.dataproject.com · CEV-style overlays for OBS / vMix (1920×1080, transparent) · <a href="control.html" style="color:#fff">Operator panel →</a></p></header>
+<header><h1>HVL Broadcast Graphics</h1><p>Live data from hvl-web.dataproject.com · CEV-style overlays for OBS / vMix (1920×1080, transparent) · <a href="control.html" style="color:#fff">Operator panel →</a> · <a href="posts.html" style="color:#fff">Social posts →</a></p></header>
 <main>
   <div class="cfg">
     <div><label>Worker API URL (empty = demo data)</label><input id="api" placeholder="https://hvl-broadcast.you.workers.dev"></div>
@@ -61,7 +61,7 @@ const G = [
   ['player-compare', 'Player comparison', 'Best player of each team head to head (top scorer by default).', 'h=5&a=8 · by=pts|att|blk|ace · pos=OP'],
   ['team-compare', 'Team comparison', 'Pre-match: ranking, points, W/L, sets, set ratio, last-5 form.', 'rows=rank,pts,won,lost,sets,ratio,points,wins30,form'],
   ['h2h', 'Head to head', 'History of the two teams across recent HVL seasons and cups.', 'seasons=4 · n=6 · vs=team'],
-  ['stinger', 'Stinger transition', 'Full-screen slanted aqua bars + league logo (logos/*.png). Fully covered 33–67 % – cut at 50 %.', 'dur=1.8 · loop=3 · color=99f5fd · logo=URL|0'],
+  ['stinger', 'Stinger transition', 'Full-screen slanted aqua bars + league logo (logos/*.png). Fully covered 28–74 % – cut at 50 %.', 'dur=2.5 · loop=4 · color=99f5fd · logo=URL|0'],
   ['announcement', 'Announcement', 'Any text. Without text= it follows the operator panel.', 'title=&text= · style=center|lower'],
 ];
 const $ = (id) => document.getElementById(id);
