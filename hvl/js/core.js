@@ -292,7 +292,7 @@
     const standings = [
       [201, 'PANATHINAIKOS A.O.', 'PANATHINAIKOS', 43, 18, 14, 4, 2.33], [210, 'AONS MILON', 'MILON', 42, 18, 15, 3, 2.3], [203, 'PAOK', 'PAOK', 36, 18, 14, 4, 1.57],
       [204, 'OLYMPIAKOS S.F.P.', 'OLYMPIAKOS', 34, 18, 11, 7, 1.4], [205, 'AOP KIFISIAS', 'KIFISIAS', 27, 18, 9, 9, 1.02], [206, 'O.F.I.', 'OFI', 22, 18, 8, 10, .85],
-      [207, 'AO KALAMATA 80', "KALAMATA '80", 20, 18, 7, 11, .77], [208, 'AO FLOISVOS', 'FLOISVOS', 15, 18, 5, 13, .6], [202, 'A.O. FOINIKAS SIROU', 'FOINIKAS SIROU', 11, 18, 3, 15, .4], [209, 'IRAKLIS', 'IRAKLIS', 10, 18, 4, 14, .38],
+      [207, 'AO KALAMATA 80', "KALAMATA '80", 20, 18, 7, 11, .77], [208, 'AO FLOISVOS', 'FLOISVOS', 15, 18, 5, 13, .6], [202, 'A.O. FOINIKAS SIROU', 'FOINIKAS SIROU', 11, 18, 3, 15, .4], [209, 'AS ARIS', 'ARIS', 10, 18, 4, 14, .38], [211, 'NOPE RETHIMNOU', 'RETHIMNOU', 8, 18, 3, 15, .33], [212, 'PANIONIOS G.S.S.', 'PANIONIOS', 6, 18, 2, 16, .25],
     ].map(([id, name, short, rankPts, played, won, lost, setRatio], i) => ({ rank: i + 1, teamId: id, name, short, code: short.slice(0, 3), logo: `${IMG}/TeamLogo/200/200/TeamLogo_${id}.jpg`, rankPts, played, won, lost, setRatio, setsW: won * 3, setsL: lost * 3 }));
     home.standing = standings[4]; away.standing = standings[0];
     const st = HVL.get('status', 'live');

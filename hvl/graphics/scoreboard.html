@@ -6,9 +6,9 @@
 <script src="../js/config.js"></script>
 <script src="../js/core.js"></script>
 <style>
-  /* ?pos=tl|tr|bl|br  ?names=short|code|long  ?partials=1 */
-  #sb { position: absolute; left: 60px; top: 50px; display: flex; flex-direction: column; gap: 8px; }
-  #sb.tr { left: auto; right: 60px; } #sb.bl { top: auto; bottom: 60px; } #sb.br { left: auto; right: 60px; top: auto; bottom: 60px; }
+  /* ?pos=tl|tr|bl|br (default tl = top left)  ?scale=0.8 (size)  ?names=short|code|long  ?partials=1 */
+  #sb { position: absolute; left: 40px; top: 36px; display: flex; flex-direction: column; gap: 8px; transform: scale(var(--k, .8)); transform-origin: 0 0; }
+  #sb.tr { left: auto; right: 40px; transform-origin: 100% 0; } #sb.bl { top: auto; bottom: 40px; transform-origin: 0 100%; } #sb.br { left: auto; right: 40px; top: auto; bottom: 40px; transform-origin: 100% 100%; }
   .head { display: flex; gap: 8px; align-items: center; height: 38px; }
   .head .tag { height: 38px; padding: 0 20px; background: linear-gradient(90deg, var(--red-500), var(--red-700)); font-weight: 800; font-size: 20px; text-transform: uppercase; }
   .head .comp { height: 38px; padding: 0 20px 0 18px; background: var(--g-comp); font-weight: 700; font-size: 18px; text-transform: uppercase; white-space: nowrap; }
@@ -33,6 +33,7 @@
 <script>
 const SB = HVL.$('#sb');
 const pos = HVL.get('pos', 'tl'); if (pos !== 'tl') SB.classList.add(pos);
+SB.style.setProperty('--k', +HVL.get('scale', .8) || .8);
 const NAMES = HVL.get('names', 'long');
 const showParts = HVL.get('partials', '0') === '1';
 let prev = {};

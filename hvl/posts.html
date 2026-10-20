@@ -179,6 +179,8 @@
   <label>Τύπος<select id="type"><option value="results">Αποτελέσματα</option><option value="schedule">Πρόγραμμα</option><option value="standings">Βαθμολογία</option><option value="match">Ανακοίνωση αγώνα</option></select></label>
   <label class="m-only">Στυλ<select id="style"><option value="boxes">Logos σε κουτιά</option><option value="players">Φωτογραφίες παικτών</option></select></label>
   <label class="m-only">Αγώνας<select id="mode"><option value="next">Επόμενος</option><option value="auto">Σημερινός / τρέχων</option><option value="last">Τελευταίος</option></select></label>
+  <label class="m-only">Αγωνιστική<select id="gday"><option value="auto">Αυτόματα (Worker)</option></select></label>
+  <label class="m-only">Παιχνίδι<select id="game"></select></label>
   <label class="p-only">Φωτό γηπεδούχου<input type="file" id="ph" accept="image/*"></label>
   <label class="p-only">Φωτό φιλοξενούμενου<input type="file" id="pa" accept="image/*"></label>
   <label>Διάσταση<select id="fmt"><option value="post">Instagram post 1080×1350</option><option value="square">Τετράγωνο 1080×1080</option><option value="story">Story 1080×1920</option><option value="wide">Wide 1920×1080</option></select></label>
@@ -303,6 +305,17 @@ function footer() { const f = $('footer').value.trim(); return `<div class="ftr"
 
 // ---------- render ----------
 let DATA = null;
+async function fillGames() {
+  const rs = await fileRounds(), g = $('gday'), cur = g.value;
+  if (g.options.length === 1) rs.forEach((r) => g.add(new Option(roundEl(r.label), r.n)));
+  if (P.has('gday') && !fillGames.done) g.value = P.get('gday');
+  if (cur !== 'auto' && !P.has('gday')) g.value = cur;
+  const r = rs.find((x) => String(x.n) === g.value), gm = $('game'), keep = gm.value || P.get('game');
+  gm.innerHTML = ''; gm.disabled = !r;
+  if (r) r.matches.forEach((m, i) => gm.add(new Option(`${m.date.slice(0, 5)} ${m.time} · ${m.home.short} - ${m.away.short}`, i)));
+  if (r && keep != null && +keep < r.matches.length) gm.value = keep;
+  fillGames.done = true;
+}
 async function load() {
   $('msg').textContent = 'Φόρτωση…';
   HVL.league = $('league').value; HVL.team = $('team').value.trim();
@@ -311,10 +324,24 @@ async function load() {
     DATA = $('type').value === 'standings' ? await HVL.load('standings') : $('type').value === 'match' ? await HVL.load('match') : await HVL.load('round', { which: $('which').value });
     $('msg').textContent = HVL.demo ? 'Demo δεδομένα (δεν έχει οριστεί Worker URL)' : '';
   } catch (e) { $('msg').textContent = '⚠ ' + e.message; DATA = null; }
+  if ($('type').value === 'standings' && $('league').value === 'hvl' && !(DATA?.standings || []).length) {
+    // Worker gave no table → the 12 teams of data/schedule.txt with zeros (alphabetical)
+    const seen = new Map();
+    for (const r of await fileRounds()) for (const m of r.matches) for (const t of [m.home, m.away]) if (t.slug && !seen.has(t.slug)) seen.set(t.slug, t);
+    const rows = [...seen.values()].sort((a, b) => a.name.localeCompare(b.name, 'el'))
+      .map((t, i) => ({ rank: i + 1, teamId: null, name: t.name, short: t.short, slug: t.slug, logo: null, rankPts: 0, played: 0, won: 0, lost: 0, setsW: 0, setsL: 0 }));
+    if (rows.length) { DATA = { ...(DATA || {}), standings: rows }; $('msg').textContent = 'Ομάδες από data/schedule.txt (ο Worker δεν έδωσε βαθμολογία)'; }
+  }
   if ($('type').value === 'match' && $('league').value === 'hvl') {
     // single game: Worker first; if it has no match, take it from data/schedule.txt (team + Επόμενος/Τελευταίος); add court from the file when missing
     const all = (await fileRounds()).flatMap((r) => r.matches.map((x) => ({ ...x, round: r.label })));
-    if (!DATA?.match) {
+    await fillGames();
+    const pickR = (await fileRounds()).find((x) => String(x.n) === $('gday').value);
+    const pick = pickR && pickR.matches[+$('game').value || 0];
+    if (pick && !(DATA?.match && sameMatch({ home: DATA.home, away: DATA.away }, pick))) {
+      DATA = { ...(DATA || {}), match: { iso: pick.iso, venue: pick.venue, tv: pick.tv, round: pickR.label, status: Date.parse(pick.iso) > Date.now() ? 'upcoming' : 'finished' }, home: pick.home, away: pick.away };
+      $('msg').textContent = 'Αγώνας από data/schedule.txt';
+    } else if (!DATA?.match) {
       const q = $('team').value.trim(), qs = q ? slugOf({ name: q }) : '';
       const list = all.filter((x) => !qs || x.home.slug === qs || x.away.slug === qs);
       const now = Date.now() - 3 * 3600e3, mode = $('mode').value;
@@ -350,7 +377,7 @@ function render() {
     const L = layout(fmt, rows.length + .5); applyVars(post, L);
     post.innerHTML = bars() + header('ΒΑΘΜΟΛΟΓΙΑ', comp) + `<div class="list" style="top:${L.listTop}px;width:${L.listW}px">
       <div class="row s sh"><div></div><div></div><div></div><div class="n">ΑΓ</div><div class="n">Ν</div><div class="n">Η</div><div class="n">ΣΕΤ</div><div class="pts">ΒΑΘ</div></div>
-      ${rows.map((r) => { const t = { id: r.teamId, name: r.name, short: r.short, logo: r.logo };
+      ${rows.map((r) => { const t = { id: r.teamId, name: r.name, short: r.short, logo: r.logo, slug: r.slug };
         return `<div class="row s par ${isFocus(t) ? 'hl' : ''} ${r.rank === 1 ? 'top' : ''}"><div class="rk">${r.rank}</div>${logo(t)}<div class="tn fit uni">${HVL.esc(el(t))}</div>
           <div class="n">${r.played ?? ''}</div><div class="n">${r.won ?? ''}</div><div class="n">${r.lost ?? ''}</div><div class="n">${r.setsW ?? ''}:${r.setsL ?? ''}</div><div class="pts">${r.rankPts ?? ''}</div></div>`; }).join('')}
     </div>` + footer();
@@ -462,12 +489,13 @@ function renderMatch(post, fmt, comp) {
     };
     const panel = (k, t, cx) => {
       const x = cx - G.pw / 2, y = G.py;
+      const nameX = wide ? cx - off / 2 - G.nameW / 2 : k === 'h' ? 24 : W / 2 + 12, nameW = wide ? G.nameW : W / 2 - 36, nameCx = nameX + nameW / 2;
       const inner = PHOTOS[k] ? `<img class="photo" src="${PHOTOS[k]}">` : t.logo ? `<img class="ghost2" src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.remove()">` : '';
       return `<div class="pp" style="left:${x}px;top:${y}px;width:${G.pw}px;height:${G.ph}px"><div class="ppi">${inner}</div></div>
         ${edge(x + off, y, x, y + G.ph, 1.7)}${edge(x + G.pw, y, x + G.pw - off, y + G.ph, 1.7)}
-        <div class="tlogo2" style="left:${cx - off / 2 - G.tl / 2}px;top:${y + G.ph - G.tl * .62}px;width:${G.tl}px;height:${G.tl}px" data-i="${initials(t)}">${logoImg(t) || initials(t)}</div>
-        <div class="nm2" style="left:${wide ? cx - off / 2 - G.nameW / 2 : k === 'h' ? 24 : W / 2 + 12}px;top:${G.nameY}px;width:${wide ? G.nameW : W / 2 - 36}px;height:${G.nameH}px;font-size:${G.nameFs}px">
-          <small>${k === 'h' ? 'ΓΗΠΕΔΟΥΧΟΣ' : 'ΦΙΛΟΞΕΝΟΥΜΕΝΟΣ'}</small><div class="tn2 fit uni">${HVL.esc(el(t))}</div></div>`;
+        <div class="tlogo2" style="left:${nameCx - G.tl / 2}px;top:${y + G.ph - G.tl * .62}px;width:${G.tl}px;height:${G.tl}px" data-i="${initials(t)}">${logoImg(t) || initials(t)}</div>
+        <div class="nm2" style="left:${nameX}px;top:${G.nameY}px;width:${nameW}px;height:${G.nameH}px;font-size:${G.nameFs}px">
+<div class="tn2 fit uni">${HVL.esc(el(t))}</div></div>`;
     };
     const streaks = [-.05, .2, .5, .78, 1.0].map((x) => `<i class="edge faint" style="left:${Math.round(W * x)}px;top:${-H * .1}px;height:${H * 1.2}px;transform:rotate(${ang}deg)"></i>`).join('');
     post.innerHTML = `<div class="pv2">${streaks}
@@ -501,6 +529,8 @@ async function download(fmt) {
 }
 $('dl').onclick = () => download($('fmt').value);
 $('dlall').onclick = async () => { for (const f of Object.keys(FMT)) await download(f); };
+['gday'].forEach((k) => ($(k).onchange = async () => { $('game').value = ''; await fillGames(); $('game').value = 0; load(); }));
+$('game').onchange = load;
 ['type', 'which', 'league', 'mode'].forEach((k) => ($(k).onchange = () => { $('which').disabled = $('type').value === 'standings'; load(); }));
 $('style').onchange = render;
 const PHOTOS = { h: null, a: null };
