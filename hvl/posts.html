@@ -55,7 +55,7 @@
   .mb.wtv { grid-template-columns: minmax(0, 1fr) var(--tvW) var(--scW); }
   .g.wtv { grid-template-columns: var(--dateW) var(--logoW) minmax(0, 1fr) var(--midW) minmax(0, 1fr) var(--logoW) var(--tvW); }
   .tv { height: 100%; display: grid; place-items: center; padding: 0 10px; }
-  .tv img { max-width: 100%; max-height: 85%; object-fit: contain; }
+  .tv img { max-width: 100%; max-height: 62%; object-fit: contain; }
   .mb .sc.vs small, .row .mid.vs small { display: block; margin-top: 4px; font-size: calc(var(--rh) * .15); font-weight: 800; letter-spacing: .5px; color: var(--aqua); opacity: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; padding: 0 6px; }
   /* narrow formats, "rows" layout: home name | home logo | time+court+TV | away logo | away name (names may wrap to 2 lines, all the same size) */
   .n2 { grid-template-columns: minmax(0, 1fr) var(--logoW) var(--scW) var(--logoW) minmax(0, 1fr); height: var(--rh); }
@@ -65,7 +65,7 @@
   .n2 .nmw.h span { text-align: right; } .n2 .nmw.l span { color: rgba(255,255,255,.55); }
   .row .lo, .n2 .lo { width: calc(var(--rh) * .84); height: calc(var(--rh) * .84); }
   .n2 .mid { padding: 4px 6px; }
-  .mid .tvl { display: block; height: calc(var(--rh) * .28); max-width: 90%; margin-top: 5px; object-fit: contain; }
+  .mid .tvl { display: block; height: calc(var(--rh) * .2); max-width: 90%; margin-top: 5px; object-fit: contain; }
   .mid.vs, .mb .sc.vs { display: flex !important; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   .mid.vs > span, .mb .sc.vs > span { line-height: 1; }
   .mid.vs small, .mb .sc.vs small { margin-top: 6px !important; text-align: center; }
@@ -114,7 +114,7 @@
               font-weight: 900; font-size: calc(var(--whenH) * .38); text-transform: uppercase; white-space: nowrap; --cut: 26px; }
   .when2 .t { height: calc(var(--whenH) * .82); padding: 0 56px; display: grid; place-items: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-size: calc(var(--whenH) * .5); --cut: 22px; }
   .lgTL { position: absolute; z-index: 6; width: auto; object-fit: contain; }
-  .tvL { position: absolute; left: 50%; transform: translateX(-50%); z-index: 6; width: auto; max-width: 500px; object-fit: contain; }
+  .tvL { position: absolute; left: 50%; transform: translateX(-50%); z-index: 6; width: auto; max-width: 340px; object-fit: contain; }
   .venue { position: absolute; z-index: 6; left: 50%; transform: translateX(-50%); width: var(--whenW); text-align: center; font-weight: 800; font-size: calc(var(--whenH) * .3); text-transform: uppercase; color: rgba(255,255,255,.85); white-space: nowrap; overflow: hidden; }
   .venue b { color: var(--aqua); }
 
@@ -181,6 +181,23 @@
   .pv2 .v2 { position: absolute; left: 0; right: 0; text-align: center; z-index: 5; font-weight: 800; font-size: calc(var(--whenH) * .3); color: rgba(255,255,255,.85); text-transform: uppercase; white-space: nowrap; }
   .pv2 .v2 b { color: var(--aqua); }
   .empty { position: absolute; inset: 0; display: grid; place-items: center; font-size: 44px; font-weight: 800; color: rgba(255,255,255,.6); }
+
+  /* ---------- polish: schedule / results / standings ---------- */
+  .lgTL { position: absolute; z-index: 6; width: auto; object-fit: contain; }
+  .sch .row, .sch .mb, .st-list .row:not(.sh) { background: linear-gradient(100deg, rgba(52,63,84,.94), rgba(30,37,51,.94) 60%, rgba(24,30,42,.94)); box-shadow: none; position: relative; }
+  .sch .row::after, .sch .mb::after, .st-list .row:not(.sh)::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: linear-gradient(90deg, var(--aqua), rgba(153,245,253,.15) 70%, transparent); }
+  .sch .row.hl, .st-list .row.hl { background: linear-gradient(100deg, rgba(153,245,253,.32), rgba(36,44,59,.96) 55%); }
+  .sch .dh { align-items: flex-end; gap: 16px; letter-spacing: 2.5px; }
+  .sch .dh::after { content: ''; flex: 1; height: 2px; margin-bottom: .45em; background: linear-gradient(90deg, rgba(153,245,253,.8), transparent); }
+  .sch .mid.vs { background: linear-gradient(180deg, #3a475f, #222a39); box-shadow: inset 0 4px 0 var(--aqua); }
+  .sch .mid.vs > span { font-size: calc(var(--rh) * .34); letter-spacing: 1px; }
+  .sch .mid:not(.vs):not(.live) { box-shadow: inset 0 4px 0 #fff; }
+  .sch .n2 .nmw span { letter-spacing: .4px; }
+  /* standings on 1080-wide posts: narrower table, bigger logos + names */
+  .st-list .s .lo { width: calc(var(--rh) * .82); height: calc(var(--rh) * .82); }
+  .st-list .nmw { height: 100%; min-width: 0; display: flex; align-items: center; padding: 0 12px 0 calc(var(--rh) * .2); overflow: hidden; }
+  .st-list .nmw span { display: block; width: 100%; font-weight: 800; line-height: 1.04; text-transform: uppercase; font-size: calc(var(--rh) * .36); }
+  .st-list .s .tn { font-size: calc(var(--rh) * .4); padding-left: calc(var(--rh) * .2); }
 </style>
 </head><body>
 <div class="ui">
@@ -285,12 +302,13 @@ const isFocus = (t) => { const q = $('team').value.trim(); if (!q) return false;
 function layout(fmt, n) {
   const [W, H] = FMT[fmt];
   const wide = fmt === 'wide';
-  const L = { W, H, padT: wide ? 40 : fmt === 'story' ? 150 : 56, logoH: wide ? 120 : fmt === 'story' ? 220 : fmt === 'square' ? 120 : 150, ttH: wide ? 84 : fmt === 'story' ? 120 : 96, ftH: fmt === 'story' ? 120 : 84, gap: fmt === 'story' ? 18 : 12 };
+  const L = { W, H, padT: wide ? 34 : fmt === 'story' ? 150 : 44, logoH: 0, ttH: wide ? 84 : fmt === 'story' ? 120 : 96, ftH: fmt === 'story' ? 120 : 84, gap: fmt === 'story' ? 18 : 12 };
   L.hdrH = L.padT + L.logoH + 18 + L.ttH + 12 + L.ttH * .5;
   L.listTop = L.hdrH + (fmt === 'story' ? 70 : 36);
   const avail = H - L.listTop - L.ftH - (fmt === 'story' ? 70 : 40);
-  L.rh = Math.max(56, Math.min(fmt === 'story' ? 170 : 130, (avail - L.gap * (n - 1)) / Math.max(1, n)));
+  L.rh = Math.max(36, Math.min(fmt === 'story' ? 170 : 130, (avail - L.gap * (n - 1)) / Math.max(1, n)));
   L.listW = wide ? 1560 : W - 64;
+  L.fmt = fmt;
   return L;
 }
 let CUR = { hdrH: 300 };
@@ -304,6 +322,12 @@ function applyVars(node, L) {
 }
 const bars = () => ''; const _unusedBars = () => `<div class="bars" style="--barsH:${Math.round(CUR.hdrH)}px">${[[0, 6], [26, 6], [50, 18], [90, 6], [118, 46], [182, 8]].map(([x, w]) => `<i style="left:${x}px;width:${w}px"></i>`).join('')}</div>`;
 
+/** league logo in the top-left corner (list posts) */
+function topLogo(L) {
+  const lf = LOGO_FILE[$('league').value]; if (!lf) return '';
+  const h = L.fmt === 'story' ? 170 : L.fmt === 'wide' ? 120 : L.fmt === 'square' ? 104 : 124, y = L.fmt === 'story' ? 60 : 24;
+  return `<img class="lgTL" src="logos/${lf}.png" style="left:${L.fmt === 'story' ? 40 : 28}px;top:${y}px;height:${h}px" onerror="this.remove()">`;
+}
 function header(title, sub, noLogo) {
   const lf = noLogo ? '' : LOGO_FILE[$('league').value];
   return `<div class="hdr"><div class="lg">${lf ? `<img src="logos/${lf}.png" onerror="this.remove()">` : ''}</div>
@@ -383,10 +407,13 @@ function render() {
   if (type === 'standings') {
     const rows = (DATA.standings || []).slice(0, 14);
     const L = layout(fmt, rows.length + .5); applyVars(post, L);
-    post.innerHTML = bars() + header('ΒΑΘΜΟΛΟΓΙΑ', comp) + `<div class="list" style="top:${L.listTop}px;width:${L.listW}px">
+    const narrowSt = FMT[fmt][0] < 1500;
+    if (!narrowSt) L.listW = 1240;
+    if (narrowSt) { L.listW = FMT[fmt][0] - 120; post.style.setProperty('--numW', Math.round(L.rh * .7) + 'px'); post.style.setProperty('--setW', Math.round(L.rh * 1.15) + 'px'); }
+    post.innerHTML = bars() + header('ΒΑΘΜΟΛΟΓΙΑ', comp, true) + topLogo(L) + `<div class="list st-list" style="top:${L.listTop}px;width:${L.listW}px">
       <div class="row s sh"><div></div><div></div><div></div><div class="n">ΑΓ</div><div class="n">Ν</div><div class="n">Η</div><div class="n">ΣΕΤ</div><div class="pts">ΒΑΘ</div></div>
       ${rows.map((r) => { const t = { id: r.teamId, name: r.name, short: r.short, logo: r.logo, slug: r.slug };
-        return `<div class="row s par ${isFocus(t) ? 'hl' : ''} ${r.rank === 1 ? 'top' : ''}"><div class="rk">${r.rank}</div>${logo(t)}<div class="tn fit uni">${HVL.esc(el(t))}</div>
+        return `<div class="row s par ${isFocus(t) ? 'hl' : ''} ${r.rank === 1 ? 'top' : ''}"><div class="rk">${r.rank}</div>${logo(t)}${narrowSt ? `<div class="nmw"><span class="u2">${HVL.esc(el(t))}</span></div>` : `<div class="tn fit uni">${HVL.esc(el(t))}</div>`}
           <div class="n">${r.played ?? ''}</div><div class="n">${r.won ?? ''}</div><div class="n">${r.lost ?? ''}</div><div class="n">${r.setsW ?? ''}:${r.setsL ?? ''}</div><div class="pts">${r.rankPts ?? ''}</div></div>`; }).join('')}
     </div>` + footer();
   } else {
@@ -404,7 +431,7 @@ function render() {
     const court = (m) => (m.venue ? `<small>${HVL.esc(caps(m.venue))}</small>` : '');
     const title = type === 'results' ? 'ΑΠΟΤΕΛΕΣΜΑΤΑ' : 'ΠΡΟΓΡΑΜΜΑ';
     let lastDay = '';
-    post.innerHTML = bars() + header(title, [roundEl(r?.label), comp].filter(Boolean).join(' · ')) + `<div class="list" style="top:${L.listTop}px;width:${L.listW}px">
+    post.innerHTML = bars() + header(title, [roundEl(r?.label), comp].filter(Boolean).join(' · '), true) + topLogo(L) + `<div class="list sch" style="top:${L.listTop}px;width:${L.listW}px">
       ${ms.map((m) => {
         const [day, time] = dayEl(m.iso), fin = m.status === 'finished', live = m.status === 'live';
         const hw = fin && m.setsHome > m.setsAway, aw = fin && m.setsAway > m.setsHome;
@@ -473,7 +500,7 @@ function renderMatch(post, fmt, comp) {
     const vt = top + wh + 10 + wh * .82 + gap, tvTop = vt + (m.venue ? wh * .42 + 14 : 0);
     return `<div class="when2" style="top:${top}px;--whenH:${wh}px"><div class="d par">${HVL.esc(date)}</div><div class="t par">${HVL.esc(time)}</div></div>
       ${m.venue ? `<div class="venue" style="top:${vt}px;--whenH:${wh}px;--whenW:${W - 120}px">${HVL.esc(caps(m.venue))}</div>` : ''}
-      <img class="tvL" src="${tvLogo(m.tv)}" style="top:${tvTop}px;height:${Math.round(wh * .65)}px" onerror="this.remove()">`;
+      <img class="tvL" src="${tvLogo(m.tv)}" style="top:${tvTop}px;height:${Math.round(wh * .62)}px" onerror="this.remove()">`;
   };
   if ($('style').value === 'boxes') {
     const box = wide ? 250 : story ? 380 : sq ? 250 : 340;
