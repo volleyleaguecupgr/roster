@@ -50,8 +50,8 @@ HVL.poll('match', 4, (d) => {
   const st = p.stats;
   const useStats = INFO === 'stats' || (INFO === 'auto' && st && st.played && d.match.status !== 'upcoming');
   const chips = useStats
-    ? [[st.pts, HVL.t('pts'), true], [st.att, 'ATT'], [st.blk, 'BLK'], [st.ace, 'ACE'], ...(st.attTot ? [[Math.round(st.att / st.attTot * 100) + '%', 'KILL']] : [])]
-    : [[p.height ? p.height + '' : null, 'CM'], [p.born, HVL.lang === 'el' ? 'ΓΕΝ.' : 'BORN']].filter((c) => c[0]);
+    ? [[st.pts, HVL.t('pts'), true], [st.att, HVL.t('attS')], [st.blk, HVL.t('blkS')], [st.ace, HVL.t('aceS')], ...(st.attTot ? [[Math.round(st.att / st.attTot * 100) + '%', HVL.t('kill')]] : [])]
+    : [[p.height ? p.height + '' : null, HVL.t('cm')], [p.born, HVL.t('born')]].filter((c) => c[0]);
   const key = `${team.id}:${p.playerId || p.number}`;
   LT.innerHTML = `
     <div class="ph ${p.photo ? '' : 'nophoto'}" data-init="${HVL.esc((p.last || p.name || '?')[0])}">${p.photo ? `<img src="${HVL.esc(p.photo)}" alt="" onerror="const b=this.parentNode;b.classList.add('nophoto');this.replaceWith(b.dataset.init)">` : HVL.esc((p.last || '?')[0])}<div class="tlogo">${HVL.logo(team)}</div></div>

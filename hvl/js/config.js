@@ -3,6 +3,6 @@ window.HVL_CONFIG = {
   api: '',          // e.g. 'https://hvl-broadcast.YOUR-SUBDOMAIN.workers.dev'  (empty = demo data)
   league: 'hvl',    // hvl | cup | supercup | greekcup | <competition id>
   team: '',         // default team, e.g. 'kifisia'
-  lang: 'en',       // en | el
+  lang: 'el',       // el | en
   theme: 'novi',    // novi (sharp, gradient) | cev (rounded, EuroVolley)
 };

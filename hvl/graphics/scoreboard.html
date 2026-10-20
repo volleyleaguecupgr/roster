@@ -12,7 +12,7 @@
   .head { display: flex; gap: 8px; align-items: center; height: 38px; }
   .head .tag { height: 38px; padding: 0 20px; background: linear-gradient(90deg, var(--red-500), var(--red-700)); font-weight: 800; font-size: 20px; text-transform: uppercase; }
   .head .comp { height: 38px; padding: 0 20px 0 18px; background: var(--g-comp); font-weight: 700; font-size: 18px; text-transform: uppercase; white-space: nowrap; }
-  .team { height: 66px; display: grid; grid-template-columns: 66px 300px 26px auto 76px 96px; align-items: center; border-radius: 999px;
+  .team { height: 66px; display: grid; grid-template-columns: 66px 430px 26px auto 76px 96px; align-items: center; border-radius: 999px;
           background: var(--g-row-dark); box-shadow: inset 0 0 0 var(--line) #fff; }
   .team .logo { width: 66px; height: 66px; }
   .team .logo.fallback { font-size: 18px; }
@@ -33,7 +33,7 @@
 <script>
 const SB = HVL.$('#sb');
 const pos = HVL.get('pos', 'tl'); if (pos !== 'tl') SB.classList.add(pos);
-const NAMES = HVL.get('names', 'short');
+const NAMES = HVL.get('names', 'long');
 const showParts = HVL.get('partials', '0') === '1';
 let prev = {};
 HVL.poll('match', 3, (d, first) => {
@@ -56,7 +56,7 @@ HVL.poll('match', 3, (d, first) => {
     <div class="head"><div class="pill tag">${live && !s.manual ? '<span class="live-dot" style="margin-right:10px"></span>' : ''}${HVL.esc(label)}</div><div class="pill comp">${HVL.esc(d.league.name)}</div></div>
     ${row(d.home, 'home')}${row(d.away, 'away')}`;
   // grid width: hide parts column when unused
-  SB.querySelectorAll('.team').forEach((el) => { if (!showParts) el.style.gridTemplateColumns = '66px 300px 26px 0 76px 96px'; });
+  SB.querySelectorAll('.team').forEach((el) => { if (!showParts) el.style.gridTemplateColumns = '66px 430px 26px 0 76px 96px'; });
   // flash changed numbers
   const now = { hs: s.setsH, as: s.setsA, hp: s.h, ap: s.a };
   if (!first) for (const k in now) if (prev[k] !== now[k]) SB.querySelector(`[data-k="${k[0] === 'h' ? 'home' : 'away'}${k[1]}"]`)?.classList.add('flash');

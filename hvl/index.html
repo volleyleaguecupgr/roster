@@ -5,6 +5,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;600;800&display=swap" rel="stylesheet">
 <script src="js/config.js"></script>
+<script src="js/teams-el.js"></script>
+<script>
+// Greek team names from js/teams-el.js for the team pickers
+window.elTeam = (n) => { const f = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/[^A-Z0-9Α-Ω]/g, '').replace(/C(?!H)/g, 'K').replace(/Y/g, 'I').replace(/(.)\1/g, '$1');
+  for (const [k, v] of Object.entries(window.HVL_TEAMS_EL || {})) if (f(k) === f(n)) return typeof v === 'string' ? v : v.name; return n; };
+</script>
+
 <style>
   :root { --bg: #06061f; --card: #0f0f45; --line: #2a2a7a; --txt: #fff; --mut: #a9aee6; --acc: #3a3dff; --red: #ff2e8a; }
   * { box-sizing: border-box; } body { margin: 0; font-family: Commissioner, system-ui, sans-serif; background: var(--bg); color: var(--txt); }
@@ -104,7 +111,7 @@ async function loadTeams() {
   try {
     const teams = await (await fetch(`${api}/api/${$('league').value}/teams`)).json();
     if (teams.error) throw new Error(teams.error);
-    $('team').innerHTML = '<option value="">— any team —</option>' + teams.map((t) => `<option value="${t.id}">${t.name}</option>`).join('');
+    $('team').innerHTML = '<option value="">— any team —</option>' + teams.map((t) => `<option value="${t.id}">${elTeam(t.name)}</option>`).join('');
     if (st.team && teams.some((t) => String(t.id) === String(st.team))) $('team').value = st.team;
     await showMatch();
   } catch (e) { $('status').textContent = '⚠ ' + e.message; }
@@ -114,7 +121,7 @@ async function showMatch() {
   const api = $('api').value.trim().replace(/\/$/, ''); if (!api || !$('team').value) { $('status').textContent = ''; return; }
   try {
     const d = await (await fetch(`${api}/api/${$('league').value}/match?team=${$('team').value}&mode=${$('mode').value}`)).json();
-    $('status').innerHTML = d.match ? `<b>${d.home.name} – ${d.away.name}</b> · ${d.match.date} ${d.match.time} · ${d.match.status.toUpperCase()} · ${d.match.setsHome}-${d.match.setsAway} · ${d.league.name}${d.warnings?.length ? ' · ⚠ ' + d.warnings.join(', ') : ''}` : (d.message || d.error);
+    $('status').innerHTML = d.match ? `<b>${elTeam(d.home.name)} – ${elTeam(d.away.name)}</b> · ${d.match.date} ${d.match.time} · ${d.match.status.toUpperCase()} · ${d.match.setsHome}-${d.match.setsAway} · ${d.league.name}${d.warnings?.length ? ' · ⚠ ' + d.warnings.join(', ') : ''}` : (d.message || d.error);
   } catch (e) { $('status').textContent = '⚠ ' + e.message; }
 }
 $('go').onclick = loadTeams; $('league').onchange = loadTeams;

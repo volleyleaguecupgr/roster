@@ -15,6 +15,10 @@
     const src = (document.currentScript && document.currentScript.src) || '';
     document.write(`<link rel="stylesheet" href="${src.replace(/js\/core\.js.*$/, `css/${THEME}.css`)}">`);
   }
+  if (!window.HVL_TEAMS_EL) {
+    const src = (document.currentScript && document.currentScript.src) || '';
+    document.write(`<script src="${src.replace(/core\.js.*$/, 'teams-el.js')}"><\/script>`);
+  }
 
   const HVL = (window.HVL = {
     P, get,
@@ -24,10 +28,11 @@
     mode: get('mode', 'auto'),
     mid: get('mid', ''),
     comp: get('comp', ''),
-    lang: get('lang', CFG.lang || 'en'),
+    lang: get('lang', CFG.lang || 'el'),
     demo: get('demo') === '1' || !(get('api', CFG.api || '')),
   });
 
+  document.documentElement.lang = HVL.lang === 'el' ? 'el' : 'en';   // Greek uppercase without accents
   document.addEventListener('DOMContentLoaded', () => {
     if (get('bg') === '1') document.body.classList.add('bg');
     if (get('dim') === '1') document.body.classList.add('dim');
@@ -57,8 +62,8 @@
 
   /* ---------- i18n ---------- */
   const L = {
-    en: { stats: 'Statistics', set: 'Set', after: 'after', final: 'Final result', live: 'Live', next: 'Next match', roster: 'Roster', coach: 'Head coach', standings: 'Standings', top: 'Top scorers', att: 'Winner attacks', blk: 'Blocks', ace: 'Aces', opp: 'Opponent errors', pts: 'Pts', vs: 'vs', match: 'Match', leaders: 'Season leaders', played: 'P', won: 'W', lost: 'L', sets: 'Sets', points: 'Points', srvErr: 'Serve errors', attPct: 'Attack %' },
-    el: { stats: 'Στατιστικά', set: 'Σετ', after: 'μετά το', final: 'Τελικό αποτέλεσμα', live: 'Ζωντανά', next: 'Επόμενος αγώνας', roster: 'Ρόστερ', coach: 'Προπονητής', standings: 'Βαθμολογία', top: 'Κορυφαίοι σκόρερ', att: 'Πόντοι επίθεσης', blk: 'Μπλοκ', ace: 'Άσσοι', opp: 'Λάθη αντιπάλου', pts: 'Πόντ.', vs: 'vs', match: 'Αγώνας', leaders: 'Κορυφαίοι σεζόν', played: 'Α', won: 'Ν', lost: 'Η', sets: 'Σετ', points: 'Πόντοι', srvErr: 'Λάθη σερβίς', attPct: 'Επίθεση %' },
+    en: { results: 'Results', schedule: 'Schedule', kill: 'KILL', attS: 'ATT', blkS: 'BLK', aceS: 'ACE', cm: 'CM', born: 'BORN', referees: 'Referees', stats: 'Statistics', set: 'Set', after: 'after', final: 'Final result', live: 'Live', next: 'Next match', roster: 'Roster', coach: 'Head coach', standings: 'Standings', top: 'Top scorers', att: 'Winner attacks', blk: 'Blocks', ace: 'Aces', opp: 'Opponent errors', pts: 'Pts', vs: 'vs', match: 'Match', leaders: 'Season leaders', played: 'P', won: 'W', lost: 'L', sets: 'Sets', points: 'Points', srvErr: 'Serve errors', attPct: 'Attack %' },
+    el: { results: 'Αποτελέσματα', schedule: 'Πρόγραμμα', kill: 'ΕΠΙΘ.%', attS: 'ΕΠΙΘ', blkS: 'ΜΠΛΟΚ', aceS: 'ΑΣΣ', cm: 'ΕΚ', born: 'ΓΕΝ.', referees: 'Διαιτητές', stats: 'Στατιστικά', set: 'Σετ', after: 'μετά το', final: 'Τελικό αποτέλεσμα', live: 'Ζωντανά', next: 'Επόμενος αγώνας', roster: 'Ρόστερ', coach: 'Προπονητής', standings: 'Βαθμολογία', top: 'Κορυφαίοι σκόρερ', att: 'Πόντοι επίθεσης', blk: 'Μπλοκ', ace: 'Άσσοι', opp: 'Λάθη αντιπάλου', pts: 'Πόντ.', vs: 'vs', match: 'Αγώνας', leaders: 'Κορυφαίοι σεζόν', played: 'Α', won: 'Ν', lost: 'Η', sets: 'Σετ', points: 'Πόντοι', srvErr: 'Λάθη σερβίς', attPct: 'Επίθεση %' },
   };
   HVL.t = (k) => (L[HVL.lang] || L.en)[k] || L.en[k] || k;
   HVL.ord = (n) => {
@@ -80,7 +85,7 @@
     if (!p?.photo) return `<div class="${cls} nophoto">${init}</div>`;
     return `<div class="${cls}" data-init="${init}"><img src="${HVL.esc(p.photo)}" alt="" onerror="this.parentNode.classList.add('nophoto');this.parentNode.textContent=this.parentNode.dataset.init"></div>`;
   };
-  HVL.teamName = (t, long) => (long ? t?.name : t?.short || t?.name) || '';
+  HVL.teamName = (t) => t?.name || t?.short || '';   // always the full (mapped) name
   HVL.dateLong = (iso) => {
     if (!iso) return '';
     const d = new Date(iso);
@@ -93,7 +98,7 @@
     root.querySelectorAll('.fit').forEach((el) => {
       el.style.fontSize = '';
       let fs = parseFloat(getComputedStyle(el).fontSize);
-      const min = fs * 0.5;
+      const min = fs * 0.36;
       while ((el.scrollWidth > el.clientWidth + 1) && fs > min) { fs -= 1; el.style.fontSize = fs + 'px'; }
     });
   };
@@ -150,13 +155,55 @@
     const q = new URLSearchParams({ ...(HVL.team ? { team: HVL.team } : {}), ...(HVL.comp ? { comp: HVL.comp } : {}), ...extra });
     return `${HVL.api}/api/${encodeURIComponent(HVL.league)}/${path}?${q}`;
   };
+  /* ---------- localisation: Greek team names (js/teams-el.js), NOVIBET competition names, Greek rounds/roles ---------- */
+  const fold = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/[^A-Z0-9Α-Ω]/g, '').replace(/C(?!H)/g, 'K').replace(/Y/g, 'I').replace(/(.)\1/g, '$1');
+  let TMAP = null;
+  const tmap = () => {
+    if (TMAP) return TMAP;
+    TMAP = {};
+    for (const [k, v] of Object.entries(window.HVL_TEAMS_EL || {})) TMAP[/^\d+$/.test(k) ? k : fold(k)] = typeof v === 'string' ? v : v.name;
+    return TMAP;
+  };
+  HVL.teamEl = (t) => { const m = tmap(); return m[String(t?.id ?? t?.teamId)] || m[fold(t?.name)] || m[fold(t?.short)] || null; };
+  HVL.compName = (n) => { n = String(n || '').trim(); return !n || /^NOVIBET\b/i.test(n) ? n : 'NOVIBET ' + n; };
+  const ROUND_EL = [[/^(?:game ?day|round|giornata|αγωνιστική)\s*(\d+)$/i, (m) => `${m[1]}η Αγωνιστική`], [/^final\s*#?\s*(\d+)$/i, (m) => `Τελικός #${m[1]}`],
+    [/^semi ?final\s*#?\s*(\d+)$/i, (m) => `Ημιτελικός #${m[1]}`], [/^quarter ?final\s*#?\s*(\d+)$/i, (m) => `Προημιτελικός #${m[1]}`], [/^(?:match\s*)?#\s*(\d+)$/i, (m) => `Αγώνας #${m[1]}`]];
+  HVL.roundName = (r) => { if (HVL.lang !== 'el' || !r) return r; for (const [re, f] of ROUND_EL) { const m = String(r).trim().match(re); if (m) return f(m); } return r; };
+  const POS_EL = { S: 'Πασαδόρος', OP: 'Διαγώνιος', OH: 'Ακραίος', MB: 'Κεντρικός', L: 'Λίμπερο', U: 'Universal' };
+  const ROLE_EL = [[/head coach/i, 'Προπονητής'], [/assistant/i, 'Βοηθός προπονητή'], [/scout/i, 'Scoutman'], [/manager/i, 'Team manager'], [/physio/i, 'Φυσικοθεραπευτής'], [/doctor/i, 'Γιατρός']];
+  HVL.localize = (data) => {
+    const el = HVL.lang === 'el';
+    const walk = (o, pk) => {
+      if (Array.isArray(o)) { o.forEach((x) => walk(x, pk)); return; }
+      if (!o || typeof o !== 'object') return;
+      if (typeof o.name === 'string' && ('short' in o || 'teamId' in o && 'rankPts' in o)) {          // a team / standings row
+        const g = HVL.teamEl(o);
+        if (g) { o.hvlName = o.name; o.name = g; }
+        o.short = o.name;                                                                         // full names everywhere
+      }
+      if (pk === 'league' && typeof o.name === 'string') o.name = HVL.compName(o.name);
+      if (typeof o.comp === 'string') o.comp = HVL.compName(o.comp);
+      if (typeof o.round === 'string') o.round = HVL.roundName(o.round);
+      if (pk === 'round' && typeof o.label === 'string') o.label = HVL.roundName(o.label);
+      if (el && pk === 'position' && o.code && POS_EL[o.code]) o.label = POS_EL[o.code];
+      if (el && pk === 'leaders' && typeof o.title === 'string') {
+        const T = [[/scorer.*sets/i, 'Σκόρερ (πόντοι/σετ)'], [/scorer/i, 'Κορυφαίοι σκόρερ'], [/server.*sets/i, 'Άσσοι (ανά σετ)'], [/server/i, 'Κορυφαίοι στο σερβίς'],
+          [/blocker.*sets/i, 'Μπλοκ (ανά σετ)'], [/blocker/i, 'Κορυφαίοι στο μπλοκ'], [/reception/i, 'Υποδοχή – θετική %'], [/attack/i, 'Επίθεση – επιτυχία %']];
+        const t = T.find(([re]) => re.test(o.title)); if (t) o.title = t[1];
+      }
+      if (el && typeof o.role === 'string') { const r = ROLE_EL.find(([re]) => re.test(o.role)); if (r) o.role = r[1]; }
+      for (const [k, v] of Object.entries(o)) if (v && typeof v === 'object') walk(v, k);
+    };
+    walk(data, '');
+    return data;
+  };
   HVL.load = async (path = 'match', extra = {}) => {
-    if (HVL.demo) return HVL.DEMO(path, extra);
+    if (HVL.demo) return HVL.localize(JSON.parse(JSON.stringify(HVL.DEMO(path, extra))));
     const q = { ...(path === 'match' ? { mode: HVL.mode, ...(HVL.mid ? { mid: HVL.mid } : {}) } : {}), ...extra };
     const r = await fetch(HVL.url(path, q), { cache: 'no-store' });
     const j = await r.json();
     if (!r.ok) throw new Error(j.error || r.status);
-    return j;
+    return HVL.localize(j);
   };
   /** Poll `path` every `sec` seconds; call render(data, first). Re-renders only when data changed. */
   HVL.poll = (path, sec, render, extra) => {

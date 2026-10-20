@@ -4,6 +4,13 @@
 <title>HVL Operator Panel</title>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;600;800&display=swap" rel="stylesheet">
 <script src="js/config.js"></script>
+<script src="js/teams-el.js"></script>
+<script>
+// Greek team names from js/teams-el.js for the team pickers
+window.elTeam = (n) => { const f = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/[^A-Z0-9Α-Ω]/g, '').replace(/C(?!H)/g, 'K').replace(/Y/g, 'I').replace(/(.)\1/g, '$1');
+  for (const [k, v] of Object.entries(window.HVL_TEAMS_EL || {})) if (f(k) === f(n)) return typeof v === 'string' ? v : v.name; return n; };
+</script>
+
 <style>
   :root { --bg: #070a2e; --card: #0f1554; --line: #26308f; --mut: #a9b0e6; --acc: #2a33f0; --red: #e5332a; --ok: #16a34a; }
   * { box-sizing: border-box; } body { margin: 0; font-family: Commissioner, system-ui, sans-serif; background: var(--bg); color: #fff; }
@@ -94,18 +101,18 @@ async function connect() {
   localStorage.setItem('hvl-ctl', JSON.stringify({ api: api(), league: $('league').value, token: $('token').value, team: $('team').value || saved.team }));
   if (!$('team').options.length || $('team').dataset.league !== $('league').value) {
     const teams = await (await fetch(`${api()}/api/${$('league').value}/teams`)).json();
-    $('team').innerHTML = teams.map((t) => `<option value="${t.id}">${t.name}</option>`).join(''); $('team').dataset.league = $('league').value;
+    $('team').innerHTML = teams.map((t) => `<option value="${t.id}">${elTeam(t.name)}</option>`).join(''); $('team').dataset.league = $('league').value;
     if (saved.team) $('team').value = saved.team;
   }
   data = await (await fetch(`${api()}/api/${$('league').value}/match?${q()}`)).json();
   state = data.state || {};
-  $('st').textContent = data.match ? `${data.home.name} – ${data.away.name} · ${data.match.status} · ${data.league.name}` : (data.message || data.error);
+  $('st').textContent = data.match ? `${elTeam(data.home.name)} – ${elTeam(data.away.name)} · ${data.match.status} · NOVIBET ${data.league.name.replace(/^NOVIBET\s*/i, '')}` : (data.message || data.error);
   draw(); players(); lineupForm();
 }
 function draw() {
   const s = S();
   $('manual').checked = !!s.manual;
-  $('nH').textContent = data?.home?.short || 'Home'; $('nA').textContent = data?.away?.short || 'Away';
+  $('nH').textContent = elTeam(data?.home?.name) || 'Home'; $('nA').textContent = elTeam(data?.away?.name) || 'Away';
   $('pH').textContent = s.h; $('pA').textContent = s.a; $('sH').textContent = s.setsH; $('sA').textContent = s.setsA;
   $('tmH').classList.toggle('serve', s.serve === 'home'); $('tmA').classList.toggle('serve', s.serve === 'away');
 }

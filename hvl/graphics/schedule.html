@@ -47,7 +47,7 @@ HVL.poll('round', RESULTS ? 120 : 30, (d, first) => {
       const done = m.status === 'finished', live = m.status === 'live';
       const hw = done && m.setsHome > m.setsAway, aw = done && m.setsAway > m.setsHome;
       const mid = done ? `<div class="v">${m.setsHome}–${m.setsAway}</div>`
-        : live ? `<div class="v live"><span>${m.setsHome}–${m.setsAway}</span><small>LIVE</small></div>`
+        : live ? `<div class="v live"><span>${m.setsHome}–${m.setsAway}</span><small>${HVL.lang === 'el' ? 'ΖΩΝΤΑΝΑ' : 'LIVE'}</small></div>`
         : `<div class="v vs">${HVL.esc(m.time || 'vs')}</div>`;
       return `<div class="rw ${isFocus(m) ? 'hl' : ''}">
         <div class="dt">${dd ? `${+dd} ${mon(+mm - 1)}` : ''}</div>

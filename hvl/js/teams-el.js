@@ -1,22 +1,24 @@
-// Greek team names for posts (posts.html). Key = team name exactly as HVL shows it (case/dots/accents ignored)
-// or the HVL team id. Value = name to print, or { name, short } where short is used when space is tight.
-// Replace these guesses with your own mapping.
+// Greek team names – used EVERYWHERE (OBS graphics, posts, control panel).
+// Key = team name exactly as HVL shows it (case, dots, accents and C/K spelling are ignored) or the HVL team id.
+// The full name is always shown; long names shrink to fit their box.
 window.HVL_TEAMS_EL = {
-  'PANATHINAIKOS A.O.': { name: 'ΠΑΝΑΘΗΝΑΪΚΟΣ', short: 'ΠΑΟ' },
-  'OLYMPIACOS S.F.P.': { name: 'ΟΛΥΜΠΙΑΚΟΣ', short: 'ΟΣΦΠ' },
-  'PAOK': { name: 'ΠΑΟΚ', short: 'ΠΑΟΚ' },
-  'AONS MILON': { name: 'ΜΙΛΩΝ', short: 'ΜΙΛ' },
-  'AOP KIFISIAS': { name: 'ΚΗΦΙΣΙΑ', short: 'ΚΗΦ' },
-  'O.F.I.': { name: 'ΟΦΗ', short: 'ΟΦΗ' },
-  "AO KALAMATA '80": { name: 'ΚΑΛΑΜΑΤΑ 80', short: 'ΚΑΛ' },
-  'AO FLOISVOS': { name: 'ΦΛΟΙΣΒΟΣ', short: 'ΦΛΟ' },
-  'A.O. FOINIKAS SIROU': { name: 'ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ', short: 'ΦΟΙ' },
-  'IRAKLIS': { name: 'ΗΡΑΚΛΗΣ', short: 'ΗΡΑ' },
+  'A.O. FOINIKAS SIROU': 'Α.Ο. ΦΟΙΝΙΚΑΣ ΣΥΡΟΥ',
+  'AO FLOISVOS': 'Α.Ο. ΦΛΟΙΣΒΟΣ MEMBERS PARON',
+  "AO KALAMATA '80": 'Α.Ο. ΚΑΛΑΜΑΤΑ AFFIDEA V.C',
+  'AONS MILON': 'Α.Ο.Ν.Σ. ΜΙΛΩΝ',
+  'AOP KIFISIAS': 'Α.Ο.Π. ΚΗΦΙΣΙΑΣ',
+  'AS ARIS': 'Α.Σ. ΑΡΗΣ',
+  'NOPE RETHIMNOU': 'Ν.Ο.Π.Ε. ΡΕΘΥΜΝΟΥ',
+  'O.F.I.': 'Ο.Φ.Η.',
+  'OLYMPIACOS S.F.P.': 'ΟΛΥΜΠΙΑΚΟΣ Σ.Φ.Π. ΟΝΕΧ',
+  'PANATHINAIKOS A.O.': 'ΠΑΝΑΘΗΝΑΙΚΟΣ Α.Ο.',
+  'PANIONIOS G.S.S.': 'ΠΑΝΙΩΝΙΟΣ BETSSON',
+  'PAOK': 'Π.Α.Ο.Κ. MATECO',
 };
 
-// Competition titles for posts (key = league key or HVL competition id)
+// Competition titles (key = league key). "NOVIBET" is always put in front of any competition name automatically.
 window.HVL_COMPETITIONS_EL = {
-  hvl: 'VOLLEY LEAGUE',
-  cup: 'LEAGUE CUP «ΝΙΚΟΣ ΣΑΜΑΡΑΣ»',
+  hvl: 'NOVIBET VOLLEY LEAGUE',
+  cup: 'NOVIBET LEAGUE CUP «ΝΙΚΟΣ ΣΑΜΑΡΑΣ»',
   supercup: 'NOVIBET SUPER CUP',
 };

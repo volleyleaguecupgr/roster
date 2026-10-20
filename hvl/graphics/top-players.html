@@ -28,7 +28,7 @@
 <div id="stage"><div id="box"></div></div>
 <script>
 const N = +HVL.get('n', 3), BY = HVL.get('by', 'pts');
-const LAB = { pts: HVL.t('pts'), att: 'ATT', blk: 'BLK', ace: 'ACE' };
+const LAB = { pts: HVL.t('pts'), att: HVL.t('attS'), blk: HVL.t('blkS'), ace: HVL.t('aceS') };
 HVL.poll('match', 15, (d, first) => {
   const box = HVL.$('#box');
   if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
@@ -37,7 +37,7 @@ HVL.poll('match', 15, (d, first) => {
     return `<div class="col anim"><div class="th">${HVL.logo(t)}<b class="fit">${HVL.esc(t.short)}</b></div>
       ${top.map((p) => `<div class="pl">${HVL.photo(p)}
         <div class="mid"><div class="nm fit"><b>${HVL.esc(p.last || p.name)}</b> <span>${HVL.esc(p.first || '')}</span></div>
-        <div class="br">#${p.number ?? ''} · ${p.stats.att} att · ${p.stats.blk} blk · ${p.stats.ace} ace</div></div>
+        <div class="br">#${p.number ?? ''} · ${p.stats.att} ${HVL.t('attS')} · ${p.stats.blk} ${HVL.t('blkS')} · ${p.stats.ace} ${HVL.t('aceS')}</div></div>
         <div class="big"><b>${p.stats[BY] ?? 0}</b><span>${LAB[BY]}</span></div></div>`).join('') || '<div class="pl"><div></div><div class="mid">–</div></div>'}</div>`;
   };
   box.innerHTML = `<div class="pill title-pill">${HVL.esc(HVL.get('title') || HVL.t('top'))}</div>

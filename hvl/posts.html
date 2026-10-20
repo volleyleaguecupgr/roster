@@ -61,13 +61,63 @@
   .ftr b { color: var(--aqua); }
   .bars { position: absolute; top: 0; right: 0; width: 220px; height: var(--barsH); pointer-events: none; opacity: .9; overflow: hidden; }
   .bars i { position: absolute; top: -5%; height: 110%; background: var(--aqua); transform: skewX(-8deg); }
+  .m-only, .p-only { display: none !important; } body.t-match .m-only { display: flex !important; } body.t-match.s-players .p-only { display: flex !important; } body.t-match .r-only { display: none !important; }
+
+  /* ---------- match announcement: logo boxes ---------- */
+  .mx { position: absolute; left: 0; right: 0; display: grid; grid-template-columns: 1fr var(--vsW) 1fr; align-items: start; padding: 0 var(--sideP); }
+  .mx .side { display: flex; flex-direction: column; align-items: center; gap: calc(var(--box) * .1); }
+  .mx .box { width: var(--box); height: var(--box); background: #fff; display: grid; place-items: center; color: var(--ink); font-weight: 900; font-size: calc(var(--box) * .2);
+             clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%); filter: drop-shadow(0 0 40px rgba(153,245,253,.35)); }
+  .mx .box img { width: 82%; height: 82%; object-fit: contain; }
+  .mx .tname { width: 100%; height: calc(var(--box) * .52); display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 6px 42px; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(47,57,75,.97));
+               box-shadow: inset 0 -4px 0 var(--aqua); font-weight: 900; font-size: calc(var(--box) * .16); line-height: 1.05; text-transform: uppercase; overflow: hidden; }
+  .mx .vs { align-self: center; margin-top: calc(var(--box) * -.2); height: calc(var(--box) * .5); display: grid; place-items: center; background: var(--aqua); color: var(--ink);
+            font-weight: 900; font-style: italic; font-size: calc(var(--box) * .26); --cut: 22px; }
+  .when { position: absolute; left: 50%; transform: translateX(-50%); display: grid; grid-template-columns: 1fr auto; width: var(--whenW); height: var(--whenH); background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(29,36,49,.97)); box-shadow: inset 0 -4px 0 var(--aqua); --cut: 26px; }
+  .when .d { display: grid; place-items: center; font-weight: 900; font-size: calc(var(--whenH) * .36); text-transform: uppercase; white-space: nowrap; padding: 0 30px; overflow: hidden; }
+  .when .t { display: grid; place-items: center; padding: 0 46px; background: var(--aqua); color: var(--ink); font-weight: 900; font-size: calc(var(--whenH) * .5); }
+  .venue { position: absolute; left: 50%; transform: translateX(-50%); width: var(--whenW); text-align: center; font-weight: 800; font-size: calc(var(--whenH) * .3); text-transform: uppercase; color: rgba(255,255,255,.85); white-space: nowrap; overflow: hidden; }
+  .venue b { color: var(--aqua); }
+
+  /* ---------- match announcement: player photos (reference style) ---------- */
+  .pv { position: absolute; inset: 0; }
+  .pv .streak { position: absolute; top: -20%; height: 140%; width: 3px; background: linear-gradient(180deg, transparent, var(--aqua) 40%, #fff 50%, var(--aqua) 60%, transparent); transform: rotate(24deg); opacity: .7; filter: drop-shadow(0 0 10px var(--aqua)); }
+  .pv .streak.w { width: 90px; opacity: .08; background: linear-gradient(90deg, transparent, var(--aqua), transparent); filter: none; }
+  .pv .bigvs { position: absolute; left: 50%; top: var(--vsTop); transform: translateX(-50%); font-weight: 900; font-style: italic; font-size: var(--vsSize); line-height: .8; letter-spacing: -6px;
+               color: rgba(255,255,255,.88); text-shadow: 0 0 60px rgba(153,245,253,.45); z-index: 1; }
+  .pv .player { position: absolute; bottom: var(--phB); height: var(--phH); width: var(--phW); display: flex; align-items: flex-end; justify-content: center; z-index: 2; }
+  .pv .player img.ph { max-height: 100%; max-width: 100%; object-fit: contain; object-position: bottom; -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%); mask-image: linear-gradient(180deg, #000 72%, transparent 100%);
+                       filter: drop-shadow(0 0 30px rgba(0,0,0,.6)); }
+  .pv .player .ghost { width: 70%; height: 70%; margin-bottom: 15%; opacity: .14; object-fit: contain; }
+  .pv .tlogo { position: absolute; bottom: var(--tlB); width: var(--tl); height: var(--tl); background: #fff; display: grid; place-items: center; z-index: 3; color: var(--ink); font-weight: 900; font-size: calc(var(--tl) * .22);
+               clip-path: polygon(12% 0, 100% 0, 100% 88%, 88% 100%, 0 100%, 0 12%); }
+  .pv .tlogo img { width: 82%; height: 82%; object-fit: contain; }
+  .pv .tblock { position: absolute; top: var(--tbTop); width: var(--tbW); height: var(--tbH); z-index: 3; display: flex; flex-direction: column; justify-content: center; }
+  .pv .tblock.r { text-align: right; align-items: flex-end; }
+  .pv .tblock.c { text-align: center; align-items: center; }
+  .pv .tblock .tn2 { width: 100%; }
+  .pv .tblock small { font-weight: 800; font-size: calc(var(--tbFs) * .32); letter-spacing: 2px; color: rgba(255,255,255,.75); text-transform: uppercase; }
+  .pv .tblock .tn2 { font-weight: 900; font-style: italic; font-size: var(--tbFs); line-height: .98; color: var(--aqua); text-transform: uppercase; overflow: hidden; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: center; }
+  .pv .info { position: absolute; left: 50%; transform: translateX(-50%); bottom: var(--infoB); z-index: 4; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .pv .info .d { height: var(--whenH); display: flex; align-items: stretch; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(29,36,49,.97)); box-shadow: inset 0 -4px 0 var(--aqua); --cut: 24px; }
+  .pv .info .d span { display: grid; place-items: center; padding: 0 34px; font-weight: 900; font-size: calc(var(--whenH) * .38); text-transform: uppercase; white-space: nowrap; }
+  .pv .info .d span.t { background: var(--aqua); color: var(--ink); font-size: calc(var(--whenH) * .48); }
+  .pv .info .v { font-weight: 800; font-size: calc(var(--whenH) * .28); color: rgba(255,255,255,.85); text-transform: uppercase; white-space: nowrap; }
+  .pv .info .v b { color: var(--aqua); }
+  .pv .top { position: absolute; top: var(--padT); left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 4; }
+  .pv .top img { height: var(--logoH); }
+  .pv .top .st { height: calc(var(--ttH) * .55); padding: 0 46px; display: grid; place-items: center; background: var(--slate2); border-bottom: 3px solid var(--aqua); font-weight: 800; font-size: calc(var(--ttH) * .28); letter-spacing: 1.5px; text-transform: uppercase; }
   .empty { position: absolute; inset: 0; display: grid; place-items: center; font-size: 44px; font-weight: 800; color: rgba(255,255,255,.6); }
 </style>
 </head><body>
 <div class="ui">
-  <label>Τύπος<select id="type"><option value="results">Αποτελέσματα</option><option value="schedule">Πρόγραμμα</option><option value="standings">Βαθμολογία</option></select></label>
+  <label>Τύπος<select id="type"><option value="results">Αποτελέσματα</option><option value="schedule">Πρόγραμμα</option><option value="standings">Βαθμολογία</option><option value="match">Ανακοίνωση αγώνα</option></select></label>
+  <label class="m-only">Στυλ<select id="style"><option value="boxes">Logos σε κουτιά</option><option value="players">Φωτογραφίες παικτών</option></select></label>
+  <label class="m-only">Αγώνας<select id="mode"><option value="next">Επόμενος</option><option value="auto">Σημερινός / τρέχων</option><option value="last">Τελευταίος</option></select></label>
+  <label class="p-only">Φωτό γηπεδούχου<input type="file" id="ph" accept="image/*"></label>
+  <label class="p-only">Φωτό φιλοξενούμενου<input type="file" id="pa" accept="image/*"></label>
   <label>Διάσταση<select id="fmt"><option value="post">Instagram post 1080×1350</option><option value="square">Τετράγωνο 1080×1080</option><option value="story">Story 1080×1920</option><option value="wide">Wide 1920×1080</option></select></label>
-  <label>Αγωνιστική<select id="which"><option value="prev">Προηγούμενη</option><option value="current">Τρέχουσα</option><option value="next">Επόμενη</option><option value="last">Τελευταία ολοκληρωμένη</option></select></label>
+  <label class="r-only">Αγωνιστική<select id="which"><option value="prev">Προηγούμενη</option><option value="current">Τρέχουσα</option><option value="next">Επόμενη</option><option value="last">Τελευταία ολοκληρωμένη</option></select></label>
   <label>Διοργάνωση<select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option></select></label>
   <label>Ομάδα (έμφαση)<input id="team" size="10" placeholder="π.χ. paok"></label>
   <label>Footer<input id="footer" size="18" placeholder="#volleyleague"></label>
@@ -80,7 +130,7 @@ const FMT = { post: [1080, 1350], square: [1080, 1080], story: [1080, 1920], wid
 const LOGO_FILE = { hvl: 'league', cup: 'leaguecup', supercup: 'supercup' };
 const $ = (id) => document.getElementById(id);
 const P = new URLSearchParams(location.search);
-for (const k of ['type', 'fmt', 'which', 'league', 'team', 'footer']) if (P.has(k)) $(k).value = P.get(k);
+for (const k of ['type', 'fmt', 'which', 'league', 'team', 'footer', 'style', 'mode']) if (P.has(k)) $(k).value = P.get(k);
 if (!P.has('league') && HVL.league) $('league').value = HVL.league;
 if (!P.has('team') && HVL.team) $('team').value = HVL.team;
 
@@ -89,7 +139,7 @@ const caps = (s) => String(s || '').normalize('NFD').replace(/[̀-́͂]/g, '').n
 const key = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase().replace(/[^A-Z0-9Α-Ω]/g, '');
 const MAP = {};
 for (const [k, v] of Object.entries(window.HVL_TEAMS_EL || {})) MAP[/^\d+$/.test(k) ? k : key(k)] = typeof v === 'string' ? { name: v, short: v } : v;
-const el = (t, short) => { const m = MAP[String(t?.id)] || MAP[key(t?.name)] || MAP[key(t?.short)]; return m ? (short ? m.short || m.name : m.name) : (t?.short || t?.name || ''); };
+const el = (t) => t?.name || t?.short || '';   // names are already mapped to Greek by HVL.localize (js/teams-el.js)
 const roundEl = (r) => { const m = String(r || '').match(/(?:game ?day|round|αγωνιστική)\s*(\d+)/i); return m ? `${m[1]}η ΑΓΩΝΙΣΤΙΚΗ` : caps(r); };
 const dayEl = (iso) => {
   if (!iso) return ['', ''];
@@ -121,7 +171,7 @@ function applyVars(node, L) {
   for (const [k, x] of Object.entries(v)) node.style.setProperty(k, x + 'px');
   node.style.width = L.W + 'px'; node.style.height = L.H + 'px';
 }
-const bars = () => `<div class="bars" style="--barsH:${Math.round(CUR.hdrH)}px">${[[0, 6], [26, 6], [50, 18], [90, 6], [118, 46], [182, 8]].map(([x, w]) => `<i style="left:${x}px;width:${w}px"></i>`).join('')}</div>`;
+const bars = () => ''; const _unusedBars = () => `<div class="bars" style="--barsH:${Math.round(CUR.hdrH)}px">${[[0, 6], [26, 6], [50, 18], [90, 6], [118, 46], [182, 8]].map(([x, w]) => `<i style="left:${x}px;width:${w}px"></i>`).join('')}</div>`;
 
 function header(title, sub) {
   const lf = LOGO_FILE[$('league').value];
@@ -136,7 +186,8 @@ async function load() {
   $('msg').textContent = 'Φόρτωση…';
   HVL.league = $('league').value; HVL.team = $('team').value.trim();
   try {
-    DATA = $('type').value === 'standings' ? await HVL.load('standings') : await HVL.load('round', { which: $('which').value });
+    HVL.mode = $('mode').value;
+    DATA = $('type').value === 'standings' ? await HVL.load('standings') : $('type').value === 'match' ? await HVL.load('match') : await HVL.load('round', { which: $('which').value });
     $('msg').textContent = HVL.demo ? 'Demo δεδομένα (δεν έχει οριστεί Worker URL)' : '';
   } catch (e) { $('msg').textContent = '⚠ ' + e.message; DATA = null; }
   render();
@@ -145,6 +196,8 @@ function render() {
   const type = $('type').value, fmt = $('fmt').value, post = $('post');
   const comp = window.HVL_COMPETITIONS_EL?.[$('league').value] || DATA?.league?.name || '';
   if (!DATA) { post.innerHTML = '<div class="empty">—</div>'; return scale(); }
+  document.body.className = `t-${type} s-${$('style').value}`;
+  if (type === 'match') { renderMatch(post, fmt, comp); return; }
   if (type === 'standings') {
     const rows = (DATA.standings || []).slice(0, 14);
     const L = layout(fmt, rows.length + .5); applyVars(post, L);
@@ -168,14 +221,74 @@ function render() {
         const showScore = type === 'results' ? (fin || live) : (fin || live);
         const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome}-${m.setsAway}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ''}</div>` : `<div class="mid vs">${HVL.esc(time)}</div>`;
         return `<div class="row g par ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="dt">${HVL.esc(day)}${showScore ? `<small>${HVL.esc(time)}</small>` : ''}</div>
-          ${logo(m.home)}<div class="tn h fit ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home, short && el(m.home).length > 10))}</div>
+          ${logo(m.home)}<div class="tn h fit ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home))}</div>
           ${mid}
-          <div class="tn fit ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away, short && el(m.away).length > 10))}</div>${logo(m.away)}</div>`;
+          <div class="tn fit ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div>${logo(m.away)}</div>`;
       }).join('') || '<div class="empty">Δεν υπάρχουν αγώνες</div>'}
     </div>` + footer();
   }
   HVL.fit(post);
   if (document.fonts?.ready) document.fonts.ready.then(() => HVL.fit(post));
+  scale();
+}
+/** shrink text until it fits its box (multi-line allowed) */
+function fitBox(root) {
+  root.querySelectorAll('.fit2').forEach((e) => {
+    e.style.fontSize = ''; let fs = parseFloat(getComputedStyle(e).fontSize); const min = fs * .3;
+    while ((e.scrollHeight > e.clientHeight + 2 || e.scrollWidth > e.clientWidth + 2) && fs > min) { fs -= 2; e.style.fontSize = fs + 'px'; }
+  });
+}
+function renderMatch(post, fmt, comp) {
+  const d = DATA, [W, H] = FMT[fmt];
+  post.style.width = W + 'px'; post.style.height = H + 'px';
+  if (!d?.match) { post.innerHTML = `<div class="empty">${HVL.esc(d?.message || 'Δεν βρέθηκε αγώνας')}</div>`; return scale(); }
+  const m = d.match, dt = new Date(m.iso);
+  const f = (o) => new Intl.DateTimeFormat('el-GR', { timeZone: 'Europe/Athens', ...o }).format(dt);
+  const date = caps(`${f({ weekday: 'long' })} ${f({ day: 'numeric' })} ${f({ month: 'long' })}`), time = f({ hour: '2-digit', minute: '2-digit', hour12: false });
+  const sub = [m.round, comp].filter(Boolean).join(' · ');
+  const lf = LOGO_FILE[$('league').value];
+  const tile = (t, cls) => `<div class="${cls}" data-i="${HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3))}">${t.logo ? `<img src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.parentNode.textContent=this.parentNode.dataset.i">` : ''}</div>`;
+  const wide = fmt === 'wide', story = fmt === 'story', sq = fmt === 'square';
+  const vars = (o) => Object.entries(o).forEach(([k, v]) => post.style.setProperty(k, typeof v === 'number' ? v + 'px' : v));
+  if ($('style').value === 'boxes') {
+    const box = wide ? 240 : story ? 360 : sq ? 230 : 300;
+    vars({ '--padT': story ? 150 : wide ? 36 : 50, '--logoH': story ? 210 : sq ? 110 : wide ? 110 : 150, '--ttH': story ? 120 : 96, '--ftH': story ? 120 : 84, '--box': box, '--vsW': wide ? 260 : 190,
+           '--sideP': wide ? 160 : 50, '--whenW': wide ? 1100 : W - 120, '--whenH': story ? 120 : sq ? 84 : 100 });
+    const hdrH = (story ? 150 : wide ? 36 : 50) + (story ? 210 : sq || wide ? 110 : 150) + 18 + (story ? 120 : 96) + 12 + (story ? 60 : 48);
+    const mxTop = hdrH + (story ? 120 : sq ? 20 : wide ? 30 : 50), mxH = box * 1.62 + box * .1;
+    post.innerHTML = bars() + header('ΗΜΕΡΑ ΑΓΩΝΑ', sub) + `
+      <div class="mx" style="top:${mxTop}px">
+        <div class="side">${tile(d.home, 'box')}<div class="tname par fit2">${HVL.esc(el(d.home))}</div></div>
+        <div class="vs par">VS</div>
+        <div class="side">${tile(d.away, 'box')}<div class="tname par fit2">${HVL.esc(el(d.away))}</div></div>
+      </div>
+      <div class="when par" style="top:${mxTop + mxH + (story ? 110 : sq ? 24 : wide ? 30 : 60)}px"><div class="d">${HVL.esc(date)}</div><div class="t">${HVL.esc(time)}</div></div>
+      ${m.venue ? `<div class="venue" style="top:${mxTop + mxH + (story ? 110 : sq ? 24 : wide ? 30 : 60) + (story ? 150 : sq ? 96 : 116)}px"><b>⬤</b> ${HVL.esc(caps(m.venue))}</div>` : ''}` + footer();
+  } else {
+    // reference style: two uploaded player photos, big VS, light streaks, team names + logo under each photo
+    // geometry per format (px). Portrait: photo → logo tile → team name stacked per side, info bar at the bottom.
+    const P = wide ? { phW: 620, phH: 900, phB: 0, tl: 150, tlB: 200, tbW: 400, tbH: 360, tbTop: 330, tbFs: 92, vsSize: 520, vsTop: 230, infoB: 46, center: false }
+      : story ? { phW: 560, phH: 900, phB: 720, tl: 160, tlB: 640, tbW: 500, tbH: 210, tbTop: 1300, tbFs: 64, vsSize: 400, vsTop: 600, infoB: 120, center: true }
+      : sq ? { phW: 500, phH: 520, phB: 420, tl: 110, tlB: 360, tbW: 470, tbH: 110, tbTop: 735, tbFs: 44, vsSize: 300, vsTop: 250, infoB: 20, center: true }
+      : { phW: 540, phH: 720, phB: 450, tl: 130, tlB: 380, tbW: 490, tbH: 130, tbTop: 990, tbFs: 52, vsSize: 360, vsTop: 330, infoB: 30, center: true };
+    vars({ '--padT': story ? 120 : wide ? 40 : 34, '--logoH': story ? 170 : wide ? 110 : sq ? 80 : 110, '--ttH': story ? 110 : 90, '--whenH': story ? 100 : wide ? 80 : sq ? 64 : 80,
+           ...Object.fromEntries(Object.entries(P).filter(([k]) => k !== 'center').map(([k, v]) => ['--' + k, v])) });
+    const sideX = (left) => wide ? (left ? 430 : W - 430 - P.phW) : (left ? W / 2 - P.phW + 30 : W / 2 - 30);
+    const cx = (left) => sideX(left) + P.phW / 2;
+    const tbX = (left) => P.center ? Math.max(20, Math.min(W - 20 - P.tbW, cx(left) - P.tbW / 2)) : wide ? (left ? 70 : W - 70 - P.tbW) : (left ? 40 : W - 40 - P.tbW);
+    const player = (k, t, left) => `<div class="player" style="left:${sideX(left)}px">${PHOTOS[k] ? `<img class="ph" src="${PHOTOS[k]}">` : t.logo ? `<img class="ghost" src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.remove()">` : ''}</div>
+      <div class="tlogo" style="left:${cx(left) - P.tl / 2}px" data-i="${HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3))}">${t.logo ? `<img src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.parentNode.textContent=this.parentNode.dataset.i">` : HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3))}</div>
+      <div class="tblock ${P.center ? 'c' : left ? '' : 'r'}" style="left:${tbX(left)}px"><small>${left ? 'ΓΗΠΕΔΟΥΧΟΣ' : 'ΦΙΛΟΞΕΝΟΥΜΕΝΟΣ'}</small><div class="tn2 fit2">${HVL.esc(el(t))}</div></div>`;
+    const streaks = [[.30, 0], [.36, 1], [.58, 0], [.66, 1], [.72, 0], [.12, 1], [.86, 0]].map(([x, w]) => `<i class="streak ${w ? 'w' : ''}" style="left:${Math.round(W * x)}px"></i>`).join('');
+    post.innerHTML = `<div class="pv">${streaks}
+      <div class="top">${lf ? `<img src="logos/${lf}.png" onerror="this.remove()">` : ''}<div class="st par">${HVL.esc(sub)}</div></div>
+      <div class="bigvs">VS</div>
+      ${player('h', d.home, true)}${player('a', d.away, false)}
+      <div class="info"><div class="d par"><span>${HVL.esc(date)}</span><span class="t">${HVL.esc(time)}</span></div>${m.venue ? `<div class="v"><b>⬤</b> ${HVL.esc(caps(m.venue))}</div>` : ''}</div>
+    </div>`;
+  }
+  HVL.fit(post); fitBox(post);
+  if (document.fonts?.ready) document.fonts.ready.then(() => { HVL.fit(post); fitBox(post); });
   scale();
 }
 function scale() {
@@ -196,7 +309,10 @@ async function download(fmt) {
 }
 $('dl').onclick = () => download($('fmt').value);
 $('dlall').onclick = async () => { for (const f of Object.keys(FMT)) await download(f); };
-['type', 'which', 'league'].forEach((k) => ($(k).onchange = () => { $('which').disabled = $('type').value === 'standings'; load(); }));
+['type', 'which', 'league', 'mode'].forEach((k) => ($(k).onchange = () => { $('which').disabled = $('type').value === 'standings'; load(); }));
+$('style').onchange = render;
+const PHOTOS = { h: null, a: null };
+for (const [id, k] of [['ph', 'h'], ['pa', 'a']]) $(id).onchange = (e) => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { PHOTOS[k] = r.result; render(); }; r.readAsDataURL(f); };
 ['fmt'].forEach((k) => ($(k).onchange = render));
 ['team', 'footer'].forEach((k) => ($(k).oninput = render));
 $('which').disabled = $('type').value === 'standings';
