@@ -187,7 +187,7 @@ const key = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUp
 const MAP = {};
 for (const [k, v] of Object.entries(window.HVL_TEAMS_EL || {})) MAP[/^\d+$/.test(k) ? k : key(k)] = typeof v === 'string' ? { name: v, short: v } : v;
 const el = (t) => t?.name || t?.short || '';   // names are already mapped to Greek by HVL.localize (js/teams-el.js)
-const roundEl = (r) => { const m = String(r || '').match(/(?:game ?day|round|αγωνιστική)\s*(\d+)/i); return m ? `${m[1]}η ΑΓΩΝΙΣΤΙΚΗ` : caps(r); };
+const roundEl = (r) => { const m = String(r || '').match(/(?:match ?day|game ?day|round|αγωνιστική)\s*#?\s*(\d+)/i); return m ? `${m[1]}η ΑΓΩΝΙΣΤΙΚΗ` : caps(r); };
 const dayEl = (iso) => {
   if (!iso) return ['', ''];
   const d = new Date(iso), f = (o) => new Intl.DateTimeFormat('el-GR', { timeZone: 'Europe/Athens', ...o }).format(d);

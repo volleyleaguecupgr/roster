@@ -172,7 +172,7 @@
   };
   HVL.teamEl = (t) => { const m = tmap(); return m[String(t?.id ?? t?.teamId)] || m[fold(t?.name)] || m[fold(t?.short)] || null; };
   HVL.compName = (n) => { n = String(n || '').trim(); return !n || /^NOVIBET\b/i.test(n) ? n : 'NOVIBET ' + n; };
-  const ROUND_EL = [[/^(?:game ?day|round|giornata|αγωνιστική)\s*(\d+)$/i, (m) => `${m[1]}η Αγωνιστική`], [/^final\s*#?\s*(\d+)$/i, (m) => `Τελικός #${m[1]}`],
+  const ROUND_EL = [[/^(?:match ?day|game ?day|round|giornata|αγωνιστική)\s*#?\s*(\d+)$/i, (m) => `${m[1]}η Αγωνιστική`], [/^final\s*#?\s*(\d+)$/i, (m) => `Τελικός #${m[1]}`],
     [/^semi ?final\s*#?\s*(\d+)$/i, (m) => `Ημιτελικός #${m[1]}`], [/^quarter ?final\s*#?\s*(\d+)$/i, (m) => `Προημιτελικός #${m[1]}`], [/^(?:match\s*)?#\s*(\d+)$/i, (m) => `Αγώνας #${m[1]}`]];
   HVL.roundName = (r) => { if (HVL.lang !== 'el' || !r) return r; for (const [re, f] of ROUND_EL) { const m = String(r).trim().match(re); if (m) return f(m); } return r; };
   const POS_EL = { S: 'Πασαδόρος', OP: 'Διαγώνιος', OH: 'Ακραίος', MB: 'Κεντρικός', L: 'Λίμπερο', U: 'Universal' };
