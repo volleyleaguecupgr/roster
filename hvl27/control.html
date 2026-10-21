@@ -114,8 +114,11 @@ async function post(patch) {
   draw();
   const url = isBk() ? `${api()}/api/${$('league').value}/state?${q()}&vs=${encodeURIComponent($('vs').value)}&backup=1` : `${api()}/api/${$('league').value}/state?${q()}`;
   if (isBk()) patch = { ...patch, backup: { active: true, home: $('team').value, away: $('vs').value } };
-  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + $('token').value }, body: JSON.stringify(patch) });
-  const j = await r.json(); $('st').textContent = r.ok ? `Saved ${new Date().toLocaleTimeString()}` : '⚠ ' + (j.error || r.status);
+  try {
+    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + $('token').value }, body: JSON.stringify(patch) });
+    const j = await r.json().catch(() => ({}));
+    $('st').textContent = r.ok ? `Saved ${new Date().toLocaleTimeString()}` : '⚠ ' + (j.error || r.status);
+  } catch (e) { $('st').textContent = '⚠ Δεν αποθηκεύτηκε: ' + e.message + ' (ανεβάσατε το νέο worker.js;)'; }
 }
 async function connect() {
   saveLocal();
