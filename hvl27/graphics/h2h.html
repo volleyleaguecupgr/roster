@@ -1,0 +1,54 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Head to head</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* History of the two teams of the selected match (or ?vs=team).  ?seasons=4 how far back · ?n=6 meetings listed */
+  #box { position: absolute; left: 50%; top: 70px; width: 1400px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; }
+  .teams-capsule { width: 1160px; margin-top: 18px; }
+  .teams-capsule .score { font-size: 80px; }
+  .sub { margin-top: 12px; font-size: 26px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+  .sub b { color: #fff; }
+  .meet { width: 1300px; height: 72px; margin-top: 12px; display: grid; grid-template-columns: 240px 280px 1fr 130px 1fr; align-items: center; border-radius: 999px;
+          background: var(--g-row); box-shadow: inset 0 0 0 var(--line) #fff; font-size: 28px; font-weight: 700; }
+  .meet .dt { padding-left: 40px; color: var(--red-500); font-weight: 800; }
+  .meet .cp { padding-right: 16px; font-size: 20px; color: var(--muted); text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .meet .ta { text-align: right; padding-right: 22px; text-transform: uppercase; font-weight: 800; white-space: nowrap; overflow: hidden; }
+  .meet .tb { padding-left: 22px; text-transform: uppercase; font-weight: 800; white-space: nowrap; overflow: hidden; }
+  .meet .sc { height: 72px; display: grid; place-items: center; font-weight: 900; font-size: 36px; background: var(--navy-900); box-shadow: inset 0 0 0 var(--line) #fff; border-radius: 999px; }
+  .meet .sc span.w { color: var(--red-500); }
+  .meet .l { color: var(--muted); }
+  .none { margin-top: 50px; font-size: 34px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+</style>
+</head><body>
+<div id="stage"><div id="box"></div></div>
+<script>
+const EL = HVL.lang === 'el';
+const N = +HVL.get('n', 6);
+HVL.poll('h2h', 600, (d, first) => {
+  const box = HVL.$('#box');
+  if (!d.a || !d.b) { box.innerHTML = ''; return HVL.msg(d.error || d.message); }
+  const A = d.a, B = d.b;
+  const rows = (d.meetings || []).slice(0, N).map((m) => {
+    // show in actual home–away order
+    const hName = m.aHome ? A.short : B.short, aName = m.aHome ? B.short : A.short;
+    const hs = m.aHome ? m.setsA : m.setsB, as = m.aHome ? m.setsB : m.setsA;
+    return `<div class="meet"><div class="dt">${HVL.esc(m.date || '')}</div><div class="cp fit">${HVL.esc(m.comp || '')}${m.round ? ' · ' + HVL.esc(m.round) : ''}</div>
+      <div class="ta fit uni ${hs < as ? 'l' : ''}">${HVL.esc(hName)}</div>
+      <div class="sc"><div><span class="${hs > as ? 'w' : ''}">${hs}</span>–<span class="${as > hs ? 'w' : ''}">${as}</span></div></div>
+      <div class="tb fit uni ${as < hs ? 'l' : ''}">${HVL.esc(aName)}</div></div>`;
+  }).join('');
+  box.innerHTML = `
+    <div class="pill title-pill">${HVL.esc(HVL.get('title') || (EL ? 'Ιστορία αναμετρήσεων' : 'Head to head'))}</div>
+    <div class="pill comp-pill">${HVL.esc(d.league?.name || '')}</div>
+    <div class="teams-capsule">${HVL.logo(A)}<div class="name fit uni">${HVL.esc(A.short)}</div><div class="score">${d.winsA} – ${d.winsB}</div><div class="name right fit uni">${HVL.esc(B.short)}</div>${HVL.logo(B)}</div>
+    <div class="sub"><b>${d.total}</b> ${EL ? 'αγώνες' : 'matches'} · ${EL ? 'σετ' : 'sets'} <b>${d.setsA}–${d.setsB}</b>${d.seasonsScanned ? ` · ${EL ? 'τελευταίες διοργανώσεις' : 'last'} ${Math.ceil(d.seasonsScanned / 3)} ${EL ? 'σεζόν' : 'seasons'}` : ''}</div>
+    ${rows || `<div class="none">${EL ? 'Δεν υπάρχουν προηγούμενες αναμετρήσεις' : 'No previous meetings found'}</div>`}`;
+  HVL.animate(box, first);
+}, () => ({ mode: HVL.mode, ...(HVL.get('vs') ? { vs: HVL.get('vs') } : {}), ...(HVL.get('seasons') ? { seasons: HVL.get('seasons') } : {}) }));
+</script>
+</body></html>

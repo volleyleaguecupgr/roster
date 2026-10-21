@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><title>standings</title>
+<style>html,body{margin:0;background:transparent}</style>
+<script>
+// Short links:  <site>/roster/paok   <site>/lowthirds/paok/7   <site>/scoreboard/?team=paok   (+ any extra ?params)
+var A = {"staticintro": ["next-match", ""], "intro": ["next-match", "anim=1"], "teamscomparison": ["team-compare", ""], "roster": ["roster", ""], "referees": ["referees", ""], "lowthirds": ["lower-third", ""], "scoreboard": ["scoreboard", ""], "stats": ["stats", ""], "result": ["result", ""], "startingsix": ["starting-six", ""], "coaches": ["coaches", ""], "playercomparison": ["player-compare", ""], "h2h": ["h2h", ""], "topplayers": ["top-players", ""], "schedule": ["schedule", ""], "results": ["results", ""], "standings": ["standings", ""], "leaders": ["leaders", ""], "stinger": ["stinger", ""], "announcement": ["announcement", ""]};
+function go(parts, search) {
+  var i = -1; for (var k = 0; k < parts.length; k++) if (A[parts[k].toLowerCase()]) { i = k; break; }
+  if (i < 0) return false;
+  var a = A[parts[i].toLowerCase()], base = '/' + parts.slice(0, i).join('/') + (i ? '/' : '');
+  var p = new URLSearchParams(search || '');
+  if (a[1]) a[1].split('&').forEach(function (kv) { var x = kv.split('='); if (!p.has(x[0])) p.set(x[0], x[1]); });
+  var rest = parts.slice(i + 1).filter(Boolean);
+  if (rest[0] && !p.has('team')) p.set('team', decodeURIComponent(rest[0]));
+  if (rest[1] && !p.has('number')) p.set('number', decodeURIComponent(rest[1]));
+  var q = p.toString();
+  location.replace(base + 'graphics/' + a[0] + '.html' + (q ? '?' + q : '') + location.hash);
+  return true;
+}
+</script>
+<script>go(location.pathname.split('/').filter(Boolean), location.search);</script>
+</head><body></body></html>

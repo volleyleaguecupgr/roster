@@ -1,0 +1,45 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Referees</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* Names: control.html (Officials) > HVL match page > ?r1=&r2=   ?hold=10 auto-hide */
+  #lt { position: absolute; left: 150px; bottom: 110px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .comp-pill { height: 42px; font-size: 22px; padding: 0 30px; }
+  .ref { height: 82px; min-width: 880px; display: grid; grid-template-columns: 260px 1fr; align-items: center; border-radius: 999px;
+         background: var(--g-row); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .ref .rl { height: 82px; display: grid; place-items: center; font-weight: 800; font-size: 28px; text-transform: uppercase; border-right: 3px solid rgba(255,255,255,.5); }
+  .ref .rl sup { font-size: 16px; }
+  .ref .rn { padding: 0 44px 0 34px; font-weight: 900; font-size: 44px; text-transform: uppercase; white-space: nowrap; }
+  .tagp { align-self: flex-end; height: 50px; padding: 0 40px; border-radius: 999px; display: flex; align-items: center; background: linear-gradient(90deg, var(--red-500), var(--red-700)); font-weight: 800; font-size: 26px; text-transform: uppercase; }
+  #lt.hide { opacity: 0; transition: opacity .3s; }
+</style>
+</head><body>
+<div id="stage"><div id="lt" class="hide"></div></div>
+<script>
+const LT = HVL.$('#lt');
+let shown = '', timer;
+const ORD = (n) => HVL.lang === 'el' ? ['Α΄', 'Β΄'][n] + ' ΔΙΑΙΤΗΤΗΣ' : ['1<sup>ST</sup> REFEREE', '2<sup>ND</sup> REFEREE'][n];
+HVL.poll('match', 10, (d) => {
+  const st = d.state?.referees;
+  const names = [HVL.get('r1'), HVL.get('r2')].some(Boolean) ? [HVL.get('r1'), HVL.get('r2')]
+    : st && (st.r1 || st.r2) ? [st.r1, st.r2] : (d.match?.referees || []);
+  const show = (HVL.get('r1') || !st || st.show !== false) && names.filter(Boolean).length;
+  if (!show) { LT.classList.add('hide'); shown = ''; return; }
+  const key = names.join('|');
+  if (key === shown) return;
+  shown = key;
+  LT.innerHTML = `
+    <div class="pill comp-pill">${HVL.esc(d.league?.name || '')}</div>
+    ${names.filter(Boolean).map((n, i) => `<div class="ref"><div class="rl"><span>${ORD(i)}</span></div><div class="rn fit">${HVL.esc(n)}</div></div>`).join('')}
+    <div class="tagp">${HVL.lang === 'el' ? 'Διαιτητές' : 'Referees'}</div>`;
+  LT.classList.remove('hide');
+  HVL.animate(LT, true);
+  clearTimeout(timer);
+  if (+HVL.get('hold', 0)) timer = setTimeout(() => LT.classList.add('hide'), +HVL.get('hold') * 1000);
+});
+</script>
+</body></html>
