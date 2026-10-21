@@ -65,7 +65,7 @@
   .n2 .nmw.h span { text-align: right; } .n2 .nmw.l span { color: rgba(255,255,255,.55); }
   .row .lo, .n2 .lo { width: calc(var(--rh) * .84); height: calc(var(--rh) * .84); }
   .n2 .mid { padding: 4px 6px; }
-  .mid .tvl { display: block; height: calc(var(--rh) * .34); max-width: 0%; margin-top: 4px; object-fit: contain; }
+  .mid .tvl { display: block; height: calc(var(--rh) * .34); max-width: 60%; margin-top: 4px; object-fit: contain; }
   .mid.vs, .mb .sc.vs { display: flex !important; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   .mid.vs > span, .mb .sc.vs > span { line-height: 1; }
   .mid.vs small, .mb .sc.vs small { margin-top: 6px !important; text-align: center; }
@@ -115,6 +115,9 @@
   .when2 .t { height: calc(var(--whenH) * .82); padding: 0 56px; display: grid; place-items: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-size: calc(var(--whenH) * .5); --cut: 22px; }
   .lgTL { position: absolute; z-index: 6; width: auto; object-fit: contain; }
   .tvL { position: absolute; left: 50%; transform: translateX(-50%); z-index: 6; width: auto; max-width: 340px; object-fit: contain; }
+  .wrow .r2 { display: flex; align-items: center; gap: 22px; }
+  .wrow .vn { margin-top: 4px; font-weight: 800; font-size: calc(var(--whenH) * .36); text-transform: uppercase; color: rgba(255,255,255,.9); white-space: nowrap; }
+  .tvR { height: calc(var(--whenH) * .7); max-width: 160px; width: auto; object-fit: contain; }
   .venue { position: absolute; z-index: 6; left: 50%; transform: translateX(-50%); width: var(--whenW); text-align: center; font-weight: 800; font-size: calc(var(--whenH) * .3); text-transform: uppercase; color: rgba(255,255,255,.85); white-space: nowrap; overflow: hidden; }
   .venue b { color: var(--aqua); }
 
@@ -216,6 +219,7 @@
   <label>Διοργάνωση<select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option></select></label>
   <label>Ομάδα (έμφαση)<input id="team" size="10" placeholder="π.χ. paok"></label>
   <label>Footer<input id="footer" size="18" placeholder="#volleyleague"></label>
+  <label>Ποιότητα<select id="q"><option value="2">2× (προτείνεται)</option><option value="3">3× (μέγιστη)</option><option value="1">1× (μικρό αρχείο)</option></select></label>
   <button id="dl">Λήψη PNG</button><button id="dlall" class="ghost">Όλες οι διαστάσεις</button>
   <span class="msg" id="msg"></span>
 </div>
@@ -429,7 +433,7 @@ function render() {
     const sched = type === 'schedule';
     post.style.setProperty('--scW', Math.round(rowsN ? Math.min(L.rh * 1.9, 210) : Math.min(L.rh * (sched ? 1.6 : 1.25), sched ? 200 : 150)) + 'px');
     post.style.setProperty('--tvW', Math.round(Math.min(L.rh * (narrow ? .95 : 2.1), 260)) + 'px');
-    const tvCell = (m) => (sched ? `<div class="tv"><img src="${tvLogo(m.tv)}" onerror="this.remove()"></div>` : '');
+    const tvCell = (m) => (sched && narrow ? `<div class="tv"><img src="${tvLogo(m.tv)}" onerror="this.remove()"></div>` : '');
     const court = (m) => (m.venue ? `<small>${HVL.esc(caps(m.venue))}</small>` : '');
     const title = type === 'results' ? 'ΑΠΟΤΕΛΕΣΜΑΤΑ' : 'ΠΡΟΓΡΑΜΜΑ';
     let lastDay = '';
@@ -455,7 +459,7 @@ function render() {
             <div class="ln">${logo(m.home)}<div class="tn fit uni ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home))}</div></div>
             <div class="ln">${logo(m.away)}<div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div></div></div>${tvCell(m)}${sc}</div>`;
         }
-        return `${dh}<div class="row g par ${sched ? 'wtv' : ''} ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="dt">${HVL.esc(day)}${showScore ? `<small>${HVL.esc(time)}</small>` : ''}</div>
+        return `${dh}<div class="row g par ${sched && narrow ? 'wtv' : ''} ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="dt">${HVL.esc(day)}${showScore ? `<small>${HVL.esc(time)}</small>` : ''}</div>
           ${logo(m.home)}<div class="tn h fit uni ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home))}</div>
           ${mid}
           <div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div>${logo(m.away)}${tvCell(m)}</div>`;
@@ -527,19 +531,27 @@ function renderMatch(post, fmt, comp) {
       <img class="tvL" src="${tvLogo(m.tv)}" style="top:${tvTop}px;height:${Math.round(wh * .62)}px" onerror="this.remove()">`;
   };
   if ($('style').value === 'boxes') {
-    const box = wide ? 250 : story ? 380 : sq ? 250 : 340;
+    const box = wide ? 280 : story ? 380 : sq ? 250 : 340;
     vars({ '--padT': story ? 150 : wide ? 36 : 50, '--logoH': 0, '--ttH': story ? 120 : 96, '--ftH': story ? 120 : 84, '--box': box, '--vsW': wide ? 260 : 190,
            '--sideP': wide ? 160 : 50, '--whenW': wide ? 1100 : W - 120, '--whenH': story ? 120 : sq || wide ? 84 : 100 });
     const hdrH = (story ? 150 : wide ? 36 : 50) + 18 + (story ? 120 : 96) + 12 + (story ? 60 : 48);
     const mxTop = hdrH + (story ? 120 : sq ? 20 : wide ? 30 : 50), mxH = box * 1.62 + box * .1;
-    const whenTop = mxTop + mxH + (story ? 110 : sq ? 20 : wide ? 24 : 40), whenH = story ? 120 : sq || wide ? 84 : 100;
+    const whenTop = mxTop + mxH + (story ? 110 : sq ? 20 : wide ? 24 : 40), whenH = story ? 120 : sq ? 84 : wide ? 72 : 100;
     post.innerHTML = bars() + header(roundEl(m.round) || 'ΗΜΕΡΑ ΑΓΩΝΑ', comp, true) + lgTL(story ? 40 : 30, story ? 60 : 26, story ? 170 : wide ? 120 : sq ? 110 : 130) + `
       <div class="mx" style="top:${mxTop}px">
         <div class="side">${tile(d.home, 'box')}<div class="tname par"><span class="fit uni">${HVL.esc(el(d.home))}</span></div></div>
         <div class="vs par">VS</div>
         <div class="side">${tile(d.away, 'box')}<div class="tname par"><span class="fit uni">${HVL.esc(el(d.away))}</span></div></div>
       </div>
-      ${stack(whenTop, whenH, story ? 40 : 26)}` + footer();
+      ${wide ? `<div class="when2 wrow" style="top:${whenTop}px;--whenH:${whenH}px"><div class="d par">${HVL.esc(date)}</div>
+        <div class="t par">${HVL.esc(time)}</div>${m.venue ? `<span class="vn">${HVL.esc(caps(m.venue))}</span>` : ''}</div>` : stack(whenTop, whenH, story ? 40 : 26)}` + footer();
+    if (wide) {   // YouTube thumbnail: the logo + name block sits on the vertical centre of the image
+      const mx = post.querySelector('.mx'), wr = post.querySelector('.wrow'), place = () => {
+        mx.style.top = Math.round(H / 2 - mx.offsetHeight / 2) + 'px';
+        if (wr) wr.style.top = (mx.offsetTop + mx.offsetHeight + 18) + 'px';
+      };
+      place(); post.querySelectorAll('.mx img').forEach((i) => i.addEventListener('load', place, { once: true }));
+    }
   } else {
     // reference style: match photos inside sharp slanted panels bounded by long oblique lines, big VS between,
     // team logo at the foot of each panel, full team name underneath (single line, same size for both)
@@ -574,7 +586,7 @@ function renderMatch(post, fmt, comp) {
       ${stack(G.whenY, G.whenH, story ? 30 : 18)}
     </div>`;
   }
-  post.querySelectorAll('img.tvL').forEach(trimLogo);
+  post.querySelectorAll('img.tvL, img.tvR').forEach(trimLogo);
   HVL.fit(post); fitBox(post);
   if (document.fonts?.ready) document.fonts.ready.then(() => { HVL.fit(post); fitBox(post); });
   scale();
@@ -590,7 +602,7 @@ async function download(fmt) {
   await document.fonts?.ready; await new Promise((r) => setTimeout(r, 300));
   const [W, H] = FMT[fmt];
   try {
-    const url = await htmlToImage.toPng($('post'), { width: W, height: H, pixelRatio: 1, cacheBust: true, style: { transform: 'none' } });
+    const url = await htmlToImage.toPng($('post'), { width: W, height: H, pixelRatio: +$('q').value || 2, cacheBust: true, style: { transform: 'none' } });
     const a = document.createElement('a'); a.href = url; a.download = `${$('type').value}-${$('which').value}-${fmt}.png`; a.click();
   } catch (e) { $('msg').textContent = '⚠ PNG: ' + (e.message || e) + ' (logos need the Worker /img proxy)'; }
   $('fmt').value = prev; render();
