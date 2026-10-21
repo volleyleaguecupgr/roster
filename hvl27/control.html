@@ -35,13 +35,19 @@ window.elTeam = (n) => { const f = (s) => String(s || '').normalize('NFD').repla
   textarea { width: 100%; min-height: 70px; } input.full { width: 100%; margin-bottom: 8px; }
   .toggle { display: flex; align-items: center; gap: 8px; font-weight: 700; }
   #st { font-size: 13px; color: var(--mut); }
+  header label.hl { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; }
+  header details { position: relative; } header details input { position: absolute; right: 0; top: 30px; z-index: 5; }
 </style>
 </head><body>
 <header>
   <h1>Operator Panel</h1>
-  <input id="api" placeholder="Worker URL" size="34"><select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option><option value="greekcup">Greek Cup</option></select>
-  <select id="team"></select><input id="token" type="password" placeholder="Admin token" size="12"><button id="load">Connect</button>
+  <select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option><option value="greekcup">Greek Cup</option></select>
+  <label class="hl">Ομάδα <select id="team"></select></label><label class="hl" id="vsWrap">Αντίπαλος <select id="vs"><option value="">—</option></select></label>
+  <input id="token" type="password" placeholder="Admin token" size="12"><button id="load">Connect</button>
+  <label class="toggle" title="Χωρίς δεδομένα HVL: γράφετε εσείς σκορ/ομάδες, τα graphics δείχνουν αυτά"><input type="checkbox" id="backup"> Backup (χωρίς HVL)</label>
+  <details><summary style="cursor:pointer;font-size:13px;color:#cfd3ff">⚙</summary><input id="api" placeholder="Worker URL (μόνο αν δεν είναι στο config.js)" size="34"></details>
 </header>
+<div id="bkbar" style="display:none;padding:8px 22px;background:#5a3b00;font-weight:700">BACKUP: τα graphics δείχνουν ΜΟΝΟ ό,τι γράφετε εδώ (ομάδες + σκορ). Γηπεδούχος = «Ομάδα», φιλοξενούμενος = «Αντίπαλος». Ξε-τσεκάρετε για επιστροφή στα δεδομένα HVL.</div>
 <div style="padding:8px 22px" id="st"></div>
 <main>
   <section>
@@ -85,34 +91,63 @@ window.elTeam = (n) => { const f = (s) => String(s || '').normalize('NFD').repla
 <script>
 const $ = (id) => document.getElementById(id);
 const C = window.HVL_CONFIG || {};
-const saved = JSON.parse(localStorage.getItem('hvl-ctl') || '{}');
+let saved = {}; try { saved = JSON.parse(localStorage.getItem('hvl-ctl') || '{}'); } catch {}
 $('api').value = saved.api || C.api || ''; $('league').value = saved.league || C.league || 'hvl'; $('token').value = saved.token || '';
+// team codes (same as the short links) – works even when HVL / the Worker cannot list the teams
+const CODES = { aris: 'AS ARIS', rethimno: 'NOPE RETHIMNOU', floisvos: 'AO FLOISVOS', foinikas: 'A.O. FOINIKAS SIROU', kalamata: "AO KALAMATA '80", kifisia: 'AOP KIFISIAS',
+  milon: 'AONS MILON', olympiakos: 'OLYMPIACOS S.F.P.', panathinaikos: 'PANATHINAIKOS A.O.', panionios: 'PANIONIOS G.S.S.', paok: 'PAOK', ofi: 'O.F.I.' };
+const opts = Object.entries(CODES).map(([c, n]) => `<option value="${c}">${elTeam(n)}</option>`).join('');
+$('team').innerHTML = opts; $('vs').innerHTML = '<option value="">—</option>' + opts;
+const P0 = new URLSearchParams(location.search);
+$('team').value = P0.get('team') || saved.team || 'paok'; $('vs').value = saved.vs || '';
+if (!CODES[$('team').value]) $('team').value = 'paok';
+$('backup').checked = !!saved.backup; $('bkbar').style.display = saved.backup ? 'block' : 'none';
+const slugFor = (t) => { const n = String(t?.name || '').toUpperCase().replace(/[^A-Z]/g, ''); return Object.keys(CODES).find((c) => CODES[c].toUpperCase().replace(/[^A-Z]/g, '') === n) || ''; };
 let data = null, state = {}, side = 'home', sel = null;
 const S = () => (state.score ||= { manual: false, setsH: 0, setsA: 0, h: 0, a: 0, sets: [], serve: null });
 const api = () => $('api').value.trim().replace(/\/$/, '');
 const q = () => `team=${encodeURIComponent($('team').value)}`;
+const isBk = () => $('backup').checked;
+function saveLocal() { localStorage.setItem('hvl-ctl', JSON.stringify({ api: api(), league: $('league').value, token: $('token').value, team: $('team').value, vs: $('vs').value, backup: isBk() })); }
 async function post(patch) {
   Object.assign(state, patch);
   draw();
-  const r = await fetch(`${api()}/api/${$('league').value}/state?${q()}`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + $('token').value }, body: JSON.stringify(patch) });
+  const url = isBk() ? `${api()}/api/${$('league').value}/state?${q()}&vs=${encodeURIComponent($('vs').value)}&backup=1` : `${api()}/api/${$('league').value}/state?${q()}`;
+  if (isBk()) patch = { ...patch, backup: { active: true, home: $('team').value, away: $('vs').value } };
+  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + $('token').value }, body: JSON.stringify(patch) });
   const j = await r.json(); $('st').textContent = r.ok ? `Saved ${new Date().toLocaleTimeString()}` : '⚠ ' + (j.error || r.status);
 }
 async function connect() {
-  localStorage.setItem('hvl-ctl', JSON.stringify({ api: api(), league: $('league').value, token: $('token').value, team: $('team').value || saved.team }));
-  if (!$('team').options.length || $('team').dataset.league !== $('league').value) {
-    const teams = await (await fetch(`${api()}/api/${$('league').value}/teams`)).json();
-    $('team').innerHTML = teams.map((t) => `<option value="${t.id}">${elTeam(t.name)}</option>`).join(''); $('team').dataset.league = $('league').value;
-    if (saved.team) $('team').value = saved.team;
+  saveLocal();
+  if (!api()) { $('st').textContent = '⚠ Λείπει η διεύθυνση του Worker (config.js ή ⚙)'; return; }
+  try {
+    data = await (await fetch(`${api()}/api/${$('league').value}/match?${q()}`)).json();
+  } catch (e) { data = null; $('st').textContent = '⚠ Ο Worker δεν απαντά: ' + e.message + ' – δοκιμάστε Backup'; }
+  state = data?.state || {};
+  if (data?.match && !data.backup) {
+    // fill the opponent automatically from the HVL match
+    const other = slugFor(data.home) === $('team').value ? data.away : data.home; const sv = slugFor(other); if (sv && !$('vs').value) $('vs').value = sv;
   }
-  data = await (await fetch(`${api()}/api/${$('league').value}/match?${q()}`)).json();
-  state = data.state || {};
-  $('st').textContent = data.match ? `${elTeam(data.home.name)} – ${elTeam(data.away.name)} · ${data.match.status} · NOVIBET ${data.league.name.replace(/^NOVIBET\s*/i, '')}` : (data.message || data.error);
-  draw(); players(); lineupForm();
+  if (data) $('st').textContent = data.backup ? `BACKUP · ${elTeam(data.home?.name || '')} – ${elTeam(data.away?.name || '')} ${data.message ? '· ' + data.message : ''}`
+    : data.match ? `${elTeam(data.home.name)} – ${elTeam(data.away.name)} · ${data.match.status} · NOVIBET ${data.league.name.replace(/^NOVIBET\s*/i, '')}` : (data.message || data.error);
+  saveLocal(); draw(); players(); lineupForm();
+}
+async function setBackup(on) {
+  $('bkbar').style.display = on ? 'block' : 'none'; saveLocal();
+  if (on) {
+    if (!$('vs').value) { alert('Διαλέξτε «Αντίπαλο» για το backup'); $('backup').checked = false; $('bkbar').style.display = 'none'; return; }
+    const s = S(); s.manual = true; await post({ score: s });
+  } else {
+    // switch the backup off on both teams → graphics return to HVL data
+    await fetch(`${api()}/api/${$('league').value}/state?${q()}&vs=${encodeURIComponent($('vs').value)}&backup=1`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + $('token').value }, body: JSON.stringify({ backup: { active: false } }) });
+  }
+  connect();
 }
 function draw() {
   const s = S();
   $('manual').checked = !!s.manual;
-  $('nH').textContent = elTeam(data?.home?.name) || 'Home'; $('nA').textContent = elTeam(data?.away?.name) || 'Away';
+  const hN = isBk() ? CODES[$('team').value] : data?.home?.name, aN = isBk() ? CODES[$('vs').value] : data?.away?.name;
+  $('nH').textContent = elTeam(hN || '') || 'Home'; $('nA').textContent = elTeam(aN || '') || 'Away';
   $('pH').textContent = s.h; $('pA').textContent = s.a; $('sH').textContent = s.setsH; $('sA').textContent = s.setsA;
   $('tmH').classList.toggle('serve', s.serve === 'home'); $('tmA').classList.toggle('serve', s.serve === 'away');
 }
@@ -145,7 +180,9 @@ function resetScore() { if (confirm('Reset manual score?')) post({ score: { manu
 function syncFromLive() { const m = data?.match; if (!m) return; const c = m.current || { h: 0, a: 0 }; post({ score: { ...S(), setsH: m.setsHome, setsA: m.setsAway, h: c.h, a: c.a, sets: (m.sets || []).filter((x, i) => !(m.current && i === m.sets.length - 1)) } }); }
 $('manual').onchange = (e) => { const s = S(); s.manual = e.target.checked; post({ score: s }); };
 $('load').onclick = () => connect().catch((e) => ($('st').textContent = '⚠ ' + e.message));
-$('team').onchange = () => { saved.team = $('team').value; connect(); };
+$('team').onchange = () => { $('vs').value = ''; connect(); };
+$('vs').onchange = () => { saveLocal(); if (isBk()) post({}); };
+$('backup').onchange = (e) => setBackup(e.target.checked);
 addEventListener('keydown', (e) => {
   if (/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
   const k = e.key.toLowerCase();

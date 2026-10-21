@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="el"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Links μετάδοσης</title>
+<script src="js/config.js"></script>
+<script src="js/teams-el.js"></script>
+<style>
+  :root { --bg: #10141d; --card: #1b2230; --line: #2f394b; --aqua: #99f5fd; --ink: #242c3b; --mut: #9aa6bd; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: #fff; font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  header { padding: 22px 20px 16px; border-bottom: 3px solid var(--aqua); background: linear-gradient(100deg, #242c3b, #171c27); }
+  h1 { margin: 0 0 4px; font-size: 22px; } header p { margin: 0; color: var(--mut); font-size: 14px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; padding: 16px 20px; position: sticky; top: 0; background: var(--bg); border-bottom: 1px solid var(--line); z-index: 2; }
+  label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--mut); font-weight: 600; }
+  select, input, button { font: inherit; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: #fff; }
+  button { background: var(--aqua); color: var(--ink); border: 0; font-weight: 800; cursor: pointer; }
+  button.ghost { background: transparent; color: var(--aqua); border: 1px solid var(--aqua); }
+  main { padding: 8px 20px 40px; max-width: 1100px; }
+  h2 { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--aqua); margin: 26px 0 8px; }
+  .it { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 9px 12px; background: var(--card); border-left: 3px solid var(--aqua); margin-bottom: 6px; }
+  .it b { font-weight: 700; } .it code { color: var(--aqua); font-size: 13px; overflow-wrap: anywhere; }
+  .it button { padding: 6px 10px; font-size: 13px; }
+  .note { color: var(--mut); font-size: 13px; margin-top: 6px; }
+  #msg { color: var(--mut); font-size: 13px; align-self: center; }
+  @media (max-width: 700px) { .it { grid-template-columns: 1fr; } }
+</style>
+</head><body>
+<header>
+  <h1>Links γραφικών μετάδοσης</h1>
+  <p>Διαλέξτε την ομάδα που μεταδίδετε. Τα links βρίσκουν μόνα τους τον τρέχοντα / επόμενο αγώνα της ομάδας. Κάθε link μπαίνει στο OBS / vMix ως Browser Source 1920×1080.</p>
+</header>
+<div class="bar">
+  <label>Ομάδα<select id="team"></select></label>
+  <label>Διοργάνωση<select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option></select></label>
+  <button id="txt">Λήψη .txt</button><button id="copy" class="ghost">Αντιγραφή όλων</button>
+  <span id="msg"></span>
+</div>
+<main id="out"></main>
+<script>
+const $ = (id) => document.getElementById(id);
+const CODES = { aris: 'AS ARIS', rethimno: 'NOPE RETHIMNOU', floisvos: 'AO FLOISVOS', foinikas: 'A.O. FOINIKAS SIROU', kalamata: "AO KALAMATA '80", kifisia: 'AOP KIFISIAS',
+  milon: 'AONS MILON', olympiakos: 'OLYMPIACOS S.F.P.', panathinaikos: 'PANATHINAIKOS A.O.', panionios: 'PANIONIOS G.S.S.', paok: 'PAOK', ofi: 'O.F.I.' };
+const el = (n) => { const v = (window.HVL_TEAMS_EL || {})[n]; return v ? (typeof v === 'string' ? v : v.name) : n; };
+const BASE = location.href.replace(/[?#].*$/, '').replace(/[^/]*$/, '');
+const API = (new URLSearchParams(location.search).get('api') || (window.HVL_CONFIG || {}).api || '').replace(/\/$/, '');
+$('team').innerHTML = Object.entries(CODES).map(([c, n]) => `<option value="${c}">${el(n)}</option>`).join('');
+const P = new URLSearchParams(location.search); if (P.get('team') && CODES[P.get('team')]) $('team').value = P.get('team'); if (P.get('league')) $('league').value = P.get('league');
+
+// [title, short name, extra params]
+const TEAM = [
+  ['Στατική κάρτα αναγγελίας αγώνα (full screen)', 'staticintro'],
+  ['Δυναμικό intro αγώνα', 'intro'],
+  ['Σύγκριση ομάδων πριν τον αγώνα', 'teamscomparison'],
+  ['Ιστορικό αναμετρήσεων (head to head)', 'h2h'],
+  ['Ρόστερ ομάδας', 'roster'],
+  ['Ρόστερ αντιπάλου', 'roster', 'opp=1'],
+  ['Προπονητές', 'coaches'],
+  ['Διαιτητές αγώνα', 'referees'],
+  ['Αρχικές εξάδες', 'startingsix'],
+  ['Scoreboard (πάνω αριστερά)', 'scoreboard'],
+  ['Στατιστικά ομάδων', 'stats'],
+  ['Στατιστικά τελευταίου σετ', 'stats', 'set=last'],
+  ['Τελικό αποτέλεσμα / σκορ σετ', 'result'],
+  ['Κορυφαίοι παίκτες αγώνα', 'topplayers'],
+  ['Σύγκριση κορυφαίων παικτών', 'playercomparison'],
+  ['Lower third από το control (χωρίς αριθμό)', 'lowthirds'],
+];
+const FIXED = [
+  ['Πρόγραμμα τρέχουσας αγωνιστικής', 'schedule'],
+  ['Αποτελέσματα προηγούμενης αγωνιστικής', 'results'],
+  ['Βαθμολογία', 'standings'],
+  ['Κορυφαίοι σεζόν', 'leaders'],
+  ['Μεταβατικό stinger', 'stinger'],
+  ['Ανακοίνωση (από το control)', 'announcement'],
+];
+let ROSTER = { players: [], coach: null }, LINES = [];
+const link = (short, params) => `${BASE}${short}?${params}`;
+async function loadRoster() {
+  ROSTER = { players: [], coach: null };
+  if (!API) { $('msg').textContent = 'Χωρίς Worker: τα lower thirds των παικτών γράφονται με «ΑΡΙΘΜΟΣ».'; return; }
+  $('msg').textContent = 'Φόρτωση ρόστερ…';
+  try {
+    const j = await (await fetch(`${API}/api/${$('league').value}/roster?team=${$('team').value}`)).json();
+    ROSTER = { players: (j.players || []).filter((p) => p.number != null).sort((a, b) => a.number - b.number), coach: j.headCoach };
+    $('msg').textContent = ROSTER.players.length ? '' : 'Το ρόστερ δεν βρέθηκε – χρησιμοποιήστε τον αριθμό φανέλας.';
+  } catch (e) { $('msg').textContent = 'Το ρόστερ δεν φορτώθηκε (' + e.message + ').'; }
+}
+function render() {
+  const t = $('team').value, lg = $('league').value, tq = `team=${t}${lg !== 'hvl' ? '&league=' + lg : ''}`;
+  const name = el(CODES[t]);
+  const sections = [
+    [`Αλλάζουν ανά ομάδα – ${name}`, TEAM.map(([ti, sh, ex]) => [ti, link(sh, tq + (ex ? '&' + ex : ''))])],
+    ['Lower thirds (συνέντευξη / παρουσίαση)', [
+      ...(ROSTER.players.length ? ROSTER.players.map((p) => [`#${p.number} ${p.last || p.name} ${p.first || ''}`.trim(), link('lowthirds', `${tq}&number=${p.number}`)])
+        : [['Παίκτης (αλλάξτε τον αριθμό φανέλας)', link('lowthirds', `${tq}&number=ΑΡΙΘΜΟΣ`)]]),
+      [`Προπονητής${ROSTER.coach?.name ? ' – ' + ROSTER.coach.name : ''}`, link('lowthirds', `${tq}&number=100`)],
+    ]],
+    ['Ίδια για όλους τους αγώνες', FIXED.map(([ti, sh]) => [ti, link(sh, lg !== 'hvl' ? `league=${lg}` : '').replace(/\?$/, '')])],
+    ['Χειριστής', [['Control panel (σκορ, lower third, ανακοινώσεις, backup)', `${BASE}control.html?team=${t}`]]],
+  ];
+  LINES = [`ΓΡΑΦΙΚΑ ΜΕΤΑΔΟΣΗΣ – ${name}`, `Browser Source 1920×1080 στο OBS / vMix`, ''];
+  $('out').innerHTML = sections.map(([h, items]) => {
+    LINES.push(h.normalize('NFD').replace(/[\u0300-\u036f]/g, '').normalize('NFC').toUpperCase(), ...items.map(([ti, u]) => `${ti}: ${u}`), '');
+    return `<h2>${h}</h2>` + items.map(([ti, u]) => `<div class="it"><b>${ti}</b><code>${u}</code><button class="ghost" data-u="${u}">Αντιγραφή</button></div>`).join('');
+  }).join('') + '<p class="note">Επιπλέον ρυθμίσεις μπαίνουν στο τέλος του link με &, π.χ. &scale=0.9 (μέγεθος scoreboard) ή &hold=8 (το lower third κρύβεται μετά από 8″).</p>';
+  document.querySelectorAll('[data-u]').forEach((b) => (b.onclick = () => navigator.clipboard.writeText(b.dataset.u).then(() => { b.textContent = '✓'; setTimeout(() => (b.textContent = 'Αντιγραφή'), 1200); })));
+}
+async function refresh() { history.replaceState(null, '', `?team=${$('team').value}${$('league').value !== 'hvl' ? '&league=' + $('league').value : ''}`); render(); await loadRoster(); render(); }
+$('team').onchange = refresh; $('league').onchange = refresh;
+$('copy').onclick = () => navigator.clipboard.writeText(LINES.join('\n')).then(() => ($('msg').textContent = 'Αντιγράφηκαν όλα.'));
+$('txt').onclick = () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['﻿' + LINES.join('\r\n')], { type: 'text/plain;charset=utf-8' }));
+  a.download = `links-${$('team').value}.txt`; a.click();
+};
+refresh();
+</script>
+</body></html>

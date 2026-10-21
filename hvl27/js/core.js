@@ -75,10 +75,19 @@
   /* ---------- DOM helpers ---------- */
   HVL.$ = (s, r = document) => r.querySelector(s);
   HVL.esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  // team code (aris, paok, kifisia…) → local logo site/logos/<code>.png, HVL logo as fallback
+  const SLUGS = [['aris', /ΑΡΗΣ|ARIS/], ['rethimno', /ΡΕΘΥΜΝ|RETHIMN/], ['floisvos', /ΦΛΟΙΣΒ|FLOISV/], ['foinikas', /ΦΟΙΝΙΚ|FOINIK/], ['kalamata', /ΚΑΛΑΜΑΤ|KALAMAT/],
+    ['kifisia', /ΚΗΦΙΣ|KIFIS/], ['milon', /ΜΙΛΩΝ|MILON/], ['olympiakos', /ΟΛΥΜΠΙΑΚ|OLYMPIA/], ['panathinaikos', /ΠΑΝΑΘΗΝ|PANATHIN/], ['panionios', /ΠΑΝΙΩΝ|PANIONI/], ['paok', /^ΠΑΟΚ|^PAOK/], ['ofi', /^ΟΦΗ|^OFI/]];
+  const ukey = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/[^A-Z0-9Α-Ω]/g, '');
+  HVL.slug = (t) => { if (t?.slug) return t.slug; for (const n of [t?.orig, t?.name, t?.short]) { const k = ukey(n); const f = k && SLUGS.find(([, re]) => re.test(k)); if (f) return f[0]; } return ''; };
+  HVL.root = (() => { try { return new URL('../', document.currentScript.src).href; } catch { return '../'; } })();
   HVL.logo = (team, cls = '') => {
     if (!team) return `<div class="logo fallback ${cls}">?</div>`;
     const init = HVL.esc((team.code || team.short || team.name || '?').slice(0, 4));
-    return `<div class="logo ${cls}" data-init="${init}"><img src="${HVL.esc(team.logo)}" alt="" onerror="this.parentNode.classList.add('fallback');this.parentNode.textContent=this.parentNode.dataset.init"></div>`;
+    const sl = HVL.slug(team), local = sl ? `${HVL.root}logos/${sl}.png` : '', remote = team.logo || '';
+    const src = local || remote;
+    if (!src) return `<div class="logo fallback ${cls}">${init}</div>`;
+    return `<div class="logo ${cls}" data-init="${init}"><img src="${HVL.esc(src)}" data-alt="${HVL.esc(local ? remote : '')}" alt="" onerror="if(this.dataset.alt){this.src=this.dataset.alt;this.dataset.alt=''}else{this.parentNode.classList.add('fallback');this.parentNode.textContent=this.parentNode.dataset.init}"></div>`;
   };
   HVL.photo = (p, cls = 'photo') => {
     const init = HVL.esc(((p?.last || p?.name || '?')[0] || '?') + (p?.first?.[0] || ''));
@@ -242,8 +251,8 @@
   HVL.side = (d) => {
     const s = get('side');
     if (s === 'home' || s === 'away') return s;
-    if (d.focusTeam && d.away?.id === d.focusTeam) return 'away';
-    return 'home';
+    const mine = d.focusTeam && d.away?.id === d.focusTeam ? 'away' : 'home';
+    return get('opp') === '1' ? (mine === 'home' ? 'away' : 'home') : mine;   // ?opp=1 → the opponent of ?team
   };
 
   /* ---------- demo data (used when no API is configured or ?demo=1) ---------- */
