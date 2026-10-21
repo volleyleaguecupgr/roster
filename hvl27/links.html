@@ -4,38 +4,40 @@
 <title>Links μετάδοσης</title>
 <script src="js/config.js"></script>
 <script src="js/teams-el.js"></script>
+<link rel="stylesheet" href="css/admin.css">
 <style>
-  :root { --bg: #10141d; --card: #1b2230; --line: #2f394b; --aqua: #99f5fd; --ink: #242c3b; --mut: #9aa6bd; }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: #fff; font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif; }
-  header { padding: 22px 20px 16px; border-bottom: 3px solid var(--aqua); background: linear-gradient(100deg, #242c3b, #171c27); }
-  h1 { margin: 0 0 4px; font-size: 22px; } header p { margin: 0; color: var(--mut); font-size: 14px; }
-  .bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; padding: 16px 20px; position: sticky; top: 0; background: var(--bg); border-bottom: 1px solid var(--line); z-index: 2; }
-  label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--mut); font-weight: 600; }
-  select, input, button { font: inherit; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: #fff; }
-  button { background: var(--aqua); color: var(--ink); border: 0; font-weight: 800; cursor: pointer; }
-  button.ghost { background: transparent; color: var(--aqua); border: 1px solid var(--aqua); }
-  main { padding: 8px 20px 40px; max-width: 1100px; }
-  h2 { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--aqua); margin: 26px 0 8px; }
-  .it { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 9px 12px; background: var(--card); border-left: 3px solid var(--aqua); margin-bottom: 6px; }
-  .it b { font-weight: 700; } .it code { color: var(--aqua); font-size: 13px; overflow-wrap: anywhere; }
-  .it button { padding: 6px 10px; font-size: 13px; }
-  .note { color: var(--mut); font-size: 13px; margin-top: 6px; }
-  #msg { color: var(--mut); font-size: 13px; align-self: center; }
-  @media (max-width: 700px) { .it { grid-template-columns: 1fr; } }
+  .wrap { max-width: 1180px; }
+  table.lt { margin-top: 22px; }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); }
+  th { text-align: left; font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--mut); padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--panel2); }
+  th.grp { color: var(--aqua); }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  tr:last-child td { border-bottom: 0; }
+  tr:hover td { background: rgba(153,245,253,.04); }
+  td.t { width: 34%; font-weight: 600; }
+  td.u { font: 12.5px/1.4 ui-monospace, Menlo, Consolas, monospace; color: var(--aqua); word-break: break-all; }
+  td.c { width: 1%; white-space: nowrap; text-align: right; }
+  td.c .btn { min-height: 30px; padding: 0 12px; font-size: 12px; }
+  .note { margin-top: 14px; }
+  #msg { align-self: center; font-size: 12px; color: var(--mut); }
+  @media (max-width: 760px) { td.t { width: auto; } tr { display: grid; } td.c { text-align: left; } }
 </style>
 </head><body>
-<header>
-  <h1>Links γραφικών μετάδοσης</h1>
-  <p>Διαλέξτε την ομάδα που μεταδίδετε. Τα links βρίσκουν μόνα τους τον τρέχοντα / επόμενο αγώνα της ομάδας. Κάθε link μπαίνει στο OBS / vMix ως Browser Source 1920×1080.</p>
-</header>
+<div class="top">
+  <img src="logos/league.png" alt="" onerror="this.remove()">
+  <div class="ttl">Links γραφικών<small>NOVIBET VOLLEY LEAGUE · OBS / vMix</small></div>
+  <div class="sp"></div>
+</div>
 <div class="bar">
-  <label>Ομάδα<select id="team"></select></label>
-  <label>Διοργάνωση<select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option></select></label>
-  <button id="txt">Λήψη .txt</button><button id="copy" class="ghost">Αντιγραφή όλων</button>
+  <label class="f"><span>Ομάδα που μεταδίδετε</span><select id="team"></select></label>
+  <label class="f"><span>Διοργάνωση</span><select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option></select></label>
+  <button class="btn" id="txt">Λήψη .txt</button><button class="btn sec" id="copy">Αντιγραφή όλων</button>
   <span id="msg"></span>
 </div>
-<main id="out"></main>
+<main class="wrap">
+  <p class="hint" style="margin:0">Κάθε link προστίθεται ως Browser Source 1920×1080. Τα links της ομάδας βρίσκουν αυτόματα τον αγώνα της (live, σημερινό ή επόμενο).</p>
+  <div id="out"></div>
+</main>
 <script>
 const $ = (id) => document.getElementById(id);
 const CODES = { aris: 'AS ARIS', rethimno: 'NOPE RETHIMNOU', floisvos: 'AO FLOISVOS', foinikas: 'A.O. FOINIKAS SIROU', kalamata: "AO KALAMATA '80", kifisia: 'AOP KIFISIAS',
@@ -63,7 +65,6 @@ const TEAM = [
   ['Τελικό αποτέλεσμα / σκορ σετ', 'result'],
   ['Κορυφαίοι παίκτες αγώνα', 'topplayers'],
   ['Σύγκριση κορυφαίων παικτών', 'playercomparison'],
-  ['Lower third από το control (χωρίς αριθμό)', 'lowthirds'],
 ];
 const FIXED = [
   ['Πρόγραμμα τρέχουσας αγωνιστικής', 'schedule'],
@@ -71,7 +72,6 @@ const FIXED = [
   ['Βαθμολογία', 'standings'],
   ['Κορυφαίοι σεζόν', 'leaders'],
   ['Μεταβατικό stinger', 'stinger'],
-  ['Ανακοίνωση (από το control)', 'announcement'],
 ];
 let ROSTER = { players: [], coach: null }, LINES = [];
 const link = (short, params) => `${BASE}${short}?${params}`;
@@ -96,14 +96,14 @@ function render() {
       [`Προπονητής${ROSTER.coach?.name ? ' – ' + ROSTER.coach.name : ''}`, link('lowthirds', `${tq}&number=100`)],
     ]],
     ['Ίδια για όλους τους αγώνες', FIXED.map(([ti, sh]) => [ti, link(sh, lg !== 'hvl' ? `league=${lg}` : '').replace(/\?$/, '')])],
-    ['Χειριστής', [['Control panel (σκορ, lower third, ανακοινώσεις, backup)', `${BASE}control.html?team=${t}`]]],
+    ['Χειριστής', [['Control panel (σκορ, backup)', `${BASE}control.html?team=${t}`]]],
   ];
   LINES = [`ΓΡΑΦΙΚΑ ΜΕΤΑΔΟΣΗΣ – ${name}`, `Browser Source 1920×1080 στο OBS / vMix`, ''];
   $('out').innerHTML = sections.map(([h, items]) => {
     LINES.push(h.normalize('NFD').replace(/[\u0300-\u036f]/g, '').normalize('NFC').toUpperCase(), ...items.map(([ti, u]) => `${ti}: ${u}`), '');
-    return `<h2>${h}</h2>` + items.map(([ti, u]) => `<div class="it"><b>${ti}</b><code>${u}</code><button class="ghost" data-u="${u}">Αντιγραφή</button></div>`).join('');
-  }).join('') + '<p class="note">Επιπλέον ρυθμίσεις μπαίνουν στο τέλος του link με &, π.χ. &scale=0.9 (μέγεθος scoreboard) ή &hold=8 (το lower third κρύβεται μετά από 8″).</p>';
-  document.querySelectorAll('[data-u]').forEach((b) => (b.onclick = () => navigator.clipboard.writeText(b.dataset.u).then(() => { b.textContent = '✓'; setTimeout(() => (b.textContent = 'Αντιγραφή'), 1200); })));
+    return `<table class="lt"><thead><tr><th class="grp" colspan="3">${h}</th></tr></thead><tbody>` + items.map(([ti, u]) => `<tr><td class="t">${ti}</td><td class="u">${u}</td><td class="c"><button class="btn sec" data-u="${u}">Αντιγραφή</button></td></tr>`).join('') + '</tbody></table>';
+  }).join('') + '<p class="note hint">Επιπλέον ρυθμίσεις μπαίνουν στο τέλος του link με &, π.χ. &scale=0.9 (μέγεθος scoreboard) ή &hold=8 (το lower third κρύβεται μετά από 8″).</p>';
+  document.querySelectorAll('[data-u]').forEach((b) => (b.onclick = () => navigator.clipboard.writeText(b.dataset.u).then(() => { b.textContent = 'Αντιγράφηκε'; setTimeout(() => (b.textContent = 'Αντιγραφή'), 1200); })));
 }
 async function refresh() { history.replaceState(null, '', `?team=${$('team').value}${$('league').value !== 'hvl' ? '&league=' + $('league').value : ''}`); render(); await loadRoster(); render(); }
 $('team').onchange = refresh; $('league').onchange = refresh;
