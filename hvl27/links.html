@@ -66,7 +66,6 @@ const TEAM = [
   ['Τελικό αποτέλεσμα / σκορ σετ', 'result'],
   ['Κορυφαίοι παίκτες αγώνα', 'topplayers'],
   ['Σύγκριση κορυφαίων παικτών', 'playercomparison'],
-  ['Σχολιαστής (αλλάξτε το ΟΝΟΜΑ)', 'speaker', 'name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ'],
 ];
 const FIXED = [
   ['Πρόγραμμα τρέχουσας αγωνιστικής', 'schedule'],
@@ -76,6 +75,7 @@ const FIXED = [
   ['Video check (full screen)', 'videocheck'],
   ['Στατική κάρτα διοργανώτριας αρχής', 'staticorg'],
   ['Στατική κάρτα διοργάνωσης', 'staticchamp'],
+  ['Σχολιαστής (αλλάξτε το ΟΝΟΜΑ)', 'speaker', 'name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ'],
 ];
 let ROSTER = { players: [], coach: null }, LINES = [];
 const link = (short, params) => `${BASE}${short}?${params}`;
