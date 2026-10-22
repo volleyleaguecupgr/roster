@@ -98,6 +98,7 @@ function render() {
       ...(ROSTER.players.length ? ROSTER.players.map((p) => [`#${p.number} ${p.last || p.name} ${p.first || ''}`.trim(), link('lowthirds', `${tq}&number=${p.number}`)])
         : [['Παίκτης (αλλάξτε τον αριθμό φανέλας)', link('lowthirds', `${tq}&number=ΑΡΙΘΜΟΣ`)]]),
       [`Προπονητής${ROSTER.coach?.name ? ' – ' + ROSTER.coach.name : ''}`, link('lowthirds', `${tq}&number=100`)],
+      ['Βοηθός προπονητή', link('lowthirds', `${tq}&number=101`)],
     ]],
     ['Ίδια για όλες τις ομάδες', FIXED.map(([ti, sh, ex]) => [ti, link(sh, [lg !== 'hvl' ? `league=${lg}` : '', ex || ''].filter(Boolean).join('&')).replace(/\?$/, '')])],
     ['Χειροκίνητο Scoreboard', [['Control panel (σκορ, backup)', `${BASE}control.html?team=${t}`]]],
