@@ -29,6 +29,9 @@ window.elTeam = (n) => { const f = (s) => String(s || '').normalize('NFD').repla
   .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
   .acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 14px 16px; border-top: 1px solid var(--line); }
   .acts .sp { flex: 1; }
+  .row.ev { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .row.ev .btn { font-size: 12px; letter-spacing: .6px; text-transform: uppercase; }
+  .row.ev .btn.on { background: var(--aqua); color: var(--ink); border-color: var(--aqua); }
   .partials { padding: 0 16px 14px; font-size: 13px; color: var(--mut); }
   .partials b { color: var(--txt); font-variant-numeric: tabular-nums; margin-right: 10px; }
   .help { margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
@@ -53,7 +56,6 @@ window.elTeam = (n) => { const f = (s) => String(s || '').normalize('NFD').repla
 </div>
 <div class="status" id="st">Δεν έχει γίνει σύνδεση.</div>
 <div class="bk">Backup ενεργό: τα γραφικά δείχνουν μόνο ό,τι ορίζετε εδώ. Γηπεδούχος = Ομάδα, φιλοξενούμενος = Αντίπαλος. Απενεργοποιήστε το για επιστροφή στα δεδομένα HVL.</div>
-<div><b>ΜΟΝΟ ΕΦΟΣΟΝ ΤΟ SCOREBOARD ΔΕΝ ΑΝΑΝΕΩΝΕΤΑΙ ΑΥΤΟΜΑΤΑ ΚΛΙΚ ΣΤΟ BACKUP ΚΑΙ ΑΛΛΑΖΕΤΕ ΤΟ ΣΚΟΡ</b></div>
 <main>
   <section class="panel">
     <h2>Scoreboard <label class="chk" style="min-height:0;color:var(--txt)"><input type="checkbox" id="manual"> Χειροκίνητο σκορ</label></h2>
@@ -61,11 +63,13 @@ window.elTeam = (n) => { const f = (s) => String(s || '').normalize('NFD').repla
       <div class="tm" id="tmH"><div class="hd"><h3 id="nH">Γηπεδούχος</h3><span class="side">Γηπεδούχος</span></div>
         <div class="nums"><div class="pts" id="pH">0</div><div class="sets"><span>Σετ</span><b id="sH">0</b></div></div>
         <button class="btn plus" onclick="pt('h',1)">+1 πόντος</button>
-        <div class="row"><button class="btn sec" onclick="pt('h',-1)">−1</button><button class="btn sec" onclick="setAdj('h',1)">Σετ +</button><button class="btn sec" onclick="setAdj('h',-1)">Σετ −</button><button class="btn sec" onclick="serve('home')">Σερβίς</button></div></div>
+        <div class="row"><button class="btn sec" onclick="pt('h',-1)">−1</button><button class="btn sec" onclick="setAdj('h',1)">Σετ +</button><button class="btn sec" onclick="setAdj('h',-1)">Σετ −</button><button class="btn sec" onclick="serve('home')">Σερβίς</button></div>
+        <div class="row ev"><button class="btn sec" data-f="home:setpoint" onclick="flag('home','setpoint')">Set point</button><button class="btn sec" data-f="home:matchpoint" onclick="flag('home','matchpoint')">Match point</button><button class="btn sec" data-f="home:timeout" onclick="flag('home','timeout')">Time out</button><button class="btn sec" data-f="home:challenge" onclick="flag('home','challenge')">Challenge</button></div></div>
       <div class="tm" id="tmA"><div class="hd"><h3 id="nA">Φιλοξενούμενος</h3><span class="side">Φιλοξενούμενος</span></div>
         <div class="nums"><div class="pts" id="pA">0</div><div class="sets"><span>Σετ</span><b id="sA">0</b></div></div>
         <button class="btn plus" onclick="pt('a',1)">+1 πόντος</button>
-        <div class="row"><button class="btn sec" onclick="pt('a',-1)">−1</button><button class="btn sec" onclick="setAdj('a',1)">Σετ +</button><button class="btn sec" onclick="setAdj('a',-1)">Σετ −</button><button class="btn sec" onclick="serve('away')">Σερβίς</button></div></div>
+        <div class="row"><button class="btn sec" onclick="pt('a',-1)">−1</button><button class="btn sec" onclick="setAdj('a',1)">Σετ +</button><button class="btn sec" onclick="setAdj('a',-1)">Σετ −</button><button class="btn sec" onclick="serve('away')">Σερβίς</button></div>
+        <div class="row ev"><button class="btn sec" data-f="away:setpoint" onclick="flag('away','setpoint')">Set point</button><button class="btn sec" data-f="away:matchpoint" onclick="flag('away','matchpoint')">Match point</button><button class="btn sec" data-f="away:timeout" onclick="flag('away','timeout')">Time out</button><button class="btn sec" data-f="away:challenge" onclick="flag('away','challenge')">Challenge</button></div></div>
     </div>
     <div class="partials" id="parts"></div>
     <div class="acts">
@@ -155,12 +159,21 @@ function draw() {
   $('nH').textContent = hN ? elTeam(hN) : 'Γηπεδούχος'; $('nA').textContent = aN ? elTeam(aN) : 'Φιλοξενούμενος';
   $('pH').textContent = s.h; $('pA').textContent = s.a; $('sH').textContent = s.setsH; $('sA').textContent = s.setsA;
   $('tmH').classList.toggle('serve', s.serve === 'home'); $('tmA').classList.toggle('serve', s.serve === 'away');
+  const f = state.flags || {};
+  document.querySelectorAll('[data-f]').forEach((b) => { const [sd, ty] = b.dataset.f.split(':'), x = f[sd];
+    b.classList.toggle('on', !!x && x.type === ty && (ty === 'setpoint' || ty === 'matchpoint' || Date.now() - x.t < (ty === 'timeout' ? 30000 : 60000))); });
   $('parts').innerHTML = (s.sets || []).length ? 'Σετ: ' + s.sets.map((x) => `<b>${x.h}–${x.a}</b>`).join('') : '';
+}
+// event tags on the scoreboard (one per team). Set/match point stay until pressed again; time out (30″) and challenge (60″) hide by themselves.
+function flag(side, type) {
+  const f = { ...(state.flags || {}) }, cur = f[side];
+  f[side] = cur && cur.type === type && (type === 'setpoint' || type === 'matchpoint' || Date.now() - cur.t < (type === 'timeout' ? 30000 : 60000)) ? null : { type, t: Date.now() };
+  post({ flags: f });
 }
 function pt(k, d) { const s = S(); s.manual = true; s[k] = Math.max(0, s[k] + d); if (d > 0) s.serve = k === 'h' ? 'home' : 'away'; post({ score: s }); }
 function setAdj(k, d) { const s = S(); s.manual = true; const key = k === 'h' ? 'setsH' : 'setsA'; s[key] = Math.max(0, s[key] + d); post({ score: s }); }
 function serve(w) { const s = S(); s.serve = w; post({ score: s }); }
-function endSet() { const s = S(); if (s.h === s.a) return; s.manual = true; s.sets = [...(s.sets || []), { h: s.h, a: s.a }]; s.h > s.a ? s.setsH++ : s.setsA++; s.h = 0; s.a = 0; post({ score: s }); }
+function endSet() { const s = S(); if (s.h === s.a) return; s.manual = true; s.sets = [...(s.sets || []), { h: s.h, a: s.a }]; s.h > s.a ? s.setsH++ : s.setsA++; s.h = 0; s.a = 0; post({ score: s, flags: {} }); }
 function resetScore() { if (confirm('Μηδενισμός χειροκίνητου σκορ;')) post({ score: { manual: $('manual').checked, setsH: 0, setsA: 0, h: 0, a: 0, sets: [], serve: null } }); }
 function syncFromLive() { const m = data?.match; if (!m || data.backup) return status('Δεν υπάρχουν δεδομένα HVL για αντιγραφή.', 'err'); const c = m.current || { h: 0, a: 0 }; post({ score: { ...S(), setsH: m.setsHome || 0, setsA: m.setsAway || 0, h: c.h, a: c.a, sets: (m.sets || []).filter((x, i) => !(m.current && i === m.sets.length - 1)) } }); }
 $('manual').onchange = (e) => { const s = S(); s.manual = e.target.checked; post({ score: s }); };
@@ -175,6 +188,7 @@ addEventListener('keydown', (e) => {
   if (k === 'q') pt('h', 1); if (k === 'p') pt('a', 1); if (k === 'a') pt('h', -1); if (k === 'l') pt('a', -1); if (k === 's') endSet();
 });
 draw();
+setInterval(() => { if (state.flags) draw(); }, 1000);   // time out / challenge buttons switch off when they expire
 if (api()) connect();
 </script>
 </body></html>
