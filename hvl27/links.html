@@ -36,13 +36,7 @@
 </div>
 <main class="wrap">
   <p class="hint" style="margin:0">Κάθε link προστίθεται ως Browser Source 1920×1080. Τα links της ομάδας βρίσκουν αυτόματα τον αγώνα της (live, σημερινό ή επόμενο).</p>
-  <p class="hint" style="margin:0"><b>Πάντα με ενεργές τις ρυθμίσεις Τερματισμός λειτουργίας πηγής, όταν δεν είναι ορατή και Ανανέωση του προγράμματος περιήγησης, όταν η σκηνή γίνεται ενεργή.</b></p>
-  <p class="hint" style="margin:6px 0 0">
-    <a class="btn sec" href="https://drive.google.com/file/d/12QqjwxOXz45f160Ff43fukl9d-DCwcE4/view?usp=sharing" target="_blank" rel="noopener"
-       style="display:inline-flex;align-items:center;min-height:30px;padding:0 12px;font-size:12px;text-decoration:none">
-      Βίντεο: παράδειγμα χρήσης
-    </a>
-  </p>
+  <p class="hint" style="margin:0">Πάντα με ενεργές τις ρυθμίσεις Τερματισμός λειτουργίας πηγής, όταν δεν είναι ορατή και Ανανέωση του προγράμματος περιήγησης, όταν η σκηνή γίνεται ενεργή.</p>
   <div id="out"></div>
 </main>
 <script>
@@ -61,6 +55,8 @@ const TEAM = [
   ['Σύγκριση ομάδων πριν τον αγώνα', 'teamscomparison'],
   ['Ιστορικό αναμετρήσεων (head to head)', 'h2h'],
   ['Βαθμολογία', 'standings'],
+  ['Pre game', 'pregame'],
+  ['Post game', 'postgame'],
   ['Ρόστερ ομάδας', 'roster'],
   ['Ρόστερ αντιπάλου', 'roster', 'opp=1'],
   ['Διαιτητές αγώνα', 'referees'],
@@ -70,12 +66,16 @@ const TEAM = [
   ['Τελικό αποτέλεσμα / σκορ σετ', 'result'],
   ['Κορυφαίοι παίκτες αγώνα', 'topplayers'],
   ['Σύγκριση κορυφαίων παικτών', 'playercomparison'],
+  ['Σχολιαστής (αλλάξτε το ΟΝΟΜΑ)', 'speaker', 'name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ'],
 ];
 const FIXED = [
   ['Πρόγραμμα τρέχουσας αγωνιστικής', 'schedule'],
   ['Αποτελέσματα προηγούμενης αγωνιστικής', 'results'],
   ['Κορυφαίοι σεζόν', 'leaders'],
   ['Μεταβατικό stinger', 'stinger'],
+  ['Video check (full screen)', 'videocheck'],
+  ['Στατική κάρτα διοργανώτριας αρχής', 'staticorg'],
+  ['Στατική κάρτα διοργάνωσης', 'staticchamp'],
 ];
 let ROSTER = { players: [], coach: null }, LINES = [];
 const link = (short, params) => `${BASE}${short}?${params}`;
@@ -99,7 +99,7 @@ function render() {
         : [['Παίκτης (αλλάξτε τον αριθμό φανέλας)', link('lowthirds', `${tq}&number=ΑΡΙΘΜΟΣ`)]]),
       [`Προπονητής${ROSTER.coach?.name ? ' – ' + ROSTER.coach.name : ''}`, link('lowthirds', `${tq}&number=100`)],
     ]],
-    ['Ίδια για όλες τις ομάδες', FIXED.map(([ti, sh]) => [ti, link(sh, lg !== 'hvl' ? `league=${lg}` : '').replace(/\?$/, '')])],
+    ['Ίδια για όλες τις ομάδες', FIXED.map(([ti, sh, ex]) => [ti, link(sh, [lg !== 'hvl' ? `league=${lg}` : '', ex || ''].filter(Boolean).join('&')).replace(/\?$/, '')])],
     ['Χειροκίνητο Scoreboard', [['Control panel (σκορ, backup)', `${BASE}control.html?team=${t}`]]],
   ];
   LINES = [`ΓΡΑΦΙΚΑ ΜΕΤΑΔΟΣΗΣ – ${name}`, `Browser Source 1920×1080 στο OBS / vMix`, ''];
