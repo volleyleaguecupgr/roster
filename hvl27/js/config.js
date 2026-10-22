@@ -1,5 +1,5 @@
 window.HVL_CONFIG = {
-  api: '',         
+  api: 'https://hvl-broadcast.myvolley-league-cup.workers.dev/',         
   league: 'hvl',    
   team: '',         
   lang: 'el',       
