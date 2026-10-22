@@ -1,8 +1,8 @@
-<!doctype html><html><head><meta charset="utf-8"><title>commentator</title>
+<!doctype html><html><head><meta charset="utf-8"><title>speaker</title>
 <style>html,body{margin:0;background:transparent}</style>
 <script>
 // Short links:  <site>/roster/paok   <site>/lowthirds/paok/7   <site>/scoreboard/?team=paok   (+ any extra ?params)
-var A = {"staticintro": ["next-match", ""], "intro": ["next-match", "anim=1"], "teamscomparison": ["team-compare", ""], "roster": ["roster", ""], "referees": ["referees", ""], "lowthirds": ["lower-third", ""], "scoreboard": ["scoreboard", ""], "stats": ["stats", ""], "result": ["result", ""], "startingsix": ["starting-six", ""], "coaches": ["coaches", ""], "playercomparison": ["player-compare", ""], "h2h": ["h2h", ""], "topplayers": ["top-players", ""], "schedule": ["schedule", ""], "results": ["results", ""], "standings": ["standings", ""], "leaders": ["leaders", ""], "stinger": ["stinger", ""], "announcement": ["announcement", ""], "pregame": ["sidebox", "type=pre"], "postgame": ["sidebox", "type=post"], "staticorg": ["static", "logo=org"], "staticchamp": ["static", "logo=champ"], "commentator": ["commentator", ""]};
+var A = {"staticintro": ["next-match", ""], "intro": ["next-match", "anim=1"], "teamscomparison": ["team-compare", ""], "roster": ["roster", ""], "referees": ["referees", ""], "lowthirds": ["lower-third", ""], "scoreboard": ["scoreboard", ""], "stats": ["stats", ""], "result": ["result", ""], "startingsix": ["starting-six", ""], "coaches": ["coaches", ""], "playercomparison": ["player-compare", ""], "h2h": ["h2h", ""], "topplayers": ["top-players", ""], "schedule": ["schedule", ""], "results": ["results", ""], "standings": ["standings", ""], "leaders": ["leaders", ""], "stinger": ["stinger", ""], "announcement": ["announcement", ""], "pregame": ["sidebox", "type=pre"], "postgame": ["sidebox", "type=post"], "staticorg": ["static", "logo=org"], "staticchamp": ["static", "logo=champ"], "speaker": ["speaker", ""]};
 function go(parts, search) {
   var i = -1; for (var k = 0; k < parts.length; k++) if (A[parts[k].toLowerCase()]) { i = k; break; }
   if (i < 0) return false;
