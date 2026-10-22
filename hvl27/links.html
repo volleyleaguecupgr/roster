@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="el"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Links μετάδοσης</title>
+<title>WebURL μετάδοσης</title>
 <script src="js/config.js"></script>
 <script src="js/teams-el.js"></script>
 <link rel="stylesheet" href="css/admin.css">
@@ -25,7 +25,7 @@
 </head><body>
 <div class="top">
   <img src="logos/league.png" alt="" onerror="this.remove()">
-  <div class="ttl">Links γραφικών<small>NOVIBET VOLLEY LEAGUE · OBS / vMix</small></div>
+  <div class="ttl">WebURL γραφικών<small>NOVIBET VOLLEY LEAGUE · OBS / vMix</small></div>
   <div class="sp"></div>
 </div>
 <div class="bar">
@@ -48,17 +48,17 @@ const API = (new URLSearchParams(location.search).get('api') || (window.HVL_CONF
 $('team').innerHTML = Object.entries(CODES).map(([c, n]) => `<option value="${c}">${el(n)}</option>`).join('');
 const P = new URLSearchParams(location.search); if (P.get('team') && CODES[P.get('team')]) $('team').value = P.get('team'); if (P.get('league')) $('league').value = P.get('league');
 
-// [title, short name, extra params]
 const TEAM = [
   ['Στατική κάρτα αναγγελίας αγώνα (full screen)', 'staticintro'],
   ['Δυναμικό intro αγώνα', 'intro'],
   ['Σύγκριση ομάδων πριν τον αγώνα', 'teamscomparison'],
   ['Ιστορικό αναμετρήσεων (head to head)', 'h2h'],
+  ['Βαθμολογία', 'standings'],
   ['Ρόστερ ομάδας', 'roster'],
   ['Ρόστερ αντιπάλου', 'roster', 'opp=1'],
   ['Διαιτητές αγώνα', 'referees'],
   ['Αρχικές εξάδες', 'startingsix'],
-  ['Scoreboard (πάνω αριστερά)', 'scoreboard'],
+  ['Scoreboard (ανανεώνεται αυτόματα)', 'scoreboard'],
   ['Στατιστικά ομάδων', 'stats'],
   ['Τελικό αποτέλεσμα / σκορ σετ', 'result'],
   ['Κορυφαίοι παίκτες αγώνα', 'topplayers'],
@@ -67,7 +67,6 @@ const TEAM = [
 const FIXED = [
   ['Πρόγραμμα τρέχουσας αγωνιστικής', 'schedule'],
   ['Αποτελέσματα προηγούμενης αγωνιστικής', 'results'],
-  ['Βαθμολογία', 'standings'],
   ['Κορυφαίοι σεζόν', 'leaders'],
   ['Μεταβατικό stinger', 'stinger'],
 ];
@@ -93,8 +92,8 @@ function render() {
         : [['Παίκτης (αλλάξτε τον αριθμό φανέλας)', link('lowthirds', `${tq}&number=ΑΡΙΘΜΟΣ`)]]),
       [`Προπονητής${ROSTER.coach?.name ? ' – ' + ROSTER.coach.name : ''}`, link('lowthirds', `${tq}&number=100`)],
     ]],
-    ['Ίδια για όλους τους αγώνες', FIXED.map(([ti, sh]) => [ti, link(sh, lg !== 'hvl' ? `league=${lg}` : '').replace(/\?$/, '')])],
-    ['Χειριστής', [['Control panel (σκορ, backup)', `${BASE}control.html?team=${t}`]]],
+    ['Ίδια για όλες τις ομάδες', FIXED.map(([ti, sh]) => [ti, link(sh, lg !== 'hvl' ? `league=${lg}` : '').replace(/\?$/, '')])],
+    ['Χειροκίνητο Scoreboard', [['Control panel (σκορ, backup)', `${BASE}control.html?team=${t}`]]],
   ];
   LINES = [`ΓΡΑΦΙΚΑ ΜΕΤΑΔΟΣΗΣ – ${name}`, `Browser Source 1920×1080 στο OBS / vMix`, ''];
   $('out').innerHTML = sections.map(([h, items]) => {
