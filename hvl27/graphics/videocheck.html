@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Video Check</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* Full screen VIDEO CHECK: Novibet background, championship logo, title, looping review animation (media/videocheck.webm, made in Remotion).
+     ?logo=champ (default, site/logos/champ.png) | org | file.png | https://… · ?title=VIDEO CHECK · ?noanim=1 */
+  #vc { position: absolute; inset: 0; overflow: hidden; background: #0c1323 url('../img/bg-novi.jpg') center / cover no-repeat; color: #fff; font-family: var(--font, Averta, 'Saira', sans-serif); }
+  #vc::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, rgba(12,19,35,.15), rgba(12,19,35,.7)); }
+  .lg { position: absolute; left: 50%; top: 34px; height: 150px; width: auto; max-width: 520px; object-fit: contain; transform: translateX(-50%); filter: drop-shadow(0 8px 24px rgba(0,0,0,.45)); }
+  .tt { position: absolute; left: 50%; top: 200px; transform: translateX(-50%); height: 96px; padding: 0 70px; display: grid; place-items: center; white-space: nowrap;
+        background: linear-gradient(100deg, #99f5fd, #c4fbff); color: #242c3b; font-weight: 900; font-style: italic; font-size: 66px; letter-spacing: 3px; text-transform: uppercase;
+        clip-path: polygon(26px 0, 100% 0, calc(100% - 26px) 100%, 0 100%); }
+  .tt::after { content: ''; position: absolute; top: 0; bottom: 0; width: 140px; left: -200px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent); transform: skewX(-20deg); animation: vcShine 6s 1.2s ease-in-out infinite; }
+  .mon { position: absolute; left: 50%; top: 326px; width: 1500px; height: 660px; transform: translateX(-50%); }
+  .mon video { width: 100%; height: 100%; display: block; }
+  /* entrance */
+  #vc.go .lg { animation: vcLogo .9s cubic-bezier(.34, 1.56, .64, 1) both; }
+  #vc.go .tt { animation: vcWipe .6s cubic-bezier(.16, 1, .3, 1) .25s both; }
+  #vc.go .mon { animation: vcUp .8s cubic-bezier(.16, 1, .3, 1) .4s both; }
+  @keyframes vcLogo { from { opacity: 0; transform: translateX(-50%) scale(.6); filter: blur(8px); } }
+  @keyframes vcWipe { from { clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%); } }
+  @keyframes vcUp { from { opacity: 0; transform: translateX(-50%) translateY(40px); } }
+  @keyframes vcShine { 0% { left: -200px; } 18%, 100% { left: calc(100% + 60px); } }
+  .noanim #vc * { animation: none !important; }
+</style>
+</head><body>
+<div id="stage"><div id="vc">
+  <img class="lg" id="lg" alt="">
+  <div class="tt" id="tt">Video Check</div>
+  <div class="mon"><video id="v" src="../media/videocheck.webm" autoplay muted loop playsinline></video></div>
+</div></div>
+<script>
+const L = HVL.get('logo', 'champ'), lg = HVL.$('#lg');
+lg.src = /^https?:|\//.test(L) ? L : `../logos/${/\.(png|jpe?g|webp|svg)$/i.test(L) ? L : L + '.png'}`;
+lg.onerror = () => lg.remove();
+HVL.$('#tt').textContent = HVL.get('title', 'Video Check');
+const v = HVL.$('#v'); v.play?.().catch(() => {});
+HVL.$('#vc').classList.add('go');
+</script>
+</body></html>
