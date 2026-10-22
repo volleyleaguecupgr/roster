@@ -36,6 +36,7 @@
 </div>
 <main class="wrap">
   <p class="hint" style="margin:0">Κάθε link προστίθεται ως Browser Source 1920×1080. Τα links της ομάδας βρίσκουν αυτόματα τον αγώνα της (live, σημερινό ή επόμενο).</p>
+  <p class="hint" style="margin:0">Πάντα με ενεργές τις ρυθμίσεις Τερματισμός λειτουργίας πηγής, όταν δεν είναι ορατή και Ανανέωση του προγράμματος περιήγησης, όταν η σκηνή γίνεται ενεργή.</p>
   <div id="out"></div>
 </main>
 <script>
@@ -79,7 +80,7 @@ async function loadRoster() {
   try {
     const j = await (await fetch(`${API}/api/${$('league').value}/roster?team=${$('team').value}`)).json();
     ROSTER = { players: (j.players || []).filter((p) => p.number != null).sort((a, b) => a.number - b.number), coach: j.headCoach };
-    $('msg').textContent = ROSTER.players.length ? '' : 'Το ρόστερ δεν βρέθηκε – χρησιμοποιήστε τον αριθμό φανέλας.';
+    $('msg').textContent = ROSTER.players.length ? '' : '';
   } catch (e) { $('msg').textContent = 'Το ρόστερ δεν φορτώθηκε (' + e.message + ').'; }
 }
 function render() {
