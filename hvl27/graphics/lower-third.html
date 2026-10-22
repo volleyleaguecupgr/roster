@@ -46,13 +46,17 @@ HVL.poll('match', 4, (d) => {
     : (d.state?.lowerThird || { show: false });
   if (!d.match || !sel.show) { LT.classList.add('hide'); shownKey = ''; return; }
   const team = sel.side === 'away' ? d.away : d.home;
-  const isCoach = String(sel.num) === '100' || /^coach$/i.test(sel.num || '');
-  const coach = team.coach || team.headCoach || (team.staff || [])[0];
+  // 100 = head coach, 101 = assistant coach (102 = second assistant …)
+  const n = String(sel.num), isCoach = /^10\d$/.test(n) || /^coach$/i.test(n);
+  const staff = team.staff || [], head = team.coach || team.headCoach || staff.find((x) => /head|πρώτος/i.test(x.role || '')) || staff[0];
+  const assists = staff.filter((x) => /assist|βοηθ|second|2nd/i.test(x.role || '') || (head && x.name && x.name !== head.name && /coach|προπον/i.test(x.role || '')));
+  const coach = n === '100' || /^coach$/i.test(n) ? head : assists[+n - 101];
+  const roleEl = n === '100' || /^coach$/i.test(n) ? 'Προπονητής' : 'Βοηθός προπονητή';
   const cParts = String(coach?.name || '').split(/\s+/), cLast = cParts.filter((w) => w === w.toUpperCase() && /\p{L}/u.test(w)).join(' ');
   const p = isCoach
-    ? (coach ? { name: coach.name, last: cLast || coach.name, first: cParts.filter((w) => !cLast.split(' ').includes(w)).join(' '), photo: coach.photo, number: '', position: { label: HVL.lang === 'el' ? 'Προπονητής' : (coach.role || 'Head coach') }, coach: true } : null)
+    ? (coach ? { name: coach.name, last: cLast || coach.name, first: cParts.filter((w) => !cLast.split(' ').includes(w)).join(' '), photo: coach.photo, number: '', position: { label: HVL.lang === 'el' ? roleEl : (coach.role || 'Coach') }, coach: true } : null)
     : (team.players || []).find((x) => (sel.pid && x.playerId == sel.pid) || (sel.num != null && sel.num !== '' && x.number == sel.num));
-  if (!p) { LT.classList.add('hide'); return HVL.msg(`player #${sel.num || sel.pid} not found in ${team.short}`); }
+  if (!p) { LT.classList.add('hide'); return HVL.msg(isCoach ? `${n === '100' ? 'head' : 'assistant'} coach not found for ${team.short}` : `player #${sel.num || sel.pid} not found in ${team.short}`); }
   const st = p.stats;
   const useStats = !p.coach && INFO === 'stats' || (INFO === 'auto' && st && st.played && d.match.status !== 'upcoming');
   const chips = useStats
