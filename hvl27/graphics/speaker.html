@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Commentator</title>
+<link rel="stylesheet" href="../css/cev.css">
+<script src="../js/config.js"></script>
+<script src="../js/core.js"></script>
+<style>
+  /* Bottom-right: «ΣΧΟΛΙΑΣΤΗΣ» + animated mic, name underneath.
+     ?name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ  · ?name2=… second commentator (title becomes ΣΧΟΛΙΑΣΤΕΣ) · ?title=… own title
+     ?pos=br (default) | bl · ?hold=10 hide after N seconds · ?noanim=1 */
+  #cm { position: absolute; right: 80px; bottom: 90px; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; color: #fff; font-family: var(--font, Averta, 'Saira', sans-serif); }
+  #cm.bl { right: auto; left: 80px; align-items: flex-start; }
+  .lab { height: 56px; padding: 0 30px 0 22px; display: flex; align-items: center; gap: 14px; background: linear-gradient(100deg, #99f5fd, #c4fbff); color: #242c3b;
+         font-weight: 900; font-style: italic; font-size: 26px; letter-spacing: 1.5px; text-transform: uppercase; clip-path: polygon(16px 0, 100% 0, calc(100% - 16px) 100%, 0 100%); }
+  .mic { width: 40px; height: 40px; flex: none; }
+  .mic .w { fill: none; stroke: #242c3b; stroke-width: 2.4; stroke-linecap: round; opacity: .15; animation: micW 1.4s ease-in-out infinite; }
+  .mic .w2 { animation-delay: .2s; } .mic .w3 { animation-delay: .4s; }
+  @keyframes micW { 0%, 100% { opacity: .12; } 40% { opacity: 1; } }
+  .nm { min-width: 380px; height: 76px; padding: 0 44px; display: grid; place-items: center; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(23,28,39,.97));
+        box-shadow: inset 0 -4px 0 #99f5fd; font-weight: 900; font-size: 38px; letter-spacing: .5px; text-transform: uppercase; white-space: nowrap;
+        clip-path: polygon(20px 0, 100% 0, calc(100% - 20px) 100%, 0 100%); }
+  #cm.go > * { animation: cmIn .6s cubic-bezier(.16, 1, .3, 1) both; } #cm.go > *:nth-child(2) { animation-delay: .1s; } #cm.go > *:nth-child(3) { animation-delay: .2s; }
+  #cm.out > * { animation: cmOut .45s cubic-bezier(.7, 0, .84, 0) both; }
+  @keyframes cmIn { from { opacity: 0; transform: translateX(60px) skewX(-8deg); } }
+  @keyframes cmOut { to { opacity: 0; transform: translateX(60px) skewX(-8deg); } }
+  #cm.bl.go > * { animation-name: cmInL; } @keyframes cmInL { from { opacity: 0; transform: translateX(-60px) skewX(-8deg); } }
+  .noanim #cm > *, .noanim .mic .w { animation: none !important; } .noanim .mic .w { opacity: 1; }
+</style>
+</head><body>
+<div id="stage"><div id="cm"></div></div>
+<script>
+const cm = HVL.$('#cm');
+if (HVL.get('pos') === 'bl') cm.classList.add('bl');
+const names = [HVL.get('name', ''), HVL.get('name2', '')].map((x) => x.trim()).filter(Boolean);
+const title = HVL.get('title') || (names.length > 1 ? 'Σχολιαστές' : 'Σχολιαστής');
+const mic = `<svg class="mic" viewBox="0 0 40 40" aria-hidden="true"><rect x="15" y="5" width="10" height="18" rx="5" fill="#242c3b"/><path d="M11 18a9 9 0 0 0 18 0M20 27v6M14 34h12" fill="none" stroke="#242c3b" stroke-width="2.6" stroke-linecap="round"/>
+  <path class="w" d="M31 13a8 8 0 0 1 0 10"/><path class="w w2" d="M34.5 10a13 13 0 0 1 0 16"/><path class="w w3" d="M9 13a8 8 0 0 0 0 10"/></svg>`;
+cm.innerHTML = `<div class="lab">${mic}<span>${HVL.esc(title)}</span></div>` + (names.length ? names.map((n) => `<div class="nm">${HVL.esc(n)}</div>`).join('') : '<div class="nm">ΟΝΟΜΑ ΣΧΟΛΙΑΣΤΗ</div>');
+cm.classList.add('go');
+const hold = +HVL.get('hold', 0);
+if (hold) setTimeout(() => { cm.classList.remove('go'); cm.classList.add('out'); }, hold * 1000);
+</script>
+</body></html>
