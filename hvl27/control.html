@@ -148,7 +148,11 @@ async function setBackup(on) {
     if (!$('vs').value) { status('Διαλέξτε Αντίπαλο για το backup.', 'err'); $('backup').checked = false; document.body.classList.remove('backup'); saveLocal(); return; }
     const s = S(); s.manual = true; await post({ score: s });
   } else {
-    await send({ backup: { active: false } }, true);   // both teams → graphics return to HVL
+    // both teams → graphics return to HVL; clear every operator sign (serve dot, set point / time out tags, manual score)
+    const s = { ...S(), manual: false, serve: null };
+    await send({ backup: { active: false }, score: s, flags: {} }, true);
+    state.score = s; state.flags = {};
+    await send({ score: s, flags: {} });
   }
   connect();
 }
