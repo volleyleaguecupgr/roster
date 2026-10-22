@@ -1,14 +1,11 @@
 <!doctype html>
 <html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Commentator</title>
+<title>Speaker</title>
 <link rel="stylesheet" href="../css/cev.css">
 <script src="../js/config.js"></script>
 <script src="../js/core.js"></script>
 <style>
-  /* Bottom-right: «ΣΧΟΛΙΑΣΤΗΣ» + animated mic, name underneath, championship logo (no box) on the outer side.
-     ?name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ · ?name2=… second commentator (title becomes ΣΧΟΛΙΑΣΤΕΣ) · ?title=… own title
-     ?pos=br (default) | bl · ?logo=champ (default, site/logos/champ.png) | 0 | file.png | https://… · ?hold=10 hide after N s · ?noanim=1 */
   :root { --aqua: #99f5fd; --ink: #242c3b; }
   #wrap { position: absolute; right: 80px; bottom: 90px; display: flex; align-items: center; gap: 26px; color: #fff; font-family: var(--font, Averta, 'Saira', sans-serif); }
   #wrap.bl { right: auto; left: 80px; flex-direction: row-reverse; }
@@ -65,13 +62,12 @@
 const cm = HVL.$('#cm'), wrap = HVL.$('#wrap');
 if (HVL.get('pos') === 'bl') wrap.classList.add('bl');
 const names = [HVL.get('name', ''), HVL.get('name2', '')].map((x) => x.trim()).filter(Boolean);
-const title = HVL.get('title') || (names.length > 1 ? 'Σχολιαστές' : 'Σχολιαστής');
+const title = HVL.get('title') || (names.length > 1 ? 'Σχολιαστές' : 'Περιγραφή');
 const mic = `<svg class="mic" viewBox="0 0 40 40" aria-hidden="true"><rect x="15" y="5" width="10" height="18" rx="5" fill="#242c3b"/><path d="M11 18a9 9 0 0 0 18 0M20 27v6M14 34h12" fill="none" stroke="#242c3b" stroke-width="2.6" stroke-linecap="round"/>
   <path class="w" d="M31 13a8 8 0 0 1 0 10"/><path class="w w2" d="M34.5 10a13 13 0 0 1 0 16"/><path class="w w3" d="M9 13a8 8 0 0 0 0 10"/></svg>`;
 const rows = [`<div class="bx lab" style="--i:0"><i class="ln"></i>${mic}<span>${HVL.esc(title)}</span></div>`,
   ...(names.length ? names : ['ΟΝΟΜΑ ΣΧΟΛΙΑΣΤΗ']).map((n, i) => `<div class="bx nm" style="--i:${i + 1}"><i class="ln"></i><i class="sh"></i><span>${HVL.esc(n)}</span></div>`)];
 cm.innerHTML = rows.join('');
-// championship logo, no box, on the outer side (right for pos=br)
 const LG = HVL.get('logo', 'champ');
 if (LG !== '0') {
   const im = new Image(); im.className = 'clg'; im.alt = '';
