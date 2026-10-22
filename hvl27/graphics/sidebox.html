@@ -9,16 +9,16 @@
   /* Right-side box over the camera picture.
      ?type=pre  (default) → PRE GAME: teams, date, time, venue
      ?type=post           → POST GAME: final score in sets + every set score
-     ?title=…  own title · ?w=720 box width · ?noanim=1 */
-  :root { --w: 720px; --aqua: #99f5fd; --ink: #242c3b; --slate: #242c3b; --slate2: #2f394b; }
+     ?title=…  own title · ?w=500 box width (380–900) · ?noanim=1 */
+  :root { --w: 500px; --k: .70; --aqua: #99f5fd; --ink: #242c3b; --slate: #242c3b; --slate2: #2f394b; }
   #side { position: absolute; top: 0; right: 0; bottom: 0; width: var(--w); overflow: hidden; color: #fff;
           font-family: var(--font, Averta, 'Saira', sans-serif); }
   #side .x-bg { position: absolute; inset: 0; background: #0c1323 url('../img/bg-novi.jpg') center / cover no-repeat;
-              clip-path: polygon(90px 0, 100% 0, 100% 100%, 0 100%); }
+              clip-path: polygon(60px 0, 100% 0, 100% 100%, 0 100%); }
   #side .x-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,19,35,.55), rgba(12,19,35,.15) 40%, rgba(12,19,35,.65)); }
-  #side .x-edge { position: absolute; top: -20px; bottom: -20px; left: 45px; width: 4px; background: linear-gradient(180deg, transparent, var(--aqua) 18%, #fff 50%, var(--aqua) 82%, transparent);
-                transform: skewX(-4.75deg); transform-origin: 0 100%; box-shadow: 0 0 18px 3px rgba(153,245,253,.55); }
-  #side .x-in { position: absolute; inset: 0 0 0 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 36px 60px; }
+  #side .x-edge { position: absolute; top: -20px; bottom: -20px; left: 30px; width: 4px; background: linear-gradient(180deg, transparent, var(--aqua) 18%, #fff 50%, var(--aqua) 82%, transparent);
+                transform: skewX(-3.17deg); transform-origin: 0 100%; box-shadow: 0 0 18px 3px rgba(153,245,253,.55); }
+  #side .x-in { position: absolute; left: 60px; top: 0; width: 630px; height: calc(1080px / var(--k)); transform: scale(var(--k)); transform-origin: 0 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 36px 60px; }
   .x-lg { height: 104px; width: auto; object-fit: contain; }
   .x-tt { margin-top: 26px; height: 76px; padding: 0 56px; display: grid; place-items: center; background: linear-gradient(100deg, #99f5fd, #c4fbff); color: var(--ink);
         font-weight: 900; font-style: italic; font-size: 46px; letter-spacing: 1px; text-transform: uppercase; clip-path: polygon(20px 0, 100% 0, calc(100% - 20px) 100%, 0 100%); white-space: nowrap; }
@@ -60,7 +60,8 @@
 <div id="stage"><div id="side"></div></div>
 <script>
 const POST = HVL.get('type', 'pre') === 'post';
-if (HVL.get('w')) document.documentElement.style.setProperty('--w', +HVL.get('w') + 'px');
+{ const w = Math.max(380, Math.min(900, +HVL.get('w', 500) || 500));   // ?w=… box width in px (content scales with it)
+  document.documentElement.style.setProperty('--w', w + 'px'); document.documentElement.style.setProperty('--k', ((w - 60) / 630).toFixed(4)); }
 const SIDE = HVL.$('#side');
 const LOGO = { hvl: 'league', cup: 'leaguecup', supercup: 'supercup' }[HVL.league] || 'league';
 // team names: up to 2 lines, both the same size

@@ -6,39 +6,81 @@
 <script src="../js/config.js"></script>
 <script src="../js/core.js"></script>
 <style>
-  /* Bottom-right: «ΣΧΟΛΙΑΣΤΗΣ» + animated mic, name underneath.
-     ?name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ  · ?name2=… second commentator (title becomes ΣΧΟΛΙΑΣΤΕΣ) · ?title=… own title
-     ?pos=br (default) | bl · ?hold=10 hide after N seconds · ?noanim=1 */
-  #cm { position: absolute; right: 80px; bottom: 90px; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; color: #fff; font-family: var(--font, Averta, 'Saira', sans-serif); }
-  #cm.bl { right: auto; left: 80px; align-items: flex-start; }
-  .lab { height: 56px; padding: 0 30px 0 22px; display: flex; align-items: center; gap: 14px; background: linear-gradient(100deg, #99f5fd, #c4fbff); color: #242c3b;
-         font-weight: 900; font-style: italic; font-size: 26px; letter-spacing: 1.5px; text-transform: uppercase; clip-path: polygon(16px 0, 100% 0, calc(100% - 16px) 100%, 0 100%); }
+  /* Bottom-right: «ΣΧΟΛΙΑΣΤΗΣ» + animated mic, name underneath, championship logo (no box) on the outer side.
+     ?name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ · ?name2=… second commentator (title becomes ΣΧΟΛΙΑΣΤΕΣ) · ?title=… own title
+     ?pos=br (default) | bl · ?logo=champ (default, site/logos/champ.png) | 0 | file.png | https://… · ?hold=10 hide after N s · ?noanim=1 */
+  :root { --aqua: #99f5fd; --ink: #242c3b; }
+  #wrap { position: absolute; right: 80px; bottom: 90px; display: flex; align-items: center; gap: 26px; color: #fff; font-family: var(--font, Averta, 'Saira', sans-serif); }
+  #wrap.bl { right: auto; left: 80px; flex-direction: row-reverse; }
+  #cm { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  #wrap.bl #cm { align-items: flex-start; }
+  .clg { height: 150px; width: auto; max-width: 260px; object-fit: contain; filter: drop-shadow(0 6px 18px rgba(0,0,0,.45)); }
+
+  .bx { position: relative; overflow: hidden; display: flex; align-items: center; --cut: 18px; clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); }
+  .lab { height: 56px; padding: 0 32px 0 24px; gap: 14px; background: linear-gradient(100deg, #99f5fd, #c4fbff); color: var(--ink);
+         font-weight: 900; font-style: italic; font-size: 26px; letter-spacing: 1.5px; text-transform: uppercase; --cut: 16px; }
+  .nm { min-width: 380px; height: 78px; padding: 0 46px; justify-content: center; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(23,28,39,.97));
+        box-shadow: inset 0 -4px 0 var(--aqua); font-weight: 900; font-size: 38px; letter-spacing: .5px; text-transform: uppercase; white-space: nowrap; --cut: 20px; }
   .mic { width: 40px; height: 40px; flex: none; }
-  .mic .w { fill: none; stroke: #242c3b; stroke-width: 2.4; stroke-linecap: round; opacity: .15; animation: micW 1.4s ease-in-out infinite; }
-  .mic .w2 { animation-delay: .2s; } .mic .w3 { animation-delay: .4s; }
+  .mic .w { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; opacity: .12; animation: micW 1.4s ease-in-out infinite; }
+  .mic .w2 { animation-delay: .18s; } .mic .w3 { animation-delay: .36s; }
   @keyframes micW { 0%, 100% { opacity: .12; } 40% { opacity: 1; } }
-  .nm { min-width: 380px; height: 76px; padding: 0 44px; display: grid; place-items: center; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(23,28,39,.97));
-        box-shadow: inset 0 -4px 0 #99f5fd; font-weight: 900; font-size: 38px; letter-spacing: .5px; text-transform: uppercase; white-space: nowrap;
-        clip-path: polygon(20px 0, 100% 0, calc(100% - 20px) 100%, 0 100%); }
-  #cm.go > * { animation: cmIn .6s cubic-bezier(.16, 1, .3, 1) both; } #cm.go > *:nth-child(2) { animation-delay: .1s; } #cm.go > *:nth-child(3) { animation-delay: .2s; }
-  #cm.out > * { animation: cmOut .45s cubic-bezier(.7, 0, .84, 0) both; }
-  @keyframes cmIn { from { opacity: 0; transform: translateX(60px) skewX(-8deg); } }
-  @keyframes cmOut { to { opacity: 0; transform: translateX(60px) skewX(-8deg); } }
-  #cm.bl.go > * { animation-name: cmInL; } @keyframes cmInL { from { opacity: 0; transform: translateX(-60px) skewX(-8deg); } }
-  .noanim #cm > *, .noanim .mic .w { animation: none !important; } .noanim .mic .w { opacity: 1; }
+
+  /* light bar that runs along the reveal edge, and a soft shine that passes every few seconds */
+  .bx > .ln { position: absolute; top: -10%; bottom: -10%; width: 10px; left: 100%; background: #fff; box-shadow: 0 0 22px 8px rgba(153,245,253,.85); transform: skewX(-14deg); pointer-events: none; opacity: 0; }
+  .bx > .sh { position: absolute; top: 0; bottom: 0; width: 120px; left: -160px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent); transform: skewX(-20deg); pointer-events: none; }
+  .bx > span, .bx > svg { position: relative; z-index: 1; }
+
+  /* ---- entrance: logo pops, boxes wipe open from the logo side behind a light bar, text settles ---- */
+  #wrap.go .clg { animation: lgIn .8s cubic-bezier(.34, 1.56, .64, 1) both; }
+  #wrap.go .bx { animation: wipeR .55s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(.18s + var(--i) * .12s); }
+  #wrap.go .bx > .ln { animation: lnR .55s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(.18s + var(--i) * .12s); }
+  #wrap.go .bx > span, #wrap.go .bx > svg { animation: txIn .5s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(.38s + var(--i) * .12s); }
+  #wrap.go .nm > .sh { animation: shine 7s 1.4s ease-in-out infinite; }
+  @keyframes lgIn { 0% { opacity: 0; transform: scale(.6) rotate(-6deg); filter: blur(6px) drop-shadow(0 0 0 rgba(153,245,253,0)); }
+                    60% { opacity: 1; filter: blur(0) drop-shadow(0 0 26px rgba(153,245,253,.9)); }
+                    100% { transform: none; filter: drop-shadow(0 6px 18px rgba(0,0,0,.45)); } }
+  @keyframes wipeR { from { clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); } to { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); } }
+  @keyframes lnR { 0% { left: 100%; opacity: 1; } 85% { opacity: 1; } 100% { left: -12px; opacity: 0; } }
+  @keyframes txIn { from { opacity: 0; transform: translateX(24px); } }
+  @keyframes shine { 0% { left: -160px; } 14%, 100% { left: calc(100% + 40px); } }
+  /* mirrored for ?pos=bl */
+  #wrap.bl.go .bx { animation-name: wipeL; } #wrap.bl.go .bx > .ln { animation-name: lnL; } #wrap.bl.go .bx > span, #wrap.bl.go .bx > svg { animation-name: txInL; }
+  @keyframes wipeL { from { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); } to { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); } }
+  @keyframes lnL { 0% { left: -12px; opacity: 1; } 85% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+  @keyframes txInL { from { opacity: 0; transform: translateX(-24px); } }
+
+  /* ---- exit (?hold=N) ---- */
+  #wrap.out .bx { animation: wipeOut .4s cubic-bezier(.7, 0, .84, 0) both; animation-delay: calc((1 - var(--i)) * .08s); }
+  #wrap.out .clg { animation: lgOut .4s cubic-bezier(.7, 0, .84, 0) .15s both; }
+  @keyframes wipeOut { to { clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); } }
+  #wrap.bl.out .bx { animation-name: wipeOutL; } @keyframes wipeOutL { to { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); } }
+  @keyframes lgOut { to { opacity: 0; transform: scale(.7); } }
+
+  .noanim #wrap *, .noanim #wrap { animation: none !important; } .noanim .bx > .ln { display: none; } .noanim .mic .w { opacity: 1; }
 </style>
 </head><body>
-<div id="stage"><div id="cm"></div></div>
+<div id="stage"><div id="wrap"><div id="cm"></div></div></div>
 <script>
-const cm = HVL.$('#cm');
-if (HVL.get('pos') === 'bl') cm.classList.add('bl');
+const cm = HVL.$('#cm'), wrap = HVL.$('#wrap');
+if (HVL.get('pos') === 'bl') wrap.classList.add('bl');
 const names = [HVL.get('name', ''), HVL.get('name2', '')].map((x) => x.trim()).filter(Boolean);
 const title = HVL.get('title') || (names.length > 1 ? 'Σχολιαστές' : 'Σχολιαστής');
 const mic = `<svg class="mic" viewBox="0 0 40 40" aria-hidden="true"><rect x="15" y="5" width="10" height="18" rx="5" fill="#242c3b"/><path d="M11 18a9 9 0 0 0 18 0M20 27v6M14 34h12" fill="none" stroke="#242c3b" stroke-width="2.6" stroke-linecap="round"/>
   <path class="w" d="M31 13a8 8 0 0 1 0 10"/><path class="w w2" d="M34.5 10a13 13 0 0 1 0 16"/><path class="w w3" d="M9 13a8 8 0 0 0 0 10"/></svg>`;
-cm.innerHTML = `<div class="lab">${mic}<span>${HVL.esc(title)}</span></div>` + (names.length ? names.map((n) => `<div class="nm">${HVL.esc(n)}</div>`).join('') : '<div class="nm">ΟΝΟΜΑ ΣΧΟΛΙΑΣΤΗ</div>');
-cm.classList.add('go');
+const rows = [`<div class="bx lab" style="--i:0"><i class="ln"></i>${mic}<span>${HVL.esc(title)}</span></div>`,
+  ...(names.length ? names : ['ΟΝΟΜΑ ΣΧΟΛΙΑΣΤΗ']).map((n, i) => `<div class="bx nm" style="--i:${i + 1}"><i class="ln"></i><i class="sh"></i><span>${HVL.esc(n)}</span></div>`)];
+cm.innerHTML = rows.join('');
+// championship logo, no box, on the outer side (right for pos=br)
+const LG = HVL.get('logo', 'champ');
+if (LG !== '0') {
+  const im = new Image(); im.className = 'clg'; im.alt = '';
+  im.src = /^https?:|\//.test(LG) ? LG : `../logos/${/\.(png|jpe?g|webp|svg)$/i.test(LG) ? LG : LG + '.png'}`;
+  im.onerror = () => im.remove();
+  wrap.appendChild(im);
+}
+wrap.classList.add('go');
 const hold = +HVL.get('hold', 0);
-if (hold) setTimeout(() => { cm.classList.remove('go'); cm.classList.add('out'); }, hold * 1000);
+if (hold) setTimeout(() => { wrap.classList.remove('go'); wrap.classList.add('out'); }, hold * 1000);
 </script>
 </body></html>
