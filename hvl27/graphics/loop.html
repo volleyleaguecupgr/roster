@@ -3,11 +3,6 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Graphics loop</title>
 <style>
-  /* One Browser Source that plays several graphics one after the other, then starts again.
-     ?items=org,champ,intro,schedule,results,standings,h2h,roster,rosteropp,referees,speaker   (order = play order)
-     ?set=all | fixed | game  (ready-made lists, used when ?items is not given)
-     ?dur=10   seconds per graphic (or per item: speaker:6)   ?fade=0.6   ?once=1 stop at the end
-     Every other parameter (team, league, name, …) is passed to each graphic. */
   html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: transparent; }
   iframe { position: absolute; inset: 0; width: 1920px; height: 1080px; border: 0; background: transparent; opacity: 0; transition: opacity var(--fade, .6s) ease; pointer-events: none; }
   iframe.on { opacity: 1; }
@@ -21,7 +16,7 @@ const ITEMS = {
   org: ['static', 'logo=org'], champ: ['static', 'logo=champ'], intro: ['next-match', ''], announcement: ['next-match', ''],
   schedule: ['schedule', ''], results: ['results', ''], standings: ['standings', ''], leaders: ['leaders', ''],
   h2h: ['h2h', ''], history: ['h2h', ''], teamscomparison: ['team-compare', ''], roster: ['roster', ''], rosteropp: ['roster', 'opp=1'],
-  coaches: ['coaches', ''], referees: ['referees', ''], speaker: ['commentator', ''], commentator: ['commentator', ''],
+  coaches: ['coaches', ''], referees: ['referees', ''], speaker: ['speaker', ''],
   pregame: ['sidebox', 'type=pre'], postgame: ['sidebox', 'type=post'], result: ['result', ''], stats: ['stats', ''], topplayers: ['top-players', ''],
   videocheck: ['videocheck', ''], startingsix: ['starting-six', ''],
 };
