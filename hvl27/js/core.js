@@ -151,10 +151,19 @@
     requestAnimationFrame(() => wrap.classList.add('go'));
     setTimeout(() => wrap.remove(), (dur + BAR_W.length * 0.025 + .2) * 1000);
   };
+  /** keep a centred card (#box: left 50% + translateX(-50%)) inside 1920×1080: shrink it from the top centre when it is too tall or too wide */
+  HVL.fitScreen = (el, margin = 36) => {
+    if (!el || el.id !== 'box') return;
+    el.style.transform = ''; el.style.transformOrigin = '';
+    const top = el.offsetTop, h = el.scrollHeight, w = el.offsetWidth;
+    const k = Math.min(1, (1080 - margin - Math.max(0, top)) / Math.max(1, h), (1920 - 2 * margin) / Math.max(1, w));
+    if (k < 0.999) { el.style.transformOrigin = '50% 0'; el.style.transform = `translateX(-50%) scale(${k.toFixed(4)})`; }
+  };
   HVL.animate = (el, first = true) => {
     if (!el) return;
-    HVL.fit(el);
-    if (document.fonts?.ready) document.fonts.ready.then(() => HVL.fit(el));
+    HVL.fit(el); HVL.fitScreen(el);
+    if (document.fonts?.ready) document.fonts.ready.then(() => { HVL.fit(el); HVL.fitScreen(el); });
+    el.querySelectorAll('img').forEach((im) => { if (!im.complete) im.addEventListener('load', () => HVL.fitScreen(el), { once: true }); });
     if (first) HVL.countUp(el);
     // slanted-bar sweep only on final score + team stats (or ?sweep=1); every other card slides in like the referees boxes
     if (first && THEME === 'novi' && el.id === 'box' && (get('sweep') === '1' || (get('sweep') !== '0' && /\/(result|stats)\.html/.test(location.pathname)))) HVL.sweep(el);
