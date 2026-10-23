@@ -127,3 +127,7 @@ body.debug #msg:not(:empty) { display: block; }
 
 .ord { text-transform: none; }
 .fit { white-space: nowrap; overflow: hidden; text-overflow: clip; }
+
+/* no player photo → league logo on navy (core.js HVL.noPhoto) */
+img.np-logo { object-fit: contain !important; object-position: 50% 50% !important; padding: 16%; box-sizing: border-box;
+  background: radial-gradient(circle at 50% 38%, #3a475f 0%, #242c3b 70%); }
