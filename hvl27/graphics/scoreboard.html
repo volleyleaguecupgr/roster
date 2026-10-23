@@ -17,8 +17,11 @@
   .team .logo { width: 66px; height: 66px; }
   .team .logo.fallback { font-size: 18px; }
   .team .nm { padding-left: 16px; font-weight: 800; font-size: 32px; text-transform: uppercase; }
-  .serve { width: 16px; height: 16px; border-radius: 50%; background: #ffd400; box-shadow: 0 0 10px #ffd400; justify-self: center; opacity: 0; transition: opacity .3s; }
-  .serve.on { opacity: 1; }
+  /* serve: the ball from the league logo (site/logos/ball.png); yellow dot if the file is missing */
+  .serve { width: 24px; height: 24px; justify-self: center; opacity: 0; transform: scale(.4) rotate(-90deg); transition: opacity .3s, transform .45s cubic-bezier(.34, 1.56, .64, 1);
+           background: url(../logos/ball.png) center / contain no-repeat; filter: drop-shadow(0 0 6px rgba(153,245,253,.9)); }
+  .serve.on { opacity: 1; transform: none; }
+  .serve.dot { width: 16px; height: 16px; border-radius: 50%; background: #ffd400; box-shadow: 0 0 10px #ffd400; filter: none; }
   .parts { display: flex; gap: 4px; padding-right: 8px; }
   .parts span { width: 44px; text-align: center; font-weight: 600; font-size: 24px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .parts span.w { color: #fff; font-weight: 800; }
@@ -48,6 +51,7 @@ SB.style.setProperty('--k', +HVL.get('scale', .8) || .8);
 const NAMES = HVL.get('names', 'long');
 const showParts = HVL.get('partials', '0') === '1';
 let prev = {};
+let BALL = true; { const t = new Image(); t.onerror = () => { BALL = false; SB.querySelectorAll('.serve').forEach((e) => e.classList.add('dot')); }; t.src = '../logos/ball.png'; }
 HVL.poll('match', 3, (d, first) => {
   if (!d.match) { SB.innerHTML = ''; return HVL.msg(d.message); }
   const m = d.match, s = HVL.scoreState(d);
@@ -59,7 +63,7 @@ HVL.poll('match', 3, (d, first) => {
   const row = (t, side) => `
     <div class="team">
       ${HVL.logo(t)}<div class="nm fit">${HVL.esc(nm(t))}</div>
-      <div class="serve ${s.serve === side ? 'on' : ''}"></div>
+      <div class="serve ${BALL ? '' : 'dot'} ${s.serve === side ? 'on' : ''}"></div>
       ${parts(side === 'home' ? 'h' : 'a')}
       <div class="sets" data-k="${side}s">${side === 'home' ? s.setsH : s.setsA}</div>
       <div class="pts ${live && (side === 'home' ? s.h > s.a : s.a > s.h) ? 'lead' : ''}" data-k="${side}p">${live ? (side === 'home' ? s.h : s.a) : ''}</div>
