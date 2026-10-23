@@ -52,7 +52,11 @@ HVL.poll('match', 30, (d, first) => {
     ${PHOTOS
       ? `<div class="cards">${pl.slice(0, 14).map((p) => `<div class="card">${HVL.photo(p)}<div class="no">${p.number ?? ''}</div><div class="cap"><b>${HVL.esc(p.last || p.name)}</b><span>${HVL.esc(p.first || '')}${p.position ? ' · ' + p.position.code : ''}</span></div></div>`).join('')}</div>`
       : `<div class="grid anim">${pl.slice(0, 20).map((p) => `<div class="pr ${p.position?.code === 'L' ? 'lib' : ''}"><div class="n">${p.number ?? ''}</div><div class="pn fit"><b>${HVL.esc(p.last || p.name)}</b> <span>${HVL.esc(p.first || '')}</span></div><div class="ps">${p.position?.code || ''}${p.height ? ' · ' + p.height : ''}</div></div>`).join('')}</div>`}`;
-  const coaches = (t.staff || []).filter((x) => /coach|προπον/i.test(x.role || '')).slice(0, 4);
+  // head coach + the first assistant only (some teams list 2nd/3rd assistants too)
+  const st = t.staff || [], isAsst = (x) => /assist|βοηθ/i.test(x.role || ''), is2nd = (x) => /2nd|second|3rd|δεύτερ|τρίτ|β΄/i.test(x.role || '');
+  const headC = (t.coach && t.coach.name ? t.coach : null) || st.find((x) => /head|πρώτος|^coach$|^προπονητής$/i.test(x.role || '')) || st.find((x) => /coach|προπον/i.test(x.role || '') && !isAsst(x));
+  const asst = st.filter(isAsst).sort((a, b) => is2nd(a) - is2nd(b))[0];
+  const coaches = [headC, asst].filter((x) => x && x.name).map((x) => ({ ...x, role: x === headC ? (HVL.lang === 'el' ? 'Προπονητής' : 'Head coach') : (HVL.lang === 'el' ? 'Βοηθός προπονητή' : 'Assistant coach') }));
   if (HVL.get('staff') !== '0' && coaches.length) {
     box.querySelector('.head .cm')?.remove();
     box.insertAdjacentHTML('beforeend', `<div class="staff anim">${coaches.map((c) => `<div class="stf"><span>${HVL.esc(c.role)}</span><b>${HVL.esc(c.name)}</b></div>`).join('')}</div>`);

@@ -46,11 +46,12 @@ HVL.poll('match', 4, (d) => {
     : (d.state?.lowerThird || { show: false });
   if (!d.match || !sel.show) { LT.classList.add('hide'); shownKey = ''; return; }
   const team = sel.side === 'away' ? d.away : d.home;
-  // 100 = head coach, 101 = assistant coach (102 = second assistant …)
-  const n = String(sel.num), isCoach = /^10\d$/.test(n) || /^coach$/i.test(n);
-  const staff = team.staff || [], head = team.coach || team.headCoach || staff.find((x) => /head|πρώτος/i.test(x.role || '')) || staff[0];
-  const assists = staff.filter((x) => /assist|βοηθ|second|2nd/i.test(x.role || '') || (head && x.name && x.name !== head.name && /coach|προπον/i.test(x.role || '')));
-  const coach = n === '100' || /^coach$/i.test(n) ? head : assists[+n - 101];
+  // 100 = head coach, 101 = assistant coach (the first one listed; 2nd/3rd assistants are ignored)
+  const n = String(sel.num), isCoach = n === '100' || n === '101' || /^coach$/i.test(n);
+  const staff = team.staff || [], isAsst = (x) => /assist|βοηθ/i.test(x.role || ''), is2nd = (x) => /2nd|second|3rd|δεύτερ|τρίτ/i.test(x.role || '');
+  const head = (team.coach && team.coach.name ? team.coach : null) || staff.find((x) => /head|πρώτος/i.test(x.role || '')) || staff.find((x) => !isAsst(x) && /coach|προπον/i.test(x.role || ''));
+  const asst = staff.filter(isAsst).sort((a, b) => is2nd(a) - is2nd(b))[0];
+  const coach = n === '101' ? asst : head;
   const roleEl = n === '100' || /^coach$/i.test(n) ? 'Προπονητής' : 'Βοηθός προπονητή';
   const cParts = String(coach?.name || '').split(/\s+/), cLast = cParts.filter((w) => w === w.toUpperCase() && /\p{L}/u.test(w)).join(' ');
   const p = isCoach
