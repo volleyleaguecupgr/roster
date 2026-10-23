@@ -253,7 +253,7 @@
       return { manual: true, setsH: +man.setsH || 0, setsA: +man.setsA || 0, h: +man.h || 0, a: +man.a || 0, set: (+man.setsH || 0) + (+man.setsA || 0) + 1, serve: man.serve || null, sets: man.sets || m.sets || [] };
     }
     const cur = m.current || { set: (m.sets?.length || 0) + 1, h: 0, a: 0 };
-    return { manual: false, setsH: m.setsHome || 0, setsA: m.setsAway || 0, h: cur.h, a: cur.a, set: cur.set, serve: d.state?.score?.serve || null, sets: m.sets || [] };
+    return { manual: false, setsH: m.setsHome || 0, setsA: m.setsAway || 0, h: cur.h, a: cur.a, set: cur.set, serve: d.state?.score?.serve || cur.serve || null, sets: m.sets || [] };
   };
 
   /** Which side is the "selected" team (for single-team graphics). ?side=home|away overrides. */
