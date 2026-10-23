@@ -92,7 +92,30 @@
   HVL.photo = (p, cls = 'photo') => {
     const init = HVL.esc(((p?.last || p?.name || '?')[0] || '?') + (p?.first?.[0] || ''));
     if (!p?.photo) return `<div class="${cls} nophoto">${init}</div>`;
-    return `<div class="${cls}" data-init="${init}"><img src="${HVL.esc(p.photo)}" alt="" onerror="this.parentNode.classList.add('nophoto');this.parentNode.textContent=this.parentNode.dataset.init"></div>`;
+    return `<div class="${cls}" data-init="${init}"><img src="${HVL.esc(p.photo)}" alt="" onerror="HVL.noPhoto(this)"></div>`;
+  };
+  /* Players/coaches without a photo: Data Project serves a grey "no photo" picture (or nothing) → show the league logo instead.
+     ?nophoto=initials keeps the old initials · ?nophoto=<file.png> another logo from site/logos/ */
+  const NOPH = get('nophoto', 'league');
+  HVL.noPhotoSrc = () => `${HVL.root}logos/${/\.(png|jpe?g|webp|svg)$/i.test(NOPH) ? NOPH : NOPH + '.png'}`;
+  HVL.noPhoto = (img) => {
+    const box = img.parentNode; if (!box) return;
+    const initials = () => { box.classList.add('nophoto'); img.replaceWith(box.dataset.init || box.dataset.i || ''); };
+    if (NOPH === 'initials' || img.dataset.np) return initials();
+    img.dataset.np = '1'; img.onerror = initials;
+    img.classList.add('np-logo'); box.classList.add('np');
+    img.src = HVL.noPhotoSrc();
+  };
+  const PHOTO_OK = {};
+  HVL.checkPhotos = (root = document) => {
+    if (!HVL.api || NOPH === 'initials') return;
+    root.querySelectorAll('img').forEach((img) => {
+      const u = img.getAttribute('src') || '';
+      if (img.dataset.np || img.dataset.pc || !/images\.dataproject\.com\/.*\/Team(Player|Coach)_/.test(u)) return;
+      img.dataset.pc = '1';
+      const q = PHOTO_OK[u] || (PHOTO_OK[u] = fetch(`${HVL.api}/photo?url=${encodeURIComponent(u)}`).then((r) => r.json()).catch(() => ({})));
+      q.then((j) => { if (j.placeholder && img.isConnected) HVL.noPhoto(img); });
+    });
   };
   HVL.teamName = (t) => t?.name || t?.short || '';   // always the full (mapped) name
   HVL.dateLong = (iso) => {
@@ -161,7 +184,7 @@
   };
   HVL.animate = (el, first = true) => {
     if (!el) return;
-    HVL.fit(el); HVL.fitScreen(el);
+    HVL.fit(el); HVL.fitScreen(el); HVL.checkPhotos(el);
     if (document.fonts?.ready) document.fonts.ready.then(() => { HVL.fit(el); HVL.fitScreen(el); });
     el.querySelectorAll('img').forEach((im) => { if (!im.complete) im.addEventListener('load', () => HVL.fitScreen(el), { once: true }); });
     if (first) HVL.countUp(el);
@@ -253,7 +276,7 @@
       return { manual: true, setsH: +man.setsH || 0, setsA: +man.setsA || 0, h: +man.h || 0, a: +man.a || 0, set: (+man.setsH || 0) + (+man.setsA || 0) + 1, serve: man.serve || null, sets: man.sets || m.sets || [] };
     }
     const cur = m.current || { set: (m.sets?.length || 0) + 1, h: 0, a: 0 };
-    return { manual: false, setsH: m.setsHome || 0, setsA: m.setsAway || 0, h: cur.h, a: cur.a, set: cur.set, serve: d.state?.score?.serve || cur.serve || null, sets: m.sets || [] };
+    return { manual: false, setsH: m.setsHome || 0, setsA: m.setsAway || 0, h: cur.h, a: cur.a, set: cur.set, serve: cur.serve || d.state?.score?.serve || null, sets: m.sets || [] };
   };
 
   /** Which side is the "selected" team (for single-team graphics). ?side=home|away overrides. */
