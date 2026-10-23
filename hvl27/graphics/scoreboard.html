@@ -79,13 +79,22 @@ HVL.poll('match', 3, (d, first) => {
 // event tags: set point / match point stay until switched off; time out and challenge hide by themselves
 let LAST = null;
 const FLAG = { setpoint: ['Set point', ''], matchpoint: ['Match point', ''], timeout: ['Time out', 'white', +HVL.get('tto', 30)], challenge: ['Challenge', 'white', +HVL.get('chl', 60)] };
+// automatic tags from the live feed (time out / video check of a team), unless the operator set one for that side. ?auto=0 turns them off
+const SEEN = {};
+function autoFlag(side) {
+  if (HVL.get('auto') === '0' || !LAST) return null;
+  const e = LAST.match?.current?.event;
+  if (!e || e.side !== side || HVL.scoreState(LAST).manual) return null;
+  const k = e.type + ':' + e.id; if (!SEEN[k]) SEEN[k] = Date.now();
+  return { type: e.type, t: SEEN[k] };
+}
 function flags() {
   const f = LAST?.state?.flags || {};
   const rows = SB.querySelectorAll('.team');
   SB.querySelectorAll('.flag').forEach((el) => {
     const r = rows[el.dataset.side === 'home' ? 0 : 1];
     if (r) { el.style.left = (r.offsetLeft + r.offsetWidth + 10) + 'px'; el.style.top = (r.offsetTop + (r.offsetHeight - 50) / 2) + 'px'; }
-    const x = f[el.dataset.side], def = x && FLAG[x.type];
+    const x = f[el.dataset.side] || autoFlag(el.dataset.side), def = x && FLAG[x.type];
     const on = !!def && (!def[2] || !x.t || Date.now() - x.t < def[2] * 1000);
     if (on) { el.textContent = def[0]; el.className = 'flag on ' + def[1]; } else el.classList.remove('on');
   });

@@ -34,7 +34,7 @@ const card = (t) => {
   const nm = split(head.name);
   const asst = staff.filter((x) => x !== head && /coach|προπον/i.test(x.role || ''));
   return `<div class="coach">
-    <div class="ph2 ${head.photo ? '' : 'nophoto'}" data-i="${HVL.esc(nm.last[0] || '')}">${head.photo ? `<img src="${HVL.esc(head.photo)}" onerror="this.parentNode.classList.add('nophoto');this.replaceWith(this.parentNode.dataset.i)">` : HVL.esc(nm.last[0] || '')}</div>
+    <div class="ph2 ${head.photo ? '' : 'nophoto'}" data-i="${HVL.esc(nm.last[0] || '')}">${head.photo ? `<img src="${HVL.esc(head.photo)}" onerror="HVL.noPhoto(this)">` : HVL.esc(nm.last[0] || '')}</div>
     <div class="tm">${HVL.logo(t)}<span class="fit">${HVL.esc(t.short)}</span></div>
     <div class="cn"><b class="fit">${HVL.esc(nm.last)}</b><span>${HVL.esc(nm.first)}</span></div>
     <div class="cr">${HVL.lang === 'el' ? 'Προπονητής' : 'Head coach'}</div>

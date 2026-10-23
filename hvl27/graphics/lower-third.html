@@ -65,14 +65,14 @@ HVL.poll('match', 4, (d) => {
     : p.coach ? [] : [[p.height ? p.height + '' : null, HVL.t('cm')], [p.born, HVL.t('born')]].filter((c) => c[0]);
   const key = `${team.id}:${p.playerId || p.number}`;
   LT.innerHTML = `
-    <div class="ph ${p.photo ? '' : 'nophoto'}" data-init="${HVL.esc((p.last || p.name || '?')[0])}">${p.photo ? `<img src="${HVL.esc(p.photo)}" alt="" onerror="const b=this.parentNode;b.classList.add('nophoto');this.replaceWith(b.dataset.init)">` : HVL.esc((p.last || '?')[0])}<div class="tlogo">${HVL.logo(team)}</div></div>
+    <div class="ph ${p.photo ? '' : 'np'}" data-init="${HVL.esc((p.last || p.name || '?')[0])}"><img src="${HVL.esc(p.photo || HVL.noPhotoSrc())}" alt="" ${p.photo ? 'onerror="HVL.noPhoto(this)"' : 'class="np-logo" data-np="1" onerror="HVL.noPhoto(this)"'}><div class="tlogo">${HVL.logo(team)}</div></div>
     <div class="info">
       <div class="namerow">${p.coach ? '' : `<div class="num">${p.number ?? ''}</div>`}
         <div class="nm fit"><span class="last">${HVL.esc(p.last || p.name)}</span><span class="first">${HVL.esc(p.first || '')}</span></div></div>
       <div class="sub"><div class="tagp">${HVL.esc(team.short)}${p.position ? ' · ' + HVL.esc(p.position.label) : ''}</div></div>
       ${chips.length ? `<div class="sub chips">${chips.map(([v, l, hi]) => `<div class="chip ${hi ? 'hi' : ''}"><b>${v ?? 0}</b><span>${l}</span></div>`).join('')}</div>` : ''}
     </div>`;
-  HVL.fit(LT);
+  HVL.fit(LT); HVL.checkPhotos(LT);
   if (key !== shownKey) {
     shownKey = key;
     LT.classList.add('hide'); void LT.offsetWidth; LT.classList.remove('hide');
