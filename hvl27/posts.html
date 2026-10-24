@@ -366,12 +366,12 @@ const bars = () => ''; const _unusedBars = () => `<div class="bars" style="--bar
 
 /** league logo in the top-left corner (list posts) */
 function topLogo(L) {
-  const lf = LOGO_FILE[$('leaguepng').value]; if (!lf) return '';
+  const lf = LOGO_FILE[$('league').value]; if (!lf) return '';
   const h = L.fmt === 'story' ? 170 : L.fmt === 'wide' ? 120 : L.fmt === 'square' ? 104 : 124, y = L.fmt === 'story' ? 60 : 24;
   return `<img class="lgTL" src="logos/${lf}.png" style="left:${L.fmt === 'story' ? 40 : 28}px;top:${y}px;height:${h}px" onerror="this.remove()">`;
 }
 function header(title, sub, noLogo) {
-  const lf = noLogo ? '' : LOGO_FILE[$('leaguepng').value];
+  const lf = noLogo ? '' : LOGO_FILE[$('league').value];
   return `<div class="hdr"><div class="lg">${lf ? `<img src="logos/${lf}.png" onerror="this.remove()">` : ''}</div>
     <div class="tt par">${HVL.esc(title)}</div><div class="st par">${HVL.esc(sub)}</div></div>`;
 }
@@ -677,7 +677,7 @@ function renderFinal(post, fmt, comp) {
     story:  { lgT: 150, lgH: 340, meta: 510, metaFs: 30, pill: 600, pillH: 76, pillFs: 44, dgT: 712, dgFs: 280, dgX: 190, dash: [84, 16], setT: 1000, chipH: 76, chipFs: 38, chipLab: 20, tmT: 1150, lo: 210, nmFs: 54, nmW: 480, colX: 270, socH: 110, socFs: 28, socB: 210 },
     wide:   { lgT: 56,  lgH: 250, meta: 322, metaFs: 26, pill: 378, pillH: 62, pillFs: 36, dgT: 470, dgFs: 230, dgX: 170, dash: [70, 14], setT: 736, chipH: 64, chipFs: 34, chipLab: 17, tmT: 440, lo: 210, nmFs: 50, nmW: 560, colX: 610, socH: 88, socFs: 26 },
   }[fmt];
-  const lf = LOGO_FILE[$('league').value], cx = W / 2, hW = n.h > n.a, aW = n.a > n.h;
+  const lf = $('league').value === 'hvl' ? 'leaguepng' : LOGO_FILE[$('league').value], cx = W / 2, hW = n.h > n.a, aW = n.a > n.h;
   const bg = BG ? `<img class="bgp" src="${BG}" style="object-position:${$('bgpos').value}">` : '<div class="bgd"></div>';
   const meta = [roundEl(d.match.round), comp].filter(Boolean).join(' · ');
   const dig = (v, x, win) => `<div class="dg ${win || (!hW && !aW) ? '' : 'lose'}" style="left:${x}px;top:${G.dgT}px;font-size:${G.dgFs}px">${v}</div>`;
