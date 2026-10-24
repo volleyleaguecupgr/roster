@@ -366,7 +366,7 @@ const bars = () => ''; const _unusedBars = () => `<div class="bars" style="--bar
 
 /** league logo in the top-left corner (list posts) */
 function topLogo(L) {
-  const lf = LOGO_FILE[$('league').value]; if (!lf) return '';
+  const lf = LOGO_FILE[$('leaguepng').value]; if (!lf) return '';
   const h = L.fmt === 'story' ? 170 : L.fmt === 'wide' ? 120 : L.fmt === 'square' ? 104 : 124, y = L.fmt === 'story' ? 60 : 24;
   return `<img class="lgTL" src="logos/${lf}.png" style="left:${L.fmt === 'story' ? 40 : 28}px;top:${y}px;height:${h}px" onerror="this.remove()">`;
 }
