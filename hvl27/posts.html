@@ -203,10 +203,46 @@
   .st-list .nmw { height: 100%; min-width: 0; display: flex; align-items: center; padding: 0 12px 0 calc(var(--rh) * .2); overflow: hidden; }
   .st-list .nmw span { display: block; width: 100%; font-weight: 800; line-height: 1.04; text-transform: uppercase; font-size: calc(var(--rh) * .36); }
   .st-list .s .tn { font-size: calc(var(--rh) * .4); padding-left: calc(var(--rh) * .2); }
+
+  /* ---------- Τελικό σκορ (instagram card) ---------- */
+  .f-only { display: none !important; } body.t-final .f-only { display: flex !important; } body.t-final label:has(#lay) { display: none !important; }
+  .fs { position: absolute; inset: 0; overflow: hidden; background: #0c1323; }
+  .fs .bgp { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .fs .bgd { position: absolute; inset: 0; background: url('img/bg-novi.jpg') center / cover no-repeat; }
+  .fs .shade { position: absolute; inset: 0; background:
+      linear-gradient(180deg, rgba(12,19,35,.88) 0%, rgba(12,19,35,.35) 26%, rgba(12,19,35,.25) 40%, rgba(12,19,35,.82) 58%, rgba(12,19,35,.97) 78%, #0c1323 100%); }
+  .fs .lgC { position: absolute; left: 50%; transform: translateX(-50%); width: auto; filter: drop-shadow(0 6px 24px rgba(0,0,0,.55)); }
+  .fs .meta { position: absolute; left: 50%; transform: translateX(-50%); padding: 0 44px; display: grid; place-items: center; white-space: nowrap; background: var(--slate2);
+      border-bottom: 3px solid var(--aqua); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; }
+  .fs .fstt { position: absolute; border-radius: 0; left: 50%; transform: translateX(-50%); padding: 0 60px; display: grid; place-items: center; background: linear-gradient(100deg, #99f5fd, #c4fbff); color: var(--ink);
+      font-weight: 900; font-style: italic; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; --cut: 24px; }
+  .fs .dg { position: absolute; transform: translateX(-50%); font-weight: 900; line-height: .9; font-variant-numeric: tabular-nums; text-shadow: 0 8px 40px rgba(0,0,0,.6); }
+  .fs .dg.lose { opacity: .5; }
+  .fs .dash { position: absolute; left: 50%; transform: translate(-50%, -50%); background: var(--aqua); }
+  .fs .sets { position: absolute; left: 0; right: 0; display: flex; justify-content: center; }
+  .fs .sb { display: flex; align-items: stretch; }
+  .fs .sb small { display: grid; place-items: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-style: italic; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; --cut: 14px; }
+  .fs .sb div { display: flex; align-items: center; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(29,36,49,.97)); box-shadow: inset 0 -4px 0 var(--aqua);
+      font-variant-numeric: tabular-nums; --cut: 18px; margin-left: -8px; }
+  .fs .sb b { font-weight: 900; } .fs .sb i { font-style: normal; font-weight: 500; opacity: .55; }
+  .fs .tm { position: absolute; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .fs .tm .lo2 { display: grid; place-items: center; font-weight: 900; color: var(--aqua); }
+  .fs .tm .lo2 img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 18px rgba(0,0,0,.5)); }
+  .fs .tm .nm { width: 100%; text-align: center; font-weight: 900; text-transform: uppercase; line-height: 1.05; white-space: nowrap; overflow: hidden; }
+  .fs .tm.lose .nm { opacity: .7; }
+  .fs .soc { position: absolute; left: 0; right: 0; display: flex; justify-content: center; align-items: center; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(23,28,39,.97)); border-top: 4px solid var(--aqua); }
+  .fs .socin { display: flex; align-items: center; width: max-content; flex: none; transform-origin: 50% 50%; }
+  .fs .soc span { display: flex; align-items: center; font-weight: 700; letter-spacing: .3px; white-space: nowrap; }
+  .fs .soc svg { flex: none; fill: var(--aqua); }
 </style>
 </head><body>
 <div class="ui">
-  <label>Τύπος<select id="type"><option value="results">Αποτελέσματα</option><option value="schedule">Πρόγραμμα</option><option value="standings">Βαθμολογία</option><option value="match">Ανακοίνωση αγώνα</option></select></label>
+  <label>Τύπος<select id="type"><option value="results">Αποτελέσματα</option><option value="schedule">Πρόγραμμα</option><option value="standings">Βαθμολογία</option><option value="match">Ανακοίνωση αγώνα</option><option value="final">Τελικό σκορ</option></select></label>
+  <label class="f-only">Αγώνας<select id="fgame"></select></label>
+  <label class="f-only">Φωτό φόντου<input type="file" id="bgimg" accept="image/*"></label>
+  <label class="f-only">Θέση φωτό<select id="bgpos"><option value="50% 50%">Κέντρο</option><option value="50% 20%">Πάνω</option><option value="50% 80%">Κάτω</option></select></label>
+  <label class="f-only">Σκορ (χειρ.)<input id="fscore" size="5" placeholder="3-1"></label>
+  <label class="f-only">Σετ (χειρ.)<input id="fsets" size="22" placeholder="25-21 23-25 25-19 25-22"></label>
   <label class="m-only">Στυλ<select id="style"><option value="boxes">Logos σε κουτιά</option><option value="players">Φωτογραφίες παικτών</option></select></label>
   <label class="m-only">Αγώνας<select id="mode"><option value="next">Επόμενος</option><option value="auto">Σημερινός / τρέχων</option><option value="last">Τελευταίος</option></select></label>
   <label class="m-only">Αγωνιστική<select id="gday"><option value="auto">Αυτόματα (Worker)</option></select></label>
@@ -359,6 +395,7 @@ async function load() {
   HVL.league = $('league').value; HVL.team = $('team').value.trim();
   try {
     HVL.mode = $('mode').value;
+    if ($('type').value === 'final') { await loadFinal(); render(); return; }
     DATA = $('type').value === 'standings' ? await HVL.load('standings') : $('type').value === 'match' ? await HVL.load('match') : await HVL.load('round', { which: $('which').value });
     $('msg').textContent = HVL.demo ? 'Demo δεδομένα (δεν έχει οριστεί Worker URL)' : '';
   } catch (e) { $('msg').textContent = '⚠ ' + e.message; DATA = null; }
@@ -410,6 +447,7 @@ function render() {
   if (!DATA) { post.innerHTML = '<div class="empty">—</div>'; return scale(); }
   document.body.className = `t-${type} s-${$('style').value}`;
   if (type === 'match') { renderMatch(post, fmt, comp); return; }
+  if (type === 'final') { renderFinal(post, fmt, comp); return; }
   if (type === 'standings') {
     const rows = (DATA.standings || []).slice(0, 14);
     const L = layout(fmt, rows.length + .5); applyVars(post, L);
@@ -591,6 +629,90 @@ function renderMatch(post, fmt, comp) {
   if (document.fonts?.ready) document.fonts.ready.then(() => { HVL.fit(post); fitBox(post); });
   scale();
 }
+// ---------- Τελικό σκορ: background photo, big league logo, final score, set scores, teams, social banner ----------
+const SOCIAL = [['fb', 'VolleyLeagueGR'], ['ig', 'volleyleaguegr'], ['tt', 'volleyleague'], ['yt', 'volleyballleague']];
+const ICON = {
+  fb: '<path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.3v2.3H7.4V14h2.8v8z"/>',
+  ig: '<path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm4.9-8.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2zM12 3c-2.4 0-2.7 0-3.7.1-3.3.1-5 1.9-5.1 5.1C3 9.3 3 9.6 3 12s0 2.7.1 3.7c.1 3.3 1.9 5 5.1 5.1 1 .1 1.3.1 3.8.1s2.7 0 3.7-.1c3.3-.1 5-1.9 5.1-5.1.1-1 .1-1.3.1-3.7s0-2.7-.1-3.7c-.1-3.3-1.9-5-5.1-5.1C14.7 3 14.4 3 12 3zm0 1.6c2.4 0 2.6 0 3.6.1 2.4.1 3.6 1.3 3.7 3.7.1 1 .1 1.2.1 3.6s0 2.6-.1 3.6c-.1 2.4-1.3 3.6-3.7 3.7-1 .1-1.2.1-3.6.1s-2.6 0-3.6-.1c-2.4-.1-3.6-1.3-3.7-3.7-.1-1-.1-1.2-.1-3.6s0-2.6.1-3.6c.1-2.4 1.3-3.6 3.7-3.7 1-.1 1.2-.1 3.6-.1z"/>',
+  tt: '<path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-1.8-2.5V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/>',
+  yt: '<path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"/>',
+};
+let BG = null, FROUND = null;
+async function loadFinal() {
+  // games of the chosen round (Worker; data/schedule.txt if the Worker has none) → the chosen game's sets from the Worker
+  let ms = [];
+  try { FROUND = await HVL.load('round', { which: $('which').value }); ms = FROUND?.round?.matches || []; } catch (e) { FROUND = null; }
+  if (!ms.length && $('league').value === 'hvl') { const fr = pickFileRound(await fileRounds(), $('which').value, 0); if (fr) { FROUND = { round: { label: fr.label, matches: fr.matches } }; ms = fr.matches; } }
+  const g = $('fgame'), keep = g.value || P.get('game');
+  g.innerHTML = ''; ms.forEach((m, i) => g.add(new Option(`${el(m.home)} – ${el(m.away)}${m.setsHome != null ? ` (${m.setsHome}-${m.setsAway})` : ''}`, i)));
+  if (keep != null && keep !== '' && +keep < ms.length) g.value = keep;
+  else { const q = $('team').value.trim(); const i = q ? ms.findIndex((m) => isFocus(m.home) || isFocus(m.away)) : ms.findIndex((m) => m.setsHome != null); g.value = Math.max(0, i); }
+  const m = ms[+g.value || 0];
+  DATA = m ? { league: FROUND?.league, match: { ...m, round: m.round || FROUND?.round?.label }, home: m.home, away: m.away } : { message: 'Δεν βρέθηκαν αγώνες' };
+  if (m?.mid) {
+    try { HVL.mid = m.mid; const b = await HVL.load('match'); if (b?.match) DATA = { ...b, match: { ...b.match, round: b.match.round || DATA.match.round } }; }
+    catch (e) { $('msg').textContent = '⚠ ' + e.message; } finally { HVL.mid = null; }
+  }
+  $('msg').textContent = HVL.demo ? 'Demo δεδομένα' : DATA?.match?.sets?.length ? '' : 'Δεν υπάρχουν σετ από τον Worker – συμπλήρωσε «Σκορ» και «Σετ» χειροκίνητα';
+}
+function finalNumbers(d) {
+  // manual fields win; otherwise finished sets from the Worker
+  const man = $('fsets').value.trim(), ms = [...man.matchAll(/(\d{1,2})\s*[-–:]\s*(\d{1,2})/g)].map((x) => ({ h: +x[1], a: +x[2] }));
+  const done = (x, i) => Math.max(x.h, x.a) >= (i === 4 ? 15 : 25) && Math.abs(x.h - x.a) >= 2;
+  const sets = ms.length ? ms : (d.match?.sets || []).filter((x, i) => d.match.status === 'finished' || done(x, i));
+  const sc = $('fscore').value.match(/(\d)\s*[-–:]\s*(\d)/);
+  const won = sets.reduce((a, x) => (x.h > x.a ? a.h++ : a.a++, a), { h: 0, a: 0 });
+  const h = sc ? +sc[1] : ms.length ? won.h : d.match?.setsHome ?? won.h, a = sc ? +sc[2] : ms.length ? won.a : d.match?.setsAway ?? won.a;   // typed sets → score counted from them
+  return { h: h ?? 0, a: a ?? 0, sets };
+}
+function renderFinal(post, fmt, comp) {
+  const d = DATA, [W, H] = FMT[fmt];
+  post.style.width = W + 'px'; post.style.height = H + 'px';
+  if (!d?.match) { post.innerHTML = `<div class="empty">${HVL.esc(d?.message || 'Δεν βρέθηκε αγώνας')}</div>`; return scale(); }
+  const n = finalNumbers(d), fin = d.match.status === 'finished' || n.h === 3 || n.a === 3 || !!$('fscore').value.trim();
+  // per-format geometry (px)
+  const G = {
+    post:   { lgT: 44,  lgH: 270, meta: 330, metaFs: 26, pill: 404, pillH: 66, pillFs: 38, dgT: 498, dgFs: 230, dgX: 165, dash: [70, 14], setT: 730, chipH: 66, chipFs: 34, chipLab: 18, tmT: 850, lo: 170, nmFs: 46, nmW: 470, colX: 265, socH: 92, socFs: 26 },
+    square: { lgT: 26,  lgH: 190, meta: 228, metaFs: 22, pill: 280, pillH: 54, pillFs: 30, dgT: 350, dgFs: 180, dgX: 140, dash: [56, 12], setT: 538, chipH: 56, chipFs: 28, chipLab: 15, tmT: 636, lo: 130, nmFs: 38, nmW: 440, colX: 255, socH: 80, socFs: 22 },
+    story:  { lgT: 150, lgH: 340, meta: 510, metaFs: 30, pill: 600, pillH: 76, pillFs: 44, dgT: 712, dgFs: 280, dgX: 190, dash: [84, 16], setT: 1000, chipH: 76, chipFs: 38, chipLab: 20, tmT: 1150, lo: 210, nmFs: 54, nmW: 480, colX: 270, socH: 110, socFs: 28, socB: 210 },
+    wide:   { lgT: 56,  lgH: 250, meta: 322, metaFs: 26, pill: 378, pillH: 62, pillFs: 36, dgT: 470, dgFs: 230, dgX: 170, dash: [70, 14], setT: 736, chipH: 64, chipFs: 34, chipLab: 17, tmT: 440, lo: 210, nmFs: 50, nmW: 560, colX: 610, socH: 88, socFs: 26 },
+  }[fmt];
+  const lf = LOGO_FILE[$('league').value], cx = W / 2, hW = n.h > n.a, aW = n.a > n.h;
+  const bg = BG ? `<img class="bgp" src="${BG}" style="object-position:${$('bgpos').value}">` : '<div class="bgd"></div>';
+  const meta = [roundEl(d.match.round), comp].filter(Boolean).join(' · ');
+  const dig = (v, x, win) => `<div class="dg ${win || (!hW && !aW) ? '' : 'lose'}" style="left:${x}px;top:${G.dgT}px;font-size:${G.dgFs}px">${v}</div>`;
+  const chip = (x, i) => `<div class="sb" style="margin:0 ${Math.round(G.chipH * .12)}px;height:${G.chipH}px"><small class="par" style="font-size:${Math.round(G.chipLab * 1.25)}px;padding:0 ${Math.round(G.chipH * .32)}px 0 ${Math.round(G.chipH * .3)}px">ΣΕΤ ${i + 1}</small>
+      <div class="par" style="padding:0 ${Math.round(G.chipH * .42)}px;gap:${Math.round(G.chipH * .16)}px;font-size:${G.chipFs}px">
+      ${x.h > x.a ? `<b>${x.h}</b>` : `<i>${x.h}</i>`}<span style="opacity:.5">-</span>${x.a > x.h ? `<b>${x.a}</b>` : `<i>${x.a}</i>`}</div></div>`;
+  const ini = (t) => HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3));
+  const team = (t, x, lose) => `<div class="tm ${lose ? 'lose' : ''}" style="left:${x}px;top:${G.tmT}px;width:${G.nmW}px">
+      <div class="lo2" data-i="${ini(t)}" style="width:${G.lo}px;height:${G.lo}px;font-size:${G.lo * .3}px">${logoImg(t) || ini(t)}</div>
+      <div class="nm" style="margin-top:${Math.round(G.lo * .1)}px;font-size:${G.nmFs}px"><span class="fit uni" style="display:block">${HVL.esc(el(t))}</span></div></div>`;
+  // 4 sets → 2 + 2, 5 sets → 3 + 2 on two lines; the teams move down by one line
+  const cnt = n.sets.length, split = cnt === 4 ? 2 : cnt === 5 ? 3 : cnt, setRows = cnt > 3 ? [n.sets.slice(0, split), n.sets.slice(split)] : [n.sets];
+  const rowGap = Math.round(G.chipH * .25), extra = setRows.length > 1 && fmt !== 'wide' ? G.chipH + rowGap : 0;
+  G.tmT += extra;
+  const socB = G.socB || 0, socTop = H - socB - G.socH;
+  const soc = SOCIAL.map(([k, h]) => `<span style="font-size:${G.socFs}px;gap:${Math.round(G.socFs * .4)}px;margin:0 ${Math.round(G.socFs * (fmt === 'wide' ? 1.3 : .7))}px">
+      <svg viewBox="0 0 24 24" style="width:${Math.round(G.socFs * 1.35)}px;height:${Math.round(G.socFs * 1.35)}px">${ICON[k]}</svg>${HVL.esc(h)}</span>`).join('');
+  const wide = fmt === 'wide';
+  post.innerHTML = `<div class="fs">${bg}<div class="shade"></div>
+    ${lf ? `<img class="lgC" src="logos/${lf}.png" style="top:${G.lgT}px;height:${G.lgH}px" onerror="this.remove()">` : ''}
+    ${meta ? `<div class="meta" style="top:${G.meta}px;height:${Math.round(G.metaFs * 1.9)}px;font-size:${G.metaFs}px">${HVL.esc(meta)}</div>` : ''}
+    <div class="fstt par" style="top:${G.pill}px;height:${G.pillH}px;font-size:${G.pillFs}px">${fin ? 'ΤΕΛΙΚΟ ΑΠΟΤΕΛΕΣΜΑ' : 'ΑΠΟΤΕΛΕΣΜΑ'}</div>
+    ${dig(n.h, cx - G.dgX, hW)}${dig(n.a, cx + G.dgX, aW)}
+    <div class="dash" style="top:${G.dgT + G.dgFs * .45}px;width:${G.dash[0]}px;height:${G.dash[1]}px"></div>
+    ${n.sets.length ? setRows.map((r, k) => `<div class="sets" style="top:${G.setT + k * (G.chipH + rowGap)}px">${r.map((x) => chip(x, n.sets.indexOf(x))).join('')}</div>`).join('') : ''}
+    ${team(d.home, wide ? cx - G.colX : cx - G.colX, aW)}${team(d.away, cx + G.colX, hW)}
+    <div class="soc" style="top:${socTop}px;height:${G.socH}px"><div class="socin">${soc}</div></div>
+  </div>`;
+  // social banner: shrink until all four fit inside the width
+  const fitSoc = () => post.querySelectorAll('.fs .socin').forEach((i) => { i.style.transform = '';   // banner + set boxes: shrink to fit the width (4–5 sets)
+    const k = Math.min(1, (W - 50) / i.offsetWidth); if (k < 1) i.style.transform = `scale(${k})`; });   // (set rows are split in two lines, so this only trims the banner)
+  HVL.fit(post); fitSoc();
+  if (document.fonts?.ready) document.fonts.ready.then(() => { HVL.fit(post); fitSoc(); });
+  scale();
+}
 function scale() {
   const [W, H] = FMT[$('fmt').value];
   const k = Math.min((innerWidth - 48) / W, (innerHeight - 140) / H, 1);
@@ -603,7 +725,7 @@ async function download(fmt) {
   const [W, H] = FMT[fmt];
   try {
     const url = await htmlToImage.toPng($('post'), { width: W, height: H, pixelRatio: +$('q').value || 2, cacheBust: true, style: { transform: 'none' } });
-    const a = document.createElement('a'); a.href = url; a.download = `${$('type').value}-${$('which').value}-${fmt}.png`; a.click();
+    const a = document.createElement('a'); a.href = url; a.download = `${$('type').value}-${$('type').value === 'final' ? (el(DATA?.home) + '-' + el(DATA?.away)).replace(/\s+/g, '_') : $('which').value}-${fmt}.png`; a.click();
   } catch (e) { $('msg').textContent = '⚠ PNG: ' + (e.message || e) + ' (logos need the Worker /img proxy)'; }
   $('fmt').value = prev; render();
 }
@@ -611,8 +733,12 @@ $('dl').onclick = () => download($('fmt').value);
 $('dlall').onclick = async () => { for (const f of Object.keys(FMT)) await download(f); };
 ['gday'].forEach((k) => ($(k).onchange = async () => { $('game').value = ''; await fillGames(); $('game').value = 0; load(); }));
 $('game').onchange = load;
-['type', 'which', 'league', 'mode'].forEach((k) => ($(k).onchange = () => { $('which').disabled = $('type').value === 'standings'; load(); }));
+['type', 'which', 'league', 'mode'].forEach((k) => ($(k).onchange = () => { if (k !== 'type') $('fgame').innerHTML = ''; $('which').disabled = $('type').value === 'standings'; load(); }));
 $('style').onchange = render;
+$('fgame').onchange = () => { P.delete('game'); load(); };
+$('bgimg').onchange = (e) => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { BG = r.result; render(); }; r.readAsDataURL(f); };
+['bgpos'].forEach((k) => ($(k).onchange = render));
+['fscore', 'fsets'].forEach((k) => ($(k).oninput = render));
 const PHOTOS = { h: null, a: null };
 for (const [id, k] of [['ph', 'h'], ['pa', 'a']]) $(id).onchange = (e) => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { PHOTOS[k] = r.result; render(); }; r.readAsDataURL(f); };
 ['fmt', 'lay'].forEach((k) => ($(k).onchange = render));
