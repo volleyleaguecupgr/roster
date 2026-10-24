@@ -230,10 +230,11 @@
   .fs .tm .lo2 img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 18px rgba(0,0,0,.5)); }
   .fs .tm .nm { width: 100%; text-align: center; font-weight: 900; text-transform: uppercase; line-height: 1.05; white-space: nowrap; overflow: hidden; }
   .fs .tm.lose .nm { opacity: .7; }
-  .fs .soc { position: absolute; left: 0; right: 0; display: flex; justify-content: center; align-items: center; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(23,28,39,.97)); border-top: 4px solid var(--aqua); }
-  .fs .socin { display: flex; align-items: center; width: max-content; flex: none; transform-origin: 50% 50%; }
-  .fs .soc span { display: flex; align-items: center; font-weight: 700; letter-spacing: .3px; white-space: nowrap; }
-  .fs .soc svg { flex: none; fill: var(--aqua); }
+  .soc { position: absolute; left: 0; right: 0; display: flex; justify-content: center; align-items: center; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(23,28,39,.97)); border-top: 4px solid var(--aqua); }
+  .socin { display: flex; align-items: center; width: max-content; flex: none; transform-origin: 50% 50%; }
+  .ftr.soc { text-transform: none; letter-spacing: 0; gap: 0; }
+  .soc span { display: flex; align-items: center; font-weight: 700; letter-spacing: .3px; white-space: nowrap; }
+  .soc svg { flex: none; fill: var(--aqua); }
 </style>
 </head><body>
 <div class="ui">
@@ -254,7 +255,7 @@
   <label class="r-only">Αγωνιστική<select id="which"><option value="prev">Προηγούμενη</option><option value="current">Τρέχουσα</option><option value="next">Επόμενη</option><option value="last">Τελευταία ολοκληρωμένη</option></select></label>
   <label>Διοργάνωση<select id="league"><option value="hvl">Volley League</option><option value="cup">League Cup</option><option value="supercup">Super Cup</option></select></label>
   <label>Ομάδα (έμφαση)<input id="team" size="10" placeholder="π.χ. paok"></label>
-  <label>Footer<input id="footer" size="18" placeholder="#volleyleague"></label>
+  <label style="display:none">Footer<input id="footer" size="18" placeholder="#volleyleague"></label>
   <label>Ποιότητα<select id="q"><option value="2">2× (προτείνεται)</option><option value="3">3× (μέγιστη)</option><option value="1">1× (μικρό αρχείο)</option></select></label>
   <button id="dl">Λήψη PNG</button><button id="dlall" class="ghost">Όλες οι διαστάσεις</button>
   <span class="msg" id="msg"></span>
@@ -375,7 +376,14 @@ function header(title, sub, noLogo) {
   return `<div class="hdr"><div class="lg">${lf ? `<img src="logos/${lf}.png" onerror="this.remove()">` : ''}</div>
     <div class="tt par">${HVL.esc(title)}</div><div class="st par">${HVL.esc(sub)}</div></div>`;
 }
-function footer() { const f = $('footer').value.trim(); return `<div class="ftr">${f ? `<b>${HVL.esc(f)}</b>` : ''}<span>${HVL.esc(window.HVL_COMPETITIONS_EL?.[$('league').value] || '')}</span></div>`; }
+/** footer of every post: the social banner (Facebook · Instagram · TikTok · YouTube) – SOCIAL / ICON further down */
+function socialRow(fs, wide) {
+  return SOCIAL.map(([k, h]) => `<span style="font-size:${fs}px;gap:${Math.round(fs * .4)}px;margin:0 ${Math.round(fs * (wide ? 1.3 : .7))}px">
+      <svg viewBox="0 0 24 24" style="width:${Math.round(fs * 1.35)}px;height:${Math.round(fs * 1.35)}px">${ICON[k]}</svg>${HVL.esc(h)}</span>`).join('');
+}
+function footer() { const f = $('fmt').value; return `<div class="ftr soc"><div class="socin">${socialRow(f === 'story' ? 30 : 26, f === 'wide')}</div></div>`; }
+/** shrink the banner (and the final card's set rows) to the post width */
+function fitSoc() { const W = FMT[$('fmt').value][0]; document.querySelectorAll('#post .socin').forEach((i) => { i.style.transform = ''; const k = Math.min(1, (W - 50) / i.offsetWidth); if (k < 1) i.style.transform = `scale(${k})`; }); }
 
 // ---------- render ----------
 let DATA = null;
@@ -480,7 +488,7 @@ function render() {
         const [day, time] = dayEl(m.iso), fin = m.status === 'finished', live = m.status === 'live';
         const hw = fin && m.setsHome > m.setsAway, aw = fin && m.setsAway > m.setsHome;
         const showScore = fin || live;
-        const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome}-${m.setsAway}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ''}</div>` : `<div class="mid vs"><span>${HVL.esc(time)}</span>${court(m)}</div>`;
+        const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome ?? 0}-${m.setsAway ?? 0}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ''}</div>` : `<div class="mid vs"><span>${HVL.esc(time)}</span>${court(m)}</div>`;
         const dh = narrow && day !== lastDay ? `<div class="dh">${HVL.esc(caps(new Intl.DateTimeFormat('el-GR', { timeZone: 'Europe/Athens', weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(m.iso))))}${showScore ? ' · ' + HVL.esc(time) : ''}</div>` : '';
         lastDay = day;
         if (rowsN) {
@@ -490,7 +498,7 @@ function render() {
             <div class="nmw a ${fin && !aw ? 'l' : ''}"><span class="u2">${HVL.esc(el(m.away))}</span></div></div>`;
         }
         if (narrow) {
-          const sc = live ? `<div class="sc live"><span>${m.setsHome}-${m.setsAway}</span><small>ΖΩΝΤΑΝΑ</small></div>`
+          const sc = live ? `<div class="sc live"><span>${m.setsHome ?? 0}-${m.setsAway ?? 0}</span><small>ΖΩΝΤΑΝΑ</small></div>`
             : fin ? `<div class="sc"><b class="${hw ? 'w' : ''}">${m.setsHome}</b><b class="${aw ? 'w' : ''}">${m.setsAway}</b></div>`
             : `<div class="sc vs"><span>${HVL.esc(time)}</span>${court(m)}</div>`;
           return `${dh}<div class="mb par ${sched ? 'wtv' : ''} ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="lns">
@@ -594,10 +602,10 @@ function renderMatch(post, fmt, comp) {
     // reference style: match photos inside sharp slanted panels bounded by long oblique lines, big VS between,
     // team logo at the foot of each panel, full team name underneath (single line, same size for both)
     // tt*: round title pill + competition bar at the top centre; when*: day/time stack
-    const G = wide ? { pw: 560, ph: 600, py: 250, cxL: 590, cxR: 1330, tl: 130, nameY: 925, nameH: 90, nameW: 700, nameFs: 62, ttY: 22, ttH: 70, whenY: 560, whenH: 70, vsTop: 290, vsSize: 220, lg: [36, 26, 110] }
+    const G = wide ? { pw: 560, ph: 560, py: 250, cxL: 590, cxR: 1330, tl: 130, nameY: 846, nameH: 90, nameW: 700, nameFs: 62, ttY: 22, ttH: 70, whenY: 560, whenH: 70, vsTop: 290, vsSize: 220, lg: [36, 26, 110] }
       : story ? { pw: 500, ph: 860, py: 310, cxL: 290, cxR: 790, tl: 160, nameY: 1240, nameH: 120, nameW: 492, nameFs: 64, ttY: 90, ttH: 92, whenY: 1430, whenH: 100, vsTop: 630, vsSize: 260, lg: [36, 40, 140] }
-      : sq ? { pw: 500, ph: 520, py: 124, cxL: 290, cxR: 790, tl: 104, nameY: 680, nameH: 72, nameW: 492, nameFs: 42, ttY: 16, ttH: 58, whenY: 790, whenH: 60, vsTop: 290, vsSize: 190, lg: [22, 16, 86] }
-      : { pw: 500, ph: 720, py: 142, cxL: 290, cxR: 790, tl: 126, nameY: 904, nameH: 92, nameW: 492, nameFs: 52, ttY: 20, ttH: 66, whenY: 1040, whenH: 76, vsTop: 430, vsSize: 230, lg: [28, 20, 104] };
+      : sq ? { pw: 500, ph: 500, py: 124, cxL: 290, cxR: 790, tl: 104, nameY: 660, nameH: 72, nameW: 492, nameFs: 42, ttY: 16, ttH: 58, whenY: 764, whenH: 60, vsTop: 290, vsSize: 190, lg: [22, 16, 86] }
+      : { pw: 500, ph: 680, py: 142, cxL: 290, cxR: 790, tl: 126, nameY: 862, nameH: 92, nameW: 492, nameFs: 52, ttY: 20, ttH: 66, whenY: 990, whenH: 76, vsTop: 430, vsSize: 230, lg: [28, 20, 104] };
     const SLANT = .24, off = Math.round(G.ph * SLANT), ang = Math.atan2(off, G.ph) * 180 / Math.PI;
     vars({ '--whenH': G.whenH, '--off': off, '--ttH': G.ttH });
     const initials = (t) => HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3));
@@ -622,7 +630,8 @@ function renderMatch(post, fmt, comp) {
       ${panel('h', d.home, G.cxL)}${panel('a', d.away, G.cxR)}
       <div class="bigvs2" style="top:${G.vsTop}px;font-size:${G.vsSize}px">VS</div>
       ${stack(G.whenY, G.whenH, story ? 30 : 18)}
-    </div>`;
+    </div>` + footer();
+    post.style.setProperty('--ftH', (story ? 120 : wide ? 80 : 84) + 'px');
   }
   post.querySelectorAll('img.tvL, img.tvR').forEach(trimLogo);
   HVL.fit(post); fitBox(post);
@@ -672,7 +681,7 @@ function renderFinal(post, fmt, comp) {
   const n = finalNumbers(d), fin = d.match.status === 'finished' || n.h === 3 || n.a === 3 || !!$('fscore').value.trim();
   // per-format geometry (px)
   const G = {
-    post:   { lgT: 44,  lgH: 270, meta: 330, metaFs: 26, pill: 404, pillH: 66, pillFs: 38, dgT: 498, dgFs: 230, dgX: 165, dash: [70, 14], setT: 730, chipH: 66, chipFs: 34, chipLab: 18, tmT: 850, lo: 170, nmFs: 46, nmW: 470, colX: 265, socH: 92, socFs: 26 },
+    post:   { lgT: 60,  lgH: 270, meta: 390, metaFs: 26, pill: 464, pillH: 66, pillFs: 38, dgT: 558, dgFs: 230, dgX: 165, dash: [70, 14], setT: 790, chipH: 66, chipFs: 34, chipLab: 18, tmT: 910, lo: 170, nmFs: 46, nmW: 470, colX: 265, socH: 92, socFs: 26 },
     square: { lgT: 26,  lgH: 190, meta: 228, metaFs: 22, pill: 280, pillH: 54, pillFs: 30, dgT: 350, dgFs: 180, dgX: 140, dash: [56, 12], setT: 538, chipH: 56, chipFs: 28, chipLab: 15, tmT: 636, lo: 130, nmFs: 38, nmW: 440, colX: 255, socH: 80, socFs: 22 },
     story:  { lgT: 150, lgH: 340, meta: 510, metaFs: 30, pill: 600, pillH: 76, pillFs: 44, dgT: 712, dgFs: 280, dgX: 190, dash: [84, 16], setT: 1000, chipH: 76, chipFs: 38, chipLab: 20, tmT: 1150, lo: 210, nmFs: 54, nmW: 480, colX: 270, socH: 110, socFs: 28, socB: 210 },
     wide:   { lgT: 56,  lgH: 250, meta: 322, metaFs: 26, pill: 378, pillH: 62, pillFs: 36, dgT: 470, dgFs: 230, dgX: 170, dash: [70, 14], setT: 736, chipH: 64, chipFs: 34, chipLab: 17, tmT: 440, lo: 210, nmFs: 50, nmW: 560, colX: 610, socH: 88, socFs: 26 },
@@ -693,8 +702,7 @@ function renderFinal(post, fmt, comp) {
   const rowGap = Math.round(G.chipH * .25), extra = setRows.length > 1 && fmt !== 'wide' ? G.chipH + rowGap : 0;
   G.tmT += extra;
   const socB = G.socB || 0, socTop = H - socB - G.socH;
-  const soc = SOCIAL.map(([k, h]) => `<span style="font-size:${G.socFs}px;gap:${Math.round(G.socFs * .4)}px;margin:0 ${Math.round(G.socFs * (fmt === 'wide' ? 1.3 : .7))}px">
-      <svg viewBox="0 0 24 24" style="width:${Math.round(G.socFs * 1.35)}px;height:${Math.round(G.socFs * 1.35)}px">${ICON[k]}</svg>${HVL.esc(h)}</span>`).join('');
+  const soc = socialRow(G.socFs, fmt === 'wide');
   const wide = fmt === 'wide';
   post.innerHTML = `<div class="fs">${bg}<div class="shade"></div>
     ${lf ? `<img class="lgC" src="logos/${lf}.png" style="top:${G.lgT}px;height:${G.lgH}px" onerror="this.remove()">` : ''}
@@ -707,13 +715,12 @@ function renderFinal(post, fmt, comp) {
     <div class="soc" style="top:${socTop}px;height:${G.socH}px"><div class="socin">${soc}</div></div>
   </div>`;
   // social banner: shrink until all four fit inside the width
-  const fitSoc = () => post.querySelectorAll('.fs .socin').forEach((i) => { i.style.transform = '';   // banner + set boxes: shrink to fit the width (4–5 sets)
-    const k = Math.min(1, (W - 50) / i.offsetWidth); if (k < 1) i.style.transform = `scale(${k})`; });   // (set rows are split in two lines, so this only trims the banner)
   HVL.fit(post); fitSoc();
   if (document.fonts?.ready) document.fonts.ready.then(() => { HVL.fit(post); fitSoc(); });
   scale();
 }
 function scale() {
+  fitSoc(); if (document.fonts?.ready) document.fonts.ready.then(fitSoc);
   const [W, H] = FMT[$('fmt').value];
   const k = Math.min((innerWidth - 48) / W, (innerHeight - 140) / H, 1);
   const sc = $('scaler'); sc.style.transform = `scale(${k})`; sc.style.width = W + 'px'; sc.style.height = H * k + 'px';
