@@ -9,18 +9,19 @@
 <script src="../js/vendor/jquery.signalR.min.js"></script>
 <style>
   /* ?pos=tl|tr|bl|br (default tl = top left)  ?scale=0.8 (size)  ?names=short|code|long  ?partials=1 */
-  #sb { position: absolute; left: 40px; top: 36px; display: flex; flex-direction: column; gap: 8px; transform: scale(var(--k, .8)); transform-origin: 0 0; }
+  #sb { position: absolute; left: 40px; top: 36px; display: flex; flex-direction: column; gap: 8px; transform: scale(var(--k, .95)); transform-origin: 0 0; }
   #sb.tr { left: auto; right: 40px; transform-origin: 100% 0; } #sb.bl { top: auto; bottom: 40px; transform-origin: 0 100%; } #sb.br { left: auto; right: 40px; top: auto; bottom: 40px; transform-origin: 100% 100%; }
   .head { display: flex; gap: 8px; align-items: center; height: 38px; }
   .head .tag { height: 38px; padding: 0 20px; background: linear-gradient(90deg, var(--red-500), var(--red-700)); font-weight: 800; font-size: 20px; text-transform: uppercase; }
   .head .comp { height: 38px; padding: 0 20px 0 18px; background: var(--g-comp); font-weight: 700; font-size: 18px; text-transform: uppercase; white-space: nowrap; }
-  .team { height: 66px; display: grid; grid-template-columns: 66px 430px 26px auto 76px 96px; align-items: center; border-radius: 999px;
+  .team { height: 66px; display: grid; grid-template-columns: 66px 430px 50px auto 76px 96px; align-items: center; border-radius: 999px;
           background: var(--g-row-dark); box-shadow: inset 0 0 0 var(--line) #fff; }
   .team .logo { width: 66px; height: 66px; }
   .team .logo.fallback { font-size: 18px; }
   .team .nm { padding-left: 16px; font-weight: 800; font-size: 32px; text-transform: uppercase; }
   /* serve: the ball from the league logo (site/logos/ball.png); yellow dot if the file is missing */
-  .serve { width: 24px; height: 24px; justify-self: center; opacity: 0; transform: scale(.4) rotate(-90deg); transition: opacity .3s, transform .45s cubic-bezier(.34, 1.56, .64, 1);
+  /* ball: 44px inside the 66px row, centred in its 50px column */
+  .serve { width: 44px; height: 44px; justify-self: center; align-self: center; opacity: 0; transform: scale(.4) rotate(-90deg); transition: opacity .3s, transform .45s cubic-bezier(.34, 1.56, .64, 1);
            background: url(../logos/ball.png) center / contain no-repeat; filter: drop-shadow(0 0 6px rgba(153,245,253,.9)); }
   .serve.on { opacity: 1; transform: none; }
   .serve.dot { width: 16px; height: 16px; border-radius: 50%; background: #ffd400; box-shadow: 0 0 10px #ffd400; filter: none; }
@@ -49,7 +50,7 @@
 <script>
 const SB = HVL.$('#sb');
 const pos = HVL.get('pos', 'tl'); if (pos !== 'tl') SB.classList.add(pos);
-SB.style.setProperty('--k', +HVL.get('scale', .8) || .8);
+SB.style.setProperty('--k', +HVL.get('scale', .95) || .95);   // ?scale=… overrides (old default .8)
 const NAMES = HVL.get('names', 'long');
 const showParts = HVL.get('partials', '0') === '1';
 let prev = {};
@@ -59,11 +60,24 @@ let BALL = true; { const t = new Image(); t.onerror = () => { BALL = false; SB.q
 const PUSH_ON = HVL.get('push') !== '0' && !HVL.demo;
 let BASE = null, P = null, pushMid = null;
 const n0 = (v) => (v == null || v === '' ? 0 : +v || 0);
-function pbpRead(list) {   // same rules as the worker: last rally's ST = who serves; last row time out / video check = tag
+function pbpPick(list) {
+  // order-independent: the newest row has the highest RallyID; the serve comes from the row flagged LastAction
+  // (that is what the LiveScore page uses), else from the newest rally. ST true/1/"True" = home serves.
+  const rows = list.filter((r) => r && typeof r === 'object');
+  const id = (r) => (r.RallyID == null ? -1 : +r.RallyID);
+  const newest = rows.reduce((a, r) => (!a || id(r) >= id(a) ? r : a), null) || {};
+  const rallies = rows.filter((r) => r.RallyT === 0 || r.RallyT === 1);
+  const src = rows.find((r) => r.LastAction) || rallies.reduce((a, r) => (!a || id(r) >= id(a) ? r : a), null);
+  const st = src ? src.ST : undefined;
+  const serve = st == null || st === '' ? null : (st === true || st === 1 || /^(true|1)$/i.test(String(st))) ? 'home' : 'away';
+  const t = String(newest.Team || ''), side = t.includes('*') ? 'home' : t.includes('a') ? 'away' : null;
+  const event = newest.RallyT === 3 && side ? { type: 'timeout', side, id: newest.RallyID ?? null }
+    : newest.RallyT === 4 ? { type: 'challenge', side, id: newest.RallyID ?? null } : null;
+  return { serve, event };
+}
+function pbpRead(list) {
   if (!Array.isArray(list) || !list.length || list[0] == null) return {};
-  let serve; for (const r of list) if (r && (r.LastAction || r.RallyT === 0 || r.RallyT === 1) && typeof r.ST === 'boolean') serve = r.ST ? 'home' : 'away';
-  const l = list[list.length - 1] || {}, t = String(l.Team || ''), side = t.includes('*') ? 'home' : t.includes('a') ? 'away' : null;
-  return { serve, event: l.RallyT === 3 && side ? { type: 'timeout', side, id: l.RallyID } : l.RallyT === 4 ? { type: 'challenge', side, id: l.RallyID } : null };
+  const r = pbpPick(list); return { serve: r.serve || undefined, event: r.event };
 }
 // Two feeds from Data Project:
 //   ES = the e-scoresheet at the scorer's table (dataprojectservicesignalr) → points / sets, arrives first (LiveScore.aspx list page)
@@ -162,7 +176,7 @@ function draw(d, first) {
     <div class="head"><div class="pill tag">${live && !s.manual ? '<span class="live-dot" style="margin-right:10px"></span>' : ''}${HVL.esc(label)}</div><div class="pill comp">${HVL.esc(d.league.name)}</div></div>
     ${row(d.home, 'home')}${row(d.away, 'away')}<div class="flag" data-side="home"></div><div class="flag" data-side="away"></div>`;
   // grid width: hide parts column when unused
-  SB.querySelectorAll('.team').forEach((el) => { if (!showParts) el.style.gridTemplateColumns = '66px 430px 26px 0 76px 96px'; });
+  SB.querySelectorAll('.team').forEach((el) => { if (!showParts) el.style.gridTemplateColumns = '66px 430px 50px 0 76px 96px'; });
   // flash changed numbers
   const now = { hs: s.setsH, as: s.setsA, hp: s.h, ap: s.a };
   if (!first) for (const k in now) if (prev[k] !== now[k]) SB.querySelector(`[data-k="${k[0] === 'h' ? 'home' : 'away'}${k[1]}"]`)?.classList.add('flash');
