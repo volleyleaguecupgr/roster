@@ -58,6 +58,9 @@ let BALL = true; { const t = new Image(); t.onerror = () => { BALL = false; SB.q
 /* ---- instant points: the scoreboard listens to Data Project's live service itself (the same push the LiveScore page gets).
    The worker poll stays as the base and the fallback. ?push=0 turns it off. ---- */
 const PUSH_ON = HVL.get('push') !== '0' && !HVL.demo;
+// ?fast=1 (short link «scorefast»): points ONLY from the scorer's feed (ES), pushed the moment they are typed; the serve ball goes to
+// whoever won the last point; no DataVolley; the worker is asked once a minute just for names / logos / which game.
+const FAST = HVL.get('fast') === '1';
 let BASE = null, P = null, pushMid = null;
 const n0 = (v) => (v == null || v === '' ? 0 : +v || 0);
 function pbpPick(list) {
@@ -67,9 +70,14 @@ function pbpPick(list) {
   const id = (r) => (r.RallyID == null ? -1 : +r.RallyID);
   const newest = rows.reduce((a, r) => (!a || id(r) >= id(a) ? r : a), null) || {};
   const rallies = rows.filter((r) => r.RallyT === 0 || r.RallyT === 1);
-  const src = rows.find((r) => r.LastAction) || rallies.reduce((a, r) => (!a || id(r) >= id(a) ? r : a), null);
-  const st = src ? src.ST : undefined;
-  const serve = st == null || st === '' ? null : (st === true || st === 1 || /^(true|1)$/i.test(String(st))) ? 'home' : 'away';
+  const scored = rallies.filter((r) => r.HP != null && r.GP != null).sort((a, b) => id(a) - id(b));
+  let serve = null;
+  if (scored.length) { const l = scored[scored.length - 1], pv = scored[scored.length - 2] || { HP: 0, GP: 0 }; if (+l.HP > +pv.HP) serve = 'home'; else if (+l.GP > +pv.GP) serve = 'away'; }
+  if (!serve) {
+    const src = rows.find((r) => r.LastAction) || rallies.reduce((a, r) => (!a || id(r) >= id(a) ? r : a), null);
+    const st = src ? src.ST : undefined;
+    serve = st == null || st === '' ? null : (st === true || st === 1 || /^(true|1)$/i.test(String(st))) ? 'home' : 'away';
+  }
   const t = String(newest.Team || ''), side = t.includes('*') ? 'home' : t.includes('a') ? 'away' : null;
   const event = newest.RallyT === 3 && side ? { type: 'timeout', side, id: newest.RallyID ?? null }
     : newest.RallyT === 4 ? { type: 'challenge', side, id: newest.RallyID ?? null } : null;
@@ -94,14 +102,18 @@ function initP(mid, sc, src) {
 }
 function onScore(o) {                       // sets won {H,G,S}
   const done = n0(o.H) + n0(o.G);
-  if (o.S === 1 && done + 1 > P.set) { P.sets[P.set - 1] = P.sets[P.set - 1] || { h: P.h, a: P.a }; P.set = done + 1; P.h = 0; P.a = 0; P.event = null; }
+  if (o.S === 1 && done + 1 > P.set) { P.sets[P.set - 1] = P.sets[P.set - 1] || { h: P.h, a: P.a }; P.set = done + 1; P.h = 0; P.a = 0; P.event = null; P.lastWin = null; P.serve = null; }
   P.setsH = n0(o.H); P.setsA = n0(o.G); P.status = o.S;
 }
 function onSet(o) {                         // one set {SN,HP,GP,(S),(GS)}
   if (o.GS || o.SN > 5) { P.h = n0(o.HP); P.a = n0(o.GP); P.golden = true; return; }
   if (o.SN < P.set || o.S === 2) { P.sets[o.SN - 1] = { h: n0(o.HP), a: n0(o.GP) }; if (o.SN === P.set && o.S === 2) { P.h = n0(o.HP); P.a = n0(o.GP); } return; }
-  if (o.SN > P.set) P.set = o.SN;
-  P.h = n0(o.HP); P.a = n0(o.GP);
+  if (o.SN > P.set) { P.set = o.SN; P.lastWin = null; }
+  const h = n0(o.HP), a = n0(o.GP);
+  // whoever just won the point serves next (rules) – straight from the scorer's feed, no waiting for DataVolley
+  if (h === P.h + 1 && a === P.a) P.lastWin = 'home'; else if (a === P.a + 1 && h === P.h) P.lastWin = 'away';
+  if (P.lastWin) P.serve = P.lastWin;
+  P.h = h; P.a = a;
   if (P.status === 0 && (P.h || P.a)) P.status = 1;
 }
 function connect(url, mid, setup, onReady) {
@@ -128,8 +140,9 @@ function startPush(mid) {
       initP(mid, sc, 'es'); dbg('push ES connected', c.transport && c.transport.name, P); upd();
     }).fail((e) => console.warn('push ES: list call failed', e));
   });
+  if (FAST) return;
   // DV: serve / time-outs / video check (points only while ES is not there)
-  const pbp = (list) => { if (!P) return; const r = pbpRead(list); if (r.serve) P.serve = r.serve; P.event = r.event || null; upd(); };
+  const pbp = (list) => { if (!P) return; const r = pbpRead(list); if (r.serve && !P.lastWin) P.serve = r.serve; P.event = r.event || null; upd(); };   // DV serve only until the first point of the set
   connect(SR_DV, mid, (hub) => {
     hub.on('updateMatchScoreData_DV', (o) => { if (P && !P.es) { onScore(o); upd(); } });
     hub.on('updateMatchSetData_DV', (o) => { if (P && !P.es) { onSet(o); upd(); } });
@@ -152,10 +165,18 @@ function merged(d) {
   if (P.status === 1) m.status = 'live'; else if (P.status === 2) m.status = 'finished';
   m.setsHome = P.setsH; m.setsAway = P.setsA;
   m.sets = [...P.sets, ...(P.status === 2 ? [] : [{ h: P.h, a: P.a }])];
-  m.current = P.status === 2 ? null : { ...(m.current || {}), set: P.set, h: P.h, a: P.a, serve: P.serve || m.current?.serve || null, event: P.event, ready: P.status === 0 };
+  m.current = P.status === 2 ? null : { ...(m.current || {}), set: P.set, h: P.h, a: P.a, serve: FAST ? P.lastWin || null : P.serve || m.current?.serve || null, event: FAST ? null : P.event, ready: P.status === 0 };
   return x;
 }
-HVL.poll('match', 3, (d, first) => { BASE = d; draw(merged(d), first); startPush(d.match && d.match.mid); });
+if (!FAST) HVL.poll('match', 3, (d, first) => { BASE = d; draw(merged(d), first); startPush(d.match && d.match.mid); });
+else (function loop(first) {
+  // fast mode: names / logos / game come from the worker ONCE. After that it is only asked again
+  // if the scorer's feed is not connected (then every 3 s, so the score never freezes). Checks the feed every 5 s, no request.
+  if (BASE && P && P.es) return setTimeout(() => loop(false), 5000);
+  HVL.load('match').then((d) => { BASE = d; draw(merged(d), first); startPush(d.match && d.match.mid); HVL.msg(''); first = false; })
+    .catch((e) => HVL.msg('⚠ ' + e.message))
+    .finally(() => setTimeout(() => loop(first), 5000));
+})(true);
 function draw(d, first) {
   if (!d.match) { SB.innerHTML = ''; return HVL.msg(d.message); }
   const m = d.match, s = HVL.scoreState(d);
