@@ -221,9 +221,9 @@
   .fs .dash { position: absolute; left: 50%; transform: translate(-50%, -50%); background: var(--aqua); }
   .fs .sets { position: absolute; left: 0; right: 0; display: flex; justify-content: center; }
   .fs .sb { display: flex; align-items: stretch; }
-  .fs .sb small { display: grid; place-items: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-style: italic; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; --cut: 14px; }
+  .fs .sb small { display: grid; place-items: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-style: italic; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
   .fs .sb div { display: flex; align-items: center; background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(29,36,49,.97)); box-shadow: inset 0 -4px 0 var(--aqua);
-      font-variant-numeric: tabular-nums; --cut: 18px; margin-left: -8px; }
+      font-variant-numeric: tabular-nums; }
   .fs .sb b { font-weight: 900; } .fs .sb i { font-style: normal; font-weight: 500; opacity: .55; }
   .fs .tm { position: absolute; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
   .fs .tm .lo2 { display: grid; place-items: center; font-weight: 900; color: var(--aqua); }
@@ -371,7 +371,7 @@ function topLogo(L) {
   return `<img class="lgTL" src="logos/${lf}.png" style="left:${L.fmt === 'story' ? 40 : 28}px;top:${y}px;height:${h}px" onerror="this.remove()">`;
 }
 function header(title, sub, noLogo) {
-  const lf = noLogo ? '' : LOGO_FILE[$('league').value];
+  const lf = noLogo ? '' : LOGO_FILE[$('leaguepng').value];
   return `<div class="hdr"><div class="lg">${lf ? `<img src="logos/${lf}.png" onerror="this.remove()">` : ''}</div>
     <div class="tt par">${HVL.esc(title)}</div><div class="st par">${HVL.esc(sub)}</div></div>`;
 }
@@ -681,7 +681,7 @@ function renderFinal(post, fmt, comp) {
   const bg = BG ? `<img class="bgp" src="${BG}" style="object-position:${$('bgpos').value}">` : '<div class="bgd"></div>';
   const meta = [roundEl(d.match.round), comp].filter(Boolean).join(' · ');
   const dig = (v, x, win) => `<div class="dg ${win || (!hW && !aW) ? '' : 'lose'}" style="left:${x}px;top:${G.dgT}px;font-size:${G.dgFs}px">${v}</div>`;
-  const chip = (x, i) => `<div class="sb" style="margin:0 ${Math.round(G.chipH * .12)}px;height:${G.chipH}px"><small class="par" style="font-size:${Math.round(G.chipLab * 1.25)}px;padding:0 ${Math.round(G.chipH * .32)}px 0 ${Math.round(G.chipH * .3)}px">ΣΕΤ ${i + 1}</small>
+  const chip = (x, i) => `<div class="sb" style="margin:0 ${Math.round(G.chipH * .14)}px;height:${G.chipH}px;--cut:${Math.round(G.chipH * .26)}px;gap:${Math.round(G.chipH * .08)}px"><small class="par" style="font-size:${Math.round(G.chipLab * 1.25)}px;padding:0 ${Math.round(G.chipH * .32)}px 0 ${Math.round(G.chipH * .3)}px">ΣΕΤ ${i + 1}</small>
       <div class="par" style="padding:0 ${Math.round(G.chipH * .42)}px;gap:${Math.round(G.chipH * .16)}px;font-size:${G.chipFs}px">
       ${x.h > x.a ? `<b>${x.h}</b>` : `<i>${x.h}</i>`}<span style="opacity:.5">-</span>${x.a > x.h ? `<b>${x.a}</b>` : `<i>${x.a}</i>`}</div></div>`;
   const ini = (t) => HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3));
