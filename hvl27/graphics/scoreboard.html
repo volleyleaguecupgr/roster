@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="../css/cev.css">
 <script src="../js/config.js"></script>
 <script src="../js/core.js"></script>
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/vendor/jquery.signalR.min.js"></script>
 <style>
   /* ?pos=tl|tr|bl|br (default tl = top left)  ?scale=0.8 (size)  ?names=short|code|long  ?partials=1 */
   #sb { position: absolute; left: 40px; top: 36px; display: flex; flex-direction: column; gap: 8px; transform: scale(var(--k, .8)); transform-origin: 0 0; }
@@ -52,7 +54,95 @@ const NAMES = HVL.get('names', 'long');
 const showParts = HVL.get('partials', '0') === '1';
 let prev = {};
 let BALL = true; { const t = new Image(); t.onerror = () => { BALL = false; SB.querySelectorAll('.serve').forEach((e) => e.classList.add('dot')); }; t.src = '../logos/ball.png'; }
-HVL.poll('match', 3, (d, first) => {
+/* ---- instant points: the scoreboard listens to Data Project's live service itself (the same push the LiveScore page gets).
+   The worker poll stays as the base and the fallback. ?push=0 turns it off. ---- */
+const PUSH_ON = HVL.get('push') !== '0' && !HVL.demo;
+let BASE = null, P = null, pushMid = null;
+const n0 = (v) => (v == null || v === '' ? 0 : +v || 0);
+function pbpRead(list) {   // same rules as the worker: last rally's ST = who serves; last row time out / video check = tag
+  if (!Array.isArray(list) || !list.length || list[0] == null) return {};
+  let serve; for (const r of list) if (r && (r.LastAction || r.RallyT === 0 || r.RallyT === 1) && typeof r.ST === 'boolean') serve = r.ST ? 'home' : 'away';
+  const l = list[list.length - 1] || {}, t = String(l.Team || ''), side = t.includes('*') ? 'home' : t.includes('a') ? 'away' : null;
+  return { serve, event: l.RallyT === 3 && side ? { type: 'timeout', side, id: l.RallyID } : l.RallyT === 4 ? { type: 'challenge', side, id: l.RallyID } : null };
+}
+// Two feeds from Data Project:
+//   ES = the e-scoresheet at the scorer's table (dataprojectservicesignalr) → points / sets, arrives first (LiveScore.aspx list page)
+//   DV = DataVolley statistician (dataprojectservicesignalradv) → serve, time-outs, video checks (+ points if ES is not there)
+const SR_ES = 'https://dataprojectservicesignalr.azurewebsites.net/signalr', SR_DV = 'https://dataprojectservicesignalradv.azurewebsites.net/signalr';
+const dbg = (...a) => { if (HVL.get('debug') === '1') console.log(...a); };
+function initP(mid, sc, src) {
+  const wh = n0(sc.WonSetHome), wa = n0(sc.WonSetGuest), done = Math.min(5, wh + wa), sets = [];
+  for (let i = 1; i <= done; i++) sets.push({ h: n0(sc['Set' + i + 'Home']), a: n0(sc['Set' + i + 'Guest']) });
+  const n = Math.min(5, done + 1), keep = P && P.mid === mid ? P : {};
+  P = { serve: null, event: null, ...keep, mid, status: sc.Status, setsH: wh, setsA: wa, sets, set: done + 1,
+        h: n0(sc['Set' + n + 'Home']), a: n0(sc['Set' + n + 'Guest']), es: keep.es || src === 'es', t: Date.now() };
+  if (sc.GoldenSetPlayed) { P.golden = true; P.h = n0(sc.GoldenSetHome); P.a = n0(sc.GoldenSetGuest); }
+}
+function onScore(o) {                       // sets won {H,G,S}
+  const done = n0(o.H) + n0(o.G);
+  if (o.S === 1 && done + 1 > P.set) { P.sets[P.set - 1] = P.sets[P.set - 1] || { h: P.h, a: P.a }; P.set = done + 1; P.h = 0; P.a = 0; P.event = null; }
+  P.setsH = n0(o.H); P.setsA = n0(o.G); P.status = o.S;
+}
+function onSet(o) {                         // one set {SN,HP,GP,(S),(GS)}
+  if (o.GS || o.SN > 5) { P.h = n0(o.HP); P.a = n0(o.GP); P.golden = true; return; }
+  if (o.SN < P.set || o.S === 2) { P.sets[o.SN - 1] = { h: n0(o.HP), a: n0(o.GP) }; if (o.SN === P.set && o.S === 2) { P.h = n0(o.HP); P.a = n0(o.GP); } return; }
+  if (o.SN > P.set) P.set = o.SN;
+  P.h = n0(o.HP); P.a = n0(o.GP);
+  if (P.status === 0 && (P.h || P.a)) P.status = 1;
+}
+function connect(url, mid, setup, onReady) {
+  const c = jQuery.hubConnection(url, { useDefaultPath: false });
+  const hub = c.createHubProxy('signalRLiveHubFederations');
+  setup(hub);
+  c.disconnected(() => { dbg('push: lost', url); if (url === SR_ES && P) P.es = false; if (pushMid === mid) setTimeout(() => c.start().done(() => onReady(hub, c)), 3000); });
+  c.start().done(() => onReady(hub, c)).fail((e) => console.warn('push: cannot connect to', url, e));
+}
+function startPush(mid) {
+  if (!PUSH_ON || !mid || pushMid === mid || !window.jQuery || !jQuery.hubConnection) return;
+  pushMid = mid; P = null;
+  const upd = () => { if (P) { P.t = Date.now(); if (BASE) draw(merged(BASE), false); } };
+  const mine = (o) => o && String(o.MID ?? o.ChampionshipMatchID) === String(mid);
+  // ES: the points
+  connect(SR_ES, mid, (hub) => {
+    hub.on('updateMatchScoreData_ES', (o) => { if (P && mine(o)) { onScore(o); upd(); } });
+    hub.on('updateMatchSetData_ES', (o) => { if (P && mine(o)) { onSet(o); upd(); } });
+    hub.on('updateMatchAllSetData_ES', (list) => { if (P && Array.isArray(list)) { list.filter(mine).forEach(onSet); upd(); } });
+  }, (hub, c) => {
+    hub.invoke('getLiveScoreListData_From_ES', String(mid), 'hvl').done((arr) => {
+      const sc = Array.isArray(arr) ? arr.find(mine) || arr[0] : arr;
+      if (!sc) return dbg('push ES: no data for', mid);
+      initP(mid, sc, 'es'); dbg('push ES connected', c.transport && c.transport.name, P); upd();
+    }).fail((e) => console.warn('push ES: list call failed', e));
+  });
+  // DV: serve / time-outs / video check (points only while ES is not there)
+  const pbp = (list) => { if (!P) return; const r = pbpRead(list); if (r.serve) P.serve = r.serve; P.event = r.event || null; upd(); };
+  connect(SR_DV, mid, (hub) => {
+    hub.on('updateMatchScoreData_DV', (o) => { if (P && !P.es) { onScore(o); upd(); } });
+    hub.on('updateMatchSetData_DV', (o) => { if (P && !P.es) { onSet(o); upd(); } });
+    hub.on('updatePlayByPlayData', pbp); hub.on('refreshPlayByPlayData', pbp);
+    hub.on('updatePlayByPlayLastRallyData', () => {}); hub.on('showTimeoutSubstitutionOnCourt', () => {});
+  }, (hub, c) => {
+    hub.invoke('getLiveScoreData_From_DV', String(mid), 'hvl').done((sc) => {
+      if (!sc) return;
+      if (!P || !P.es) initP(mid, sc, 'dv');
+      dbg('push DV connected', c.transport && c.transport.name);
+      if (sc.Status === 1) hub.invoke('getPlayByPlayData', String(mid), (+sc.WonSetHome || 0) + (+sc.WonSetGuest || 0) + 1, 'hvl', !!sc.GoldenSetPlayed).done(pbp);
+      upd();
+    }).fail((e) => console.warn('push DV: score call failed', e));
+  });
+}
+// live service values on top of the worker data (never over the operator's manual / backup score)
+function merged(d) {
+  if (!P || !d.match || P.mid !== d.match.mid || d.state?.score?.manual || d.state?.backup?.active || P.status === 2 && d.match.status === 'finished') return d;
+  const x = JSON.parse(JSON.stringify(d)), m = x.match;
+  if (P.status === 1) m.status = 'live'; else if (P.status === 2) m.status = 'finished';
+  m.setsHome = P.setsH; m.setsAway = P.setsA;
+  m.sets = [...P.sets, ...(P.status === 2 ? [] : [{ h: P.h, a: P.a }])];
+  m.current = P.status === 2 ? null : { ...(m.current || {}), set: P.set, h: P.h, a: P.a, serve: P.serve || m.current?.serve || null, event: P.event, ready: P.status === 0 };
+  return x;
+}
+HVL.poll('match', 3, (d, first) => { BASE = d; draw(merged(d), first); startPush(d.match && d.match.mid); });
+function draw(d, first) {
   if (!d.match) { SB.innerHTML = ''; return HVL.msg(d.message); }
   const m = d.match, s = HVL.scoreState(d);
   const label = m.status === 'finished' ? HVL.t('final') : m.status === 'upcoming' && !m.current ? (HVL.dateLong(m.iso).time || '') : `${HVL.t('set')} ${s.set}`;
@@ -79,7 +169,7 @@ HVL.poll('match', 3, (d, first) => {
   prev = now;
   LAST = d; flags();
   HVL.animate(SB, first);
-});
+}
 // event tags: set point / match point stay until switched off; time out and challenge hide by themselves
 let LAST = null;
 const FLAG = { setpoint: ['Set point', ''], matchpoint: ['Match point', ''], timeout: ['Time out', 'white', +HVL.get('tto', 30)], challenge: ['Challenge', 'white', +HVL.get('chl', 60)] };
