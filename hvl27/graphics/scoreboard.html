@@ -57,7 +57,7 @@ let prev = {};
 let BALL = true; { const t = new Image(); t.onerror = () => { BALL = false; SB.querySelectorAll('.serve').forEach((e) => e.classList.add('dot')); }; t.src = '../logos/ball.png'; }
 /* ---- instant points: the scoreboard listens to Data Project's live service itself (the same push the LiveScore page gets).
    The worker poll stays as the base and the fallback. ?push=0 turns it off. ---- */
-const PUSH_ON = HVL.get('push') !== '0' && !HVL.demo;
+const PUSH_ON = (HVL.get('push') === '1' || HVL.get('fast') === '1') && !HVL.demo;   // direct feed only when asked for (?push=1 / ?fast=1)
 // ?fast=1 (short link «scorefast»): points ONLY from the scorer's feed (ES), pushed the moment they are typed; the serve ball goes to
 // whoever won the last point; no DataVolley; the worker is asked once a minute just for names / logos / which game.
 const FAST = HVL.get('fast') === '1';
@@ -130,8 +130,8 @@ function startPush(mid) {
   const mine = (o) => o && String(o.MID ?? o.ChampionshipMatchID) === String(mid);
   // ES: the points
   connect(SR_ES, mid, (hub) => {
-    hub.on('updateMatchScoreData_ES', (o) => { if (P && mine(o)) { onScore(o); upd(); } });
-    hub.on('updateMatchSetData_ES', (o) => { if (P && mine(o)) { onSet(o); upd(); } });
+    hub.on('updateMatchScoreData_ES', (o) => { dbg('ES score', o); if (P && mine(o)) { P.push = Date.now(); onScore(o); upd(); } });
+    hub.on('updateMatchSetData_ES', (o) => { dbg('ES set', o); if (P && mine(o)) { P.push = Date.now(); onSet(o); upd(); } });
     hub.on('updateMatchAllSetData_ES', (list) => { if (P && Array.isArray(list)) { list.filter(mine).forEach(onSet); upd(); } });
   }, (hub, c) => {
     hub.invoke('getLiveScoreListData_From_ES', String(mid), 'hvl').done((arr) => {
@@ -161,6 +161,15 @@ function startPush(mid) {
 // live service values on top of the worker data (never over the operator's manual / backup score)
 function merged(d) {
   if (!P || !d.match || P.mid !== d.match.mid || d.state?.score?.manual || d.state?.backup?.active || P.status === 2 && d.match.status === 'finished') return d;
+  // safety: if the worker already has more points than the pushed feed, the feed is silent → take the worker's numbers
+  const tot = (sets, h, a) => (sets || []).reduce((t, z) => t + (+z.h || 0) + (+z.a || 0), 0) + (+h || 0) + (+a || 0);
+  const wm = d.match, wc = wm.current || {}, wDone = (wm.sets || []).slice(0, (wm.setsHome || 0) + (wm.setsAway || 0));
+  if (wm.status === 'live' && tot(wDone, wc.h, wc.a) > tot(P.sets, P.h, P.a)) {
+    dbg('push behind the worker → resync', { worker: [wc.h, wc.a], push: [P.h, P.a] });
+    if (wc.h === P.h + 1 && wc.a === P.a) P.lastWin = 'home'; else if (wc.a === P.a + 1 && wc.h === P.h) P.lastWin = 'away'; else if (wc.serve) P.lastWin = wc.serve;
+    P.sets = wDone.map((z) => ({ h: +z.h, a: +z.a })); P.setsH = wm.setsHome || 0; P.setsA = wm.setsAway || 0;
+    P.set = wc.set || P.sets.length + 1; P.h = +wc.h || 0; P.a = +wc.a || 0; P.status = 1; P.serve = P.lastWin || wc.serve || P.serve;
+  }
   const x = JSON.parse(JSON.stringify(d)), m = x.match;
   if (P.status === 1) m.status = 'live'; else if (P.status === 2) m.status = 'finished';
   m.setsHome = P.setsH; m.setsAway = P.setsA;
@@ -168,14 +177,29 @@ function merged(d) {
   m.current = P.status === 2 ? null : { ...(m.current || {}), set: P.set, h: P.h, a: P.a, serve: FAST ? P.lastWin || null : P.serve || m.current?.serve || null, event: FAST ? null : P.event, ready: P.status === 0 };
   return x;
 }
-if (!FAST) HVL.poll('match', 3, (d, first) => { BASE = d; draw(merged(d), first); startPush(d.match && d.match.mid); });
+// a score that goes DOWN is shown only if the next answer says the same (stale read vs. a real correction by the scorer)
+let shownTot = -1, shownMid = null, downSeen = 0;
+function steady(d) {
+  if (!d.match || d.state?.score?.manual) return true;
+  const s = HVL.scoreState(d), t = (s.sets || []).slice(0, s.setsH + s.setsA).reduce((a, z) => a + (+z.h || 0) + (+z.a || 0), 0) + (+s.h || 0) + (+s.a || 0) + 1000 * (s.setsH + s.setsA);
+  if (d.match.mid !== shownMid || t >= shownTot) { shownMid = d.match.mid; shownTot = t; downSeen = 0; return true; }
+  if (++downSeen >= 3) { shownTot = t; downSeen = 0; return true; }
+  return false;
+}
+if (!FAST) HVL.poll('match', 1, (d, first) => {
+  BASE = d; const v = merged(d);
+  const ok = steady(v);   // (also on the first answer, so it becomes the reference)
+  if (first || ok) draw(v, first);
+  else setTimeout(() => { if (BASE === d) { shownTot = -1; steady(v); draw(v, false); } }, 3000);   // still the same after ~3 s → a real correction, show it
+  startPush(d.match && d.match.mid);
+});
 else (function loop(first) {
   // fast mode: names / logos / game come from the worker ONCE. After that it is only asked again
   // if the scorer's feed is not connected (then every 3 s, so the score never freezes). Checks the feed every 5 s, no request.
-  if (BASE && P && P.es) return setTimeout(() => loop(false), 5000);
+  if (BASE && P && P.es && Date.now() - (P.push || P.t || 0) < 10000) return setTimeout(() => loop(false), 3000);   // feed alive → no request
   HVL.load('match').then((d) => { BASE = d; draw(merged(d), first); startPush(d.match && d.match.mid); HVL.msg(''); first = false; })
     .catch((e) => HVL.msg('⚠ ' + e.message))
-    .finally(() => setTimeout(() => loop(first), 5000));
+    .finally(() => setTimeout(() => loop(first), 3000));
 })(true);
 function draw(d, first) {
   if (!d.match) { SB.innerHTML = ''; return HVL.msg(d.message); }
