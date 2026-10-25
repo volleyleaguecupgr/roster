@@ -81,6 +81,9 @@
   .row .mid.vs { background: var(--slate2); color: #fff; font-size: calc(var(--rh) * .3); }
   .row .mid.live { background: #ff5a6b; color: #fff; }
   .row .mid small { font-size: calc(var(--rh) * .15); font-weight: 800; letter-spacing: 1px; line-height: 1; opacity: .8; }
+  .row .mid > span, .mb .sc span, .hdr .tt, .hdr .st { white-space: nowrap; }
+  .row .mid small.ps { display: block; max-width: 100%; padding: 0 8px; margin-top: 4px; font-size: calc(var(--rh) * .135); font-weight: 800; letter-spacing: 0; line-height: 1.2;
+      opacity: .85; white-space: normal; text-align: center; word-spacing: 4px; }
   .s { grid-template-columns: var(--rkW) var(--logoW) 1fr repeat(3, var(--numW)) var(--setW) var(--ptsW); }
   .s .rk { height: 100%; display: grid; place-items: center; background: var(--slate2); font-size: calc(var(--rh) * .38); font-weight: 900; }
   .s.hl .rk, .s.top .rk { background: var(--aqua); color: var(--ink); }
@@ -488,7 +491,8 @@ function render() {
         const [day, time] = dayEl(m.iso), fin = m.status === 'finished', live = m.status === 'live';
         const hw = fin && m.setsHome > m.setsAway, aw = fin && m.setsAway > m.setsHome;
         const showScore = fin || live;
-        const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome ?? 0}-${m.setsAway ?? 0}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ''}</div>` : `<div class="mid vs"><span>${HVL.esc(time)}</span>${court(m)}</div>`;
+        const ps = fin && (m.partials || m.sets || []).length ? `<small class="ps">${(m.partials || m.sets).map((z) => `${z.h}-${z.a}`).join(' ')}</small>` : '';
+        const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome ?? 0}-${m.setsAway ?? 0}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ps}</div>` : `<div class="mid vs"><span>${HVL.esc(time)}</span>${court(m)}</div>`;
         const dh = narrow && day !== lastDay ? `<div class="dh">${HVL.esc(caps(new Intl.DateTimeFormat('el-GR', { timeZone: 'Europe/Athens', weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(m.iso))))}${showScore ? ' · ' + HVL.esc(time) : ''}</div>` : '';
         lastDay = day;
         if (rowsN) {
