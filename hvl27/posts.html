@@ -83,10 +83,10 @@
   .row .mid small { font-size: calc(var(--rh) * .15); font-weight: 800; letter-spacing: 1px; line-height: 1; opacity: .8; }
   .row .mid > span, .mb .sc span, .hdr .tt, .hdr .st { white-space: nowrap; }
   /* set scores: their own line hanging under the game row, centred under the score */
-  .psr { display: flex; justify-content: center; margin-top: calc(var(--gap) * -1); height: calc(var(--rh) * .42 - var(--gap)); }
-  .psr > div { display: flex; align-items: center; gap: calc(var(--rh) * .2); height: 100%; padding: 0 calc(var(--rh) * .4); --cut: calc(var(--rh) * .14);
+  .psr { display: flex; justify-content: center; margin-top: calc(var(--gap) * -1); height: calc(var(--rh) * .5 - var(--gap)); }
+  .psr > div { display: flex; align-items: center; gap: calc(var(--rh) * .26); height: 100%; padding: 0 calc(var(--rh) * .45); --cut: calc(var(--rh) * .16);
       background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(29,36,49,.97)); box-shadow: inset 0 -3px 0 var(--aqua);
-      font-size: calc(var(--rh) * .2); font-weight: 600; color: rgba(255,255,255,.6); white-space: nowrap; font-variant-numeric: tabular-nums; }
+      font-size: calc(var(--rh) * .27); font-weight: 600; color: rgba(255,255,255,.6); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .psr b { color: #fff; font-weight: 900; } .psr i { font-style: normal; margin: 0 3px; opacity: .6; }
   .s { grid-template-columns: var(--rkW) var(--logoW) 1fr repeat(3, var(--numW)) var(--setW) var(--ptsW); }
   .s .rk { height: 100%; display: grid; place-items: center; background: var(--slate2); font-size: calc(var(--rh) * .38); font-weight: 900; }
@@ -482,7 +482,7 @@ function render() {
     const dayKey = (m) => dayEl(m.iso)[0];
     const days = narrow ? new Set(ms.map(dayKey)).size : 0;
     const stack = narrow && $('lay').value === 'stack', rowsN = narrow && !stack;
-    const psN = type === 'results' ? ms.filter((m) => m.status === 'finished' && (m.partials || m.sets || []).length).length * .42 : 0;   // set-score lines
+    const psN = type === 'results' ? ms.filter((m) => m.status === 'finished' && (m.partials || m.sets || []).length).length * .5 : 0;   // set-score lines
     const L = layout(fmt, (stack ? ms.length * 1.3 + days * .45 : narrow ? ms.length + days * .45 : ms.length) + psN); applyVars(post, L);
     const sched = type === 'schedule';
     post.style.setProperty('--scW', Math.round(rowsN ? Math.min(L.rh * 1.9, 210) : Math.min(L.rh * (sched ? 1.6 : 1.25), sched ? 200 : 150)) + 'px');
@@ -523,7 +523,13 @@ function render() {
     </div>` + footer();
   }
   post.querySelectorAll('img.tvl, .tv img, img.tvL').forEach(trimLogo);
-  const fitAll = () => { HVL.fit(post); fitUni2(post); };
+  // set-score line: centred exactly under the score box of its game (the box is not always in the middle of the row)
+  const centerPs = () => post.querySelectorAll('.psr').forEach((p) => {
+    const box = p.previousElementSibling?.querySelector('.mid, .sc'), bar = p.firstElementChild; if (!box || !bar) return;
+    bar.style.transform = ''; const k = post.getBoundingClientRect().width / post.offsetWidth || 1;
+    const dx = (box.getBoundingClientRect().left + box.getBoundingClientRect().width / 2) - (bar.getBoundingClientRect().left + bar.getBoundingClientRect().width / 2);
+    bar.style.transform = `translateX(${Math.round(dx / k)}px)`; });
+  const fitAll = () => { HVL.fit(post); fitUni2(post); centerPs(); };
   fitAll(); if (document.fonts?.ready) document.fonts.ready.then(fitAll);
   scale();
 }
