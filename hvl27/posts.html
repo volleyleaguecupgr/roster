@@ -210,6 +210,13 @@
   .st-list .nmw { height: 100%; min-width: 0; display: flex; align-items: center; padding: 0 12px 0 calc(var(--rh) * .2); overflow: hidden; }
   .st-list .nmw span { display: block; width: 100%; font-weight: 800; line-height: 1.04; text-transform: uppercase; font-size: calc(var(--rh) * .36); }
   .st-list .s .tn { font-size: calc(var(--rh) * .4); padding-left: calc(var(--rh) * .2); }
+  .s-only { display: none !important; } body.t-standings .s-only { display: flex !important; }
+  /* groups of places (1-4, 5-8, 9-12): thin sharp aqua outline with slanted sides around the rows */
+  .st-list .grp { position: relative; display: flex; flex-direction: column; gap: var(--gap); padding: calc(var(--gap) * 1.1) calc(var(--rh) * .34); --gcut: calc(var(--rh) * .3); }
+  .st-list .grp::before, .st-list .grp::after { content: ''; position: absolute; inset: 0; clip-path: polygon(var(--gcut) 0, 100% 0, calc(100% - var(--gcut)) 100%, 0 100%); pointer-events: none; }
+  .st-list .grp::before { background: var(--aqua); }
+  .st-list .grp::after { inset: 2px 3px; background: rgba(12,19,35,.72); clip-path: polygon(calc(var(--gcut) - 1px) 0, 100% 0, calc(100% - var(--gcut) + 1px) 100%, 0 100%); }
+  .st-list .grp > * { position: relative; z-index: 1; }
 
   /* ---------- Τελικό σκορ (instagram card) ---------- */
   .f-only { display: none !important; } body.t-final .f-only { display: flex !important; } body.t-final label:has(#lay) { display: none !important; }
@@ -251,6 +258,7 @@
   <label class="f-only">Θέση φωτό<select id="bgpos"><option value="50% 50%">Κέντρο</option><option value="50% 20%">Πάνω</option><option value="50% 80%">Κάτω</option></select></label>
   <label class="f-only">Σκορ (χειρ.)<input id="fscore" size="5" placeholder="3-1"></label>
   <label class="f-only">Σετ (χειρ.)<input id="fsets" size="22" placeholder="25-21 23-25 25-19 25-22"></label>
+  <label class="s-only">Ομάδες θέσεων<select id="grp"><option value="4,4">1-4 · 5-8 · 9-12</option><option value="">Χωρίς ομάδες</option><option value="4,4,4">1-4 · 5-8 · 9-12 · 13-</option><option value="2,4">1-2 · 3-6 · 7-</option></select></label>
   <label class="m-only">Στυλ<select id="style"><option value="boxes">Logos σε κουτιά</option><option value="players">Φωτογραφίες παικτών</option></select></label>
   <label class="m-only">Αγώνας<select id="mode"><option value="next">Επόμενος</option><option value="auto">Σημερινός / τρέχων</option><option value="last">Τελευταίος</option></select></label>
   <label class="m-only">Αγωνιστική<select id="gday"><option value="auto">Αυτόματα (Worker)</option></select></label>
@@ -273,7 +281,7 @@ const FMT = { post: [1080, 1350], square: [1080, 1080], story: [1080, 1920], wid
 const LOGO_FILE = { hvl: 'league', cup: 'leaguecup', supercup: 'supercup' };
 const $ = (id) => document.getElementById(id);
 const P = new URLSearchParams(location.search);
-for (const k of ['type', 'fmt', 'which', 'league', 'team', 'footer', 'style', 'mode', 'lay']) if (P.has(k)) $(k).value = P.get(k);
+for (const k of ['type', 'fmt', 'which', 'league', 'team', 'footer', 'style', 'mode', 'lay', 'grp']) if (P.has(k)) $(k).value = P.get(k);
 if (!P.has('league') && HVL.league) $('league').value = HVL.league;
 if (!P.has('team') && HVL.team) $('team').value = HVL.team;
 
@@ -465,15 +473,19 @@ function render() {
   if (type === 'final') { renderFinal(post, fmt, comp); return; }
   if (type === 'standings') {
     const rows = (DATA.standings || []).slice(0, 14);
-    const L = layout(fmt, rows.length + .5); applyVars(post, L);
+    // groups of places: sizes from the «Ομάδες θέσεων» field, the last group takes the rest
+    const sizes = $('grp').value.split(',').map(Number).filter((x) => x > 0), GRP = [];
+    if (sizes.length) { let i = 0; for (const n of sizes) { if (i < rows.length) GRP.push(Math.min(n, rows.length - i)); i += n; } if (i < rows.length) GRP.push(rows.length - i); }
+    const grouped = (html, g) => { if (!g.length) return html.join(''); let i = 0; return g.map((n) => `<div class="grp">${html.slice(i, (i += n)).join('')}</div>`).join(''); };
+    const L = layout(fmt, rows.length + .5 + (GRP.length ? GRP.length * .45 : 0)); applyVars(post, L);
     const narrowSt = FMT[fmt][0] < 1500;
     if (!narrowSt) L.listW = 1240;
     if (narrowSt) { L.listW = FMT[fmt][0] - 120; post.style.setProperty('--numW', Math.round(L.rh * .7) + 'px'); post.style.setProperty('--setW', Math.round(L.rh * 1.15) + 'px'); }
     post.innerHTML = bars() + header('ΒΑΘΜΟΛΟΓΙΑ', comp, true) + topLogo(L) + `<div class="list st-list" style="top:${L.listTop}px;width:${L.listW}px">
       <div class="row s sh"><div></div><div></div><div></div><div class="n">ΑΓ</div><div class="n">Ν</div><div class="n">Η</div><div class="n">ΣΕΤ</div><div class="pts">ΒΑΘ</div></div>
-      ${rows.map((r) => { const t = { id: r.teamId, name: r.name, short: r.short, logo: r.logo, slug: r.slug };
+      ${grouped(rows.map((r) => { const t = { id: r.teamId, name: r.name, short: r.short, logo: r.logo, slug: r.slug };
         return `<div class="row s par ${isFocus(t) ? 'hl' : ''} ${r.rank === 1 ? 'top' : ''}"><div class="rk">${r.rank}</div>${logo(t)}${narrowSt ? `<div class="nmw"><span class="u2">${HVL.esc(el(t))}</span></div>` : `<div class="tn fit uni">${HVL.esc(el(t))}</div>`}
-          <div class="n">${r.played ?? ''}</div><div class="n">${r.won ?? ''}</div><div class="n">${r.lost ?? ''}</div><div class="n">${r.setsW ?? ''}:${r.setsL ?? ''}</div><div class="pts">${r.rankPts ?? ''}</div></div>`; }).join('')}
+          <div class="n">${r.played ?? ''}</div><div class="n">${r.won ?? ''}</div><div class="n">${r.lost ?? ''}</div><div class="n">${r.setsW ?? ''}:${r.setsL ?? ''}</div><div class="pts">${r.rankPts ?? ''}</div></div>`; }), GRP)}
     </div>` + footer();
   } else {
     const r = DATA.round;
@@ -529,7 +541,18 @@ function render() {
     bar.style.transform = ''; const k = post.getBoundingClientRect().width / post.offsetWidth || 1;
     const dx = (box.getBoundingClientRect().left + box.getBoundingClientRect().width / 2) - (bar.getBoundingClientRect().left + bar.getBoundingClientRect().width / 2);
     bar.style.transform = `translateX(${Math.round(dx / k)}px)`; });
-  const fitAll = () => { HVL.fit(post); fitUni2(post); centerPs(); };
+  // standings groups: slant the outline at exactly the angle of the team rows (same cut per height)
+  const slantGroups = () => post.querySelectorAll('.st-list .grp').forEach((g) => {
+    const row = g.querySelector('.row'); if (!row) return;
+    const cut = parseFloat(getComputedStyle(row).getPropertyValue('--cut')) || 18, slope = cut / row.offsetHeight;
+    const gcut = Math.round(g.offsetHeight * slope);
+    g.style.setProperty('--gcut', gcut + 'px');
+    // keep the rows inside the slanted outline: side padding = how far the outline leans past a row
+    const pad = Math.max(Math.round(row.offsetHeight * .34), gcut - cut + 10);
+    g.style.paddingLeft = g.style.paddingRight = pad + 'px';
+    const sh = post.querySelector('.st-list .sh'); if (sh) sh.style.margin = `0 ${pad}px`;   // column titles line up with the rows
+  });
+  const fitAll = () => { HVL.fit(post); fitUni2(post); centerPs(); slantGroups(); };
   fitAll(); if (document.fonts?.ready) document.fonts.ready.then(fitAll);
   scale();
 }
@@ -764,7 +787,7 @@ $('bgimg').onchange = (e) => { const f = e.target.files[0]; if (!f) return; cons
 ['fscore', 'fsets'].forEach((k) => ($(k).oninput = render));
 const PHOTOS = { h: null, a: null };
 for (const [id, k] of [['ph', 'h'], ['pa', 'a']]) $(id).onchange = (e) => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { PHOTOS[k] = r.result; render(); }; r.readAsDataURL(f); };
-['fmt', 'lay'].forEach((k) => ($(k).onchange = render));
+['fmt', 'lay', 'grp'].forEach((k) => ($(k).onchange = render));
 ['team', 'footer'].forEach((k) => ($(k).oninput = render));
 $('which').disabled = $('type').value === 'standings';
 document.addEventListener('DOMContentLoaded', load);
