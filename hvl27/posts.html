@@ -82,8 +82,12 @@
   .row .mid.live { background: #ff5a6b; color: #fff; }
   .row .mid small { font-size: calc(var(--rh) * .15); font-weight: 800; letter-spacing: 1px; line-height: 1; opacity: .8; }
   .row .mid > span, .mb .sc span, .hdr .tt, .hdr .st { white-space: nowrap; }
-  .row .mid small.ps { display: block; max-width: 100%; padding: 0 8px; margin-top: 4px; font-size: calc(var(--rh) * .135); font-weight: 800; letter-spacing: 0; line-height: 1.2;
-      opacity: .85; white-space: normal; text-align: center; word-spacing: 4px; }
+  /* set scores: their own line hanging under the game row, centred under the score */
+  .psr { display: flex; justify-content: center; margin-top: calc(var(--gap) * -1); height: calc(var(--rh) * .42 - var(--gap)); }
+  .psr > div { display: flex; align-items: center; gap: calc(var(--rh) * .2); height: 100%; padding: 0 calc(var(--rh) * .4); --cut: calc(var(--rh) * .14);
+      background: linear-gradient(100deg, rgba(36,44,59,.97), rgba(29,36,49,.97)); box-shadow: inset 0 -3px 0 var(--aqua);
+      font-size: calc(var(--rh) * .2); font-weight: 600; color: rgba(255,255,255,.6); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .psr b { color: #fff; font-weight: 900; } .psr i { font-style: normal; margin: 0 3px; opacity: .6; }
   .s { grid-template-columns: var(--rkW) var(--logoW) 1fr repeat(3, var(--numW)) var(--setW) var(--ptsW); }
   .s .rk { height: 100%; display: grid; place-items: center; background: var(--slate2); font-size: calc(var(--rh) * .38); font-weight: 900; }
   .s.hl .rk, .s.top .rk { background: var(--aqua); color: var(--ink); }
@@ -478,7 +482,8 @@ function render() {
     const dayKey = (m) => dayEl(m.iso)[0];
     const days = narrow ? new Set(ms.map(dayKey)).size : 0;
     const stack = narrow && $('lay').value === 'stack', rowsN = narrow && !stack;
-    const L = layout(fmt, stack ? ms.length * 1.3 + days * .45 : narrow ? ms.length + days * .45 : ms.length); applyVars(post, L);
+    const psN = type === 'results' ? ms.filter((m) => m.status === 'finished' && (m.partials || m.sets || []).length).length * .42 : 0;   // set-score lines
+    const L = layout(fmt, (stack ? ms.length * 1.3 + days * .45 : narrow ? ms.length + days * .45 : ms.length) + psN); applyVars(post, L);
     const sched = type === 'schedule';
     post.style.setProperty('--scW', Math.round(rowsN ? Math.min(L.rh * 1.9, 210) : Math.min(L.rh * (sched ? 1.6 : 1.25), sched ? 200 : 150)) + 'px');
     post.style.setProperty('--tvW', Math.round(Math.min(L.rh * (narrow ? .95 : 2.1), 260)) + 'px');
@@ -491,15 +496,16 @@ function render() {
         const [day, time] = dayEl(m.iso), fin = m.status === 'finished', live = m.status === 'live';
         const hw = fin && m.setsHome > m.setsAway, aw = fin && m.setsAway > m.setsHome;
         const showScore = fin || live;
-        const ps = fin && (m.partials || m.sets || []).length ? `<small class="ps">${(m.partials || m.sets).map((z) => `${z.h}-${z.a}`).join(' ')}</small>` : '';
-        const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome ?? 0}-${m.setsAway ?? 0}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ps}</div>` : `<div class="mid vs"><span>${HVL.esc(time)}</span>${court(m)}</div>`;
+        const mid = showScore ? `<div class="mid ${live ? 'live' : ''}"><span>${m.setsHome ?? 0}-${m.setsAway ?? 0}</span>${live ? '<small>ΖΩΝΤΑΝΑ</small>' : ''}</div>` : `<div class="mid vs"><span>${HVL.esc(time)}</span>${court(m)}</div>`;
         const dh = narrow && day !== lastDay ? `<div class="dh">${HVL.esc(caps(new Intl.DateTimeFormat('el-GR', { timeZone: 'Europe/Athens', weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(m.iso))))}${showScore ? ' · ' + HVL.esc(time) : ''}</div>` : '';
         lastDay = day;
+        const pz = type === 'results' && fin ? (m.partials || m.sets || []) : [];
+        const psr = pz.length ? `<div class="psr"><div class="par">${pz.map((z) => `<span>${z.h > z.a ? `<b>${z.h}</b>` : z.h}<i>-</i>${z.a > z.h ? `<b>${z.a}</b>` : z.a}</span>`).join('')}</div></div>` : '';
         if (rowsN) {
           const box = showScore ? mid : `<div class="mid vs"><span>${HVL.esc(time)}</span>${court(m)}${sched ? `<img class="tvl" src="${tvLogo(m.tv)}" onerror="this.remove()">` : ''}</div>`;
           return `${dh}<div class="row n2 par ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}">
             <div class="nmw h ${fin && !hw ? 'l' : ''}"><span class="u2">${HVL.esc(el(m.home))}</span></div>${logo(m.home)}${box}${logo(m.away)}
-            <div class="nmw a ${fin && !aw ? 'l' : ''}"><span class="u2">${HVL.esc(el(m.away))}</span></div></div>`;
+            <div class="nmw a ${fin && !aw ? 'l' : ''}"><span class="u2">${HVL.esc(el(m.away))}</span></div></div>${psr}`;
         }
         if (narrow) {
           const sc = live ? `<div class="sc live"><span>${m.setsHome ?? 0}-${m.setsAway ?? 0}</span><small>ΖΩΝΤΑΝΑ</small></div>`
@@ -507,12 +513,12 @@ function render() {
             : `<div class="sc vs"><span>${HVL.esc(time)}</span>${court(m)}</div>`;
           return `${dh}<div class="mb par ${sched ? 'wtv' : ''} ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="lns">
             <div class="ln">${logo(m.home)}<div class="tn fit uni ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home))}</div></div>
-            <div class="ln">${logo(m.away)}<div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div></div></div>${tvCell(m)}${sc}</div>`;
+            <div class="ln">${logo(m.away)}<div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div></div></div>${tvCell(m)}${sc}</div>${psr}`;
         }
         return `${dh}<div class="row g par ${sched && narrow ? 'wtv' : ''} ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}"><div class="dt">${HVL.esc(day)}${showScore ? `<small>${HVL.esc(time)}</small>` : ''}</div>
           ${logo(m.home)}<div class="tn h fit uni ${fin && !hw ? 'l' : ''}">${HVL.esc(el(m.home))}</div>
           ${mid}
-          <div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div>${logo(m.away)}${tvCell(m)}</div>`;
+          <div class="tn fit uni ${fin && !aw ? 'l' : ''}">${HVL.esc(el(m.away))}</div>${logo(m.away)}${tvCell(m)}</div>${psr}`;
       }).join('') || '<div class="empty">Δεν υπάρχουν αγώνες</div>'}
     </div>` + footer();
   }
