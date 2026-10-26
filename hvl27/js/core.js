@@ -367,6 +367,21 @@
         return { mid: 10 + i, date: days[i], time: hrs[i], iso: `${yy}-${mm}-${dd}T${hrs[i]}:00+03:00`, venue: 'Hall', home: T[h], away: T[a], status: prev ? 'finished' : i < 2 ? 'finished' : i === 2 ? 'live' : 'upcoming', setsHome: prev || i < 3 ? sh : 0, setsAway: prev || i < 3 ? sa : 0, partials: [] };
       }) } };
     }
+    if (path === 'matches') {   // demo League Cup: quarter-finals (2 legs) → semi-finals → final
+      const T = Object.fromEntries(standings.map((r) => [r.short, { id: r.teamId, name: r.name, short: r.short, code: r.code, logo: r.logo }]));
+      const g = (mid, round, phase, h, a, sh, sa, day) => ({ mid, round, phase, date: day, time: '18:00', iso: `${day.split('/').reverse().join('-')}T18:00:00+02:00`, home: T[h], away: T[a],
+        status: sh == null ? 'upcoming' : 'finished', setsHome: sh ?? null, setsAway: sa ?? null, partials: [] });
+      return { league: { ...d.league, name: 'LEAGUE CUP 2026-27' }, matches: [
+        g(91, 'Qualification #1', 'Qualification', 'FOINIKAS SIROU', 'IRAKLIS', 3, 1, '29/10/2026'), g(92, 'Qualification #2', 'Qualification', 'KIFISIAS', 'ARIS', 3, 2, '29/10/2026'),
+        g(93, 'Qualification #3', 'Qualification', 'OFI', 'RETHIMNOU', 3, 0, '30/10/2026'), g(94, 'Qualification #4', 'Qualification', "KALAMATA '80", 'PANIONIOS', 3, 2, '30/10/2026'),
+        g(101, 'Quarter Final #1', 'Quarter Finals', 'PAOK', 'FOINIKAS SIROU', 3, 1, '12/11/2026'), g(102, 'Quarter Final #1', 'Quarter Finals', 'FOINIKAS SIROU', 'PAOK', 1, 3, '19/11/2026'),
+        g(103, 'Quarter Final #2', 'Quarter Finals', 'OLYMPIAKOS', 'KIFISIAS', 3, 0, '12/11/2026'), g(104, 'Quarter Final #2', 'Quarter Finals', 'KIFISIAS', 'OLYMPIAKOS', 3, 2, '19/11/2026'),
+        g(105, 'Quarter Final #3', 'Quarter Finals', 'PANATHINAIKOS', 'OFI', 3, 0, '13/11/2026'), g(106, 'Quarter Final #3', 'Quarter Finals', 'OFI', 'PANATHINAIKOS', 0, 3, '20/11/2026'),
+        g(107, 'Quarter Final #4', 'Quarter Finals', 'MILON', "KALAMATA '80", 2, 3, '13/11/2026'), g(108, 'Quarter Final #4', 'Quarter Finals', "KALAMATA '80", 'MILON', 1, 3, '20/11/2026'),
+        g(109, 'Semi Final #1', 'Semi Finals', 'PAOK', 'OLYMPIAKOS', 3, 2, '10/12/2026'), g(110, 'Semi Final #2', 'Semi Finals', 'PANATHINAIKOS', 'MILON', null, null, '11/12/2026'),
+        g(111, 'Final', 'Final', 'PAOK', 'PANATHINAIKOS', null, null, '20/01/2027'),
+      ] };
+    }
     if (path === 'h2h') {
       const ms = [['VOLLEY LEAGUE 2025-26', '07/03/2026', 1, 3, 1], ['LEAGUE CUP 2025-26', '14/01/2026', 3, 2, 0], ['VOLLEY LEAGUE 2025-26', '22/11/2025', 0, 3, 0], ['VOLLEY LEAGUE 2024-25', '15/03/2025', 2, 3, 1], ['VOLLEY LEAGUE 2024-25', '30/11/2024', 3, 1, 0], ['SUPER CUP 2024', '05/10/2024', 0, 3, 1]];
       const meetings = ms.map(([comp, date, a, b, aHome]) => ({ comp, date, iso: date.split('/').reverse().join('-'), setsA: a, setsB: b, aHome: !!aHome }));
