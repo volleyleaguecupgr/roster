@@ -55,8 +55,8 @@ const TEAM = [
   ['Σύγκριση ομάδων πριν τον αγώνα', 'teamscomparison'],
   ['Ιστορικό αναμετρήσεων (head to head)', 'h2h'],
   ['Βαθμολογία', 'standings'],
-  ['Pre game', 'pregame'],
-  ['Post game', 'postgame'],
+  ['Pre game (κουτί δεξιά: ομάδες, ημερομηνία, ώρα)', 'pregame'],
+  ['Post game (κουτί δεξιά: τελικό σκορ, σετ)', 'postgame'],
   ['Ρόστερ ομάδας', 'roster'],
   ['Ρόστερ αντιπάλου', 'roster', 'opp=1'],
   ['Διαιτητές αγώνα', 'referees'],
@@ -73,9 +73,10 @@ const FIXED = [
   ['Κορυφαίοι σεζόν', 'leaders'],
   ['Μεταβατικό stinger', 'stinger'],
   ['Video check (full screen)', 'videocheck'],
-  ['Στατική κάρτα διοργανώτριας αρχής', 'staticorg'],
+  ['Πορεία League Cup (bracket, full screen)', 'bracket'],
+  ['Στατική κάρτα οργανωτή', 'staticorg'],
   ['Στατική κάρτα διοργάνωσης', 'staticchamp'],
-  ['Σχολιαστής (αλλάξτε το ΟΝΟΜΑ)', 'speaker', 'name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ'],
+  ['Σχολιαστής (αλλάξτε το ΟΝΟΜΑ)', 'commentator', 'name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ'],
 ];
 let ROSTER = { players: [], coach: null }, LINES = [];
 const link = (short, params) => `${BASE}${short}?${params}`;
@@ -98,9 +99,13 @@ function render() {
       ...(ROSTER.players.length ? ROSTER.players.map((p) => [`#${p.number} ${p.last || p.name} ${p.first || ''}`.trim(), link('lowthirds', `${tq}&number=${p.number}`)])
         : [['Παίκτης (αλλάξτε τον αριθμό φανέλας)', link('lowthirds', `${tq}&number=ΑΡΙΘΜΟΣ`)]]),
       [`Προπονητής${ROSTER.coach?.name ? ' – ' + ROSTER.coach.name : ''}`, link('lowthirds', `${tq}&number=100`)],
-      ['Βοηθός προπονητή', link('lowthirds', `${tq}&number=101`)],
     ]],
     ['Ίδια για όλες τις ομάδες', FIXED.map(([ti, sh, ex]) => [ti, link(sh, [lg !== 'hvl' ? `league=${lg}` : '', ex || ''].filter(Boolean).join('&')).replace(/\?$/, '')])],
+    ['Αυτόματη εναλλαγή γραφικών (ένα Browser Source)', [
+      ['Όλα: οργανωτής, διοργάνωση, αγώνας, πρόγραμμα, αποτελέσματα, βαθμολογία, ιστορικό, ρόστερ, διαιτητές, σχολιαστής', link('loop', `${tq}&name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ&dur=10`)],
+      ['Μόνο τα ίδια για όλους', link('loopfixed', `dur=10${lg !== 'hvl' ? '&league=' + lg : ''}`)],
+      ['Μόνο του αγώνα', link('loopgame', `${tq}&name=ΟΝΟΜΑ ΕΠΩΝΥΜΟ&dur=10`)],
+    ]],
     ['Χειροκίνητο Scoreboard', [['Control panel (σκορ, backup)', `${BASE}control.html?team=${t}`]]],
   ];
   LINES = [`ΓΡΑΦΙΚΑ ΜΕΤΑΔΟΣΗΣ – ${name}`, `Browser Source 1920×1080 στο OBS / vMix`, ''];

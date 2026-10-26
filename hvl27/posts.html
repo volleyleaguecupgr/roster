@@ -6,6 +6,7 @@
 <script src="js/config.js"></script>
 <script src="js/core.js"></script>
 <script src="js/teams-el.js"></script>
+<script src="js/cupbracket.js"></script>
 <script src="js/vendor/html-to-image.js"></script>
 <style>
   /* Social posts: schedule / results / standings in 1080×1350, 1080×1080, 1080×1920, 1920×1080. Greek labels + js/teams-el.js names.
@@ -260,6 +261,9 @@
   .bk .bt b { font-weight: 900; font-size: 22px; white-space: nowrap; font-variant-numeric: tabular-nums; } .bk .bt b i { font-style: normal; opacity: .4; margin: 0 6px; }
   .bk .bt.l { opacity: .5; } .bk .bt.w b { color: var(--aqua); }
   .bk .bt.tbd span { opacity: .45; }
+  .bk .bcap { position: absolute; text-align: center; font-weight: 800; font-size: 15px; letter-spacing: .5px; color: rgba(153,245,253,.85); white-space: nowrap; overflow: hidden; }
+  .bk .bc.fin { box-shadow: inset 0 -3px 0 #fff, 0 0 30px rgba(153,245,253,.25); }
+  .bk .bt.tbd span { font-size: 14px; letter-spacing: .3px; }
   .bk .bl { position: absolute; height: 2px; background: rgba(153,245,253,.55); } .bk .bl.v { width: 2px; height: auto; }
   .bk .bchamp { position: absolute; display: grid; place-items: center; gap: 4px; padding: 14px; text-align: center; font-weight: 800; font-size: 18px; letter-spacing: 3px; color: var(--aqua); }
   .bk .bchamp b { font-size: 30px; letter-spacing: 0; color: #fff; text-transform: uppercase; }
@@ -267,8 +271,9 @@
   /* ---- League Cup look: Novibet navy / aqua / white, but other shapes and gradients ----
      arrow-shaped title ribbons, bevelled-corner boxes instead of slanted ones, teal-tinted diagonal gradients,
      aqua edge on the left of each row instead of underneath, faint diagonal aqua light in the background */
+  /* soft rounded light bands (3D tubes: blurred wide glow + thin bright core), low opacity */
   #post.cup::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
-      background: repeating-linear-gradient(60deg, transparent 0 140px, rgba(153,245,253,.045) 140px 150px), radial-gradient(1200px 700px at 85% 10%, rgba(153,245,253,.14), transparent 60%); }
+      background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000' preserveAspectRatio='none'><defs><linearGradient id='t' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='%23e9feff'/><stop offset='.35' stop-color='%2399f5fd'/><stop offset='1' stop-color='%23173c4c'/></linearGradient><linearGradient id='f' x1='0' x2='1'><stop offset='0' stop-color='%23fff' stop-opacity='0'/><stop offset='.2' stop-color='%23fff' stop-opacity='1'/><stop offset='.8' stop-color='%23fff' stop-opacity='1'/><stop offset='1' stop-color='%23fff' stop-opacity='0'/></linearGradient><mask id='m'><rect width='1000' height='1000' fill='url(%23f)'/></mask><filter id='g' x='-20%' y='-20%' width='140%' height='140%'><feGaussianBlur stdDeviation='9'/></filter><filter id='s' x='-20%' y='-20%' width='140%' height='140%'><feGaussianBlur stdDeviation='5'/></filter></defs><g fill='none' stroke-linecap='round' mask='url(%23m)'><path d='M-100 830 C 250 570 620 990 1100 650' transform='translate(0 14)' stroke='%23000' stroke-width='22' opacity='.35' filter='url(%23s)'/><path d='M-100 830 C 250 570 620 990 1100 650' stroke='%2399f5fd' stroke-width='66' opacity='0.090' filter='url(%23g)'/><path d='M-100 830 C 250 570 620 990 1100 650' stroke='url(%23t)' stroke-width='22' opacity='0.20'/><path d='M-100 830 C 250 570 620 990 1100 650' transform='translate(0 -4.8)' stroke='%23fff' stroke-width='4' opacity='0.40'/><path d='M-120 290 C 300 80 600 410 1120 150' transform='translate(0 14)' stroke='%23000' stroke-width='30' opacity='.35' filter='url(%23s)'/><path d='M-120 290 C 300 80 600 410 1120 150' stroke='%2399f5fd' stroke-width='90' opacity='0.068' filter='url(%23g)'/><path d='M-120 290 C 300 80 600 410 1120 150' stroke='url(%23t)' stroke-width='30' opacity='0.15'/><path d='M-120 290 C 300 80 600 410 1120 150' transform='translate(0 -6.6)' stroke='%23fff' stroke-width='5' opacity='0.30'/><path d='M180 1100 C 380 760 760 770 1100 430' transform='translate(0 14)' stroke='%23000' stroke-width='16' opacity='.35' filter='url(%23s)'/><path d='M180 1100 C 380 760 760 770 1100 430' stroke='%2399f5fd' stroke-width='48' opacity='0.077' filter='url(%23g)'/><path d='M180 1100 C 380 760 760 770 1100 430' stroke='url(%23t)' stroke-width='16' opacity='0.17'/><path d='M180 1100 C 380 760 760 770 1100 430' transform='translate(0 -3.5)' stroke='%23fff' stroke-width='3' opacity='0.34'/></g></svg>") center / 100% 100% no-repeat, radial-gradient(1200px 700px at 85% 8%, rgba(153,245,253,.12), transparent 60%); }
   #post.cup > * { z-index: 1; }
   #post.cup .par { clip-path: polygon(var(--bev, 14px) 0, 100% 0, 100% calc(100% - var(--bev, 14px)), calc(100% - var(--bev, 14px)) 100%, 0 100%, 0 var(--bev, 14px)); }
   /* titles: the league's slanted boxes, Cup version white → aqua with a hard aqua shadow offset behind them */
@@ -334,8 +339,12 @@ const key = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUp
 const MAP = {};
 for (const [k, v] of Object.entries(window.HVL_TEAMS_EL || {})) MAP[/^\d+$/.test(k) ? k : key(k)] = typeof v === 'string' ? { name: v, short: v } : v;
 const el = (t) => t?.name || t?.short || '';   // names are already mapped to Greek by HVL.localize (js/teams-el.js)
-const PHASE_EL = [[/qualif|προκρ|preliminar|round of|1st round|πρώτ/i, 'ΠΡΟΚΡΙΜΑΤΙΚΗ ΦΑΣΗ'], [/quarter|προημιτελ|1\/4/i, 'ΠΡΟΗΜΙΤΕΛΙΚΑ'], [/semi|ημιτελ|1\/2/i, 'ΗΜΙΤΕΛΙΚΑ'], [/3rd|third|μικρ/i, 'ΜΙΚΡΟΣ ΤΕΛΙΚΟΣ'], [/final|τελικ/i, 'ΤΕΛΙΚΟΣ']];
+const PHASE_EL = [[/qualif|προκρ|preliminar|round of|1st round|πρώτ/i, 'ΠΡΟΚΡΙΜΑΤΙΚΗ ΦΑΣΗ'], [/quarter|προημιτελ|1\/4/i, 'ΠΡΟΗΜΙΤΕΛΙΚΗ ΦΑΣΗ'], [/semi|ημιτελ|1\/2/i, 'ΗΜΙΤΕΛΙΚΗ ΦΑΣΗ'], [/3rd|third|μικρ/i, 'ΜΙΚΡΟΣ ΤΕΛΙΚΟΣ'], [/final|τελικ/i, 'ΤΕΛΙΚΟΣ']];
 const phaseKey = (t) => { t = String(t || ''); return /quarter|προημιτελ|1\/4/i.test(t) ? 'QF' : /semi|ημιτελ|1\/2/i.test(t) ? 'SF' : /3rd|third|μικρ/i.test(t) ? '3P' : /final|τελικ/i.test(t) ? 'F' : /qualif|προκρ|preliminar|round of/i.test(t) ? 'Q' : ''; };
+/** title for a game or a round: Cup phase (from the phase or the round text) first, then «Νη ΑΓΩΝΙΣΤΙΚΗ» */
+const stageEl = (x) => { if (!x) return ''; const ph = x.phase || '', rd = x.round || x.label || '';
+  if (phaseKey(ph) && !phaseKey(rd)) { const n = String(rd).match(/#\s*(\d+)|(\d+)\s*$/), base = roundEl(ph); return base + (n && base !== 'ΤΕΛΙΚΟΣ' && !/·/.test(base) ? ` · ${n[1] || n[2]}` : ''); }
+  return roundEl(rd) || (ph && !/regular|κανονικ/i.test(ph) ? roundEl(ph) : ''); };
 const roundEl = (r) => {
   const m = String(r || '').match(/(?:match ?day|game ?day|round|αγωνιστική)\s*#?\s*(\d+)/i); if (m && !phaseKey(r)) return `${m[1]}η ΑΓΩΝΙΣΤΙΚΗ`;
   const p = PHASE_EL.find(([re]) => re.test(String(r || ''))); if (!p) return caps(r);
@@ -484,7 +493,12 @@ async function load() {
   try {
     HVL.mode = $('mode').value;
     if ($('type').value === 'final') { await loadFinal(); render(); return; }
-    if ($('type').value === 'bracket') { DATA = await HVL.load('matches'); $('msg').textContent = HVL.demo ? 'Demo δεδομένα' : ''; render(); return; }
+    if ($('type').value === 'bracket') {
+      const M = await CUPB.load('data/cup.txt');
+      let wm = []; try { const prev = HVL.league; HVL.league = 'cup'; wm = (await HVL.load('matches')).matches || []; HVL.league = prev; } catch { wm = []; }
+      DATA = { cup: CUPB.scores(M, HVL.demo ? [] : wm, key) };
+      $('msg').textContent = 'Πορεία από data/cup.txt'; render(); return;
+    }
     if ($('type').value === 'match') HVL.mid = PICK_MID || null;
     DATA = $('type').value === 'standings' ? await HVL.load('standings') : $('type').value === 'match' ? await HVL.load('match') : await HVL.load('round', { which: $('which').value });
     HVL.mid = null;
@@ -537,6 +551,7 @@ function render() {
   const type = $('type').value, fmt = $('fmt').value, post = $('post');
   post.classList.toggle('cup', $('league').value === 'cup');
   post.classList.toggle('narrow', FMT[fmt][0] < 1500 && fmt !== 'story');
+  post.classList.toggle('wide-fmt', fmt === 'wide');
   let comp = window.HVL_COMPETITIONS_EL?.[$('league').value] || DATA?.league?.name || '';
   if (FMT[fmt][0] < 1500 && type !== 'final') comp = comp.replace(/\s*«[^»]*»/, '');   // narrow posts: «ΝΙΚΟΣ ΣΑΜΑΡΑΣ» only where there is room
   if (!DATA) { post.innerHTML = '<div class="empty">—</div>'; return scale(); }
@@ -576,7 +591,7 @@ function render() {
     const court = (m) => (m.venue ? `<small>${HVL.esc(caps(m.venue))}</small>` : '');
     const title = type === 'results' ? 'ΑΠΟΤΕΛΕΣΜΑΤΑ' : 'ΠΡΟΓΡΑΜΜΑ';
     let lastDay = '';
-    post.innerHTML = bars() + header(title, [roundEl(r?.label), comp].filter(Boolean).join(' · '), true) + topLogo(L) + `<div class="list sch" style="top:${L.listTop}px;width:${L.listW}px">
+    post.innerHTML = bars() + header(title, [stageEl(r), comp].filter(Boolean).join(' · '), true) + topLogo(L) + `<div class="list sch" style="top:${L.listTop}px;width:${L.listW}px">
       ${ms.map((m) => {
         const [day, time] = dayEl(m.iso), fin = m.status === 'finished', live = m.status === 'live';
         const hw = fin && m.setsHome > m.setsAway, aw = fin && m.setsAway > m.setsHome;
@@ -675,7 +690,7 @@ function renderMatch(post, fmt, comp) {
   const m = d.match, dt = new Date(m.iso);
   const f = (o) => new Intl.DateTimeFormat('el-GR', { timeZone: 'Europe/Athens', ...o }).format(dt);
   const date = caps(`${f({ weekday: 'long' })} ${f({ day: 'numeric' })} ${f({ month: 'long' })}`), time = f({ hour: '2-digit', minute: '2-digit', hour12: false });
-  const sub = [roundEl(m.round), comp].filter(Boolean).join(' · ');
+  const sub = [stageEl(m), comp].filter(Boolean).join(' · ');
   const lf = LOGO_FILE[$('league').value];
   const tile = (t, cls) => `<div class="${cls}" data-i="${HVL.esc(el(t).replace(/[^Α-ΩA-Z]/g, '').slice(0, 3))}">${logoImg(t)}</div>`;
   const wide = fmt === 'wide', story = fmt === 'story', sq = fmt === 'square';
@@ -695,7 +710,7 @@ function renderMatch(post, fmt, comp) {
     const hdrH = (story ? 150 : wide ? 36 : 50) + 18 + (story ? 120 : 96) + 12 + (story ? 60 : 48);
     const mxTop = hdrH + (story ? 120 : sq ? 20 : wide ? 30 : 50), mxH = box * 1.62 + box * .1;
     const whenTop = mxTop + mxH + (story ? 110 : sq ? 20 : wide ? 24 : 40), whenH = story ? 120 : sq ? 84 : wide ? 72 : 100;
-    post.innerHTML = bars() + header(roundEl(m.round) || 'ΗΜΕΡΑ ΑΓΩΝΑ', comp, true) + lgTL(story ? 40 : 30, story ? 60 : 26, story ? 170 : wide ? 120 : sq ? 110 : 130) + `
+    post.innerHTML = bars() + header(stageEl(m) || 'ΗΜΕΡΑ ΑΓΩΝΑ', comp, true) + lgTL(story ? 40 : 30, story ? 60 : 26, story ? 170 : wide ? 120 : sq ? 110 : 130) + `
       <div class="mx" style="top:${mxTop}px">
         <div class="side">${tile(d.home, 'box')}<div class="tname par"><span class="fit uni">${HVL.esc(el(d.home))}</span></div></div>
         <div class="vs par">VS</div>
@@ -738,7 +753,7 @@ function renderMatch(post, fmt, comp) {
     const streaks = [-.05, .2, .5, .78, 1.0].map((x) => `<i class="edge faint" style="left:${Math.round(W * x)}px;top:${-H * .1}px;height:${H * 1.2}px;transform:rotate(${ang}deg)"></i>`).join('');
     post.innerHTML = `<div class="pv2">${streaks}
       ${lgTL(...G.lg)}
-      <div class="hdr" style="top:${G.ttY}px"><div class="tt par" style="margin-top:0">${HVL.esc(roundEl(m.round) || 'ΗΜΕΡΑ ΑΓΩΝΑ')}</div><div class="st par" style="margin-top:8px">${HVL.esc(comp)}</div></div>
+      <div class="hdr" style="top:${G.ttY}px"><div class="tt par" style="margin-top:0">${HVL.esc(stageEl(m) || 'ΗΜΕΡΑ ΑΓΩΝΑ')}</div><div class="st par" style="margin-top:8px">${HVL.esc(comp)}</div></div>
       ${panel('h', d.home, G.cxL)}${panel('a', d.away, G.cxR)}
       <div class="bigvs2" style="top:${G.vsTop}px;font-size:${G.vsSize}px">VS</div>
       ${stack(G.whenY, G.whenH, story ? 30 : 18)}
@@ -800,7 +815,7 @@ function renderFinal(post, fmt, comp) {
   }[fmt];
   const lf = $('league').value === 'hvl' ? 'leaguepng' : LOGO_FILE[$('league').value], cx = W / 2, hW = n.h > n.a, aW = n.a > n.h;
   const bg = BG ? `<img class="bgp" src="${BG}" style="object-position:${$('bgpos').value}">` : '<div class="bgd"></div>';
-  const meta = [roundEl(d.match.round), comp].filter(Boolean).join(' · ');
+  const meta = [stageEl(d.match), comp].filter(Boolean).join(' · ');
   const dig = (v, x, win) => `<div class="dg ${win || (!hW && !aW) ? '' : 'lose'}" style="left:${x}px;top:${G.dgT}px;font-size:${G.dgFs}px">${v}</div>`;
   const chip = (x, i) => `<div class="sb" style="margin:0 ${Math.round(G.chipH * .14)}px;height:${G.chipH}px;--cut:${Math.round(G.chipH * .26)}px;gap:${Math.round(G.chipH * .08)}px"><small class="par" style="font-size:${Math.round(G.chipLab * 1.25)}px;padding:0 ${Math.round(G.chipH * .32)}px 0 ${Math.round(G.chipH * .3)}px">ΣΕΤ ${i + 1}</small>
       <div class="par" style="padding:0 ${Math.round(G.chipH * .42)}px;gap:${Math.round(G.chipH * .16)}px;font-size:${G.chipFs}px">
@@ -853,41 +868,11 @@ function ties(list, key) {
 function renderBracket(post, fmt, comp) {
   const [W, H] = FMT[fmt], wide = fmt === 'wide', story = fmt === 'story';
   applyVars(post, layout(fmt, 8));
-  const list = DATA?.matches || [];
-  const Q = ties(list, 'Q'), QF = ties(list, 'QF'), SF = ties(list, 'SF'), F = ties(list, 'F');
-  // semi-finals in the order of the quarter-finals their teams came from, so the lines join up
-  const fromQF = (t) => Math.min(...t.ids.map((id) => QF.findIndex((q) => q.ids.includes(id))).map((i) => (i < 0 ? 99 : i)));
-  SF.sort((x, y) => fromQF(x) - fromQF(y));
-  const slots = (arr, n) => Array.from({ length: n }, (_, i) => arr[i] || null);
-  // qualifying ties feed the quarter-final their winner plays in: sort them by that quarter-final
-  const toQF = (t) => Math.min(...t.ids.map((id) => QF.findIndex((q) => q.ids.includes(id))).map((i) => (i < 0 ? 99 : i)));
-  Q.sort((x, y) => toQF(x) - toQF(y));
-  const cols = [['ΠΡΟΚΡΙΜΑΤΙΚΗ ΦΑΣΗ', slots(Q, Math.max(4, Q.length))], ['ΠΡΟΗΜΙΤΕΛΙΚΑ', slots(QF, 4)], ['ΗΜΙΤΕΛΙΚΑ', slots(SF, 2)], ['ΤΕΛΙΚΟΣ', slots(F, 1)]];
-  const NC = cols.length;
+  if (!DATA?.cup) { post.innerHTML = '<div class="empty">data/cup.txt δεν βρέθηκε</div>'; return scale(); }
   const top = story ? 470 : wide ? 250 : fmt === 'square' ? 250 : 300, bottom = H - (story ? 260 : 120);
-  const gapX = wide ? 70 : 18, colW = Math.floor((W - (wide ? 140 : 40) - gapX * (NC - 1)) / NC), x0 = Math.round((W - (colW * NC + gapX * (NC - 1))) / 2);
-  const rowsMax = Math.max(...cols.map((c) => c[1].length));
-  const cardH = Math.min(wide ? 130 : 150, Math.floor((bottom - top - 60) / rowsMax) - 14);
-  const yOf = (c, i) => { const n = cols[c][1].length, span = (bottom - top - 50) / n; return Math.round(top + 50 + span * i + span / 2 - cardH / 2); };
-  const team = (t, side, tie) => {
-    if (!t) return `<div class="bt tbd"><div class="lo2"></div><span>—</span></div>`;
-    const lose = tie?.win && tie.win !== side, win = tie?.win === side;
-    return `<div class="bt ${lose ? 'l' : ''} ${win ? 'w' : ''}"><div class="lo2">${logoImg(t)}</div><span class="fit">${HVL.esc(el(t))}</span>
-      <b>${(tie?.legs || []).map((l) => (l[side] ?? '–')).join('<i>·</i>')}</b></div>`;
-  };
-  const card = (tie, c, i) => `<div class="bc par" style="left:${x0 + c * (colW + gapX)}px;top:${yOf(c, i)}px;width:${colW}px;height:${cardH}px">${team(tie?.a, 'a', tie)}${team(tie?.b, 'b', tie)}</div>`;
-  // connectors: each pair of a column feeds one card of the next
-  const lines = [];
-  for (let c = 0; c < NC - 1; c++) cols[c][1].forEach((t, i) => {
-    let j = Math.floor(i / 2);
-    if (c === 0) { j = t ? QF.findIndex((q) => t.ids.some((id) => q.ids.includes(id))) : -1; if (j < 0 || j > 3) return; }
-    const x1 = x0 + c * (colW + gapX) + colW, y1 = yOf(c, i) + cardH / 2, x2 = x0 + (c + 1) * (colW + gapX), y2 = yOf(c + 1, j) + cardH / 2, xm = x1 + gapX / 2;
-    lines.push(`<i class="bl" style="left:${x1}px;top:${y1 - 1}px;width:${xm - x1}px"></i><i class="bl v" style="left:${xm - 1}px;top:${Math.min(y1, y2)}px;height:${Math.abs(y2 - y1)}px"></i><i class="bl" style="left:${xm}px;top:${y2 - 1}px;width:${x2 - xm}px"></i>`);
-  });
-  const heads = cols.map(([t], c) => `<div class="bh" style="left:${x0 + c * (colW + gapX)}px;top:${top}px;width:${colW}px">${t}</div>`).join('');
-  const champ = F[0]?.win ? F[0][F[0].win] : null;
-  post.innerHTML = bars() + header('ΠΟΡΕΙΑ ΚΥΠΕΛΛΟΥ', comp, true) + topLogo(layout(fmt, 1)) + `<div class="bk">${heads}${lines.join('')}${cols.map(([, arr], c) => arr.map((t, i) => card(t, c, i)).join('')).join('')}
-    ${champ ? `<div class="bchamp" style="left:${x0 + (NC - 1) * (colW + gapX)}px;top:${yOf(NC - 1, 0) + cardH + 24}px;width:${colW}px">ΚΥΠΕΛΛΟΥΧΟΣ<b>${HVL.esc(el(champ))}</b></div>` : ''}</div>` + footer();
+  const body = CUPB.html(DATA.cup, { W, top, bottom, gapX: wide ? 70 : 18, pad: wide ? 70 : 20, cardMax: wide ? 120 : 130, capH: 24 },
+    (t) => logoImg({ name: t.name }), (t) => { const sl = slugOf({ name: t.name }); return (sl && NAME_BY_SLUG[sl]) || t.name; });
+  post.innerHTML = bars() + header('ΠΟΡΕΙΑ ΚΥΠΕΛΛΟΥ', comp, true) + topLogo(layout(fmt, 1)) + body + footer();
   post.style.setProperty('--ftH', (story ? 120 : 84) + 'px');
   HVL.fit(post); if (document.fonts?.ready) document.fonts.ready.then(() => HVL.fit(post));
   scale();
