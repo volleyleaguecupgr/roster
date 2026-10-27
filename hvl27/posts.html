@@ -710,7 +710,7 @@ function renderMatch(post, fmt, comp) {
     const hdrH = (story ? 150 : wide ? 36 : 50) + 18 + (story ? 120 : 96) + 12 + (story ? 60 : 48);
     const mxTop = hdrH + (story ? 120 : sq ? 20 : wide ? 30 : 50), mxH = box * 1.62 + box * .1;
     const whenTop = mxTop + mxH + (story ? 110 : sq ? 20 : wide ? 24 : 40), whenH = story ? 120 : sq ? 84 : wide ? 72 : 100;
-    post.innerHTML = bars() + header(stageEl(m) || 'ΗΜΕΡΑ ΑΓΩΝΑ', comp, true) + lgTL(story ? 40 : 30, story ? 60 : 26, story ? 170 : wide ? 120 : sq ? 110 : 130) + `
+    post.innerHTML = bars() + header(stageEl(m) || 'ΠΡΟΚΡΙΜΑΤΙΚΗ ΦΑΣΗ', comp, true) + lgTL(story ? 40 : 30, story ? 60 : 26, story ? 170 : wide ? 120 : sq ? 110 : 130) + `
       <div class="mx" style="top:${mxTop}px">
         <div class="side">${tile(d.home, 'box')}<div class="tname par"><span class="fit uni">${HVL.esc(el(d.home))}</span></div></div>
         <div class="vs par">VS</div>
@@ -753,7 +753,7 @@ function renderMatch(post, fmt, comp) {
     const streaks = [-.05, .2, .5, .78, 1.0].map((x) => `<i class="edge faint" style="left:${Math.round(W * x)}px;top:${-H * .1}px;height:${H * 1.2}px;transform:rotate(${ang}deg)"></i>`).join('');
     post.innerHTML = `<div class="pv2">${streaks}
       ${lgTL(...G.lg)}
-      <div class="hdr" style="top:${G.ttY}px"><div class="tt par" style="margin-top:0">${HVL.esc(stageEl(m) || 'ΗΜΕΡΑ ΑΓΩΝΑ')}</div><div class="st par" style="margin-top:8px">${HVL.esc(comp)}</div></div>
+      <div class="hdr" style="top:${G.ttY}px"><div class="tt par" style="margin-top:0">${HVL.esc(stageEl(m) || 'ΠΡΟΚΡΙΜΑΤΙΚΗ ΦΑΣΗ')}</div><div class="st par" style="margin-top:8px">${HVL.esc(comp)}</div></div>
       ${panel('h', d.home, G.cxL)}${panel('a', d.away, G.cxR)}
       <div class="bigvs2" style="top:${G.vsTop}px;font-size:${G.vsSize}px">VS</div>
       ${stack(G.whenY, G.whenH, story ? 30 : 18)}
