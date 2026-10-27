@@ -745,12 +745,12 @@ function renderMatch(post, fmt, comp) {
       const nameX = wide ? cx - off / 2 - G.nameW / 2 : k === 'h' ? 24 : W / 2 + 12, nameW = wide ? G.nameW : W / 2 - 36, nameCx = nameX + nameW / 2;
       const inner = PHOTOS[k] ? `<img class="photo" src="${PHOTOS[k]}">` : t.logo ? `<img class="ghost2" src="${HVL.esc(img(t.logo))}" crossorigin="anonymous" onerror="this.remove()">` : '';
       return `<div class="pp" style="left:${x}px;top:${y}px;width:${G.pw}px;height:${G.ph}px"><div class="ppi">${inner}</div></div>
-        ${edge(x + off, y, x, y + G.ph, 1.7)}${edge(x + G.pw, y, x + G.pw - off, y + G.ph, 1.7)}
+        ${wide ? '' : edge(x + off, y, x, y + G.ph, 1.7) + edge(x + G.pw, y, x + G.pw - off, y + G.ph, 1.7)}
         <div class="tlogo2" style="left:${nameCx - G.tl / 2}px;top:${y + G.ph - G.tl * .62}px;width:${G.tl}px;height:${G.tl}px" data-i="${initials(t)}">${logoImg(t) || initials(t)}</div>
         <div class="nm2" style="left:${nameX}px;top:${G.nameY}px;width:${nameW}px;height:${G.nameH}px;font-size:${G.nameFs}px">
 <div class="tn2 fit uni">${HVL.esc(el(t))}</div></div>`;
     };
-    const streaks = [-.05, .2, .5, .78, 1.0].map((x) => `<i class="edge faint" style="left:${Math.round(W * x)}px;top:${-H * .1}px;height:${H * 1.2}px;transform:rotate(${ang}deg)"></i>`).join('');
+    const streaks = wide ? '' : [-.05, .2, .5, .78, 1.0].map((x) => `<i class="edge faint" style="left:${Math.round(W * x)}px;top:${-H * .1}px;height:${H * 1.2}px;transform:rotate(${ang}deg)"></i>`).join('');
     post.innerHTML = `<div class="pv2">${streaks}
       ${lgTL(...G.lg)}
       <div class="hdr" style="top:${G.ttY}px"><div class="tt par" style="margin-top:0">${HVL.esc(stageEl(m) || 'ΠΡΟΚΡΙΜΑΤΙΚΗ ΦΑΣΗ')}</div><div class="st par" style="margin-top:8px">${HVL.esc(comp)}</div></div>
