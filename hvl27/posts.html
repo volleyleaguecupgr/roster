@@ -212,6 +212,7 @@
   .st-list .nmw span { display: block; width: 100%; font-weight: 800; line-height: 1.04; text-transform: uppercase; font-size: calc(var(--rh) * .36); }
   .st-list .s .tn { font-size: calc(var(--rh) * .4); padding-left: calc(var(--rh) * .2); }
   .s-only { display: none !important; } body.t-standings .s-only { display: flex !important; }
+  .sch-only { display: none !important; } body.t-schedule .sch-only { display: flex !important; }
   /* groups of places (1-4, 5-8, 9-12): thin sharp aqua outline with slanted sides around the rows */
   .st-list .grp { position: relative; display: flex; flex-direction: column; gap: var(--gap); padding: calc(var(--gap) * 1.1) calc(var(--rh) * .34); --gcut: calc(var(--rh) * .3); }
   .st-list .grp::before, .st-list .grp::after { content: ''; position: absolute; inset: 0; clip-path: polygon(var(--gcut) 0, 100% 0, calc(100% - var(--gcut)) 100%, 0 100%); pointer-events: none; }
@@ -306,6 +307,7 @@
   <label class="f-only">Θέση φωτό<select id="bgpos"><option value="50% 50%">Κέντρο</option><option value="50% 20%">Πάνω</option><option value="50% 80%">Κάτω</option></select></label>
   <label class="f-only">Σκορ (χειρ.)<input id="fscore" size="5" placeholder="3-1"></label>
   <label class="f-only">Σετ (χειρ.)<input id="fsets" size="22" placeholder="25-21 23-25 25-19 25-22"></label>
+  <label class="sch-only">Πηγή<select id="src"><option value="auto">Worker (αρχείο αν λείπουν)</option><option value="file">Μόνο αρχείο data/</option></select></label>
   <label class="s-only">Ομάδες θέσεων<select id="grp"><option value="4,4">1-4 · 5-8 · 9-12</option><option value="">Χωρίς ομάδες</option><option value="4,4,4">1-4 · 5-8 · 9-12 · 13-</option><option value="2,4">1-2 · 3-6 · 7-</option></select></label>
   <label class="m-only">Στυλ<select id="style"><option value="boxes">Logos σε κουτιά</option><option value="players">Φωτογραφίες παικτών</option></select></label>
   <label class="m-only">Αγώνας<select id="mode"><option value="next">Επόμενος</option><option value="auto">Σημερινός / τρέχων</option><option value="last">Τελευταίος</option></select></label>
@@ -329,7 +331,7 @@ const FMT = { post: [1080, 1350], square: [1080, 1080], story: [1080, 1920], wid
 const LOGO_FILE = { hvl: 'league', cup: 'leaguecup', supercup: 'supercup' };
 const $ = (id) => document.getElementById(id);
 const P = new URLSearchParams(location.search);
-for (const k of ['type', 'fmt', 'which', 'league', 'team', 'footer', 'style', 'mode', 'lay', 'grp']) if (P.has(k)) $(k).value = P.get(k);
+for (const k of ['type', 'fmt', 'which', 'league', 'team', 'footer', 'style', 'mode', 'lay', 'grp', 'src']) if (P.has(k)) $(k).value = P.get(k);
 if (!P.has('league') && HVL.league) $('league').value = HVL.league;
 if (!P.has('team') && HVL.team) $('team').value = HVL.team;
 
@@ -374,21 +376,32 @@ function athensISO(d, mo, y, h, mi) {
 function parseScheduleTxt(txt) {
   const rounds = []; let cur = null;
   for (const raw of String(txt).split(/\r?\n/)) {
-    const line = raw.trim(); if (!line) continue;
+    let line = raw.trim(); if (!line || line.startsWith('#')) continue;
     const rh = line.match(/^(\d+)\s*(?:η|ος)?\s*αγωνιστικ/i);
     if (rh) { cur = { n: +rh[1], label: `Game Day ${+rh[1]}`, matches: [] }; rounds.push(cur); continue; }
+    // League Cup (data/cup.txt): a phase heading starts a round (only its dated games are a schedule)
+    if (!/^\d{1,2}\/\d{1,2}\/\d{4}/.test(line) && !/^(\d+|[Α-ΩA-Z])\s*[.)]/.test(line) && !/^νικητ/i.test(line) && /(προκριματικ|προημιτελικ|ημιτελικ|τελικ)/i.test(line)) {
+      cur = { n: rounds.length + 1, label: line, phase: line, matches: [] }; rounds.push(cur); continue;
+    }
+    const sc = line.match(/\s+(\d)\s*[-:–]\s*(\d)\s*$/); if (sc) line = line.replace(/\s+(\d)\s*[-:–]\s*(\d)\s*$/, '');
     const m = line.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s*[–-]\s*(\d{1,2})[:.](\d{2})\s*((?:\([^)]*\)\s*)*):\s*(.+?)\s+[-–]\s+(.+)$/);
     if (!m || !cur) continue;
     const par = [...m[6].matchAll(/\(([^)]*)\)/g)].map((x) => x[1].trim());
     const team = (n) => { const sl = slugOf({ name: n }); return { name: NAME_BY_SLUG[sl] || caps(n), short: NAME_BY_SLUG[sl] || caps(n), slug: sl, logo: null }; };
     const iso = athensISO(+m[1], +m[2], +m[3], +m[4], +m[5]);
     cur.matches.push({ iso, date: `${m[1].padStart(2, '0')}/${m[2].padStart(2, '0')}/${m[3]}`, time: `${m[4].padStart(2, '0')}:${m[5]}`,
-      venue: par[0] || '', tv: par.slice(1).join(' '), home: team(m[7]), away: team(m[8]), setsHome: null, setsAway: null,
-      status: Date.parse(iso) > Date.now() - 3 * 3600e3 ? 'upcoming' : 'finished', fromFile: true });
+      venue: par[0] || '', tv: par.slice(1).join(' '), home: team(m[7]), away: team(m[8]), setsHome: sc ? +sc[1] : null, setsAway: sc ? +sc[2] : null,
+      round: cur.label, phase: cur.phase || '', status: sc ? 'finished' : Date.parse(iso) > Date.now() - 3 * 3600e3 ? 'upcoming' : 'finished', fromFile: true });
   }
   return rounds.filter((r) => r.matches.length);
 }
 let FILE_ROUNDS = null;
+let CUP_ROUNDS = null;
+async function cupRounds() {   // dated games of data/cup.txt, one round per phase
+  if (CUP_ROUNDS) return CUP_ROUNDS;
+  try { const r = await fetch('data/cup.txt', { cache: 'no-store' }); CUP_ROUNDS = r.ok ? parseScheduleTxt(await r.text()) : []; } catch { CUP_ROUNDS = []; }
+  return CUP_ROUNDS;
+}
 async function fileRounds() {
   if (FILE_ROUNDS) return FILE_ROUNDS;
   try { const r = await fetch('data/schedule.txt', { cache: 'no-store' }); FILE_ROUNDS = r.ok ? parseScheduleTxt(await r.text()) : []; } catch { FILE_ROUNDS = []; }
@@ -533,14 +546,15 @@ async function load() {
     }
   }
   if ($('type').value === 'match') { if ($('league').value !== 'hvl') await fillGames(); await fillWorkerGames(); }
-  if ($('type').value === 'schedule' && $('league').value === 'hvl') {
-    // fewer than 6 matches from HVL → use data/schedule.txt; otherwise just add court + TV from the file
-    const rs = await fileRounds(), api = DATA?.round?.matches || [];
-    const fr = pickFileRound(rs, $('which').value, 0);
-    if (fr && api.length < 6) {
+  if ($('type').value === 'schedule' && ($('league').value === 'hvl' || $('league').value === 'cup')) {
+    // Volley League: data/schedule.txt · League Cup: data/cup.txt. Used when HVL has too few games, or always with «Πηγή: Αρχείο»
+    const cup = $('league').value === 'cup', file = cup ? 'data/cup.txt' : 'data/schedule.txt';
+    const rs = cup ? await cupRounds() : await fileRounds(), api = DATA?.round?.matches || [];
+    const fr = pickFileRound(rs, $('which').value, 0), force = $('src').value === 'file';
+    if (fr && (force || api.length < (cup ? 1 : 6))) {
       const ms = fr.matches.map((f) => { const a = api.find((x) => sameMatch(x, f)); return a ? { ...a, venue: f.venue, tv: f.tv, home: { ...a.home, slug: f.home.slug }, away: { ...a.away, slug: f.away.slug } } : f; });
-      DATA = { ...(DATA || {}), round: { label: fr.label, matches: ms } };
-      $('msg').textContent = `Πρόγραμμα από data/schedule.txt (${api.length} αγώνες από HVL)`;
+      DATA = { ...(DATA || {}), round: { label: fr.label, phase: fr.phase || '', matches: ms } };
+      $('msg').textContent = `Πρόγραμμα από ${file}${force ? '' : ` (${api.length} αγώνες από HVL)`}`;
     } else if (fr) {
       DATA.round.matches = api.map((a) => { const f = rs.flatMap((r) => r.matches).find((x) => sameMatch(a, x)); return f ? { ...a, venue: f.venue, tv: f.tv } : a; });
     }
@@ -898,7 +912,7 @@ $('dl').onclick = () => download($('fmt').value);
 $('dlall').onclick = async () => { for (const f of Object.keys(FMT)) await download(f); };
 ['gday'].forEach((k) => ($(k).onchange = async () => { PICK_MID = null; $('game').value = ''; await fillGames(); $('game').value = 0; load(); }));
 $('game').onchange = () => { const v = $('game').value; PICK_MID = /^mid:/.test(v) ? v.slice(4) : null; load(); };
-['type', 'which', 'league', 'mode'].forEach((k) => ($(k).onchange = () => { if (k !== 'type') { $('fgame').innerHTML = ''; PICK_MID = null; } $('which').disabled = $('type').value === 'standings'; load(); }));
+['type', 'which', 'league', 'mode', 'src'].forEach((k) => ($(k).onchange = () => { if (k !== 'type') { $('fgame').innerHTML = ''; PICK_MID = null; } $('which').disabled = $('type').value === 'standings'; load(); }));
 $('style').onchange = render;
 $('fgame').onchange = () => { P.delete('game'); load(); };
 $('bgimg').onchange = (e) => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { BG = r.result; render(); }; r.readAsDataURL(f); };
