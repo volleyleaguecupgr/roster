@@ -201,9 +201,25 @@ else (function loop(first) {
     .catch((e) => HVL.msg('⚠ ' + e.message))
     .finally(() => setTimeout(() => loop(first), 3000));
 })(true);
+/* serve ball: decided here, only from which team's points went up since the last update (whoever wins the point serves).
+   Nothing is read from the data (it lagged). At the start of each set – or right after the page loads – there is no ball
+   until the first point is seen. Corrections by the scorer step back to the previous server. Operator's manual score: its own serve. */
+let SV = { key: null, hist: [] };
+function serveOf(d, s) {
+  if (s.manual) return s.serve || null;
+  const key = `${d.match?.mid ?? ''}:${s.set}`, h = +s.h || 0, a = +s.a || 0;
+  if (SV.key !== key) { SV = { key, hist: [{ h, a, side: null }] }; return null; }
+  let top = SV.hist[SV.hist.length - 1];
+  while (SV.hist.length > 1 && (h < top.h || a < top.a)) { SV.hist.pop(); top = SV.hist[SV.hist.length - 1]; }   // score went back (correction)
+  if (h === top.h && a === top.a) return top.side;
+  const side = h > top.h && a === top.a ? 'home' : a > top.a && h === top.h ? 'away' : top.side;   // both changed at once (missed updates): keep
+  SV.hist.push({ h, a, side }); if (SV.hist.length > 80) SV.hist.shift();
+  return side;
+}
 function draw(d, first) {
   if (!d.match) { SB.innerHTML = ''; return HVL.msg(d.message); }
   const m = d.match, s = HVL.scoreState(d);
+  s.serve = m.status === 'finished' ? null : serveOf(d, s);
   const label = m.status === 'finished' ? HVL.t('final') : m.status === 'upcoming' && !m.current ? (HVL.dateLong(m.iso).time || '') : `${HVL.t('set')} ${s.set}`;
   const nm = (t) => NAMES === 'code' ? t.code : NAMES === 'long' ? t.name : HVL.teamName(t);
   const finishedSets = (s.sets || []).filter((x, i) => Math.max(x.h, x.a) >= (i === 4 ? 15 : 25) && Math.abs(x.h - x.a) >= 2);
