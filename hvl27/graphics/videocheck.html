@@ -34,7 +34,7 @@
   <div class="mon"><video id="v" src="../media/videocheck.webm" autoplay muted loop playsinline></video></div>
 </div></div>
 <script>
-const L = HVL.get('logo', 'champ'), lg = HVL.$('#lg');
+const L0 = HVL.get('logo', 'champ'), L = L0 === 'champ' && String(HVL.league).toLowerCase() === 'cup' ? 'leaguecup' : L0, lg = HVL.$('#lg');   // ?league=cup → logos/leaguecup.png
 lg.src = /^https?:|\//.test(L) ? L : `../logos/${/\.(png|jpe?g|webp|svg)$/i.test(L) ? L : L + '.png'}`;
 lg.onerror = () => lg.remove();
 HVL.$('#tt').textContent = HVL.get('title', 'Video Check');

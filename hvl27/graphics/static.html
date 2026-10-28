@@ -22,7 +22,7 @@
 </head><body>
 <div id="stage"><div id="st"><i class="beam" style="left:18%"></i><i class="beam" style="left:31%;opacity:.18"></i><i class="beam" style="left:72%"></i><i class="beam" style="left:86%;opacity:.18"></i></div></div>
 <script>
-const L = HVL.get('logo', 'org');
+const L0 = HVL.get('logo', 'org'), L = L0 === 'champ' && String(HVL.league).toLowerCase() === 'cup' ? 'leaguecup' : L0;   // ?league=cup → logos/leaguecup.png on the championship card
 const src = /^https?:|\//.test(L) ? L : `../logos/${/\.(png|jpe?g|webp|svg)$/i.test(L) ? L : L + '.png'}`;
 document.documentElement.style.setProperty('--h', (+HVL.get('size', 46) || 46) + 'vh');
 const st = HVL.$('#st'), im = new Image(); im.src = src; im.alt = ''; im.onerror = () => im.remove(); st.appendChild(im); st.classList.add('go');

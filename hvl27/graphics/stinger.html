@@ -8,7 +8,7 @@
 <style>
   /* Full-screen slanted-bar transition. In OBS: Browser Source, or record it once as a video for a Stinger transition.
      Screen fully covered 28–74 % of the run (≈0.7–1.85 s with the default 2.5 s) – cut at 50 % (1.25 s).
-     The league logo pops up while covered: logos/league.png (hvl) · logos/leaguecup.png (cup) · logos/supercup.png (supercup)
+     The league logo pops up while covered: logos/league.png (hvl) · logos/leaguecup_dark.png (cup) · logos/supercup.png (supercup)
      ?logo=URL or ?logo=0 (none) · ?loop=4 replays every 4 s · ?dur=2.5 · ?color=99f5fd */
   #stage { overflow: hidden; }
   .band { position: absolute; left: 0; height: calc(100% / 3 + 2px); display: flex; align-items: stretch; will-change: transform; }
@@ -23,7 +23,7 @@
 <script>
 const C = '#' + HVL.get('color', '99f5fd');
 const DUR = +HVL.get('dur', 2.5), LOOP = +HVL.get('loop', 0);
-const LOGOS = { hvl: 'league', cup: 'leaguecup', supercup: 'supercup' };
+const LOGOS = { hvl: 'league', cup: 'leaguecup_dark', supercup: 'supercup' };   // League Cup stinger: logos/leaguecup_dark.png
 const LOGO = HVL.get('logo') === '0' ? '' : HVL.get('logo') || (LOGOS[String(HVL.league).toLowerCase()] ? `../logos/${LOGOS[String(HVL.league).toLowerCase()]}.png` : '');
 const SKEW_PAD = 120;   // slanted edges stick out of each bar – travel this much further so nothing is left on screen
 const st = document.getElementById('stage');
