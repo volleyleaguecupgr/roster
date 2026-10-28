@@ -96,7 +96,7 @@
   };
   /* Players/coaches without a photo: Data Project serves a grey "no photo" picture (or nothing) → show the league logo instead.
      ?nophoto=initials keeps the old initials · ?nophoto=<file.png> another logo from site/logos/ */
-  const NOPH = get('nophoto', 'league');
+  const NOPH = get('nophoto', String(get('league', CFG.league || 'hvl')).toLowerCase() === 'cup' ? 'leaguecup' : 'league');
   HVL.noPhotoSrc = () => `${HVL.root}logos/${/\.(png|jpe?g|webp|svg)$/i.test(NOPH) ? NOPH : NOPH + '.png'}`;
   HVL.noPhoto = (img) => {
     const box = img.parentNode; if (!box) return;
