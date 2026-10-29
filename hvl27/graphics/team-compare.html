@@ -6,7 +6,6 @@
 <script src="../js/config.js"></script>
 <script src="../js/core.js"></script>
 <style>
-  /* Pre-match: standings + form of both teams.  ?rows=rank,pts,won,lost,sets,ratio,wins30,form */
   #box { position: absolute; left: 50%; top: 60px; width: 1300px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
   .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; }
   .teams-capsule { width: 1040px; margin-top: 18px; }
@@ -20,7 +19,9 @@
 </head><body>
 <div id="stage"><div id="box"></div></div>
 <script>
-const ROWS = HVL.get('rows', 'rank,pts,won,lost,sets,ratio,form').split(',');
+const ROWS_Q = HVL.get('rows');
+const PRE_ROWS = 'spikePct,spikeEff,spikesSet,blocksSet,acesSet,recPct,recEff'.split(',');
+const STD_ROWS = 'rank,pts,won,lost,sets,ratio,form'.split(',');
 const EL = HVL.lang === 'el';
 const DEF = {
   rank: [EL ? 'Θέση' : 'Ranking', (s) => s?.rank, true, (v) => v ? HVL.ord(v) : '–'],
@@ -33,20 +34,33 @@ const DEF = {
   points: [EL ? 'Λόγος πόντων' : 'Point ratio', (s) => s?.ptsRatio, false, (v) => v == null ? '–' : (+v).toFixed(3)],
   wins30: [EL ? 'Νίκες 3-0/3-1' : '3-0 / 3-1 wins', (s) => s ? (s.r30 || 0) + (s.r31 || 0) : null],
 };
+// pre-match season stats (d.match.preview.home / .away)
+const pct = (v) => (v == null ? '–' : Math.round(v) + '%'), dec = (v) => (v == null ? '–' : (+v).toFixed(2));
+const PRE = {
+  spikePct: [EL ? 'Επίθεση – επιτυχία' : 'Attack – kill %', (p) => p?.spikePct, false, pct],
+  spikeEff: [EL ? 'Απόδοση επίθεσης' : 'Attack efficiency', (p) => p?.spikeEff, false, pct],
+  spikesSet: [EL ? 'Πόντοι επίθεσης / σετ' : 'Kills per set', (p) => p?.spikesSet, false, dec],
+  blocksSet: [EL ? 'Μπλοκ / σετ' : 'Blocks per set', (p) => p?.blocksSet, false, dec],
+  acesSet: [EL ? 'Άσσοι / σετ' : 'Aces per set', (p) => p?.acesSet, false, dec],
+  aces: [EL ? 'Άσσοι (σύνολο)' : 'Aces', (p) => p?.aces],
+  recPct: [EL ? 'Υποδοχή – τέλεια' : 'Reception – perfect', (p) => p?.recPct, false, pct],
+  recEff: [EL ? 'Απόδοση υποδοχής' : 'Reception efficiency', (p) => p?.recEff, false, pct],
+};
 const frm = (f = [], right) => `<div class="frm ${right ? 'r' : ''}">${(right ? [...f].reverse() : f).slice(0, 5).map((x) => `<i class="${x.win ? 'w' : 'l'}" title="${HVL.esc(x.score + ' ' + (x.opp?.short || ''))}">${x.win ? (EL ? 'Ν' : 'W') : (EL ? 'Η' : 'L')}</i>`).join('')}</div>`;
 HVL.poll('match', 60, (d, first) => {
   const box = HVL.$('#box');
   if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
-  const A = d.home.standing, B = d.away.standing;
+  const A = d.home.standing, B = d.away.standing, PV = d.match.preview;
+  const ROWS = ROWS_Q ? ROWS_Q.split(',') : PV ? PRE_ROWS : STD_ROWS;
   box.innerHTML = `
     <div class="pill title-pill">${HVL.esc(HVL.get('title') || (EL ? 'Σύγκριση ομάδων' : 'Team comparison'))}</div>
     <div class="pill comp-pill">${HVL.esc(d.league.name)}</div>
     <div class="teams-capsule">${HVL.logo(d.home)}<div class="name fit uni">${HVL.esc(d.home.short)}</div><div class="score">VS</div><div class="name right fit uni">${HVL.esc(d.away.short)}</div>${HVL.logo(d.away)}</div>
     ${ROWS.map((k) => {
       if (k === 'form') return `<div class="frow">${frm(d.home.form)}<div class="label">${EL ? 'Φόρμα' : 'Last 5'}</div>${frm(d.away.form, true)}</div>`;
-      const def = DEF[k]; if (!def) return '';
+      const pre = PRE[k], def = pre || DEF[k]; if (!def) return '';
       const [label, get, lowerWins, fmt] = def;
-      const a = get(A), b = get(B);
+      const a = pre ? get(PV?.home) : get(A), b = pre ? get(PV?.away) : get(B);
       const f = fmt || ((v) => v ?? '–');
       const aw = a != null && b != null && (lowerWins ? a < b : a > b), bw = a != null && b != null && (lowerWins ? b < a : b > a);
       return `<div class="stat-row"><div class="val ${aw ? 'win' : ''}"><span>${f(a, A)}</span></div><div class="label">${HVL.esc(label)}</div><div class="val ${bw ? 'win' : ''}"><span>${f(b, B)}</span></div></div>`;
