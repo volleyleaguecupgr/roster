@@ -6,6 +6,7 @@
 <script src="../js/config.js"></script>
 <script src="../js/core.js"></script>
 <style>
+  /* Pre-match: standings + form of both teams.  ?rows=rank,pts,won,lost,sets,ratio,wins30,form */
   #box { position: absolute; left: 50%; top: 60px; width: 1300px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
   .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; }
   .teams-capsule { width: 1040px; margin-top: 18px; }
@@ -34,7 +35,6 @@ const DEF = {
   points: [EL ? 'Λόγος πόντων' : 'Point ratio', (s) => s?.ptsRatio, false, (v) => v == null ? '–' : (+v).toFixed(3)],
   wins30: [EL ? 'Νίκες 3-0/3-1' : '3-0 / 3-1 wins', (s) => s ? (s.r30 || 0) + (s.r31 || 0) : null],
 };
-// pre-match season stats (d.match.preview.home / .away)
 const pct = (v) => (v == null ? '–' : Math.round(v) + '%'), dec = (v) => (v == null ? '–' : (+v).toFixed(2));
 const PRE = {
   spikePct: [EL ? 'Επίθεση – επιτυχία' : 'Attack – kill %', (p) => p?.spikePct, false, pct],
