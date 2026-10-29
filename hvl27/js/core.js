@@ -1,8 +1,3 @@
-/* Shared runtime for every graphic.  URL params:
- *  league=hvl|cup|supercup|<compId>  team=<name|id>  mode=auto|live|last|next  mid=<matchId>
- *  api=<worker url>  refresh=<sec>  bg=1 (preview background)  debug=1  noanim=1  demo=1
- *  lang=el (Greek labels)
- */
 (function () {
   const P = new URLSearchParams(location.search);
   const CFG = window.HVL_CONFIG || {};
