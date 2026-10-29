@@ -344,6 +344,7 @@
       match: {
         mid: 1, status: st, date: '18/10/2026', time: '18:00', iso: '2026-10-18T15:00:00Z', venue: 'Kleisto Gymnastirio Kifisias', round: 'Game Day 2', phase: 'Regular season',
         referees: ['PAPADOPOULOS Nikos', 'GEORGIOU Kostas'],
+        preview: { home: { spikeEff: 34, spikePct: 50, spikesSet: 11.17, blocksSet: 1.83, aces: 18, acesSet: 3, recEff: 45, recPct: 29, sets: 6 }, away: { spikeEff: 30, spikePct: 46, spikesSet: 13.33, blocksSet: 1.17, aces: 4, acesSet: 0.67, recEff: 34, recPct: 25, sets: 6 } },
         setStats: sets.map((x, i) => ({ h: { att: 12 + i, blk: 2 + (i % 2), ace: 1, attTot: 26, srvErr: 3 }, a: { att: 11 + (i % 3), blk: 3, ace: i % 2 ? 2 : 0, attTot: 27, srvErr: 4 } })),
         sets, setsHome: 1, setsAway: st === 'finished' ? 3 : 2, current: st === 'live' ? { set: 4, h: 16, a: 14 } : null,
       },
