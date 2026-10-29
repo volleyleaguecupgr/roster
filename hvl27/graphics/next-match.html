@@ -6,7 +6,7 @@
 <script src="../js/config.js"></script>
 <script src="../js/core.js"></script>
 <style>
-  /* Pre-match / "up next" card.  Uses mode=next by default; ?mode=auto for today's game. */
+  /* Pre-match / "up next" card.  mode=auto by default (today's game until well after it ends, then the next); ?mode=next forces the next game. */
   #box { position: absolute; left: 50%; top: 120px; width: 1500px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
   .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; }
   .vs { margin-top: 40px; width: 1500px; display: grid; grid-template-columns: 1fr 220px 1fr; align-items: center; }
@@ -25,7 +25,9 @@
 </head><body>
 <div id="stage"><div id="box"></div></div>
 <script>
-if (!HVL.P.has('mode')) HVL.mode = 'next';
+// intro: today's game before / during / after it, and it stays until the next game has a date and time on hvl-web
+// (mode=next jumped to next week's game as soon as this one started). ?mode=next still forces the next game.
+if (!HVL.P.has('mode')) HVL.mode = 'intro';
 // static card (no entrance animation) unless ?anim=1
 if (HVL.get('anim') !== '1') document.body.classList.add('noanim');
 HVL.poll('match', 60, (d, first) => {
