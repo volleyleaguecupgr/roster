@@ -20,6 +20,8 @@
 </head><body>
 <div id="stage"><div id="box"></div></div>
 <script>
+// ?rows=… own list. Default: this season's team stats from the match page before the game (hvl-web «pre-match» numbers);
+// when the page has none yet, the standings rows (rank, points, wins…).
 const ROWS_Q = HVL.get('rows');
 const PRE_ROWS = 'spikePct,spikeEff,spikesSet,blocksSet,acesSet,recPct,recEff'.split(',');
 const STD_ROWS = 'rank,pts,won,lost,sets,ratio,form'.split(',');
@@ -35,6 +37,7 @@ const DEF = {
   points: [EL ? 'Λόγος πόντων' : 'Point ratio', (s) => s?.ptsRatio, false, (v) => v == null ? '–' : (+v).toFixed(3)],
   wins30: [EL ? 'Νίκες 3-0/3-1' : '3-0 / 3-1 wins', (s) => s ? (s.r30 || 0) + (s.r31 || 0) : null],
 };
+// pre-match season stats (d.match.preview.home / .away)
 const pct = (v) => (v == null ? '–' : Math.round(v) + '%'), dec = (v) => (v == null ? '–' : (+v).toFixed(2));
 const PRE = {
   spikePct: [EL ? 'Επίθεση – επιτυχία' : 'Attack – kill %', (p) => p?.spikePct, false, pct],
@@ -47,6 +50,7 @@ const PRE = {
   recEff: [EL ? 'Απόδοση υποδοχής' : 'Reception efficiency', (p) => p?.recEff, false, pct],
 };
 const frm = (f = [], right) => `<div class="frm ${right ? 'r' : ''}">${(right ? [...f].reverse() : f).slice(0, 5).map((x) => `<i class="${x.win ? 'w' : 'l'}" title="${HVL.esc(x.score + ' ' + (x.opp?.short || ''))}">${x.win ? (EL ? 'Ν' : 'W') : (EL ? 'Η' : 'L')}</i>`).join('')}</div>`;
+if (!HVL.P.has('mode')) HVL.mode = 'intro';   // pre-match graphic: the upcoming game, not the one just finished
 HVL.poll('match', 60, (d, first) => {
   const box = HVL.$('#box');
   if (!d.match) { box.innerHTML = ''; return HVL.msg(d.message); }
