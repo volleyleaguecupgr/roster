@@ -293,6 +293,24 @@
   #post.cup .psr > div { background: linear-gradient(120deg, rgba(36,44,59,.97), rgba(22,68,82,.9)); box-shadow: inset 4px 0 0 var(--aqua); }
   #post.cup .fs .sb small { background: linear-gradient(160deg, #ffffff, #bff6fb); } #post.cup .fs .sb div { box-shadow: inset 4px 0 0 var(--aqua); }
   #post.cup .when2 .t { background: linear-gradient(160deg, #ffffff, #bff6fb); }
+  /* «Ιστορία αναμετρήσεων»: the round's games, 3 + 3 in two columns. Everything in em of the card (font-size set per format) */
+  .hhg { position: absolute; left: 50%; transform: translateX(-50%); display: grid; grid-auto-flow: column; grid-template-columns: 1fr 1fr; gap: var(--gap) calc(var(--gap) * 2); }
+  .hh { position: relative; display: flex; flex-direction: column; justify-content: space-evenly; align-items: stretch; padding: .35em 1.1em .45em; overflow: hidden;
+        background: linear-gradient(100deg, rgba(36,44,59,.96), rgba(29,36,49,.96)); box-shadow: inset 0 -3px 0 var(--aqua); --cut: .9em; font-weight: 800; }
+  .hh .hhw { text-align: center; font-size: .62em; letter-spacing: 1px; color: var(--aqua); white-space: nowrap; }
+  .hh .hht { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .5em; }
+  .hh .lo { width: 3.1em; height: 3.1em; font-size: 1em; }
+  .hh .hhr { display: flex; justify-content: center; align-items: center; gap: .18em; font-weight: 900; font-size: 2.5em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .hh .hhr b.w { color: var(--aqua); } .hh .hhr i { font-style: normal; opacity: .45; font-size: .7em; }
+  .hh .hhr.none { font-size: .8em; letter-spacing: 1px; color: var(--aqua); text-align: center; line-height: 1.15; }
+  .hh .hhn { display: grid; grid-template-columns: 1fr 1fr; gap: .6em; font-size: .58em; text-transform: uppercase; }
+  .hh .hhn div { white-space: nowrap; overflow: hidden; } .hh .hhn div + div { text-align: right; }
+  .hh .hhs { text-align: center; font-size: .56em; letter-spacing: .5px; color: rgba(255,255,255,.7); white-space: nowrap; } .hh .hhs b { color: #fff; }
+  .hh .hhl { display: flex; justify-content: center; gap: .35em; }
+  .hh .hhl span { display: flex; flex-direction: column; align-items: center; padding: .12em .55em .14em; background: rgba(12,19,35,.75); --cut: .35em; min-width: 3.4em; }
+  .hh .hhl b { font-size: .78em; line-height: 1.1; font-variant-numeric: tabular-nums; } .hh .hhl b em { font-style: normal; color: var(--aqua); }
+  .hh .hhl small { font-size: .42em; font-weight: 700; opacity: .7; white-space: nowrap; }
+  #post.cup .hh { background: linear-gradient(120deg, rgba(36,44,59,.97) 0%, rgba(30,52,66,.95) 60%, rgba(22,68,82,.9) 100%); box-shadow: inset 5px 0 0 var(--aqua); }
   #post.cup .soc { border-top: 0; box-shadow: inset 0 4px 0 var(--aqua); background: linear-gradient(90deg, rgba(22,68,82,.97), rgba(36,44,59,.97) 50%, rgba(22,68,82,.97)); }
   #post.cup .st-list .grp::before { clip-path: polygon(18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px); }
   #post.cup .st-list .grp::after { clip-path: polygon(17px 0, 100% 0, 100% calc(100% - 17px), calc(100% - 17px) 100%, 0 100%, 0 17px); }
@@ -301,7 +319,7 @@
 </style>
 </head><body>
 <div class="ui">
-  <label>Τύπος<select id="type"><option value="results">Αποτελέσματα</option><option value="schedule">Πρόγραμμα</option><option value="standings">Βαθμολογία</option><option value="match">Ανακοίνωση αγώνα</option><option value="final">Τελικό σκορ</option><option value="bracket">Πορεία Κυπέλλου</option></select></label>
+  <label>Τύπος<select id="type"><option value="results">Αποτελέσματα</option><option value="schedule">Πρόγραμμα</option><option value="standings">Βαθμολογία</option><option value="match">Ανακοίνωση αγώνα</option><option value="final">Τελικό σκορ</option><option value="h2h">Ιστορία αναμετρήσεων</option><option value="bracket">Πορεία Κυπέλλου</option></select></label>
   <label class="f-only">Αγώνας<select id="fgame"></select></label>
   <label class="f-only">Φωτό φόντου<input type="file" id="bgimg" accept="image/*"></label>
   <label class="f-only">Θέση φωτό<select id="bgpos"><option value="50% 50%">Κέντρο</option><option value="50% 20%">Πάνω</option><option value="50% 80%">Κάτω</option></select></label>
@@ -512,6 +530,7 @@ async function load() {
       DATA = { cup: CUPB.scores(M, HVL.demo ? [] : wm, key) };
       $('msg').textContent = 'Πορεία από data/cup.txt'; render(); return;
     }
+    if ($('type').value === 'h2h') { await loadH2H(); render(); return; }
     if ($('type').value === 'match') HVL.mid = PICK_MID || null;
     DATA = $('type').value === 'standings' ? await HVL.load('standings') : $('type').value === 'match' ? await HVL.load('match') : await HVL.load('round', { which: $('which').value });
     HVL.mid = null;
@@ -573,6 +592,7 @@ function render() {
   if (type === 'match') { renderMatch(post, fmt, comp); return; }
   if (type === 'final') { renderFinal(post, fmt, comp); return; }
   if (type === 'bracket') { renderBracket(post, fmt, comp); return; }
+  if (type === 'h2h') { renderH2H(post, fmt, comp); return; }
   if (type === 'standings') {
     const rows = (DATA.standings || []).slice(0, 14);
     // groups of places: sizes from the «Ομάδες θέσεων» field, the last group takes the rest
@@ -696,6 +716,45 @@ function fitBox(root) {
     e.style.fontSize = ''; let fs = parseFloat(getComputedStyle(e).fontSize); const min = fs * .3;
     while ((e.scrollHeight > e.clientHeight + 2 || e.scrollWidth > e.clientWidth + 2) && fs > min) { fs -= 2; e.style.fontSize = fs + 'px'; }
   });
+}
+/** «Ιστορία αναμετρήσεων»: the games of the chosen round (Worker; data/schedule.txt when the Worker has fewer than 6),
+ *  each with the Worker's head-to-head (last 4 seasons, every competition) */
+async function loadH2H() {
+  const rd = await HVL.load('round', { which: $('which').value }).catch(() => null);
+  let r = rd?.round || null, ms = (r?.matches || []).filter((m) => m.home && m.away);
+  if ($('league').value === 'hvl' && ms.length < 6) {
+    const fr = pickFileRound(await fileRounds(), $('which').value, 0);
+    if (fr) { ms = fr.matches.map((f) => ms.find((a) => sameMatch(a, f)) || f); r = { label: fr.label, phase: fr.phase || '' }; }
+  }
+  ms = ms.slice(0, 6);
+  const tq = (t) => t.id || t.orig || t.short || t.name;
+  const hh = await Promise.all(ms.map((m) => HVL.load('h2h', { team: tq(m.home), vs: tq(m.away), seasons: 4 }).catch(() => null)));
+  DATA = { round: { label: r?.label || '', phase: r?.phase || '' }, games: ms.map((m, i) => ({ m, h: hh[i] })) };
+  const miss = hh.filter((x) => !x).length;
+  $('msg').textContent = HVL.demo ? 'Demo δεδομένα' : miss ? `⚠ Για ${miss} αγώνες δεν βρέθηκε ιστορικό` : '';
+}
+function renderH2H(post, fmt, comp) {
+  const L = layout(fmt, 3); applyVars(post, L);
+  const avail = L.H - L.listTop - L.ftH - (fmt === 'story' ? 70 : 40);
+  const ch = Math.floor((avail - L.gap * 2) / 3), colW = (L.listW - L.gap * 2) / 2, em = Math.min(ch / 9.2, colW / 15);
+  const N = fmt === 'square' || fmt === 'wide' ? 3 : 4;   // last meetings shown per game
+  const sd = (d) => { const p = String(d || '').split('/'); return p.length === 3 ? `${p[0]}/${p[1]}/${p[2].slice(-2)}` : d || ''; };
+  const cards = DATA.games.map(({ m, h }) => {
+    const [day, time] = dayEl(m.iso), tot = h?.total || 0, wa = h?.winsA ?? 0, wb = h?.winsB ?? 0;
+    const rec = tot ? `<div class="hhr"><b class="${wa > wb ? 'w' : ''}">${wa}</b><i>–</i><b class="${wb > wa ? 'w' : ''}">${wb}</b></div>`
+      : `<div class="hhr none">${h ? 'ΠΡΩΤΗ<br>ΑΝΑΜΕΤΡΗΣΗ' : 'ΧΩΡΙΣ<br>ΙΣΤΟΡΙΚΟ'}</div>`;
+    const ls = (h?.meetings || []).slice(0, N).map((x) => `<span class="par"><b>${x.setsA > x.setsB ? `<em>${x.setsA}</em>` : x.setsA}-${x.setsB > x.setsA ? `<em>${x.setsB}</em>` : x.setsB}</b><small>${HVL.esc(sd(x.date))}</small></span>`).join('');
+    return `<div class="hh par ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}">
+      <div class="hhw">${HVL.esc([day, time].filter(Boolean).join(' · '))}</div>
+      <div class="hht">${logo(m.home)}${rec}${logo(m.away)}</div>
+      <div class="hhn"><div class="fit uni">${HVL.esc(el(m.home))}</div><div class="fit uni">${HVL.esc(el(m.away))}</div></div>
+      ${tot ? `<div class="hhs"><b>${tot}</b> ${tot === 1 ? 'ΑΓΩΝΑΣ' : 'ΑΓΩΝΕΣ'} · ΣΕΤ <b>${h.setsA}–${h.setsB}</b></div>` : ''}
+      ${ls ? `<div class="hhl">${ls}</div>` : ''}</div>`;
+  }).join('');
+  post.innerHTML = header('ΙΣΤΟΡΙΚΟ', [stageEl(DATA.round), comp].filter(Boolean).join(' · '), true) + topLogo(L)
+    + `<div class="hhg" style="top:${L.listTop}px;width:${L.listW}px;grid-template-rows:repeat(3, ${ch}px);font-size:${em.toFixed(1)}px">${cards || '<div class="empty">Δεν υπάρχουν αγώνες</div>'}</div>` + footer();
+  const fitAll = () => HVL.fit(post); fitAll(); if (document.fonts?.ready) document.fonts.ready.then(fitAll);
+  scale();
 }
 function renderMatch(post, fmt, comp) {
   const d = DATA, [W, H] = FMT[fmt];
