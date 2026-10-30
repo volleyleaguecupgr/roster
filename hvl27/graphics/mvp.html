@@ -77,7 +77,7 @@
 <div id="stage"><div id="mv"></div></div>
 <script>
 const MV = HVL.$('#mv');
-if (HVL.get('full', '1') !== '0') MV.classList.add('full');
+if (HVL.get('full', '0') !== '0') MV.classList.add('full');
 const LG = HVL.get('logo', 'league');
 let idleT = 0;
 AW.run('mvp.txt', (txt, err) => {
