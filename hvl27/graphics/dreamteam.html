@@ -22,7 +22,7 @@
     background: radial-gradient(160px 120px at 50% 30%, rgba(153,245,253,.35), transparent 70%), linear-gradient(170deg, #3b4a63 0%, #242c3b 55%, #1a2a38 100%); box-shadow: inset 0 -4px 0 var(--aqua); }
   #dt .dph > img { position: absolute; left: 0; right: 0; bottom: 4px; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
   #dt .dph > img.np { left: 50%; width: 120px; height: 120px; bottom: auto; top: 34px; margin-left: -60px; object-fit: contain; opacity: .9; }
-  #dt .rl { position: absolute; left: 0; top: 0; height: 30px; padding: 0 18px 0 22px; display: grid; place-items: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-size: 15px; letter-spacing: 1px; --cut: 10px;
+  #dt .rl { position: absolute; left: 0; bottom: 4px; height: 30px; padding: 0 18px 0 12px; display: grid; place-items: center; background: var(--aqua); color: var(--ink); font-weight: 900; font-size: 15px; letter-spacing: 1px; --cut: 10px;
     clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
   #dt .pc.L .rl { background: #fff; }
   #dt .tl { position: absolute; right: 10px; bottom: 10px; width: 52px; height: 52px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.6)); }
@@ -55,7 +55,7 @@
 <div id="stage"><div id="dt"></div></div>
 <script>
 const DT = HVL.$('#dt');
-if (HVL.get('full', '0') !== '0') DT.classList.add('full');
+if (HVL.get('full', '1') !== '0') DT.classList.add('full');
 const LG = HVL.get('logo', 'league');
 // Slots on the court (card centre). Net on the right: front row next to it, then the middle column, libero at the back.
 const SLOT = { F1: [990, 240], F2: [990, 545], F3: [990, 850], M1: [680, 240], M2: [680, 545], M3: [680, 850], B2: [380, 545], B1: [380, 240], B3: [380, 850] };
