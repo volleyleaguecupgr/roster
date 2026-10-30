@@ -294,7 +294,17 @@
   #post.cup .fs .sb small { background: linear-gradient(160deg, #ffffff, #bff6fb); } #post.cup .fs .sb div { box-shadow: inset 4px 0 0 var(--aqua); }
   #post.cup .when2 .t { background: linear-gradient(160deg, #ffffff, #bff6fb); }
   /* «Ιστορία αναμετρήσεων»: the round's games, 3 + 3 in two columns. Everything in em of the card (font-size set per format) */
-  .hhg { position: absolute; left: 50%; transform: translateX(-50%); display: grid; grid-auto-flow: column; grid-template-columns: 1fr 1fr; gap: var(--gap) calc(var(--gap) * 2); }
+  .hhwrap { position: absolute; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; }
+  .hhg { display: grid; grid-auto-flow: column; grid-template-columns: 1fr 1fr; gap: var(--gap) calc(var(--gap) * 2); }
+  .hhfs { display: flex; flex-direction: column; }
+  .hhf { display: flex; align-items: center; gap: .55em; padding: 0 1.4em 0 1.6em; background: linear-gradient(100deg, rgba(36,44,59,.96), rgba(29,36,49,.96)); box-shadow: inset 0 -3px 0 var(--aqua);
+         font-weight: 800; --cut: .9em; white-space: nowrap; }
+  .hhf .fw { color: var(--aqua); font-size: .8em; letter-spacing: .5px; flex: none; }
+  .hhf .lo { width: 1.9em; height: 1.9em; font-size: .6em; flex: none; }
+  .hhf .fn { flex: 1; min-width: 0; text-align: center; text-transform: uppercase; overflow: hidden; }
+  .hhf .ft { flex: none; padding: .25em .8em; background: linear-gradient(100deg, #99f5fd, #c4fbff); color: var(--ink); font-size: .72em; letter-spacing: 1px; --cut: .5em;
+             clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); }
+  #post.cup .hhf { background: linear-gradient(120deg, rgba(36,44,59,.97) 0%, rgba(30,52,66,.95) 60%, rgba(22,68,82,.9) 100%); box-shadow: inset 5px 0 0 var(--aqua); }
   .hh { position: relative; display: flex; flex-direction: column; justify-content: space-evenly; align-items: stretch; padding: .35em 1.1em .45em; overflow: hidden;
         background: linear-gradient(100deg, rgba(36,44,59,.96), rgba(29,36,49,.96)); box-shadow: inset 0 -3px 0 var(--aqua); --cut: .9em; font-weight: 800; }
   .hh .hhw { text-align: center; font-size: .62em; letter-spacing: 1px; color: var(--aqua); white-space: nowrap; }
@@ -307,7 +317,7 @@
   .hh .hhn div { white-space: nowrap; overflow: hidden; } .hh .hhn div + div { text-align: right; }
   .hh .hhs { text-align: center; font-size: .56em; letter-spacing: .5px; color: rgba(255,255,255,.7); white-space: nowrap; } .hh .hhs b { color: #fff; }
   .hh .hhl { display: flex; justify-content: center; gap: .35em; }
-  .hh .hhl span { display: flex; flex-direction: column; align-items: center; padding: .12em .55em .14em; background: rgba(12,19,35,.75); --cut: .35em; min-width: 3.4em; }
+  .hh .hhl span { flex: 1 1 0; min-width: 0; max-width: calc((100% - 1.05em) / 4); display: flex; flex-direction: column; align-items: center; padding: .12em .3em .14em; background: rgba(12,19,35,.75); --cut: .35em; }
   .hh .hhl b { font-size: .78em; line-height: 1.1; font-variant-numeric: tabular-nums; } .hh .hhl b em { font-style: normal; color: var(--aqua); }
   .hh .hhl small { font-size: .42em; font-weight: 700; opacity: .7; white-space: nowrap; }
   #post.cup .hh { background: linear-gradient(120deg, rgba(36,44,59,.97) 0%, rgba(30,52,66,.95) 60%, rgba(22,68,82,.9) 100%); box-shadow: inset 5px 0 0 var(--aqua); }
@@ -728,33 +738,59 @@ async function loadH2H() {
   }
   ms = ms.slice(0, 6);
   const tq = (t) => t.id || t.orig || t.short || t.name;
-  const hh = await Promise.all(ms.map((m) => HVL.load('h2h', { team: tq(m.home), vs: tq(m.away), seasons: 4 }).catch(() => null)));
+  const hh = await Promise.all(ms.map((m) => HVL.load('h2h', { team: tq(m.home), vs: tq(m.away), seasons: 5 }).catch(() => null)));
   DATA = { round: { label: r?.label || '', phase: r?.phase || '' }, games: ms.map((m, i) => ({ m, h: hh[i] })) };
   const miss = hh.filter((x) => !x).length;
   $('msg').textContent = HVL.demo ? 'Demo δεδομένα' : miss ? `⚠ Για ${miss} αγώνες δεν βρέθηκε ιστορικό` : '';
 }
 function renderH2H(post, fmt, comp) {
   const L = layout(fmt, 3); applyVars(post, L);
-  const avail = L.H - L.listTop - L.ftH - (fmt === 'story' ? 70 : 40);
-  const ch = Math.floor((avail - L.gap * 2) / 3), colW = (L.listW - L.gap * 2) / 2, em = Math.min(ch / 9.2, colW / 15);
-  const N = fmt === 'square' || fmt === 'wide' ? 3 : 4;   // last meetings shown per game
+  const all = DATA.games, cardsG = all.filter((g) => g.h?.total), firstG = all.filter((g) => !g.h?.total);   // never met (or no data) → a line under the boxes
+  const R = Math.max(1, Math.ceil(cardsG.length / 2)), F = firstG.length;
+  const avail = L.H - L.listTop - L.ftH - (fmt === 'story' ? 70 : 40), colW = (L.listW - L.gap * 2) / 2;
+  const fK = .36, gaps = (R - 1) * L.gap + F * L.gap + (cardsG.length && F ? L.gap : 0);
+  let ch = Math.floor((avail - gaps) / (cardsG.length ? R + fK * F : fK * F || 1));
+  ch = Math.min(ch, Math.round(colW * .78));                 // few games: don't blow the boxes up
+  const fH = Math.round(Math.min(ch * fK, fmt === 'story' ? 120 : 92));
+  const em = Math.min(ch / 9.2, colW / 15);
+  const used = (cardsG.length ? R * ch + (R - 1) * L.gap : 0) + F * (fH + L.gap) + (cardsG.length && F ? L.gap : 0) - (cardsG.length ? 0 : L.gap);
+  const top = L.listTop + Math.max(0, Math.round((avail - used) / 2));
   const sd = (d) => { const p = String(d || '').split('/'); return p.length === 3 ? `${p[0]}/${p[1]}/${p[2].slice(-2)}` : d || ''; };
-  const cards = DATA.games.map(({ m, h }) => {
-    const [day, time] = dayEl(m.iso), tot = h?.total || 0, wa = h?.winsA ?? 0, wb = h?.winsB ?? 0;
-    const rec = tot ? `<div class="hhr"><b class="${wa > wb ? 'w' : ''}">${wa}</b><i>–</i><b class="${wb > wa ? 'w' : ''}">${wb}</b></div>`
-      : `<div class="hhr none">${h ? 'ΠΡΩΤΗ<br>ΑΝΑΜΕΤΡΗΣΗ' : 'ΧΩΡΙΣ<br>ΙΣΤΟΡΙΚΟ'}</div>`;
-    const ls = (h?.meetings || []).slice(0, N).map((x) => `<span class="par"><b>${x.setsA > x.setsB ? `<em>${x.setsA}</em>` : x.setsA}-${x.setsB > x.setsA ? `<em>${x.setsB}</em>` : x.setsB}</b><small>${HVL.esc(sd(x.date))}</small></span>`).join('');
+  const when = (m) => dayEl(m.iso).filter(Boolean).join(' · ');
+  const cards = cardsG.map(({ m, h }) => {
+    const wa = h.winsA ?? 0, wb = h.winsB ?? 0;
+    const ls = (h.meetings || []).slice(0, 4).map((x) => `<span class="par"><b>${x.setsA > x.setsB ? `<em>${x.setsA}</em>` : x.setsA}-${x.setsB > x.setsA ? `<em>${x.setsB}</em>` : x.setsB}</b><small>${HVL.esc(sd(x.date))}</small></span>`).join('');
     return `<div class="hh par ${isFocus(m.home) || isFocus(m.away) ? 'hl' : ''}">
-      <div class="hhw">${HVL.esc([day, time].filter(Boolean).join(' · '))}</div>
-      <div class="hht">${logo(m.home)}${rec}${logo(m.away)}</div>
+      <div class="hhw">${HVL.esc(when(m))}</div>
+      <div class="hht">${logo(m.home)}<div class="hhr"><b class="${wa > wb ? 'w' : ''}">${wa}</b><i>–</i><b class="${wb > wa ? 'w' : ''}">${wb}</b></div>${logo(m.away)}</div>
       <div class="hhn"><div class="fit uni">${HVL.esc(el(m.home))}</div><div class="fit uni">${HVL.esc(el(m.away))}</div></div>
-      ${tot ? `<div class="hhs"><b>${tot}</b> ${tot === 1 ? 'ΑΓΩΝΑΣ' : 'ΑΓΩΝΕΣ'} · ΣΕΤ <b>${h.setsA}–${h.setsB}</b></div>` : ''}
+      <div class="hhs"><b>${h.total}</b> ${h.total === 1 ? 'ΑΓΩΝΑΣ' : 'ΑΓΩΝΕΣ'} · ΣΕΤ <b>${h.setsA}–${h.setsB}</b></div>
       ${ls ? `<div class="hhl">${ls}</div>` : ''}</div>`;
   }).join('');
+  const lines = firstG.map(({ m, h }) => `<div class="hhf par" style="height:${fH}px;font-size:${(fH / 3.1).toFixed(1)}px">
+      <span class="fw">${HVL.esc(when(m))}</span><span class="fn fit">${HVL.esc(el(m.home))} – ${HVL.esc(el(m.away))}</span>
+      <span class="ft">${h ? 'ΠΡΩΤΗ ΑΝΑΜΕΤΡΗΣΗ' : 'ΧΩΡΙΣ ΣΤΟΙΧΕΙΑ'}</span></div>`).join('');
   post.innerHTML = header('ΙΣΤΟΡΙΚΟ', [stageEl(DATA.round), comp].filter(Boolean).join(' · '), true) + topLogo(L)
-    + `<div class="hhg" style="top:${L.listTop}px;width:${L.listW}px;grid-template-rows:repeat(3, ${ch}px);font-size:${em.toFixed(1)}px">${cards || '<div class="empty">Δεν υπάρχουν αγώνες</div>'}</div>` + footer();
-  const fitAll = () => HVL.fit(post); fitAll(); if (document.fonts?.ready) document.fonts.ready.then(fitAll);
+    + `<div class="hhwrap" style="top:${top}px;width:${L.listW}px;gap:${L.gap}px">
+        ${cards ? `<div class="hhg" style="grid-template-rows:repeat(${R}, ${ch}px);font-size:${em.toFixed(1)}px">${cards}</div>` : ''}
+        ${lines ? `<div class="hhfs" style="gap:${L.gap}px">${lines}</div>` : ''}
+        ${!cards && !lines ? '<div class="empty">Δεν υπάρχουν αγώνες</div>' : ''}</div>` + footer();
+  const fitAll = () => { HVL.fit(post); slantChips(post); }; fitAll(); if (document.fonts?.ready) document.fonts.ready.then(fitAll);
   scale();
+}
+/** score boxes inside a game box: same slant as the box, the row stretched exactly between its slanted left and right edges */
+function slantChips(post) {
+  post.querySelectorAll('.hh').forEach((c) => {
+    const row = c.querySelector('.hhl'); if (!row) return;
+    const fs = parseFloat(getComputedStyle(c).fontSize), H = c.offsetHeight, cut = .9 * fs, k = cut / H;   // card slope (px across per px down)
+    const cs = getComputedStyle(c), pl = parseFloat(cs.paddingLeft), pr = parseFloat(cs.paddingRight), m = .3 * fs;
+    row.style.marginLeft = row.style.marginRight = '0px';
+    const y1 = row.offsetTop, y2 = y1 + row.offsetHeight;
+    row.style.marginLeft = (k * (H - y2) + m - pl) + 'px';    // card's left edge at the row's bottom
+    row.style.marginRight = (k * y1 + m - pr) + 'px';         // card's right edge at the row's top
+    row.querySelectorAll('span').forEach((s) => s.style.setProperty('--cut', (s.offsetHeight * k).toFixed(1) + 'px'));
+    row.style.gap = Math.max(4, .35 * fs) + 'px';
+  });
 }
 function renderMatch(post, fmt, comp) {
   const d = DATA, [W, H] = FMT[fmt];
