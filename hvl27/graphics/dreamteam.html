@@ -55,11 +55,11 @@
 <div id="stage"><div id="dt"></div></div>
 <script>
 const DT = HVL.$('#dt');
-if (HVL.get('full', '1') !== '0') DT.classList.add('full');
+if (HVL.get('full', '0') !== '0') DT.classList.add('full');
 const LG = HVL.get('logo', 'league');
 // Slots on the court (card centre). Net on the right: front row next to it, then the middle column, libero at the back.
 const SLOT = { F1: [990, 240], F2: [990, 545], F3: [990, 850], M1: [680, 240], M2: [680, 545], M3: [680, 850], B2: [380, 545], B1: [380, 240], B3: [380, 850] };
-const PREF = { OH: ['F1', 'M1'], MB: ['F2', 'M3'], OP: ['F3'], S: ['M2'], L: ['B2'] };
+const PREF = { S: ['F1'], MB: ['F2', 'M2'], OH: ['F3', 'M1'], OP: ['M3'], L: ['B2'] };
 const ORDER = ['F1', 'F2', 'F3', 'M1', 'M2', 'M3', 'B2', 'B1', 'B3'];
 function place(players) {
   const used = new Set(), out = [];
