@@ -69,21 +69,49 @@
 
   /** <img> for a player photo from site/photos/: tries the name as written, with _ , lower/upper case, .png/.webp/.jpg;
    *  none found → the league logo (same as players without a photo elsewhere). */
+  // ?photos=<folder or URL> another folder (default: site/photos/)
+  /* Which file names to try for a player, most likely first: the name as written, then surname + name the other way round,
+     then only the surname, only the first name (e.g. photos/Σπίριτο.png, photos/Luca.png) — each as written, with or without
+     accents, in capitals / small letters, space or «_», .png/.jpg/.webp (+ «.png.png» typed twice on Windows). */
   AW.photoList = (name, explicit) => {
-    const base = `${HVL.root}photos/`, out = [];
-    if (explicit) out.push(/^https?:/.test(explicit) ? explicit : base + encodeURIComponent(explicit));
-    const n = String(name || '').trim(), v = [n, n.replace(/\s+/g, '_'), n.toLowerCase(), n.toUpperCase(), n.toLowerCase().replace(/\s+/g, '_'), n.toUpperCase().replace(/\s+/g, '_')];
-    for (const x of [...new Set(v)].filter(Boolean)) for (const e of ['png', 'webp', 'jpg', 'jpeg']) out.push(base + encodeURIComponent(`${x}.${e}`));
-    return [...new Set(out)];
+    let base = HVL.get('photos', '') || `${HVL.root}photos/`; if (!base.endsWith('/')) base += '/';
+    const out = [], enc = (f) => base + encodeURIComponent(f);
+    if (explicit) out.push(/^https?:/.test(explicit) ? explicit : enc(explicit));
+    const n = String(name || '').trim().replace(/\s+/g, ' ');
+    const sp = AW.split(n), words = n.split(' ').filter(Boolean);
+    const forms = [n, [sp.last, sp.first].filter(Boolean).join(' '), [sp.first, sp.last].filter(Boolean).join(' '), sp.last, sp.first, ...words];
+    const ext = ['png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'webp', 'png.png', 'jpg.jpg', 'Png'];
+    for (const f of [...new Set(forms.filter(Boolean))]) {
+      const v = [];
+      for (const x of [f, f.normalize('NFC'), f.normalize('NFD'), f.normalize('NFD').replace(/[\u0300-\u036f]/g, '').normalize('NFC')])
+        v.push(x, x.replace(/ /g, '_'), x.toLowerCase(), x.toUpperCase(), x.toLowerCase().replace(/ /g, '_'), x.toUpperCase().replace(/ /g, '_'), x[0] ? x[0].toUpperCase() + x.slice(1).toLowerCase() : x);
+      for (const x of [...new Set(v)].filter(Boolean)) for (const e of (f === n ? ext : ext.slice(0, 7))) out.push(enc(`${x}.${e}`));
+    }
+    return [...new Set(out)].slice(0, 400);   // never more than 400 tries per player
   };
+  /** first file of the list that exists: asked for in parallel batches, the earliest one in the list wins */
+  const FOUND = {};
+  AW.find = (L) => {
+    const key = L[0]; if (FOUND[key]) return FOUND[key];
+    return (FOUND[key] = (async () => {
+      const probe = (u) => new Promise((res) => { const i = new Image(); i.onload = () => res(true); i.onerror = () => res(false); i.src = u; });
+      for (let i = 0; i < L.length; i += 30) {
+        const part = L.slice(i, i + 30), ok = await Promise.all(part.map(probe)), k = ok.indexOf(true);
+        if (k >= 0) return part[k];
+      }
+      return null;
+    })());
+  };
+  let SEQ = 0;
   AW.photo = (name, explicit, cls = '') => {
-    const L = AW.photoList(name, explicit);
-    return `<img class="${cls}" src="${HVL.esc(L[0])}" data-alt="${HVL.esc(JSON.stringify(L.slice(1)))}" alt="" onerror="AW.next(this)">`;
-  };
-  AW.next = (img) => {
-    let L = []; try { L = JSON.parse(img.dataset.alt || '[]'); } catch { /* none */ }
-    if (L.length) { img.dataset.alt = JSON.stringify(L.slice(1)); img.src = L[0]; return; }
-    img.onerror = null; img.classList.add('np'); img.src = HVL.noPhotoSrc();
+    const L = AW.photoList(name, explicit), id = 'awp' + (++SEQ);
+    AW.find(L).then((u) => {
+      const img = document.getElementById(id); if (!img) return;
+      if (u) { img.src = u; img.style.visibility = ''; return; }
+      console.warn('[photos] not found:', decodeURIComponent(L[0]), '(also tried surname / first name only and other spellings)');
+      img.onerror = () => { img.style.visibility = 'hidden'; }; img.classList.add('np'); img.src = HVL.noPhotoSrc(); img.style.visibility = '';
+    });
+    return `<img id="${id}" class="${cls}" alt="" style="visibility:hidden" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=">`;
   };
 
   /** team logo from the team name written in the file (logos/<slug>.png) */
