@@ -6,15 +6,33 @@
 <script src="../js/config.js"></script>
 <script src="../js/core.js"></script>
 <style>
-  /* ?cat=0..7 (category index from HVL home page)   ?cycle=10 rotates categories every N s */
+  /* No ?cat → the leader (1st) of EVERY category in one card.  ?cats=0,3,4 only those categories (index as on the HVL front page).
+     ?cat=0..7 → top 5 of one category · ?cycle=10 rotates the categories every N s */
+  .par { clip-path: polygon(var(--cut, 16px) 0, 100% 0, calc(100% - var(--cut, 16px)) 100%, 0 100%); }
+  .lgrid { width: 1780px; margin-top: 18px; display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr); gap: 20px; }
+  .lt { position: relative; height: 360px; display: flex; flex-direction: column; align-items: center; padding: 14px 18px 16px; background: var(--g-row); box-shadow: inset 0 -4px 0 var(--red-500, #99f5fd); overflow: hidden; }
+  .lt .ct { width: 100%; text-align: center; font-size: 22px; font-weight: 900; letter-spacing: .5px; text-transform: uppercase; color: var(--red-500, #99f5fd); white-space: nowrap; overflow: hidden; }
+  .lt .mid { flex: 1; width: 100%; display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 16px; margin-top: 8px; }
+  .lt .photo { width: 150px; height: 170px; overflow: hidden; background: var(--navy-900); justify-self: center; }
+  .lt .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; } .lt .photo.nophoto { display: grid; place-items: center; font-size: 44px; font-weight: 900; }
+  .lt .who { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .lt .no { font-size: 22px; font-weight: 700; color: var(--muted); }
+  .lt .fn { font-size: 20px; font-weight: 700; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .lt .ln { font-size: 34px; font-weight: 900; line-height: 1.02; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .lt .tm { display: flex; align-items: center; gap: 8px; margin-top: 4px; min-width: 0; } .lt .tm .logo { width: 44px; height: 44px; flex: none; } .lt .tm img { width: 100%; height: 100%; object-fit: contain; }
+  .lt .tm span { font-size: 16px; font-weight: 700; color: var(--muted); text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .lt .lv { width: 100%; height: 76px; margin-top: 10px; display: flex; align-items: baseline; justify-content: center; gap: 12px; background: linear-gradient(100deg, #99f5fd, #c4fbff); color: #242c3b; }
+  .lt .lv b { font-size: 50px; font-weight: 900; line-height: 76px; } .lt .lv span { font-size: 20px; font-weight: 700; opacity: .7; }
   #box { position: absolute; left: 50%; top: 110px; width: 1200px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
   .title-pill { width: 900px; } .comp-pill { width: 900px; margin-top: 12px; margin-bottom: 10px; }
-  .rw { width: 1200px; height: 120px; margin-top: 18px; border-radius: 999px; display: grid; grid-template-columns: 120px 120px 1fr 200px; align-items: center; background: var(--g-row); box-shadow: inset 0 0 0 var(--line) #fff; }
+  .rw { width: 1200px; height: 120px; margin-top: 18px; border-radius: 999px; display: grid; grid-template-columns: 120px 120px 1fr 96px 200px; align-items: center; background: var(--g-row); box-shadow: inset 0 0 0 var(--line) #fff; }
   .rw .rk { width: 120px; height: 120px; border-radius: 50%; display: grid; place-items: center; background: var(--navy-900); box-shadow: inset 0 0 0 var(--line) #fff; font-size: 50px; font-weight: 900; }
   .rw:first-of-type .rk { background: var(--red-600); }
   .rw .photo { width: 110px; height: 110px; border-radius: 50%; overflow: hidden; justify-self: center; background: var(--navy-900); }
   .rw .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; } .rw .photo.nophoto { display: grid; place-items: center; font-size: 40px; font-weight: 900; }
   .rw .nm { padding-left: 18px; font-size: 40px; font-weight: 800; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .rw .tl { width: 84px; height: 84px; justify-self: center; display: grid; place-items: center; } .rw .tl .logo { width: 84px; height: 84px; } .rw .tl img { width: 100%; height: 100%; object-fit: contain; }
+  .rw .nm .no { color: var(--muted); font-weight: 700; font-size: .8em; }
   .rw .nm small { display: block; font-size: 22px; color: var(--muted); font-weight: 700; }
   .rw .v { height: 120px; border-radius: 999px; display: grid; place-items: center; align-content: center; background: var(--g-win); box-shadow: inset 0 0 0 var(--line) #fff; }
   .rw .v b { font-size: 50px; font-weight: 900; line-height: 1; } .rw .v span { font-size: 18px; font-weight: 700; color: var(--muted); }
@@ -23,22 +41,41 @@
 <div id="stage"><div id="box"></div></div>
 <script>
 let idx = +HVL.get('cat', 0), data = null;
+const ALL = !HVL.P.has('cat');   // no ?cat → leaders of every category
 const cycle = +HVL.get('cycle', 0);
 function draw(first) {
   const box = HVL.$('#box');
   const cats = data?.leaders || [];
   if (!cats.length) { box.innerHTML = ''; return HVL.msg('no leaders found'); }
+  const teamOf0 = (p) => p.team || (data.teams || []).find((t) => t.id === p.teamId) || null;
+  if (ALL) {
+    const pick = HVL.get('cats') ? HVL.get('cats').split(',').map(Number).map((i) => cats[i]).filter(Boolean) : cats;
+    const tiles = pick.filter((c) => c.players?.length).map((c) => { const p = c.players[0], t = teamOf0(p);
+      const last = p.last || p.name.split(' ').slice(-1)[0], first = p.first || p.name.split(' ').slice(0, -1).join(' ');
+      return `<div class="lt par"><div class="ct fit">${HVL.esc(c.title)}</div>
+        <div class="mid">${HVL.photo(p)}<div class="who">${p.number != null ? `<div class="no">#${p.number}</div>` : ''}<div class="fn">${HVL.esc(first)}</div><div class="ln fit">${HVL.esc(last)}</div>
+          ${t ? `<div class="tm">${HVL.logo(t)}<span class="fit">${HVL.esc(t.name || t.short || '')}</span></div>` : ''}</div></div>
+        <div class="lv par"><b>${HVL.esc(p.value)}</b>${p.detail ? `<span>${HVL.esc(p.detail)}</span>` : ''}</div></div>`; });
+    const cols = tiles.length <= 3 ? tiles.length : tiles.length <= 4 ? 4 : tiles.length <= 6 ? 3 : 4;
+    box.style.width = '1780px';
+    box.innerHTML = `<div class="pill title-pill">${HVL.esc(HVL.get('title') || HVL.t('leaders'))}</div>
+      <div class="pill comp-pill">${HVL.esc(data.league?.name || '')}</div>
+      <div class="lgrid" style="--cols:${cols}">${tiles.join('')}</div>`;
+    HVL.fit(box); HVL.animate(box, first);
+    return;
+  }
   const c = cats[idx % cats.length];
-  const teamName = (id) => (data.teams || []).find((t) => t.id === id)?.short || '';
+  const teamOf = (p) => p.team || (data.teams || []).find((t) => t.id === p.teamId) || null;
   box.innerHTML = `<div class="pill title-pill">${HVL.esc(HVL.get('title') || c.title)}</div>
     <div class="pill comp-pill">${HVL.esc(data.league?.name || '')} · ${HVL.t('leaders')}</div>
-    ${c.players.map((p, i) => `<div class="rw"><div class="rk">${i + 1}</div>${HVL.photo(p)}<div class="nm fit">${HVL.esc(p.name)}<small>${HVL.esc(teamName(p.teamId))}</small></div>
+    ${c.players.map((p, i) => `<div class="rw"><div class="rk">${i + 1}</div>${HVL.photo(p)}<div class="nm fit">${p.number != null ? `<span class="no">#${p.number}</span> ` : ''}${HVL.esc(p.name)}<small>${HVL.esc(teamOf(p)?.name || teamOf(p)?.short || '')}</small></div><div class="tl">${teamOf(p) ? HVL.logo(teamOf(p)) : ''}</div>
       <div class="v"><b>${HVL.esc(p.value)}</b>${p.detail ? `<span>${HVL.esc(p.detail)}</span>` : ''}</div></div>`).join('')}`;
   HVL.animate(box, first);
 }
 HVL.poll('leaders', 300, async (d, first) => {
   data = d;
-  try { if (!HVL.demo) data.teams = await (await fetch(HVL.url('teams'))).json(); } catch { /* names optional */ }
+  // older Worker without team on each player: fall back to the team list
+  try { if (!HVL.demo && !(d.leaders || []).some((c) => c.players?.[0]?.team)) data.teams = await (await fetch(HVL.url('teams'))).json(); } catch { /* names optional */ }
   draw(first);
 });
 if (cycle) setInterval(() => { idx++; draw(true); }, cycle * 1000);
