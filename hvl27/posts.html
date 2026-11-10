@@ -211,6 +211,13 @@
   .st-list .nmw { height: 100%; min-width: 0; display: flex; align-items: center; padding: 0 12px 0 calc(var(--rh) * .2); overflow: hidden; }
   .st-list .nmw span { display: block; width: 100%; font-weight: 800; line-height: 1.04; text-transform: uppercase; font-size: calc(var(--rh) * .36); }
   .st-list .s .tn { font-size: calc(var(--rh) * .4); padding-left: calc(var(--rh) * .2); }
+  /* standings on the 1920-wide post: rows are short (12 teams in 1080 px), so the text takes more of the row height */
+  #post.stw .s .rk { font-size: calc(var(--rh) * .6); }
+  #post.stw .s .n { font-size: calc(var(--rh) * .52); font-weight: 800; }
+  #post.stw .s .pts { font-size: calc(var(--rh) * .62); }
+  #post.stw .st-list .s .tn { font-size: calc(var(--rh) * .62); font-weight: 800; }
+  #post.stw .st-list .s .lo { width: calc(var(--rh) * .92); height: calc(var(--rh) * .92); }
+  #post.stw .st-list .sh .n, #post.stw .st-list .sh .pts { font-size: calc(var(--rh) * .42); }
   .s-only { display: none !important; } body.t-standings .s-only { display: flex !important; }
   .sch-only { display: none !important; } body.t-schedule .sch-only { display: flex !important; }
   /* groups of places (1-4, 5-8, 9-12): thin sharp aqua outline with slanted sides around the rows */
@@ -612,7 +619,8 @@ function render() {
     const grouped = (html, g) => { if (!g.length) return html.join(''); let i = 0; return g.map((n) => `<div class="grp">${html.slice(i, (i += n)).join('')}</div>`).join(''); };
     const L = layout(fmt, rows.length + .5 + (GRP.length ? GRP.length * .45 : 0)); applyVars(post, L);
     const narrowSt = FMT[fmt][0] < 1500;
-    if (!narrowSt) L.listW = 1240;
+    post.classList.toggle('stw', !narrowSt);
+    if (!narrowSt) L.listW = 1480;
     if (narrowSt) { L.listW = FMT[fmt][0] - 120; post.style.setProperty('--numW', Math.round(L.rh * .7) + 'px'); post.style.setProperty('--setW', Math.round(L.rh * 1.15) + 'px'); }
     post.innerHTML = bars() + header('ΒΑΘΜΟΛΟΓΙΑ', comp, true) + topLogo(L) + `<div class="list st-list" style="top:${L.listTop}px;width:${L.listW}px">
       <div class="row s sh"><div></div><div></div><div></div><div class="n">ΑΓ</div><div class="n">Ν</div><div class="n">Η</div><div class="n">ΣΕΤ</div><div class="pts">ΒΑΘ</div></div>
