@@ -219,7 +219,7 @@
   #post.stw .st-list .s .lo { width: calc(var(--rh) * .94); height: calc(var(--rh) * .94); }
   #post.stw .st-list .sh .n, #post.stw .st-list .sh .pts { font-size: calc(var(--rh) * .46); }
   /* … 3 columns of 4 */
-  .st-cols { position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; align-items: flex-start; }
+  .st-cols { position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; align-items: flex-start; }
   #post.st3 .stc .row.s { --cut: 10px; }   /* gentler slant: the group outline leans less, more room for the names */
   #post.st3 .stc { display: flex; flex-direction: column; gap: var(--gap); }
   #post.st3 .stc .plain { display: flex; flex-direction: column; gap: var(--gap); }
@@ -227,9 +227,10 @@
   #post.st3 .s .rk { font-size: calc(var(--rh) * .42); }
   #post.st3 .s .n { font-size: calc(var(--rh) * .36); font-weight: 800; }
   #post.st3 .s .pts { font-size: calc(var(--rh) * .44); }
-  #post.st3 .st-list .nmw span { font-size: calc(var(--rh) * .27); }
-  #post.st3 .st-list .s .lo { width: calc(var(--rh) * .74); height: calc(var(--rh) * .74); }
-  #post.st3 .st-list .sh { font-size: calc(var(--rh) * .2); }
+  #post.st3 .st-list .nmw span { font-size: calc(var(--rh) * .34); line-height: 1.02; }
+  #post.st3 .st-list .nmw { padding: 0 8px 0 calc(var(--rh) * .12); }
+  #post.st3 .st-list .s .lo { width: calc(var(--rh) * .68); height: calc(var(--rh) * .68); }
+  #post.st3 .st-list .sh, #post.st3 .st-list .sh > div { font-size: calc(var(--rh) * .24) !important; font-weight: 800; }   /* ΑΓ Ν Η ΒΑΘ all the same size */
   .s-only { display: none !important; } body.t-standings .s-only { display: flex !important; }
   .sch-only { display: none !important; } body.t-schedule .sch-only { display: flex !important; }
   /* groups of places (1-4, 5-8, 9-12): thin sharp aqua outline with slanted sides around the rows */
@@ -636,8 +637,8 @@ function render() {
     if (cols3) {
       // wide · 3 columns of 4 (1-4 | 5-8 | 9-12): tall rows, big text; ΣΕΤ left out so the names have room
       const L = layout(fmt, 4.5); applyVars(post, L);
-      const rh = 92, gap = 10, colW = 600;
-      const v = { '--rh': rh, '--gap': gap, '--rkW': Math.round(rh * .55), '--logoW': Math.round(rh * .8), '--numW': Math.round(rh * .46), '--ptsW': Math.round(rh * .76) };
+      const rh = 92, gap = 10, colW = 620;
+      const v = { '--rh': rh, '--gap': gap, '--rkW': Math.round(rh * .5), '--logoW': Math.round(rh * .74), '--numW': Math.round(rh * .44), '--ptsW': Math.round(rh * .7) };
       for (const [k, x] of Object.entries(v)) post.style.setProperty(k, x + 'px');
       const avail = L.H - L.listTop - L.ftH - 40, blockH = rh * .5 + 4 * rh + 3 * gap + gap * 2.2 + 6;
       const top = L.listTop + Math.max(0, Math.round((avail - blockH) / 2));
