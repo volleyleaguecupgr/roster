@@ -21,6 +21,14 @@
   .cmp .vs { text-align: center; font-weight: 900; font-size: 38px; }
   .poss { display: flex; justify-content: space-between; margin-top: 10px; }
   .pos { height: 46px; padding: 0 40px; display: flex; align-items: center; border-radius: 999px; background: linear-gradient(90deg, var(--red-500), var(--red-700)); font-weight: 800; font-size: 24px; text-transform: uppercase; }
+  /* big cut-out players at the two edges (own photos only) – behind the boxes, faded at the bottom */
+  #box > *:not(.bigp) { position: relative; z-index: 1; }
+  .bigp { position: absolute; z-index: 0; bottom: 0; height: 820px; width: auto; max-width: 560px; object-fit: contain; object-position: bottom; pointer-events: none;
+          -webkit-mask: linear-gradient(180deg, #000 78%, transparent 100%); mask: linear-gradient(180deg, #000 78%, transparent 100%);
+          filter: drop-shadow(0 18px 36px rgba(0,0,0,.55)); animation: bigIn .7s cubic-bezier(.16, 1, .3, 1) both; }
+  .bigp.l { left: -150px; } .bigp.r { right: -150px; transform-origin: bottom; }
+  @keyframes bigIn { from { opacity: 0; transform: translateY(60px); } }
+  .noanim .bigp { animation: none; }
   .stat-row { width: 812px; margin-top: 12px; height: 72px; } .stat-row .val { height: 72px; font-size: 38px; } .stat-row .label { font-size: 34px; }
 </style>
 </head><body>
@@ -37,6 +45,20 @@ function pick(team, num, pos) {
 }
 const short = (p) => p ? (p.first ? `${p.first[0]}. ${p.last}` : p.last || p.name) : '–';
 const photo = (p) => (p ? HVL.photo(p, 'ph2') : '<div class="ph2 nophoto">?</div>');
+/* Own photo in site/photos/ (cut-out PNG) → shown big at the edge of the card, without the small frame.
+   No own photo → the small framed photo as before.  ?big=0 always the small frames */
+function bigPhotos(box, ph, pa) {
+  if (HVL.get('big') === '0') return;
+  [[0, 'l', ph], [1, 'r', pa]].forEach(([i, side, p]) => {
+    if (!p) return;
+    HVL.findLocalPhoto(p).then((u) => {
+      if (!u || !box.isConnected || box.querySelector('.bigp.' + side)) return;
+      const small = box.querySelectorAll('.duel .ph2')[i];
+      if (small) small.style.visibility = 'hidden';
+      box.insertAdjacentHTML('afterbegin', `<img class="bigp ${side}" src="${HVL.esc(u)}" alt="">`);
+    });
+  });
+}
 const pct = (s) => s && s.attTot ? Math.round((s.att / s.attTot) * 100) : null;
 HVL.poll('match', 10, (d, first) => {
   const box = HVL.$('#box');
@@ -65,6 +87,7 @@ HVL.poll('match', 10, (d, first) => {
       return `<div class="stat-row"><div class="val ${an > bn ? 'win' : ''}">${a == null ? '–' : a + u}</div><div class="label">${HVL.esc(l)}</div><div class="val ${bn > an ? 'win' : ''}">${b == null ? '–' : b + u}</div></div>`;
     }).join('')}`;
   HVL.animate(box, first);
+  bigPhotos(box, ph, pa);
 });
 </script>
 </body></html>
