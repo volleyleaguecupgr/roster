@@ -36,7 +36,7 @@ function pick(team, num, pos) {
   return c.sort((a, b) => (b.stats?.[BY] || 0) - (a.stats?.[BY] || 0) || (b.stats?.pts || 0) - (a.stats?.pts || 0))[0] || null;
 }
 const short = (p) => p ? (p.first ? `${p.first[0]}. ${p.last}` : p.last || p.name) : '–';
-const photo = (p) => `<div class="ph2 ${p?.photo ? '' : 'nophoto'}" data-i="${HVL.esc((p?.last || '?')[0])}">${p?.photo ? `<img src="${HVL.esc(p.photo)}" onerror="this.parentNode.classList.add('nophoto');this.replaceWith(this.parentNode.dataset.i)">` : HVL.esc((p?.last || '?')[0])}</div>`;
+const photo = (p) => (p ? HVL.photo(p, 'ph2') : '<div class="ph2 nophoto">?</div>');
 const pct = (s) => s && s.attTot ? Math.round((s.att / s.attTot) * 100) : null;
 HVL.poll('match', 10, (d, first) => {
   const box = HVL.$('#box');
