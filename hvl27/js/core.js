@@ -84,17 +84,58 @@
     if (!src) return `<div class="logo fallback ${cls}">${init}</div>`;
     return `<div class="logo ${cls}" data-init="${init}"><img src="${HVL.esc(src)}" data-alt="${HVL.esc(local ? remote : '')}" alt="" onerror="if(this.dataset.alt){this.src=this.dataset.alt;this.dataset.alt=''}else{this.parentNode.classList.add('fallback');this.parentNode.textContent=this.parentNode.dataset.init}"></div>`;
   };
+  /* Own photos in site/photos/ come first: a file named after the player – full name or only the SURNAME
+     (ATANASOV.png, kontostathis.png, «SPIRITO Luca.png»; any capitals; .png/.jpg/.webp). Found → used, also when
+     Data Project has a photo. Not found → Data Project photo / league logo / initials as before.
+     ?photos=<folder or URL> another folder · ?localphotos=0 off */
+  const LP_ON = get('localphotos', '1') !== '0';
+  let LP_BASE = get('photos', '') || `${HVL.root}photos/`; if (!LP_BASE.endsWith('/')) LP_BASE += '/';
+  const lpStrip = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').normalize('NFC');
+  const lpCaps = (w) => w === w.toUpperCase() && w !== w.toLowerCase() && w.replace(/[^A-Za-z\u0386-\u03ce]/g, '').length > 1;
+  HVL.localPhotoNames = (p) => {
+    const full = String(p?.name || [p?.first, p?.last].filter(Boolean).join(' ')).trim().replace(/\s+/g, ' ');
+    const w = full.split(' ').filter(Boolean);
+    const last = p?.last || w.filter(lpCaps).join(' ') || w[w.length - 1] || '';   // Data Project writes the surname in capitals
+    const forms = [];
+    for (const f of [full, last]) {
+      if (!f) continue;
+      for (const x of [f, lpStrip(f)]) forms.push(x, x.toUpperCase(), x.toLowerCase(), x[0].toUpperCase() + x.slice(1).toLowerCase(), x.replace(/ /g, '_'), x.toLowerCase().replace(/ /g, '_'));
+    }
+    const out = [];
+    for (const f of [...new Set(forms)]) for (const e of ['png', 'PNG', 'jpg', 'webp']) out.push(LP_BASE + encodeURIComponent(`${f}.${e}`));
+    return [...new Set(out)];
+  };
+  const LP_FOUND = {};
+  HVL.findLocalPhoto = (p) => {   // → Promise(url | null); asked in parallel, the earliest name in the list wins, remembered per page
+    const L = HVL.localPhotoNames(p); if (!L.length) return Promise.resolve(null);
+    return LP_FOUND[L[0]] || (LP_FOUND[L[0]] = Promise.all(L.map((u) => new Promise((res) => {
+      const i = new Image(); i.onload = () => res(i.naturalWidth > 1); i.onerror = () => res(false); i.src = u;
+    }))).then((ok) => L[ok.indexOf(true)] || null));
+  };
+  const lpApply = (id, url, tries = 0) => {
+    const box = document.getElementById(id);
+    if (!box) { if (tries < 50) setTimeout(() => lpApply(id, url, tries + 1), 100); return; }   // not on the page yet
+    box.dataset.local = '1';
+    box.classList.remove('nophoto', 'np');
+    let img = box.querySelector('img');
+    if (!img) { box.textContent = ''; img = document.createElement('img'); img.alt = ''; box.appendChild(img); }
+    img.onerror = null; img.classList.remove('np-logo'); img.dataset.pc = '1';
+    if (img.getAttribute('src') !== url) img.src = url;
+  };
+  let LP_SEQ = 0;
   HVL.photo = (p, cls = 'photo') => {
     const init = HVL.esc(((p?.last || p?.name || '?')[0] || '?') + (p?.first?.[0] || ''));
-    if (!p?.photo) return `<div class="${cls} nophoto">${init}</div>`;
-    return `<div class="${cls}" data-init="${init}"><img src="${HVL.esc(p.photo)}" alt="" onerror="HVL.noPhoto(this)"></div>`;
+    const id = 'ph' + (++LP_SEQ);
+    if (LP_ON && (p?.name || p?.last)) HVL.findLocalPhoto(p).then((u) => { if (u) lpApply(id, u); });
+    if (!p?.photo) return `<div id="${id}" class="${cls} nophoto" data-init="${init}">${init}</div>`;
+    return `<div id="${id}" class="${cls}" data-init="${init}"><img src="${HVL.esc(p.photo)}" alt="" onerror="HVL.noPhoto(this)"></div>`;
   };
   /* Players/coaches without a photo: Data Project serves a grey "no photo" picture (or nothing) → show the league logo instead.
      ?nophoto=initials keeps the old initials · ?nophoto=<file.png> another logo from site/logos/ */
   const NOPH = get('nophoto', String(get('league', CFG.league || 'hvl')).toLowerCase() === 'cup' ? 'leaguecup' : 'league');
   HVL.noPhotoSrc = () => `${HVL.root}logos/${/\.(png|jpe?g|webp|svg)$/i.test(NOPH) ? NOPH : NOPH + '.png'}`;
   HVL.noPhoto = (img) => {
-    const box = img.parentNode; if (!box) return;
+    const box = img.parentNode; if (!box || box.dataset.local) return;   // own photo from site/photos/ → keep it
     const initials = () => { box.classList.add('nophoto'); img.replaceWith(box.dataset.init || box.dataset.i || ''); };
     if (NOPH === 'initials' || img.dataset.np) return initials();
     img.dataset.np = '1'; img.onerror = initials;
