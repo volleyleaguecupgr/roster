@@ -106,11 +106,35 @@
     return [...new Set(out)];
   };
   const LP_FOUND = {};
-  HVL.findLocalPhoto = (p) => {   // → Promise(url | null); asked in parallel, the earliest name in the list wins, remembered per page
+  /* photos/index.json = the list of files in photos/ (kept up to date by the GitHub action on every upload).
+     With it: one small request, then each player is matched in the list – no guessing, photos appear at once.
+     Without it (file missing): the old way, trying the possible file names one by one. */
+  const lpKey = (x) => lpStrip(String(x || '')).toLowerCase().replace(/\.(png|jpe?g|webp)(\.(png|jpe?g|webp))?$/i, '').replace(/[^a-z0-9\u03b1-\u03c9]/g, '');
+  const LP_INDEX = LP_ON ? fetch(`${LP_BASE}index.json?${Math.floor(Date.now() / 60000)}`).then((r) => (r.ok ? r.json() : null)).then((j) => {
+    const files = Array.isArray(j) ? j : Array.isArray(j?.files) ? j.files : null;
+    if (!files) return null;
+    const m = new Map();
+    for (const f of files) { const k = lpKey(f); if (k && !m.has(k)) m.set(k, f); }
+    return m;
+  }).catch(() => null) : Promise.resolve(null);
+  const lpProbe = (p) => {
     const L = HVL.localPhotoNames(p); if (!L.length) return Promise.resolve(null);
-    return LP_FOUND[L[0]] || (LP_FOUND[L[0]] = Promise.all(L.map((u) => new Promise((res) => {
+    return Promise.all(L.map((u) => new Promise((res) => {
       const i = new Image(); i.onload = () => res(i.naturalWidth > 1); i.onerror = () => res(false); i.src = u;
-    }))).then((ok) => L[ok.indexOf(true)] || null));
+    }))).then((ok) => L[ok.indexOf(true)] || null);
+  };
+  HVL.findLocalPhoto = (p) => {   // → Promise(url | null), remembered per page
+    const full = String(p?.name || [p?.first, p?.last].filter(Boolean).join(' ')).trim().replace(/\s+/g, ' ');
+    if (!full) return Promise.resolve(null);
+    if (LP_FOUND[full]) return LP_FOUND[full];
+    return (LP_FOUND[full] = LP_INDEX.then((m) => {
+      if (!m) return lpProbe(p);
+      const w = full.split(' ').filter(Boolean);
+      const last = p?.last || w.filter(lpCaps).join(' ') || w[w.length - 1] || '';
+      const first = w.filter((x) => !last.split(' ').includes(x)).join(' ');
+      for (const k of [full, `${last} ${first}`, `${first} ${last}`, last]) { const f = m.get(lpKey(k)); if (f) return LP_BASE + encodeURIComponent(f); }
+      return null;
+    }));
   };
   const lpApply = (id, url, tries = 0) => {
     const box = document.getElementById(id);
