@@ -231,6 +231,39 @@
   #post.st3 .st-list .nmw { padding: 0 8px 0 calc(var(--rh) * .12); }
   #post.st3 .st-list .s .lo { width: calc(var(--rh) * .68); height: calc(var(--rh) * .68); }
   #post.st3 .st-list .sh, #post.st3 .st-list .sh > div { font-size: calc(var(--rh) * .24) !important; font-weight: 800; }   /* ΑΓ Ν Η ΒΑΘ all the same size */
+  .ld-only { display: none !important; } body.t-leaders .ld-only { display: flex !important; }
+  /* «Κορυφαίοι παίκτες»: tiles (1st of every category) or one category's top 5 – everything in em of the tile / row */
+  .ldg { position: absolute; left: 50%; transform: translateX(-50%); display: grid; gap: var(--gap) calc(var(--gap) * 1.6); }
+  .ldt { position: relative; display: grid; grid-template-columns: 34% 1fr; grid-template-rows: auto 1fr; overflow: hidden; --cut: .9em; font-weight: 800;
+         background: linear-gradient(100deg, rgba(52,63,84,.95), rgba(30,37,51,.95) 60%, rgba(24,30,42,.95)); box-shadow: inset 0 -3px 0 var(--aqua); }
+  .ldt .ct { grid-column: 1 / -1; padding: .28em 1.6em .26em 2.4em; background: linear-gradient(100deg, #99f5fd, #c4fbff); color: var(--ink); font-size: .58em; font-weight: 900; letter-spacing: .5px; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .ldt .lph { position: relative; align-self: end; height: 100%; min-height: 0; overflow: hidden; }
+  .ldt .lph img { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 8%; }
+  .ldt .lph.nophoto, .ldt .lph.np { display: grid; place-items: center; font-size: 1.6em; font-weight: 900; color: rgba(255,255,255,.5); }
+  .ldt .lph.np img { position: static; width: 62%; height: auto; object-fit: contain; opacity: .85; }
+  .ldt .inf { display: flex; flex-direction: column; justify-content: center; gap: .18em; padding: .3em 1.2em .4em .7em; min-width: 0; }
+  .ldt .nm small { display: block; font-size: .5em; font-weight: 700; opacity: .8; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .ldt .nm b { display: block; font-size: .92em; font-weight: 900; text-transform: uppercase; white-space: nowrap; overflow: hidden; line-height: 1.05; }
+  .ldt .tm { display: flex; align-items: center; gap: .35em; font-size: .46em; text-transform: uppercase; opacity: .9; white-space: nowrap; overflow: hidden; } .ldt .tm span { min-width: 0; flex: 1; overflow: hidden; }
+  .ldt .tm .lo { width: 1.9em; height: 1.9em; flex: none; font-size: 1em; }
+  .ldt .vl { display: flex; align-items: baseline; gap: .3em; white-space: nowrap; }
+  .ldt .vl b { font-size: 1.55em; font-weight: 900; color: var(--aqua); line-height: 1; font-variant-numeric: tabular-nums; }
+  .ldt .vl small { font-size: .5em; font-weight: 700; opacity: .7; }
+  /* one category, top 5 */
+  .ldl { position: absolute; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: var(--gap); }
+  .ldr { height: var(--rh); display: grid; grid-template-columns: calc(var(--rh) * .8) calc(var(--rh) * 1.05) 1fr calc(var(--rh) * .9) calc(var(--rh) * 2.1); align-items: center; overflow: hidden; --cut: calc(var(--rh) * .2);
+         background: linear-gradient(100deg, rgba(52,63,84,.95), rgba(30,37,51,.95) 60%, rgba(24,30,42,.95)); box-shadow: inset 0 -3px 0 var(--aqua); font-weight: 800; }
+  .ldr .rk { height: 100%; display: grid; place-items: center; background: var(--slate2); font-size: calc(var(--rh) * .42); font-weight: 900; }
+  .ldr.top .rk { background: var(--aqua); color: var(--ink); }
+  .ldr .lph { height: 100%; overflow: hidden; position: relative; } .ldr .lph img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 8%; }
+  .ldr .lph.nophoto, .ldr .lph.np { display: grid; place-items: center; font-size: calc(var(--rh) * .34); color: rgba(255,255,255,.5); } .ldr .lph.np img { width: 70%; height: auto; object-fit: contain; }
+  .ldr .nm { padding: 0 calc(var(--rh) * .25); min-width: 0; }
+  .ldr .nm b { display: block; font-size: calc(var(--rh) * .34); font-weight: 900; text-transform: uppercase; white-space: nowrap; overflow: hidden; line-height: 1.05; }
+  .ldr .nm small { display: block; font-size: calc(var(--rh) * .2); font-weight: 700; opacity: .75; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .ldr .lo { width: calc(var(--rh) * .72); height: calc(var(--rh) * .72); justify-self: center; }
+  .ldr .vl { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--aqua); color: var(--ink); }
+  .ldr .vl b { font-size: calc(var(--rh) * .42); font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; } .ldr .vl small { font-size: calc(var(--rh) * .18); font-weight: 700; opacity: .75; }
+  #post.cup .ldt, #post.cup .ldr { background: linear-gradient(120deg, rgba(36,44,59,.97) 0%, rgba(30,52,66,.95) 60%, rgba(22,68,82,.9) 100%); box-shadow: inset 5px 0 0 var(--aqua); }
   .s-only { display: none !important; } body.t-standings .s-only { display: flex !important; }
   .sch-only { display: none !important; } body.t-schedule .sch-only { display: flex !important; }
   /* groups of places (1-4, 5-8, 9-12): thin sharp aqua outline with slanted sides around the rows */
@@ -350,13 +383,14 @@
 </style>
 </head><body>
 <div class="ui">
-  <label>Τύπος<select id="type"><option value="results">Αποτελέσματα</option><option value="schedule">Πρόγραμμα</option><option value="standings">Βαθμολογία</option><option value="match">Ανακοίνωση αγώνα</option><option value="final">Τελικό σκορ</option><option value="h2h">Ιστορία αναμετρήσεων</option><option value="bracket">Πορεία Κυπέλλου</option></select></label>
+  <label>Τύπος<select id="type"><option value="results">Αποτελέσματα</option><option value="schedule">Πρόγραμμα</option><option value="standings">Βαθμολογία</option><option value="match">Ανακοίνωση αγώνα</option><option value="final">Τελικό σκορ</option><option value="h2h">Ιστορία αναμετρήσεων</option><option value="leaders">Κορυφαίοι παίκτες</option><option value="bracket">Πορεία Κυπέλλου</option></select></label>
   <label class="f-only">Αγώνας<select id="fgame"></select></label>
   <label class="f-only">Φωτό φόντου<input type="file" id="bgimg" accept="image/*"></label>
   <label class="f-only">Θέση φωτό<select id="bgpos"><option value="50% 50%">Κέντρο</option><option value="50% 20%">Πάνω</option><option value="50% 80%">Κάτω</option></select></label>
   <label class="f-only">Σκορ (χειρ.)<input id="fscore" size="5" placeholder="3-1"></label>
   <label class="f-only">Σετ (χειρ.)<input id="fsets" size="22" placeholder="25-21 23-25 25-19 25-22"></label>
   <label class="sch-only">Πηγή<select id="src"><option value="auto">Worker (αρχείο αν λείπουν)</option><option value="file">Μόνο αρχείο data/</option></select></label>
+  <label class="ld-only">Κατηγορία<select id="lcat"><option value="all">Όλες · ο 1ος κάθε κατηγορίας</option><option value="tot">Σύνολα · ο 1ος</option></select></label>
   <label class="s-only">Διάταξη (wide)<select id="stlay"><option value="1">Μία στήλη</option><option value="3">3 στήλες · 4-4-4</option></select></label>
   <label class="s-only">Ομάδες θέσεων<select id="grp"><option value="4,4">1-4 · 5-8 · 9-12</option><option value="">Χωρίς ομάδες</option><option value="4,4,4">1-4 · 5-8 · 9-12 · 13-</option><option value="2,4">1-2 · 3-6 · 7-</option></select></label>
   <label class="m-only">Στυλ<select id="style"><option value="boxes">Logos σε κουτιά</option><option value="players">Φωτογραφίες παικτών</option></select></label>
@@ -381,7 +415,7 @@ const FMT = { post: [1080, 1350], square: [1080, 1080], story: [1080, 1920], wid
 const LOGO_FILE = { hvl: 'league', cup: 'leaguecup', supercup: 'supercup' };
 const $ = (id) => document.getElementById(id);
 const P = new URLSearchParams(location.search);
-for (const k of ['type', 'fmt', 'which', 'league', 'team', 'footer', 'style', 'mode', 'lay', 'grp', 'stlay', 'src']) if (P.has(k)) $(k).value = P.get(k);
+for (const k of ['type', 'fmt', 'which', 'league', 'team', 'footer', 'style', 'mode', 'lay', 'grp', 'stlay', 'lcat', 'src']) if (P.has(k)) $(k).value = P.get(k);
 if (!P.has('league') && HVL.league) $('league').value = HVL.league;
 if (!P.has('team') && HVL.team) $('team').value = HVL.team;
 
@@ -563,6 +597,7 @@ async function load() {
       $('msg').textContent = 'Πορεία από data/cup.txt'; render(); return;
     }
     if ($('type').value === 'h2h') { await loadH2H(); render(); return; }
+    if ($('type').value === 'leaders') { await loadLeaders(); render(); return; }
     if ($('type').value === 'match') HVL.mid = PICK_MID || null;
     DATA = $('type').value === 'standings' ? await HVL.load('standings') : $('type').value === 'match' ? await HVL.load('match') : await HVL.load('round', { which: $('which').value });
     HVL.mid = null;
@@ -625,6 +660,7 @@ function render() {
   if (type === 'final') { renderFinal(post, fmt, comp); return; }
   if (type === 'bracket') { renderBracket(post, fmt, comp); return; }
   if (type === 'h2h') { renderH2H(post, fmt, comp); return; }
+  if (type === 'leaders') { renderLeaders(post, fmt, comp); return; }
   if (type === 'standings') {
     const rows = (DATA.standings || []).slice(0, 14);
     // groups of places: sizes from the «Ομάδες θέσεων» field, the last group takes the rest
@@ -779,6 +815,52 @@ function fitBox(root) {
 }
 /** «Ιστορία αναμετρήσεων»: the games of the chosen round (Worker; data/schedule.txt when the Worker has fewer than 6),
  *  each with the Worker's head-to-head (last 4 seasons, every competition) */
+/** «Κορυφαίοι παίκτες»: the competition's season leaders from the Worker (front page of the championship) */
+async function loadLeaders() {
+  DATA = await HVL.load('leaders');
+  let teams = [];
+  if (!HVL.demo && !(DATA.leaders || []).some((c) => c.players?.[0]?.team)) { try { teams = HVL.localize(await (await fetch(HVL.url('teams'))).json()); } catch { teams = []; } }
+  for (const c of DATA.leaders || []) for (const p of c.players || []) if (!p.team) p.team = teams.find((t) => t.id === p.teamId) || null;
+  // category menu: all · totals · each category
+  const sel = $('lcat'), keep = sel.value;
+  sel.innerHTML = '<option value="all">Όλες · ο 1ος κάθε κατηγορίας</option><option value="tot">Σύνολα · ο 1ος</option>'
+    + (DATA.leaders || []).map((c, i) => `<option value="${i}">${HVL.esc(c.title)} · top 5</option>`).join('');
+  sel.value = [...sel.options].some((o) => o.value === keep) ? keep : (P.get('lcat') || 'all');
+  if (!sel.value) sel.value = 'all';
+  $('msg').textContent = HVL.demo ? 'Demo δεδομένα' : (DATA.leaders || []).length ? '' : '⚠ Ο Worker δεν έδωσε κορυφαίους';
+}
+function renderLeaders(post, fmt, comp) {
+  const cats = (DATA.leaders || []).filter((c) => c.players?.length), v = $('lcat').value;
+  const nm = (p) => { const caps = (w) => w === w.toUpperCase() && w !== w.toLowerCase();
+    const w = String(p.name || '').split(/\s+/).filter(Boolean), last = p.last || w.filter(caps).join(' ') || w[w.length - 1] || '', first = p.first || w.filter((x) => !last.split(' ').includes(x)).join(' ');
+    return { first, last }; };
+  const team = (p) => p.team || null;
+  const val = (p) => `<b>${HVL.esc(p.value ?? '')}</b>${p.detail ? `<small>${HVL.esc(p.detail)}</small>` : ''}`;
+  if (/^\d+$/.test(v) && cats[+v]) {
+    // one category: top 5 rows
+    const c = cats[+v], ps = c.players.slice(0, 5);
+    const L = layout(fmt, ps.length); applyVars(post, L);
+    const W = FMT[fmt][0] < 1500 ? L.listW : 1240;
+    post.innerHTML = header(c.title, comp, true) + topLogo(L) + `<div class="ldl" style="top:${L.listTop}px;width:${W}px">${ps.map((p, i) => { const n = nm(p), t = team(p);
+      return `<div class="ldr par ${i === 0 ? 'top' : ''}"><div class="rk">${i + 1}</div>${HVL.photo(p, 'lph')}<div class="nm"><small>${HVL.esc([p.number != null ? '#' + p.number : '', n.first].filter(Boolean).join(' '))}</small><b class="fit">${HVL.esc(n.last)}</b><small>${HVL.esc(t ? el(t) : '')}</small></div>${t ? logo(t) : '<div></div>'}<div class="vl">${val(p)}</div></div>`; }).join('')}</div>` + footer();
+  } else {
+    // 1st of every category (or only the totals) as tiles
+    const list = v === 'tot' ? cats.filter((c) => !/σετ|sets/i.test(c.title)) : cats;
+    const n = list.length || 1, wide = fmt === 'wide';
+    const cols = wide ? Math.min(4, n) : n <= 3 ? 1 : 2, rows = Math.ceil(n / cols);
+    const L = layout(fmt, rows); applyVars(post, L);
+    const W = wide ? 1720 : L.listW, avail = L.H - L.listTop - L.ftH - (fmt === 'story' ? 70 : 40);
+    const ch = Math.min((avail - L.gap * (rows - 1)) / rows, fmt === 'story' ? 330 : 260), cw = (W - L.gap * 1.6 * (cols - 1)) / cols;
+    const em = Math.min(ch / 6.2, cw / 10.5);
+    const top = L.listTop + Math.max(0, (avail - (ch * rows + L.gap * (rows - 1))) / 2);
+    post.innerHTML = header('ΚΟΡΥΦΑΙΟΙ', comp, true) + topLogo(L) + `<div class="ldg" style="top:${Math.round(top)}px;width:${W}px;grid-template-columns:repeat(${cols}, 1fr);grid-auto-rows:${Math.floor(ch)}px;font-size:${em.toFixed(1)}px">${list.map((c) => {
+      const p = c.players[0], k = nm(p), t = team(p);
+      return `<div class="ldt par"><div class="ct">${HVL.esc(c.title)}</div>${HVL.photo(p, 'lph')}<div class="inf"><div class="nm"><small>${HVL.esc([p.number != null ? '#' + p.number : '', k.first].filter(Boolean).join(' '))}</small><b class="fit">${HVL.esc(k.last)}</b></div>
+        <div class="tm">${t ? logo(t) : ''}<span class="fit">${HVL.esc(t ? el(t) : '')}</span></div><div class="vl">${val(p)}</div></div></div>`; }).join('') || '<div class="empty">—</div>'}</div>` + footer();
+  }
+  const fitAll = () => HVL.fit(post); fitAll(); if (document.fonts?.ready) document.fonts.ready.then(fitAll);
+  scale();
+}
 async function loadH2H() {
   const rd = await HVL.load('round', { which: $('which').value }).catch(() => null);
   let r = rd?.round || null, ms = (r?.matches || []).filter((m) => m.home && m.away);
@@ -1065,7 +1147,7 @@ $('bgimg').onchange = (e) => { const f = e.target.files[0]; if (!f) return; cons
 ['fscore', 'fsets'].forEach((k) => ($(k).oninput = render));
 const PHOTOS = { h: null, a: null };
 for (const [id, k] of [['ph', 'h'], ['pa', 'a']]) $(id).onchange = (e) => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { PHOTOS[k] = r.result; render(); }; r.readAsDataURL(f); };
-['fmt', 'lay', 'grp', 'stlay'].forEach((k) => ($(k).onchange = render));
+['fmt', 'lay', 'grp', 'stlay', 'lcat'].forEach((k) => ($(k).onchange = render));
 ['team', 'footer'].forEach((k) => ($(k).oninput = render));
 $('which').disabled = $('type').value === 'standings';
 document.addEventListener('DOMContentLoaded', load);
